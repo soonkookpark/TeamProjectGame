@@ -6,27 +6,27 @@ bool MonsterTable::Load()
 {
     rapidcsv::Document doc("tables/MonsterTables/MonsterDataTable.csv");
         
-    for (int i = 0; doc.GetColumnCount() > i; i++)
+    for (int i = 0; doc.GetRowCount() > i; i++)
     {
-        tables.insert({ doc.GetCell<std::string>(i,1),
+        tables.insert({ doc.GetCell<std::string>(0,i),
             {
-                doc.GetCell<int>(i,2),
-                doc.GetCell<float>(i,3),
-                doc.GetCell<float>(i,4),
-                doc.GetCell<float>(i,5),
-                static_cast<AttackType>(doc.GetCell<int>(i,6)),
-                doc.GetCell<float>(i,7),
-                static_cast<bool>(doc.GetCell<int>(i,8)),
-                static_cast<bool>(doc.GetCell<int>(i,9)),
-                doc.GetCell<float>(i,10),
-                doc.GetCell<float>(i,11),
-                doc.GetCell<float>(i,12),
-                doc.GetCell<float>(i,13),
-                doc.GetCell<float>(i,14),
-                doc.GetCell<float>(i,15),
-                doc.GetCell<int>(i,16),
-                doc.GetCell<float>(i,17),
-                static_cast<Monster::MonsterType>(doc.GetCell<int>(i,18))
+                doc.GetCell<int>(1,i),
+                doc.GetCell<float>(2,i),
+                doc.GetCell<float>(3,i),
+                doc.GetCell<float>(4,i),
+                static_cast<AttackType>(doc.GetCell<int>(5,i)),
+                doc.GetCell<float>(6,i),
+                static_cast<bool>(doc.GetCell<int>(7,i)),
+                static_cast<bool>(doc.GetCell<int>(8,i)),
+                doc.GetCell<float>(9,i),
+                doc.GetCell<float>(10,i),
+                doc.GetCell<float>(11,i),
+                doc.GetCell<float>(12,i),
+                doc.GetCell<float>(13,i),
+                doc.GetCell<float>(14,i),
+                doc.GetCell<int>(15,i),
+                doc.GetCell<float>(16,i),
+                static_cast<Monster::MonsterType>(doc.GetCell<int>(17,i))
             }
             });        
     }

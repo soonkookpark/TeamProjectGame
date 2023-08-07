@@ -8,10 +8,12 @@
 #include "Framework.h"
 #include "RectangleGo.h"
 #include "UIButton.h"
+#include "Monster.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
-	//resourceListPath = "scripts/SceneGameResourceList.csv";
+	resourceListPath = "scripts/SceneGameResourceList.csv";
+
 	/*resources.push_back(std::make_tuple(ResourceTypes::Texture,"graphics/sprite_sheet.png"));
 	resources.push_back(std::make_tuple(ResourceTypes::Texture, "graphics/RubySheet.png"));
 	resources.push_back(std::make_tuple(ResourceTypes::Texture, "graphics/button.png"));
@@ -27,6 +29,9 @@ void SceneGame::Init() // 안바뀔거면 여기
 
 	player = (Player*)AddGo(new Player());
 	player->sortLayer = 1;
+	Monster* monster = (Monster*)AddGo(new Monster());
+	monster->SetPosition(20, 20);
+	monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("sprite/testSprite.png"));	
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
