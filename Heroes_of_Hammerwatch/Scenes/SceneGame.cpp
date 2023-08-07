@@ -90,6 +90,8 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	uiView.setSize(size);
 	uiView.setCenter(size * 0.5f);
 
+	Player* palyer = (Player*)AddGo(new Player("","player"));
+	palyer->SetPosition(-600, -600);
 
 	Monster* monster = (Monster*)AddGo(new Monster());
 	monster->SetPosition(20, 20);

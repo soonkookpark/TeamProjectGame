@@ -71,7 +71,7 @@ public:
 
     void Wander(float dt);
     void Attack(float dt);
-    void Chase();
+    void Chase(float dt);
     void Default(float dt);
         
     bool DetectTarget();

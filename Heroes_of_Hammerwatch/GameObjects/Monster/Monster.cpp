@@ -43,7 +43,7 @@ void Monster::Update(float dt)
 		Wander(dt);
 		break;
 	case Monster::State::CHASE:
-		Chase();
+		Chase(dt);
 		break;
 	case Monster::State::ATTACK:
 		Attack(dt);
@@ -72,13 +72,12 @@ void Monster::SetDatas(const std::string& name)
 	this->isFlying = param.isFlying;
 	this->isMelee = param.isMelee;
 	this->attackArc = param.attackArc;
-	this->attackRange = param.searchRange;
+	this->attackRange = param.attackRange;
 }
 
 void Monster::Wander(float dt)
 {
-	dir = destination - position;
-	Utils::Normalize(dir);
+	dir = Utils::Normalize(destination - position);
 	SetPosition(position + (dir * dt * speed));
 	if (Utils::Distance(position, destination) < 0.1)
 	{
@@ -99,11 +98,11 @@ void Monster::Attack(float dt)
 	}
 }
 
-void Monster::Chase()
+void Monster::Chase(float dt)
 {
 	destination = player->GetPosition();	
-	dir = destination - position;
-	Utils::Normalize(dir);
+	dir = Utils::Normalize(destination - position);
+	SetPosition(position + (dir * dt * speed));
 
 	if (Utils::Distance(player->GetPosition(), position) < attackRange)
 	{
