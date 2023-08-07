@@ -180,6 +180,7 @@
     <ClCompile Include="GameObjects\SpriteGo.cpp" />
     <ClCompile Include="Global\Variables.cpp" />
     <ClCompile Include="GameObjects\UIButton.cpp" />
+    <ClCompile Include="GameObjects\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -207,6 +208,7 @@
     <ClInclude Include="Global\stdafx.h" />
     <ClInclude Include="Global\Variables.h" />
     <ClInclude Include="GameObjects\UIButton.h" />
+    <ClInclude Include="GameObjects\TileMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

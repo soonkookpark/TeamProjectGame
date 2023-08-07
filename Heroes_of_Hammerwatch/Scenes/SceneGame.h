@@ -1,11 +1,16 @@
 #pragma once
 #include "Scene.h"
+
 class Player;
+class TileMap;
+
 class SceneGame : public Scene
 {
 protected:
 	sf::FloatRect groundBounds;
 	Player* player;
+	TileMap* tileMap = nullptr;
+
 public:
 	SceneGame();
 	virtual ~SceneGame() override = default;

@@ -6,17 +6,11 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "Framework.h"
-#include "RectangleGo.h"
-#include "UIButton.h"
+#include "TileMap.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
-	//resourceListPath = "scripts/SceneGameResourceList.csv";
-	/*resources.push_back(std::make_tuple(ResourceTypes::Texture,"graphics/sprite_sheet.png"));
-	resources.push_back(std::make_tuple(ResourceTypes::Texture, "graphics/RubySheet.png"));
-	resources.push_back(std::make_tuple(ResourceTypes::Texture, "graphics/button.png"));
-	resources.push_back(std::make_tuple(ResourceTypes::Texture, "graphics/clickButton.png"));
-	resources.push_back(std::make_tuple(ResourceTypes::Texture, "graphics/park.png"));*/
+	resourceListPath = "scripts/SceneGameResourceList.csv";
 }
 
 void SceneGame::Init() // 안바뀔거면 여기
@@ -27,39 +21,11 @@ void SceneGame::Init() // 안바뀔거면 여기
 
 	player = (Player*)AddGo(new Player());
 	player->sortLayer = 1;
-	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
-	button->SetOrigin(Origins::TR);
-	button->sortLayer = 100;
-	button->SetPosition(windowSize.x,0.f);
 
-	button->OnEnter = [button]() {
-		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/clickButton.png");
-		button->sprite.setTexture(*tex);
-		std::cout << "Enter" << std::endl;
-	};
-	button->OnExit = [button]() {
-		sf::Texture* tex = RESOURCE_MGR.GetTexture(button->textureId);
-		button->sprite.setTexture(*tex);
-		std::cout << "Exit" << std::endl;
-	};
-	button->OnClick = []() {
-		std::cout << "Click" << std::endl;
-	};
-	
-	SpriteGo* BG = (SpriteGo*)AddGo(new SpriteGo("graphics/park.png","Park"));
-	BG->sprite.setScale(10.f, 10.f);
-	BG->sortLayer = 0;
-	BG->SetOrigin(Origins::MC);*/
-	
-	
-	//RectangleGo* ground = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Ground"));
-	//ground->SetPosition(0, 0);
-	//ground->rectangle.setFillColor(sf::Color::Cyan);
-	//ground->SetOrigin(Origins::TC);
-	//groundBounds = ground->rectangle.getGlobalBounds();//
-	//groundBounds.height -= groundSize.y;
+	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_granite_sand_rough.png", "graphics/mine/mine_granite_sand_rough.png"));
+	tileMap->Load("graphics/mine/tilemap.csv");
+	tileMap->sortLayer = 1;
 
-	//layer->SetGroundBounds(groundBounds);
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -80,10 +46,10 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	auto size = FRAMEWORK.GetWindowSize();
 	//auto centerPos = size / 2.f;
 	worldView.setSize(size);
-	worldView.setCenter({ 0,0 });
+	worldView.setCenter(size * 0.5f);
 
 	uiView.setSize(size);
-	uiView.setCenter(size * 0.5f);
+	uiView.setCenter(0.f, 0.f);
 
 	Scene::Enter();
 }
@@ -96,7 +62,7 @@ void SceneGame::Exit()
 void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
-	worldView.setCenter(this->player->GetPosition());
+	//worldView.setCenter(player->GetPosition());
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
