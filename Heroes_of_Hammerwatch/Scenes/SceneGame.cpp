@@ -23,10 +23,24 @@ void SceneGame::Init() // 안바뀔거면 여기
 {
 	Release();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
-	sf::Vector2f groundSize = { windowSize.x,windowSize.y/2 };
-
+	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
+	
 	player = (Player*)AddGo(new Player());
 	player->sortLayer = 1;
+	player->SetPosition(1, 1);
+	player->SetActive(true);
+	
+	//TestCode
+	std::cout << "여기지남" << std::endl;
+	RectangleGo* Baggounrd = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Hi"));
+	Baggounrd->SetOrigin(Origins::ML);
+	Baggounrd->SetPosition(0, 0);
+	Baggounrd->rectangle.setFillColor(sf::Color::Blue);
+	RectangleGo* leftGround = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Bye"));
+	leftGround->SetOrigin(Origins::MR);
+	leftGround->SetPosition(0, 0);
+	leftGround->rectangle.setFillColor(sf::Color::Magenta);
+
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
@@ -77,6 +91,8 @@ void SceneGame::Release()
 
 void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 {
+	Scene::Enter();
+
 	auto size = FRAMEWORK.GetWindowSize();
 	//auto centerPos = size / 2.f;
 	worldView.setSize(size);
@@ -84,8 +100,6 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(size * 0.5f);
-
-	Scene::Enter();
 }
 
 void SceneGame::Exit()
@@ -96,7 +110,12 @@ void SceneGame::Exit()
 void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
-	worldView.setCenter(this->player->GetPosition());
+	worldView.setCenter(player->GetPosition());
+	//캐릭터 위치 테스트코드
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Space))
+	{
+		std::cout << player->GetPosition().x << ", " << player->GetPosition().y << std::endl;
+	}
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
