@@ -29,9 +29,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 
 	player = (Player*)AddGo(new Player());
 	player->sortLayer = 1;
-	Monster* monster = (Monster*)AddGo(new Monster());
-	monster->SetPosition(20, 20);
-	monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("sprite/testSprite.png"));	
+
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
@@ -82,6 +80,8 @@ void SceneGame::Release()
 
 void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 {
+	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
+
 	auto size = FRAMEWORK.GetWindowSize();
 	//auto centerPos = size / 2.f;
 	worldView.setSize(size);
@@ -89,6 +89,12 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(size * 0.5f);
+
+
+	Monster* monster = (Monster*)AddGo(new Monster());
+	monster->SetPosition(20, 20);
+	monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/testSprite.png"));
+	monster->SetDatas("Bat");
 
 	Scene::Enter();
 }
@@ -101,7 +107,7 @@ void SceneGame::Exit()
 void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
-	worldView.setCenter(this->player->GetPosition());
+	//worldView.setCenter(this->player->GetPosition());
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

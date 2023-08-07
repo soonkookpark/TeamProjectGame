@@ -54,7 +54,7 @@ protected:
     float attackRange = 0;
     int attackArc = 0;
 
-    Player* player;
+    Player* player = nullptr;
     sf::Vector2f destination;
     float timer;
 

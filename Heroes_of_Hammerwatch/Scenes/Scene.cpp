@@ -94,7 +94,7 @@ void Scene::Enter()
 {
 	//RESOURCE_MGR.Load(resources);
 	//scripts/
-	RESOURCE_MGR.LoadFromCsv(resourceListPath,true);//
+	//RESOURCE_MGR.LoadFromCsv(resourceListPath,true);
 
 	for (auto go : gameObjects)
 	{

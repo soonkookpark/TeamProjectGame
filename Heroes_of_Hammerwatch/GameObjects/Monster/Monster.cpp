@@ -19,17 +19,19 @@ void Monster::Init()
 void Monster::Reset()
 {
 	player = dynamic_cast<Player*>(SCENE_MGR.GetCurrScene()->FindGo("player"));
+	state = Monster::State::DEFAULT;
+	std::cout << "default" << std::endl;
+	timer = 0;
 }
 
 void Monster::Update(float dt)
 {
-	if(!SCENE_MGR.GetCurrScene()->GetWorldView().getViewport().intersects(sprite.getGlobalBounds()))
-		return;
 	if (state != State::CHASE)
 	{
 		if (DetectTarget())
 		{
 			state = State::CHASE;
+			std::cout << "chase" << std::endl;
 		}
 	}
 	switch (state)
@@ -75,10 +77,14 @@ void Monster::SetDatas(const std::string& name)
 
 void Monster::Wander(float dt)
 {
-	timer += dt;
+	dir = destination - position;
+	Utils::Normalize(dir);
 	SetPosition(position + (dir * dt * speed));
-	if (position == destination)
+	if (Utils::Distance(position, destination) < 0.1)
+	{
 		state = State::DEFAULT;
+		std::cout << "default" << std::endl;
+	}
 }
 
 void Monster::Attack(float dt)
@@ -95,12 +101,14 @@ void Monster::Attack(float dt)
 
 void Monster::Chase()
 {
-	destination = player->GetPosition();
+	destination = player->GetPosition();	
 	dir = destination - position;
+	Utils::Normalize(dir);
 
 	if (Utils::Distance(player->GetPosition(), position) < attackRange)
 	{
 		state = State::ATTACK;
+		std::cout << "atk" << std::endl;
 	}
 }
 
@@ -111,12 +119,14 @@ void Monster::Default(float dt)
 	{
 		timer = 0;
 		destination = originalPos + Utils::RandomInCircle(moveRange);
-		dir = destination - position;
 		state = State::WANDER;
+		std::cout << "wander" << std::endl;
 	}
 }
 
 bool Monster::DetectTarget()
 {
+	if (player == nullptr)
+		return false;
 	return Utils::Distance(player->GetPosition(), position) < searchRange;
 }
