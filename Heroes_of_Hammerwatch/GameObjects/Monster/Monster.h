@@ -56,10 +56,11 @@ protected:
 
     Player* player = nullptr;
     sf::Vector2f destination;
+    bool isBuffed;
     float timer;
 
 public:
-    Monster(const std::string& name = "mob");
+    Monster(const std::string& type, const std::string& name = "mob");
     virtual ~Monster() = default;
 
     virtual void Init();
@@ -69,12 +70,15 @@ public:
 
     void SetDatas(const std::string& name);
 
-    void Wander(float dt);
-    void Attack(float dt);
-    void Chase(float dt);
-    void Default(float dt);
+    virtual void Wander(float dt);
+    virtual void Attack(float dt);
+    virtual void Chase(float dt);
+    virtual void Default(float dt);
         
     bool DetectTarget();
-    //void Spawn(sf::Vector2f pos);
+    bool GetIsBuffed() { return isBuffed; };
+
+    void GetBuff();
+    void LoseBuff();
 };
 

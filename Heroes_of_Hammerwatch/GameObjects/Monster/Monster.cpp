@@ -5,10 +5,12 @@
 #include "DataTableMgr.h"
 #include "MonsterTable.h"
 
-Monster::Monster(const std::string& name)
+Monster::Monster(const std::string& type, const std::string& name)
 	:SpriteGo("",name)
 {
 	origin = Origins::MC;
+	textureId = "graphics/testSprite.png";
+	SetDatas(type);
 }
 
 void Monster::Init()
@@ -18,6 +20,7 @@ void Monster::Init()
 
 void Monster::Reset()
 {
+	SpriteGo::Reset();
 	player = dynamic_cast<Player*>(SCENE_MGR.GetCurrScene()->FindGo("player"));
 	state = Monster::State::DEFAULT;
 	std::cout << "default" << std::endl;
@@ -54,7 +57,7 @@ void Monster::Update(float dt)
 void Monster::SetDatas(const std::string& name)
 {	
 	MonsterTable* table = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster);
-	MonsterTable::MonsterParameters param = table->GetMonsterTable(name);
+	MonsterTable::MonsterParameters param = table->Get(name);
 	this->name = name;
 	this->monsterType = param.monsterType;
 	this-> exp = param.exp;
@@ -128,4 +131,18 @@ bool Monster::DetectTarget()
 	if (player == nullptr)
 		return false;
 	return Utils::Distance(player->GetPosition(), position) < searchRange;
+}
+
+void Monster::GetBuff()
+{
+	damage *= 1.5;
+	speed *= 1.2;
+	sprite.setColor({255,125,125,255});
+}
+
+void Monster::LoseBuff()
+{
+	damage /= 1.5;
+	speed /= 1.2;
+	sprite.setColor({ 255,225,225,255 });
 }

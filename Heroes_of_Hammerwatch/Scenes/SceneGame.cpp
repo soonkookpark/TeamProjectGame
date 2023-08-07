@@ -93,10 +93,9 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	Player* palyer = (Player*)AddGo(new Player("","player"));
 	palyer->SetPosition(-600, -600);
 
-	Monster* monster = (Monster*)AddGo(new Monster());
+	Monster* monster = (Monster*)AddGo(new Monster("Bat"));
 	monster->SetPosition(20, 20);
-	monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/testSprite.png"));
-	monster->SetDatas("Bat");
+	//monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/testSprite.png"));
 
 	Scene::Enter();
 }

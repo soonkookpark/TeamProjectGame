@@ -33,6 +33,6 @@ public:
     virtual bool Load() override;
     virtual void Release() override;
 
-    MonsterParameters GetMonsterTable(std::string name) { return tables[name]; };
+    MonsterParameters& Get(std::string key) { return tables[key]; };
 };
 
