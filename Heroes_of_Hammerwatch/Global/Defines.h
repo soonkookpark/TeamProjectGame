@@ -39,4 +39,12 @@ enum class SceneId
 	Count,
 };
 
+enum class AttackType
+{
+	None = -1,
+	Physic,
+	Magic,
+	Count,
+};
+
 #include "AnimationClip.h"
