@@ -159,6 +159,7 @@
     <ClCompile Include="DataTables\DataTable.cpp" />
     <ClCompile Include="DataTables\StringTable.cpp" />
     <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
+    <ClCompile Include="GameObjects\Monster\BossGolem.cpp" />
     <ClCompile Include="GameObjects\Monster\EliteTick.cpp" />
     <ClCompile Include="Framework\DataTableMgr.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="DataTables\DataTable.h" />
     <ClInclude Include="DataTables\StringTable.h" />
     <ClInclude Include="DataTables\EliteMonsterTable.h" />
+    <ClInclude Include="GameObjects\Monster\BossGolem.h" />
     <ClInclude Include="GameObjects\Monster\EliteTick.h" />
     <ClInclude Include="Framework\DataTableMgr.h" />
     <ClInclude Include="Framework\ObjectPool.h" />

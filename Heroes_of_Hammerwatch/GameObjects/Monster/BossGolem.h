@@ -5,7 +5,8 @@ class BossGolem :
 {
 protected:
     float spawnRange;
-    
+    int summonAmount;
+    float rockRadius;
 public:
     BossGolem();
     virtual ~BossGolem() = default;
@@ -15,5 +16,7 @@ public:
     void SummonBats();
     void Lurker();
     void RockSpawn();
+
+    
 };
 

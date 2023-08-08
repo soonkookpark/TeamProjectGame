@@ -13,14 +13,19 @@ void BossGolem::Update(float dt)
 
 void BossGolem::SummonBats()
 {
-	Monster* mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Bat"));
-
+	for(int i = 0 ; i < summonAmount; i++)
+	{		
+		Monster* mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Bat"));
+		mob->SetPosition(Utils::RandomOnCircle(spawnRange)+position);
+	}
 }
 
 void BossGolem::Lurker()
 {
+
 }
 
 void BossGolem::RockSpawn()
 {
+
 }
