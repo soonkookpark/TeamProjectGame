@@ -5,6 +5,7 @@
 TileMap::TileMap(const std::string& textureId, const std::string& n)
     : VertexArrayGo(textureId, n)
 {
+    sortLayer = SortLayer::TILE;
 }
 
 TileMap::~TileMap()

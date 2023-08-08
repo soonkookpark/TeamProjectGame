@@ -24,8 +24,8 @@ void SceneGame::Init() // 안바뀔거면 여기
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
 	
-	player = (Player*)AddGo(new Player());
-	player->sortLayer = 1;
+	player = (Player*)AddGo(new Player("","player"));
+	//player->sortLayer = 1;
 	player->SetPosition(1, 1);
 	player->SetActive(true);
 	
@@ -48,7 +48,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
 	tileMap->Load("graphics/mine/tilemap.csv");
-	tileMap->sortLayer = 1;
+	//tileMap->sortLayer = 1;
 	
 
 	for (auto go : gameObjects)
@@ -74,14 +74,12 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	//auto centerPos = size / 2.f;
 	worldView.setSize(size);
 	worldView.setCenter(size * 0.5f);
+	worldView.zoom(0.25f);
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
 
-	Player* palyer = (Player*)AddGo(new Player("","player"));
-	palyer->SetPosition(-600, -600);
-
-	Monster* monster = (Monster*)AddGo(new Monster("Bat"));
+	Monster* monster = (Monster*)AddGo(new Monster("Tick"));
 	monster->SetPosition(20, 20);
 	//monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/testSprite.png"));
 

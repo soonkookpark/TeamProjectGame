@@ -51,7 +51,7 @@ void Player::Reset()
 	SetOrigin(origin);
 	SetPosition({ 0, 0 });
 	SetFlipX(false);
-
+	sortLayer = SortLayer::PLAYER;
 	//currentClipInfo = clipInfos[6];*/
 }
 

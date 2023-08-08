@@ -79,6 +79,14 @@ void Monster::SetDatas(const std::string& name)
 	this->attackArc = param.attackArc;
 	this->attackRange = param.attackRange;
 	textureId = "graphics/Bat.png";
+	if (isFlying)
+	{
+		sortLayer = SortLayer::A_MONSTER;
+	}
+	else
+	{
+		sortLayer = SortLayer::G_MONSTER;
+	}
 }
 
 void Monster::Wander(float dt)
@@ -110,6 +118,10 @@ void Monster::Chase(float dt)
 	dir = Utils::Normalize(destination - position);
 	SetPosition(position + (dir * dt * speed));
 
+	if (!DetectTarget())
+	{
+		state = State::DEFAULT;
+	}
 	if (Utils::Distance(player->GetPosition(), position) < attackRange)
 	{
 		state = State::ATTACK;
@@ -161,6 +173,7 @@ void Monster::GetBuff()
 	damage *= 1.5;
 	speed *= 1.2;
 	sprite.setColor({255,125,125,255});
+	isBuffed = true;
 }
 
 void Monster::LoseBuff()
@@ -168,4 +181,5 @@ void Monster::LoseBuff()
 	damage /= 1.5;
 	speed /= 1.2;
 	sprite.setColor({ 255,225,225,255 });
+	isBuffed = false;
 }

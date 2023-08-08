@@ -59,7 +59,7 @@ protected:
     sf::Vector2f destination;
     bool isBuffed;
     float timer;
-
+    bool inAction;
 public:
     Monster(const std::string& type, const std::string& name = "mob");
     virtual ~Monster() = default;
@@ -69,7 +69,7 @@ public:
     virtual void Reset();	// √ ±‚»≠
     virtual void Update(float dt);
 
-    void SetDatas(const std::string& name);
+    virtual void SetDatas(const std::string& name);
 
     virtual void Wander(float dt);
     virtual void Attack(float dt);

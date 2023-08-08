@@ -20,7 +20,7 @@ class TileMap : public VertexArrayGo
 {
 protected:
 	//sf::VertexArray vertexArray;
-	sf::Vector2f tileSize = { 64.f, 64.f };
+	sf::Vector2f tileSize = { 32.f, 32.f };
 	sf::Vector2f texSize = { 32.f, 32.f };
 public:
 	TileMap(const std::string& textureId = "", const std::string& n = "");
