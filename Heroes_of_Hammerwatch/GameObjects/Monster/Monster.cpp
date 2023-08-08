@@ -9,7 +9,6 @@ Monster::Monster(const std::string& type, const std::string& name)
 	:SpriteGo("",name)
 {
 	origin = Origins::MC;
-	textureId = "graphics/testSprite.png";
 	SetDatas(type);
 }
 
@@ -51,6 +50,9 @@ void Monster::Update(float dt)
 	case Monster::State::ATTACK:
 		Attack(dt);
 		break;
+	case Monster::State::DIE:
+		Die(dt);
+		break;
 	}
 }
 
@@ -76,6 +78,7 @@ void Monster::SetDatas(const std::string& name)
 	this->isMelee = param.isMelee;
 	this->attackArc = param.attackArc;
 	this->attackRange = param.attackRange;
+	textureId = "graphics/Bat.png";
 }
 
 void Monster::Wander(float dt)
@@ -123,6 +126,26 @@ void Monster::Default(float dt)
 		destination = originalPos + Utils::RandomInCircle(moveRange);
 		state = State::WANDER;
 		std::cout << "wander" << std::endl;
+	}
+}
+
+void Monster::Die(float dt)
+{
+	//죽는 애니메이션
+	SCENE_MGR.GetCurrScene()->RemoveGo(this);
+}
+
+void Monster::Damaged(float physicalDmg, float magicalDmg)
+{
+	physicalDmg = (1 - 1 / (1+armor/ 50)) * physicalDmg;
+	magicalDmg = (1 - 1 / (1+resistance/ 50)) * magicalDmg;
+
+	//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
+
+	curHealth -= physicalDmg + magicalDmg;
+	if (curHealth < 0)
+	{
+		state = State::DIE;
 	}
 }
 

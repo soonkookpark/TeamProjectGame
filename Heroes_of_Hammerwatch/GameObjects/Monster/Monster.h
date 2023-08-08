@@ -23,6 +23,7 @@ public:
         WANDER,
         CHASE,
         ATTACK,
+        DIE,
         COUNT,
     };
 protected:
@@ -74,6 +75,9 @@ public:
     virtual void Attack(float dt);
     virtual void Chase(float dt);
     virtual void Default(float dt);
+    virtual void Die(float dt);
+
+    virtual void Damaged(float physicalDmg, float magicalDmg);
         
     bool DetectTarget();
     bool GetIsBuffed() { return isBuffed; };

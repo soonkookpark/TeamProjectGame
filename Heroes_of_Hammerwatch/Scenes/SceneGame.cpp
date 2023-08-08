@@ -9,6 +9,7 @@
 #include "RectangleGo.h"
 #include "UIButton.h"
 #include "Monster.h"
+#include "EliteTick.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -96,6 +97,9 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	Monster* monster = (Monster*)AddGo(new Monster("Bat"));
 	monster->SetPosition(20, 20);
 	//monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/testSprite.png"));
+
+	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
+	ET->SetPosition(300, 300);
 
 	Scene::Enter();
 }

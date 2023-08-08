@@ -5,6 +5,7 @@
 EliteTick::EliteTick()
 	:Monster("EliteTick")
 {
+	textureId = "graphics/EliteTick.png";
 }
 
 void EliteTick::Chase(float dt)
