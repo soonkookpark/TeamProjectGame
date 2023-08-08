@@ -6,6 +6,7 @@ class EliteMonsterTable :
 protected:
     std::unordered_map<std::string,std::unordered_map<std::string, float>>tables;
 public:
+    EliteMonsterTable();
     // DataTable을(를) 통해 상속됨
     virtual bool Load() override;
     virtual void Release() override;

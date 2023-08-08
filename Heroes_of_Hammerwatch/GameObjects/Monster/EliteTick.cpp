@@ -2,11 +2,13 @@
 #include "EliteTick.h"
 #include "SceneMgr.h"
 #include "InputMgr.h"
+#include "DataTableMgr.h"
+#include "EliteMonsterTable.h"
 
 EliteTick::EliteTick()
-	:Monster("EliteTick")
-{
-	textureId = "graphics/EliteTick.png";
+	:Monster("EliteTick", "EliteTick")
+{	
+	SetDatas("EliteTick");
 }
 
 void EliteTick::Update(float dt)
@@ -20,8 +22,13 @@ void EliteTick::Update(float dt)
 
 void EliteTick::SetDatas(const std::string& name)
 {
-	Monster::SetDatas(name)
-
+	Monster::SetDatas(name);
+	EliteMonsterTable* dataTable = DATATABLE_MGR.Get<EliteMonsterTable>(DataTable::Ids::EliteMonster);
+	std::unordered_map<std::string, float> EliteTickTable = dataTable->Get(name);
+	spawnRange = EliteTickTable["spawnRange"];
+	skillFrequency = EliteTickTable["skillFrequency"];
+	buffRange = EliteTickTable["buffRange"];
+	textureId = "graphics/EliteTick.png";
 }
 
 void EliteTick::Chase(float dt)
