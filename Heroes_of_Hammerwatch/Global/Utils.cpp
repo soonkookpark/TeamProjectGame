@@ -50,10 +50,10 @@ void Utils::SetOrigin(sf::Shape& shape, Origins origin)
 
 void Utils::SetOrigin(sf::Transformable& obj, Origins origin, const sf::FloatRect& rect)
 {
-	sf::Vector2f originPos(rect.width, rect.height);
-	originPos.x *= ((int)origin % 3) * 0.5f;
-	originPos.y *= ((int)origin / 3) * 0.5f;
-	obj.setOrigin(originPos);
+	sf::Vector2f originalPos(rect.width, rect.height);
+	originalPos.x *= ((int)origin % 3) * 0.5f;
+	originalPos.y *= ((int)origin / 3) * 0.5f;
+	obj.setOrigin(originalPos);
 }
 
 float Utils::Clamp(float v, float min, float max)

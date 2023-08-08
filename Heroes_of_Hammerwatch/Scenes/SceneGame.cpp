@@ -7,6 +7,11 @@
 #include "Player.h"
 #include "Framework.h"
 #include "TileMap.h"
+#include "RectangleGo.h"
+#include "UIButton.h"
+#include "Monster.h"
+#include "EliteTick.h"
+
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -39,10 +44,12 @@ void SceneGame::Init() // 안바뀔거면 여기
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
 	button->SetPosition(windowSize.x,0.f);
+	*/
 
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
 	tileMap->Load("graphics/mine/tilemap.csv");
 	tileMap->sortLayer = 1;
+	
 
 	for (auto go : gameObjects)
 	{
@@ -61,7 +68,7 @@ void SceneGame::Release()
 
 void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 {
-	Scene::Enter();
+	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
 
 	auto size = FRAMEWORK.GetWindowSize();
 	//auto centerPos = size / 2.f;
@@ -70,6 +77,16 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
+
+	Player* palyer = (Player*)AddGo(new Player("","player"));
+	palyer->SetPosition(-600, -600);
+
+	Monster* monster = (Monster*)AddGo(new Monster("Bat"));
+	monster->SetPosition(20, 20);
+	//monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/testSprite.png"));
+
+	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
+	ET->SetPosition(300, 300);
 
 	Scene::Enter();
 }

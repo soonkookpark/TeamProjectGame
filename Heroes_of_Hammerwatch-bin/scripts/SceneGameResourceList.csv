@@ -1,6 +1,16 @@
 "RESOURCE_TYPES (0: 텍스쳐, 1: 폰트, 2: 사운드클럽, 3: 애니메이션 클립)",RESOURCE_PATH
-<<<<<<< HEAD
 0,graphics/mine/mine_tile.png
-=======
 3,animations/idleB.csv
->>>>>>> origin/feature/Character
+3,animations/idleB.csv
+3,animations/idleF.csv
+3,animations/idleS.csv
+3,animations/moveB.csv
+3,animations/moveF.csv
+3,animations/moveS.csv
+0,graphics/testSprite.png
+0,graphics/Bat.png
+0,graphics/EliteMaggot.png
+0,graphics/EliteTick.png
+0,graphics/Maggot.png
+0,graphics/SkeletonFootman.png
+0,graphics/Tick.png

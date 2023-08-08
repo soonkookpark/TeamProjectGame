@@ -39,4 +39,24 @@ enum class SceneId
 	Count,
 };
 
+enum class AttackType
+{
+	None = -1,
+	Physic,
+	Magic,
+	Count,
+};
+
+enum SortLayer
+{
+	//SortLayer °ª Á¤ÀÇ
+	TILE = 0,
+	PLAYER,
+	G_MONSTER,
+	WALL,
+	A_MONSTER,
+	UI = 101,
+};
+
+
 #include "AnimationClip.h"

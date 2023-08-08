@@ -35,6 +35,7 @@ public:
 	sf::Vector2f ScreenToUiPos(sf::Vector2f screenPos);
 	sf::Vector2f WorldPosToScreen(sf::Vector2f worldPos);
 	sf::Vector2f UiPosPosToScreen(sf::Vector2f uiPos);
+	sf::View GetWorldView() { return worldView; }
 
 	virtual void Init() = 0;
 	virtual void Release() = 0;

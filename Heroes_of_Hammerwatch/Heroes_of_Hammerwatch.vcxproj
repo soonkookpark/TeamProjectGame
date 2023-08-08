@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./;./Animation;./3rd;./DataTables;./SFML-2.5.1/include;./Global;./Framework;./Scenes;./GameObjects;./GameObjects/PlayerClass;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./GameObjects/Monster;./Animation;./;./3rd;./DataTables;./SFML-2.5.1/include;./Global;./Framework;./Scenes;./GameObjects;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -157,6 +157,7 @@
     <ClCompile Include="Animation\AnimationController.cpp" />
     <ClCompile Include="DataTables\DataTable.cpp" />
     <ClCompile Include="DataTables\StringTable.cpp" />
+    <ClCompile Include="GameObjects\Monster\EliteTick.cpp" />
     <ClCompile Include="Framework\DataTableMgr.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\InputMgr.cpp" />
@@ -174,6 +175,8 @@
     <ClCompile Include="Framework\ResourceMgr.cpp" />
     <ClCompile Include="GameObjects\Player.cpp" />
     <ClCompile Include="GameObjects\RectangleGo.cpp" />
+    <ClCompile Include="GameObjects\Monster\Monster.cpp" />
+    <ClCompile Include="DataTables\MonsterTable.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
@@ -188,6 +191,7 @@
     <ClInclude Include="Animation\AnimationClip.h" />
     <ClInclude Include="DataTables\DataTable.h" />
     <ClInclude Include="DataTables\StringTable.h" />
+    <ClInclude Include="GameObjects\Monster\EliteTick.h" />
     <ClInclude Include="Framework\DataTableMgr.h" />
     <ClInclude Include="Framework\ObjectPool.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
@@ -200,6 +204,8 @@
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="GameObjects\Player.h" />
     <ClInclude Include="GameObjects\RectangleGo.h" />
+    <ClInclude Include="GameObjects\Monster\Monster.h" />
+    <ClInclude Include="DataTables\MonsterTable.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
