@@ -20,8 +20,9 @@ class TileMap : public VertexArrayGo
 {
 protected:
 	//sf::VertexArray vertexArray;
-	sf::Vector2f tileSize = { 64.f, 64.f };
+	sf::Vector2f tileSize = { 16.f, 16.f };
 	sf::Vector2f texSize = { 32.f, 32.f };
+	sf::RectangleShape box;
 public:
 	TileMap(const std::string& textureId = "", const std::string& n = "");
 	virtual ~TileMap() override;
@@ -35,5 +36,7 @@ public:
 	sf::Vector2f TileSize();
 	float TileXSize();
 	Tile& GetTile(int x, int y);
+
+	
 };
 

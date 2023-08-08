@@ -10,6 +10,8 @@ Monster::Monster(const std::string& type, const std::string& name)
 {
 	origin = Origins::MC;
 	SetDatas(type);
+
+	
 }
 
 void Monster::Init()
@@ -79,6 +81,14 @@ void Monster::SetDatas(const std::string& name)
 	this->attackArc = param.attackArc;
 	this->attackRange = param.attackRange;
 	textureId = "graphics/Bat.png";
+	if (isFlying)
+	{
+		sortLayer = SortLayer::A_MONSTER;//ø°¿Ã?
+	}
+	else
+	{
+		sortLayer = SortLayer::G_MONSTER;
+	}
 }
 
 void Monster::Wander(float dt)

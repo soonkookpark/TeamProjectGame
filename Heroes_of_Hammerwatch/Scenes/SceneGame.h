@@ -3,14 +3,14 @@
 
 class Player;
 class TileMap;
-
+class Monster;
 class SceneGame : public Scene
 {
 protected:
 	sf::FloatRect groundBounds;
 	Player* player;
 	TileMap* tileMap = nullptr;
-
+	Monster* monster = nullptr;
 public:
 	SceneGame();
 	virtual ~SceneGame() override = default;

@@ -24,10 +24,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
 	
-	player = (Player*)AddGo(new Player());
-	player->sortLayer = 1;
-	player->SetPosition(1, 1);
-	player->SetActive(true);
+
 	
 	//TestCode
 	std::cout << "여기지남" << std::endl;
@@ -43,13 +40,14 @@ void SceneGame::Init() // 안바뀔거면 여기
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
-	button->SetPosition(windowSize.x,0.f);
-	*/
-
+	button->SetPosition(windowSize.x,0.f);*/
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
 	tileMap->Load("graphics/mine/tilemap.csv");
-	tileMap->sortLayer = 1;
-	
+
+	player = (Player*)AddGo(new Player("", "player"));
+	player->SetPosition(100, 100);
+	player->SetActive(true);
+	player->SetTile(tileMap);
 
 	for (auto go : gameObjects)
 	{
@@ -68,26 +66,24 @@ void SceneGame::Release()
 
 void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 {
+	
 	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
 
 	auto size = FRAMEWORK.GetWindowSize();
 	//auto centerPos = size / 2.f;
 	worldView.setSize(size);
 	worldView.setCenter(size * 0.5f);
+	worldView.zoom(0.25);
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
 
-	Player* palyer = (Player*)AddGo(new Player("","player"));
-	palyer->SetPosition(-600, -600);
-
-	Monster* monster = (Monster*)AddGo(new Monster("Bat"));
-	monster->SetPosition(20, 20);
+	//monster = (Monster*)AddGo(new Monster("Bat"));
+	//monster->SetPosition(20, 20);
 	//monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/testSprite.png"));
 
-	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
-	ET->SetPosition(300, 300);
-
+	//EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
+	//ET->SetPosition(300, 300);
 	Scene::Enter();
 }
 
@@ -103,8 +99,10 @@ void SceneGame::Update(float dt)
 	//캐릭터 위치 테스트코드
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Space))
 	{
-		std::cout << player->GetPosition().x << ", " << player->GetPosition().y << std::endl;
+		//std::cout << monster->GetPosition().x << ", " << monster->GetPosition().y << std::endl;
+		//std::cout << tiles.size() << std::endl;
 	}
+	//std::cout << INPUT_MGR.GetMousePos().x << ", " << INPUT_MGR.GetMousePos().y << std::endl;
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

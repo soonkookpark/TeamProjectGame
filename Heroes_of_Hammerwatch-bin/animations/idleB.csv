@@ -2,4 +2,4 @@ ID,FPS,LOOPTYPE,,
 IdleB,10,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/square.png,0,0,93,96
+graphics/Paladin.png,5,3,16,16

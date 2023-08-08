@@ -5,6 +5,8 @@
 TileMap::TileMap(const std::string& textureId, const std::string& n)
     : VertexArrayGo(textureId, n)
 {
+    sortLayer = SortLayer::TILE;
+   
 }
 
 TileMap::~TileMap()
@@ -128,7 +130,7 @@ bool TileMap::LoadInfo(const std::string& filePath)
 
 sf::Vector2f TileMap::TileSize()
 {
-    return sf::Vector2f();
+    return tileSize;
 }
 
 float TileMap::TileXSize()
