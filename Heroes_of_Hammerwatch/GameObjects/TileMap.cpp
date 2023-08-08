@@ -52,10 +52,10 @@ bool TileMap::Load(const std::string& filePath)
 
     sf::Vector2f wallTexOffsets[4] =
     {
-        { 128.f, 64.f },
-        { 128 + texSize.x, 64 + 0.f },
-        { 128 + texSize.x, 64 + texSize.y },
-        { 128.f, 64 + texSize.y }
+        { 32.f, 32.f },
+        { 32 + texSize.x, 32},
+        { 32 + texSize.x, 32 + texSize.y },
+        { 32.f, 32 + texSize.y }
     };
 
 

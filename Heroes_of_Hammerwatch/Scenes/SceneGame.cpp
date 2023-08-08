@@ -22,7 +22,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	player = (Player*)AddGo(new Player());
 	player->sortLayer = 1;
 
-	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_granite_sand_rough.png", "graphics/mine/mine_granite_sand_rough.png"));
+	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
 	tileMap->Load("graphics/mine/tilemap.csv");
 	tileMap->sortLayer = 1;
 
@@ -62,7 +62,24 @@ void SceneGame::Exit()
 void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
-	//worldView.setCenter(player->GetPosition());
+	
+	if (INPUT_MGR.GetKey(sf::Keyboard::W))
+	{
+		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y - 1);
+	}
+	if (INPUT_MGR.GetKey(sf::Keyboard::A))
+	{
+		worldView.setCenter(worldView.getCenter().x - 1, worldView.getCenter().y);
+	}
+	if (INPUT_MGR.GetKey(sf::Keyboard::S))
+	{
+		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y + 1);
+	}
+	if (INPUT_MGR.GetKey(sf::Keyboard::D))
+	{
+		worldView.setCenter(worldView.getCenter().x + 1, worldView.getCenter().y);
+	}
+
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

@@ -1,0 +1,11 @@
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,NAME
+graphics/mine/mine_tile.png,0,0,32,32,mine_tile1
+graphics/mine/mine_tile.png,32,0,32,32,mine_tile2
+graphics/mine/mine_tile.png,64,0,32,32,mine_tile3
+graphics/mine/mine_tile.png,96,0,32,32,mine_tile4
+graphics/mine/mine_tile.png,0,32,32,32,mine_tile5
+graphics/mine/mine_tile.png,32,32,32,32,block
+graphics/mine/mine_tile.png,32,0,32,32,mine_tile6
+graphics/mine/mine_tile.png,64,0,32,32,mine_tile7
+graphics/mine/mine_tile.png,96,0,32,32,mine_tile8
+graphics/mine/mine_tile.png,96,32,32,32,mine_tile9
