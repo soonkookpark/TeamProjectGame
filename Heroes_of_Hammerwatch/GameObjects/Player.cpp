@@ -10,39 +10,13 @@ void Player::Init()
 
 	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/idleB.csv");
 	//캐릭ㅇ터 애니메이션 그리고 나오게 함.
-	
-	/*RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/idleF.csv");
-	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/idleB.csv");
-	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/moveS.csv");
-	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/moveF.csv");
-	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/moveB.csv");*/
 
 	//파일 입출력
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/idleB.csv"));
 	animation.SetTarget(&sprite);
 	SetOrigin(Origins::MC);
-	/*animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/idleF.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/idleB.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/moveS.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/moveF.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/moveB.csv"));
-
-
-
-
-
-	clipInfos.push_back({ "IdleS", "MoveS", false, Utils::Normalize({ -1.f, -1.f }) });
-	clipInfos.push_back({ "IdleB", "MoveB", true, {0.f, -1.f} });
-	clipInfos.push_back({ "IdleS", "MoveS", true, Utils::Normalize({ 1.f, -1.f }) });
-
-	clipInfos.push_back({ "IdleS", "MoveS", false, {-1.f, 0.f} });
-	clipInfos.push_back({ "IdleS", "MoveS", true, {1.f, 0.f} });
-
-	clipInfos.push_back({ "IdleS", "MoveS", false, Utils::Normalize({ -1.f, 1.f }) });
-	clipInfos.push_back({ "IdleF", "MoveF", true,{0.f, 1.f} });
-	clipInfos.push_back({ "IdleS", "MoveS", true, Utils::Normalize({ 1.f, 1.f }) });*/
 	
-	
+	sortLayer = SortLayer::PLAYER;
 }
 
 void Player::Reset()

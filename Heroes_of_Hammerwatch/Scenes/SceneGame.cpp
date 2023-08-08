@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Framework.h"
 #include "TileMap.h"
+#include "GridMap.h"
 #include "RectangleGo.h"
 #include "UIButton.h"
 #include "Monster.h"
@@ -24,32 +25,18 @@ void SceneGame::Init() // 안바뀔거면 여기
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
 	
-	player = (Player*)AddGo(new Player());
-	player->sortLayer = 1;
-	player->SetPosition(1, 1);
-	player->SetActive(true);
-	
-	//TestCode
-	std::cout << "여기지남" << std::endl;
-	RectangleGo* Baggounrd = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Hi"));
-	Baggounrd->SetOrigin(Origins::ML);
-	Baggounrd->SetPosition(0, 0);
-	Baggounrd->rectangle.setFillColor(sf::Color::Blue);
-	RectangleGo* leftGround = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Bye"));
-	leftGround->SetOrigin(Origins::MR);
-	leftGround->SetPosition(0, 0);
-	leftGround->rectangle.setFillColor(sf::Color::Magenta);
-
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
 	button->SetPosition(windowSize.x,0.f);
 	*/
 
-	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
-	tileMap->Load("graphics/mine/tilemap.csv");
-	tileMap->sortLayer = 1;
-	
+	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
+	tileMap->DrawTexture("graphics/mine/tilemap.csv");
+
+	gridMap = (GridMap*)AddGo(new GridMap());
+	gridMap->DrawGrid(tileMap);
+
 
 	for (auto go : gameObjects)
 	{
@@ -71,22 +58,15 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
 
 	auto size = FRAMEWORK.GetWindowSize();
-	//auto centerPos = size / 2.f;
+
 	worldView.setSize(size);
-	worldView.setCenter(size * 0.5f);
+	worldView.setCenter(0.f, 0.f);
+	worldView.zoom(zoom);
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
 
-	Player* palyer = (Player*)AddGo(new Player("","player"));
-	palyer->SetPosition(-600, -600);
-
-	Monster* monster = (Monster*)AddGo(new Monster("Bat"));
-	monster->SetPosition(20, 20);
-	//monster->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/testSprite.png"));
-
-	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
-	ET->SetPosition(300, 300);
+	zoom = 1.0f;
 
 	Scene::Enter();
 }
@@ -99,11 +79,40 @@ void SceneGame::Exit()
 void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
-	worldView.setCenter(player->GetPosition());
-	//캐릭터 위치 테스트코드
-	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Space))
+	
+	if (INPUT_MGR.GetKey(sf::Keyboard::W))
 	{
-		std::cout << player->GetPosition().x << ", " << player->GetPosition().y << std::endl;
+		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y - 0.5);
+	}
+	if (INPUT_MGR.GetKey(sf::Keyboard::A))
+	{
+		worldView.setCenter(worldView.getCenter().x - 0.5, worldView.getCenter().y);
+	}
+	if (INPUT_MGR.GetKey(sf::Keyboard::S))
+	{
+		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y + 0.5);
+	}
+	if (INPUT_MGR.GetKey(sf::Keyboard::D))
+	{
+		worldView.setCenter(worldView.getCenter().x + 0.5, worldView.getCenter().y);
+	}
+
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::PageUp))
+	{
+		zoom -= 0.01f;
+		if (zoom <= 0.1f) zoom = 0.1f;
+		worldView.zoom(zoom);
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::PageDown))
+	{
+		zoom += 0.01f;
+		if (zoom >= 2.0f) zoom = 2.f;
+		worldView.zoom(zoom);
+	}
+
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
+	{
+		SCENE_MGR.ChangeScene(SceneId::Title);
 	}
 }
 

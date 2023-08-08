@@ -16,6 +16,8 @@ UIButton::~UIButton()
 void UIButton::Init()
 {
 	SpriteGo::Init();
+
+	sortLayer = SortLayer::UI;
 }
 
 void UIButton::Release()

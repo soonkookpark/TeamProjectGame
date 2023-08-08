@@ -3,6 +3,8 @@
 
 class Player;
 class TileMap;
+class GridMap;
+class UIButton;
 
 class SceneGame : public Scene
 {
@@ -10,6 +12,9 @@ protected:
 	sf::FloatRect groundBounds;
 	Player* player;
 	TileMap* tileMap = nullptr;
+	GridMap* gridMap = nullptr;
+	float zoom = 1.f;
+	
 
 public:
 	SceneGame();
