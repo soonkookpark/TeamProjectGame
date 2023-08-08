@@ -16,7 +16,7 @@ void EliteTick::Update(float dt)
 	Monster::Update(dt);
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F))
 	{
-		SpawnTicks();
+		SummonTicks();
 	}
 }
 
@@ -44,7 +44,7 @@ void EliteTick::Chase(float dt)
 	}
 }
 
-void EliteTick::SpawnTicks()
+void EliteTick::SummonTicks()
 {
 	Monster* mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Tick"));
 	mob->SetPosition(position.x + spawnRange, position.y + spawnRange);

@@ -16,6 +16,6 @@ public:
     virtual void SetDatas(const std::string& name);
     void Chase(float dt);
 
-    void SpawnTicks();
+    void SummonTicks();
     void Buff();
 };
