@@ -17,10 +17,28 @@ void SceneGame::Init() // 안바뀔거면 여기
 {
 	Release();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
-	sf::Vector2f groundSize = { windowSize.x,windowSize.y/2 };
-
+	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
+	
 	player = (Player*)AddGo(new Player());
 	player->sortLayer = 1;
+	player->SetPosition(1, 1);
+	player->SetActive(true);
+	
+	//TestCode
+	std::cout << "여기지남" << std::endl;
+	RectangleGo* Baggounrd = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Hi"));
+	Baggounrd->SetOrigin(Origins::ML);
+	Baggounrd->SetPosition(0, 0);
+	Baggounrd->rectangle.setFillColor(sf::Color::Blue);
+	RectangleGo* leftGround = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Bye"));
+	leftGround->SetOrigin(Origins::MR);
+	leftGround->SetPosition(0, 0);
+	leftGround->rectangle.setFillColor(sf::Color::Magenta);
+
+	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
+	button->SetOrigin(Origins::TR);
+	button->sortLayer = 100;
+	button->SetPosition(windowSize.x,0.f);
 
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
 	tileMap->Load("graphics/mine/tilemap.csv");
@@ -43,6 +61,8 @@ void SceneGame::Release()
 
 void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 {
+	Scene::Enter();
+
 	auto size = FRAMEWORK.GetWindowSize();
 	//auto centerPos = size / 2.f;
 	worldView.setSize(size);
@@ -62,24 +82,12 @@ void SceneGame::Exit()
 void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
-	
-	if (INPUT_MGR.GetKey(sf::Keyboard::W))
+	worldView.setCenter(player->GetPosition());
+	//캐릭터 위치 테스트코드
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Space))
 	{
-		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y - 1);
+		std::cout << player->GetPosition().x << ", " << player->GetPosition().y << std::endl;
 	}
-	if (INPUT_MGR.GetKey(sf::Keyboard::A))
-	{
-		worldView.setCenter(worldView.getCenter().x - 1, worldView.getCenter().y);
-	}
-	if (INPUT_MGR.GetKey(sf::Keyboard::S))
-	{
-		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y + 1);
-	}
-	if (INPUT_MGR.GetKey(sf::Keyboard::D))
-	{
-		worldView.setCenter(worldView.getCenter().x + 1, worldView.getCenter().y);
-	}
-
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

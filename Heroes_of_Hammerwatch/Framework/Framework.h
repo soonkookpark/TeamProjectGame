@@ -15,7 +15,11 @@ protected:
 
 	int screenWidth = 1600;
 	int screenHeight = 900;
+<<<<<<< HEAD
 	std::string title = "SFML Works!";
+=======
+	std::string title = "Heroes_of_Hammerwatch!";
+>>>>>>> origin/feature/Character
 
 public:
 	virtual void Init(int width, int height, const std::string& title);
