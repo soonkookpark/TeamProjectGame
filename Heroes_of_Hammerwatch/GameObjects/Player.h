@@ -15,6 +15,32 @@ public:
 		bool flipX = false;
 		sf::Vector2f point;
 	};
+	struct PlayerInfo
+	{
+		ClassName
+		HealthPower
+		ManaPoint
+		HealthPowerPerLevel
+		ManaPointPerLevel
+		HealthHeal
+		ManaHeal
+		HealthHealPerLevel
+		ManaHealPerLevel
+		Defence
+		DefencePerLevel
+		Resistance
+		ResistancePerLevel
+		MoveSpeed
+		AttackPower
+		SkillPower
+		CriticalRate
+		CriticalDamage
+		SkillCriticalRate
+		SkillCriticalDamage
+		EvadeRate
+		Exp
+		ExpPerLevel
+	};
 
 protected:
 	AnimationController animation; //애니메이터 컨ㄹ트롤러를 만들어 스프라이트를 하나집어 현재 재생하고싶은 애니메이션의 프레임에 맞춰 좌표를 변경하는 기능을 넣었다. 사용을 어떻게하나 애니메이션 개체마다 초기화해야함. 애니메이션 클립들. 클립들을 추가해줘야겟지? 애드클립이 그걸하는거야
@@ -38,7 +64,10 @@ protected:
 	sf::Vector2f newTile;
 	RectangleGo* testRect;
 	sf::Vector2f look;
+	
 	float angle;
+	float pastAngle;
+
 	SightDegree lookat = SightDegree::R;
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")
@@ -55,7 +84,8 @@ public:
 	void FindTileInfo();
 	bool CheckTileInfo(sf::Vector2f info);
 	int CharacterSight(float angle);
-	void AnimationPrint(int num);
+	void IdleAnimationPrint(int num);
+	void MoveAnimationPrint(int num);
 	void SetTile(TileMap* tile);
 	void BoxMaker();
 };

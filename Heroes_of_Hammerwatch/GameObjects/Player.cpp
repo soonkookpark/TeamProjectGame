@@ -82,11 +82,84 @@ void Player::Update(float dt)
 		angle += 360;
 	}
 	CharacterSight(angle);
+	if (direction != sf::Vector2f{0, 0}&&lookat != pastAngle)
+	{
+		pastAngle = lookat;
+	}
 	std::cout << lookat << std::endl;
 
+
+
+
+
 	if (direction == sf::Vector2f{0, 0})
-		AnimationPrint(lookat);
+	{
+		IdleAnimationPrint(lookat);
+	}
+	else if(((INPUT_MGR.GetKey(sf::Keyboard::S))
+		||(INPUT_MGR.GetKey(sf::Keyboard::W)) 
+		||(INPUT_MGR.GetKey(sf::Keyboard::D)) 
+		||(INPUT_MGR.GetKey(sf::Keyboard::A)))
+		)
+	{
+		MoveAnimationPrint(lookat); //마우스가 가리키는 방향으로 움직이는 애니메이션.
+		//isAnimationPlay = true;
+	}
+	/*else if(pastAngle!= lookat)
+	{
+		isAnimationPlay = false;
+		std::cout << "요기 난 지날게" << std::endl;
+	}*/
 	
+
+	//look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
+	//angle = Utils::Angle(look);
+	//if (angle < 0)
+	//{
+	//	angle += 360;
+	//}
+	//CharacterSight(angle);
+
+	//// 이전에 재생 중인 애니메이션 종료 처리
+	//if (lookat != CharacterSight(angle))
+	//{
+	//	isAnimationPlay = false;
+	//}
+
+	//// 움직임 및 애니메이션 처리
+	//if (direction == sf::Vector2f{0, 0})
+	//{
+	//	if (isAnimationPlay)
+	//	{
+	//		// 재생 중인 애니메이션 업데이트
+	//		IdleAnimationUpdate();
+	//	}
+	//	else
+	//	{
+	//		// 애니메이션 재생 및 재생 상태 설정
+	//		IdleAnimationPrint(lookat);
+	//		isAnimationPlay = true;
+	//	}
+	//}
+	//else if (INPUT_MGR.GetKeyDown(sf::Keyboard::S) || INPUT_MGR.GetKey(sf::Keyboard::W) || INPUT_MGR.GetKey(sf::Keyboard::D) || INPUT_MGR.GetKey(sf::Keyboard::A))
+	//{
+	//	if (isAnimationPlay)
+	//	{
+	//		// 재생 중인 애니메이션 업데이트
+	//		MoveAnimationUpdate();
+	//	}
+	//	else
+	//	{
+	//		// 애니메이션 재생 및 재생 상태 설정
+	//		MoveAnimationPrint(lookat);
+	//		isAnimationPlay = true;
+	//	}
+	//}
+	//else
+	//{
+	//	// 움직임이 없을 경우 애니메이션 정지 상태 설정
+	//	isAnimationPlay = false;
+	//}
 	//{
 	//	//moveanimation 출력!!!!!!!!!!!!!
 	//}
@@ -100,15 +173,16 @@ void Player::Update(float dt)
 	//{
 	//	if(animation.GetCurrentClipId()!="MoveD")
 	//	{
-	if (INPUT_MGR.GetKey(sf::Keyboard::S)&&!isAnimationPlay)
+	/*if (INPUT_MGR.GetKey(sf::Keyboard::S)&&!isAnimationPlay)
 	{
 		animation.Play("MoveD");
 		isAnimationPlay = true;
 	}
-	/*if (animation.GetCurrentClipId() != "MoveD")
+	if (animation.GetCurrentClipId() != "MoveD")
 	{
 		isAnimationPlay = false;
 	}*/
+	
 	//	}
 	//}
 	
@@ -350,7 +424,7 @@ int Player::CharacterSight(float angle)
 
 }
 
-void Player::AnimationPrint(int num)
+void Player::IdleAnimationPrint(int num)
 {
 	switch (num)
 	{
@@ -381,6 +455,53 @@ void Player::AnimationPrint(int num)
 	}
 }
 
+void Player::MoveAnimationPrint(int num)
+{
+	switch (num)
+	{
+	case 0:
+		if (animation.GetCurrentClipId() == "MoveR")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("MoveR");
+		break;
+	case 1:
+		if (animation.GetCurrentClipId() == "MoveDR")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("MoveDR");
+		break;
+	case 2:
+		if (animation.GetCurrentClipId() == "MoveD")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("MoveD");
+		break;
+	case 3:
+		if (animation.GetCurrentClipId() == "MoveDL")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("MoveDL");
+		break;
+	case 4:
+		if (animation.GetCurrentClipId() == "MoveL")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("MoveL");
+		break;
+	case 5:
+		if (animation.GetCurrentClipId() == "MoveUL")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("MoveUL");
+		break;
+	case 6:
+		if (animation.GetCurrentClipId() == "MoveU")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("MoveU");
+		break;
+	case 7:
+		if (animation.GetCurrentClipId() == "MoveUR")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("MoveUR");
+		break;
+	}
+}
+
 void Player::SetTile(TileMap* tile)
 {
 	this->tilemap = tile;
@@ -399,3 +520,4 @@ void Player::BoxMaker()
 		}
 	}
 }
+
