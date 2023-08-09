@@ -9,6 +9,7 @@ public:
 		String,
 		Monster,
 		EliteMonster,
+		FieldItem,
 	};
 
 	DataTable(const DataTable& other) = delete;

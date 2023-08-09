@@ -17,6 +17,8 @@ void Player::Init()
 	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/moveF.csv");
 	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/moveB.csv");*/
 
+
+
 	//파일 입출력
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/idleB.csv"));
 	animation.SetTarget(&sprite);
@@ -111,4 +113,13 @@ void Player::PlayerMove()
 {
 	direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
 	direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
+}
+
+void Player::HealHP(int value)
+{
+	
+}
+
+void Player::HealMP(int value)
+{
 }

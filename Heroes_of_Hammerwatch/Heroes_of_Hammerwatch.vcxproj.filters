@@ -28,6 +28,8 @@
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="GameObjects\TileMap.cpp" />
     <ClCompile Include="GameObjects\Monster\BossGolem.cpp" />
+    <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
+    <ClCompile Include="DataTables\FieldItemTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -61,5 +63,7 @@
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="GameObjects\TileMap.h" />
     <ClInclude Include="GameObjects\Monster\BossGolem.h" />
+    <ClInclude Include="GameObjects\Items\FieldItem.h" />
+    <ClInclude Include="DataTables\FieldItemTable.h" />
   </ItemGroup>
 </Project>

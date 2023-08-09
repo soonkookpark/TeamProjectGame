@@ -104,7 +104,10 @@ void Monster::Attack(float dt)
 {
 	if (isMelee)
 	{
-		//근거리 공격 player skill과 공유 하는점이 많아 나중에 추가 예정
+		if (meleeAttack())
+		{
+			//플레이어 피격 함수
+		}
 	}
 	else
 	{
@@ -182,4 +185,10 @@ void Monster::LoseBuff()
 	speed /= 1.2;
 	sprite.setColor({ 255,225,225,255 });
 	isBuffed = false;
+}
+
+bool Monster::meleeAttack()
+{
+	Utils::CircleToRect(position, attackRange, player->sprite.getGlobalBounds(), attackAngle, attackArc);
+	return false;
 }

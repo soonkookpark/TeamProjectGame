@@ -57,6 +57,7 @@ protected:
 
     Player* player = nullptr;
     sf::Vector2f destination;
+    sf::Vector2f attackAngle;
     bool isBuffed;
     float timer;
     bool inAction;
@@ -84,5 +85,7 @@ public:
 
     void GetBuff();
     void LoseBuff();
+
+    bool meleeAttack();
 };
 
