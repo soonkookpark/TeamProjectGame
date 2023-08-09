@@ -17,7 +17,7 @@ void Player::Init()
 	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/idleF.csv");
 	
 	//파일 입출력
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveR.csv"));
+	/*animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveU.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUL.csv"));
@@ -32,12 +32,8 @@ void Player::Init()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleL.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDL.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleD.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDR.csv"));
-
-
-
-
-	animation.SetTarget(&sprite);
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDR.csv"));*/
+	//animation.SetTarget(&sprite);
 	SetOrigin(Origins::MC);
 	sprite.setScale(1.0, 1.0);
 	tileSize = tilemap->tiles.size();
@@ -77,6 +73,8 @@ void Player::Reset()
 
 void Player::Update(float dt)
 {
+
+	animation.Update(dt);
 	look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
 	angle = Utils::Angle(look);
 	if (angle < 0)
@@ -85,15 +83,34 @@ void Player::Update(float dt)
 	}
 	CharacterSight(angle);
 	std::cout << lookat << std::endl;
+
+	if (direction == sf::Vector2f{0, 0})
+		AnimationPrint(lookat);
 	
-	animation.GetCurrentClipId() != "MoveD";
-	if (INPUT_MGR.GetKey(sf::Keyboard::S))
+	//{
+	//	//moveanimation 출력!!!!!!!!!!!!!
+	//}
+	//else if () 
+	//{
+	//
+	//}
+
+	//}
+	//std::cout << animation.GetCurrentClipId() << std::endl;// != "MoveD";
+	//{
+	//	if(animation.GetCurrentClipId()!="MoveD")
+	//	{
+	if (INPUT_MGR.GetKey(sf::Keyboard::S)&&!isAnimationPlay)
 	{
-		if(!animation.IsPlaying())
-		{
-			animation.Play("MoveD");
-		}
+		animation.Play("MoveD");
+		isAnimationPlay = true;
 	}
+	/*if (animation.GetCurrentClipId() != "MoveD")
+	{
+		isAnimationPlay = false;
+	}*/
+	//	}
+	//}
 	
 	/*static float time = 0.f;
 	time += dt;*/
@@ -157,7 +174,7 @@ void Player::Update(float dt)
 	//CheckTileInfo();
 
 	BoxMaker();
-	animation.Update(dt);
+	
 	box.setPosition(sprite.getPosition());
 }
 
@@ -331,6 +348,37 @@ int Player::CharacterSight(float angle)
 	}
 	return lookat;
 
+}
+
+void Player::AnimationPrint(int num)
+{
+	switch (num)
+	{
+	case 0 :
+		animation.Play("IdleR");
+		break;
+	case 1:
+		animation.Play("IdleDR");
+		break;
+	case 2:
+		animation.Play("IdleD");
+		break;
+	case 3:
+		animation.Play("IdleDL");
+		break;
+	case 4 :
+		animation.Play("IdleL");
+		break;
+	case 5 :
+		animation.Play("IdleUL");
+		break;
+	case 6 :
+		animation.Play("IdleU");
+		break;
+	case 7:
+		animation.Play("IdleUR");
+		break;
+	}
 }
 
 void Player::SetTile(TileMap* tile)

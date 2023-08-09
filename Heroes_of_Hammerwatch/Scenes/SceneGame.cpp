@@ -11,7 +11,7 @@
 #include "UIButton.h"
 #include "Monster.h"
 #include "EliteTick.h"
-
+#include "Paladin.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -44,7 +44,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
 	tileMap->Load("graphics/mine/tilemap.csv");
 
-	player = (Player*)AddGo(new Player("", "player"));
+	player = (Paladin*)AddGo(new Paladin());
 	player->SetPosition(100, 100);
 	player->SetActive(true);
 	player->SetTile(tileMap);

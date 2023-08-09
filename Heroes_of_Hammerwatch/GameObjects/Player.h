@@ -24,7 +24,9 @@ protected:
 
 	bool filpX = false;
 	bool isGround = true;
-	
+	bool isAnimationPlay = false;
+
+
 	sf::Vector2i playerTileIndex;
 	std::vector<ClipInfo> clipInfos;
 	ClipInfo currentClipInfo;
@@ -39,7 +41,7 @@ protected:
 	float angle;
 	SightDegree lookat = SightDegree::R;
 public:
-	Player(const std::string& textureId = "", const std::string& n = "")
+	Player(const std::string& textureId = "", const std::string& n = "player")
 		: SpriteGo(textureId, n) {}
 	virtual ~Player() override { Release(); }
 
@@ -53,7 +55,7 @@ public:
 	void FindTileInfo();
 	bool CheckTileInfo(sf::Vector2f info);
 	int CharacterSight(float angle);
-
+	void AnimationPrint(int num);
 	void SetTile(TileMap* tile);
 	void BoxMaker();
 };

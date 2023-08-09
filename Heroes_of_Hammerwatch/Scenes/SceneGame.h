@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 class Player;
+class Paladin;
 class TileMap;
 class Monster;
 class SceneGame : public Scene
