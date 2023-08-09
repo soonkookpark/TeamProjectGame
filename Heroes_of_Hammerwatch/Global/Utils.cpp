@@ -132,3 +132,34 @@ float Utils::Angle(const sf::Vector2f& dir)
 {
 	return (float)(atan2(dir.y, dir.x) * (180.f / M_PI));
 }
+
+bool Utils::CircleToRect(const sf::Vector2f& circlePos, const float& radius, const sf::FloatRect& rect, const sf::Vector2f& dir = { 1,1 }, float angle = 360)
+{
+	// temporary variables to set edges for testing
+	sf::Vector2f test = circlePos;
+
+	// which edge is closest?
+	if (circlePos.x < rect.left)         
+		test.x = rect.left;      // test left edge
+	else if (circlePos.x > rect.left + rect.width)
+		test.x = rect.left + rect.width;   // right edge
+
+	if (circlePos.y < rect.top)
+		test.y = rect.top;      // top edge
+	else if (circlePos.y > rect.top + rect.height)
+		test.y = rect.top + rect.height;   // bottom edge
+	
+	if (angle != 360)
+	{
+		angle /= 2;
+		float testAngle = Angle(dir - circlePos) - Angle(dir - circlePos);
+		if (-angle > testAngle || angle < testAngle)
+			return false;
+	}
+	// if the distance is less than the radius, collision!
+	if (Distance(circlePos, test) <= radius) {
+		
+		return true;
+	}
+	return false;
+}

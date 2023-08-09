@@ -155,7 +155,6 @@
   <ItemGroup>
     <ClCompile Include="Animation\AnimationClip.cpp" />
     <ClCompile Include="Animation\AnimationController.cpp" />
-    <ClCompile Include="BossGolem.cpp" />
     <ClCompile Include="DataTables\DataTable.cpp" />
     <ClCompile Include="DataTables\StringTable.cpp" />
     <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
@@ -192,7 +191,6 @@
     <ClInclude Include="3rd\rapidcsv.h" />
     <ClInclude Include="Animation\AnimationController.h" />
     <ClInclude Include="Animation\AnimationClip.h" />
-    <ClInclude Include="BossGolem.h" />
     <ClInclude Include="DataTables\DataTable.h" />
     <ClInclude Include="DataTables\StringTable.h" />
     <ClInclude Include="DataTables\EliteMonsterTable.h" />

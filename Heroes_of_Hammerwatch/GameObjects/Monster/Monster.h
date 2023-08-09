@@ -13,7 +13,7 @@ public:
         NONE = -1,
         BEATST,
         UNDEAD,
-        BOSS,
+        STRUCTURE,
         COUNT,
     };
     enum class State

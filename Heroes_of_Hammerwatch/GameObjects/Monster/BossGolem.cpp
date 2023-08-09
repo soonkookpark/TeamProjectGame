@@ -29,3 +29,11 @@ void BossGolem::RockSpawn()
 {
 
 }
+
+void BossGolem::MeleeAttack()
+{
+	if (Utils::CircleToRect(position, attackRange, player->sprite.getGlobalBounds()))
+	{
+		//플레이어 피격 함수
+	}
+}
