@@ -13,6 +13,7 @@ public:
 	virtual ~GridMap() override;
 
 	bool DrawGrid(TileMap* tileMap);
+	bool DrawGrid(int col, int row, int tileSize);
 
 	sf::Vector2f TileSize();
 	float TileXSize();

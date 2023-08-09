@@ -61,12 +61,10 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	worldView.setSize(size);
 	worldView.setCenter(0.f, 0.f);
-	worldView.zoom(zoom);
+	worldView.zoom(0.5f);
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
-
-	zoom = 1.0f;
 
 	Scene::Enter();
 }
@@ -99,15 +97,11 @@ void SceneGame::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::PageUp))
 	{
-		zoom -= 0.01f;
-		if (zoom <= 0.1f) zoom = 0.1f;
-		worldView.zoom(zoom);
+		worldView.zoom(0.9f);
 	}
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::PageDown))
 	{
-		zoom += 0.01f;
-		if (zoom >= 2.0f) zoom = 2.f;
-		worldView.zoom(zoom);
+		worldView.zoom(1.1f);
 	}
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))

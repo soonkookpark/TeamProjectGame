@@ -5,6 +5,7 @@ class UIButton;
 class TextGo;
 class TileMap;
 class GridMap;
+class RectangleGo;
 
 class SceneEdit : public Scene
 {
@@ -16,16 +17,20 @@ protected:
 	UIButton* rowDown;
 	UIButton* edit;
 
+	UIButton* tileSelector[6];
+	UIButton* uiBackground;
+
 	TextGo* colNum;
 	TextGo* rowNum;
 
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
 
-	int zoom = 1.f;
+	RectangleGo* tileOnMouse;
 
 	int col = 1;
 	int row = 1;
+	int tileSize = 32;
 
 public:
 	SceneEdit();

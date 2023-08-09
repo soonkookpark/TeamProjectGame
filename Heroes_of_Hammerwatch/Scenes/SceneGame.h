@@ -13,8 +13,6 @@ protected:
 	Player* player;
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
-	float zoom = 1.f;
-	
 
 public:
 	SceneGame();

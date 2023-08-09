@@ -81,5 +81,5 @@ void VertexArrayGo::Update(float dt)
 
 void VertexArrayGo::Draw(sf::RenderWindow& window)
 {
-	window.draw(vertexArray, texture);
+  	window.draw(vertexArray, texture);
 }

@@ -9,6 +9,7 @@
 #include "Framework.h"
 #include "TileMap.h"
 #include "GridMap.h"
+#include "RectangleGo.h"
 
 /*
 Down 아이콘 214, 0, 9, 11
@@ -19,8 +20,6 @@ Load 아이콘 78, 91, 12, 11
 graphics/miscellaneous/icons.png
 
 */
-
-
 
 SceneEdit::SceneEdit() : Scene(SceneId::Title)
 {
@@ -39,6 +38,36 @@ void SceneEdit::Init()
 	edit = (UIButton*)AddGo(new UIButton("graphics/button/button_edit.png"));
 	rowNum = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf"));
 	colNum = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf"));
+
+	for (int i = 0; i < sizeof(tileSelector) / sizeof(UIButton*); i++)
+	{
+		tileSelector[i] = (UIButton*)AddGo(new UIButton("graphics/mine/mine_tile.png"));
+		tileSelector[i]->sprite.setTextureRect({ tileSize * (i % 4), tileSize * (i / 4), tileSize, tileSize });
+		tileSelector[i]->sprite.setScale(2.0, 2.0);
+		tileSelector[i]->SetPosition(20 + 120.f * (i % 2), 400 + 100.f * (i / 2));
+		tileSelector[i]->OnClick = [this, i]() {
+			this->tileOnMouse->rectangle.setTexture(RESOURCE_MGR.GetTexture("graphics/mine/mine_tile.png"));
+			this->tileOnMouse->rectangle.setTextureRect({ tileSize * (i % 4), tileSize * (i / 4), tileSize, tileSize });
+			this->tileOnMouse->rectangle.setFillColor(sf::Color::Color(255, 255, 255, 255));
+		};
+	}
+
+	uiBackground = (UIButton*)AddGo(new UIButton("graphics/button/UIBG.png"));
+	uiBackground->sprite.setColor(sf::Color::Color(255, 255, 255, 100));
+	uiBackground->sprite.setTextureRect({ 0, 0, 300, (int)windowSize.y });
+	uiBackground->sortOrder = -1;
+	uiBackground->OnEnter = [this]() {
+		this->tileOnMouse->SetActive(false);
+	};
+	uiBackground->OnExit = [this]() {
+		this->tileOnMouse->SetActive(true);
+	};
+
+	sf::Vector2f size = { 16.f , 16.f };
+	tileOnMouse = (RectangleGo*)AddGo(new RectangleGo(size));
+	tileOnMouse->rectangle.setFillColor(sf::Color::Color(255, 255, 255, 100));
+	tileOnMouse->SetOrigin(Origins::MC);
+	tileOnMouse->sortLayer = SortLayer::TILE + 1;
 
 	for (auto go : gameObjects)
 	{
@@ -63,7 +92,7 @@ void SceneEdit::Enter()
 
 	worldView.setSize(size);
 	worldView.setCenter(0.f, 0.f);
-	worldView.zoom(zoom);
+	worldView.zoom(0.5f);
 	uiView.setSize(size);
 	uiView.setCenter(size * 0.5f);
 
@@ -117,6 +146,13 @@ void SceneEdit::Enter()
 	edit->SetPosition(120.f, 270.f);
 	edit->OnClick = [this]()
 	{
+		TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
+		tempTileMap->DrawTexture(col, row);
+
+		GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
+		tempGridMap->DrawGrid(col, row, 16);
+
+
 		if (tileMap != nullptr)
 		{
 			RemoveGo(tileMap);
@@ -130,16 +166,15 @@ void SceneEdit::Enter()
 			gridMap = nullptr;
 		}
 
-		tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
-		tileMap->DrawTexture(col, row);
-
-		gridMap = (GridMap*)AddGo(new GridMap());
-		gridMap->DrawGrid(tileMap);
+		tileMap = tempTileMap;
+		gridMap = tempGridMap;
 	};
 	
-	zoom = 1.f;
 	row = 1;
 	col = 1;
+
+	rowNum->text.setString("Row : " + std::to_string(row));
+	colNum->text.setString("Col : " + std::to_string(col));
 
 	Scene::Enter();
 }
@@ -167,6 +202,25 @@ void SceneEdit::Update(float dt)
 {
 	Scene::Update(dt);
 
+	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
+	sf::Vector2f worldPos = ScreenToWorldPos(mousePos);
+	sf::Vector2i tileIndex = { (int)worldPos.x / 16, (int)worldPos.y / 16 };
+	tileIndex.x = worldPos.x > 0 ? (int)worldPos.x / 16 : (int)worldPos.x / 16 - 1;
+	tileIndex.y = worldPos.y > 0 ? (int)worldPos.y / 16 : (int)worldPos.y / 16 - 1;
+	sf::Vector2i tileSnap = { tileIndex.x * 16 + 8 , tileIndex.y * 16 + 8 };
+
+	tileOnMouse->SetPosition((sf::Vector2f)tileSnap);
+
+	if (INPUT_MGR.GetMouseButton(sf::Mouse::Left))
+	{
+		sf::IntRect rect = tileOnMouse->rectangle.getTextureRect();
+		tileMap->ChangeTile(tileIndex.x, tileIndex.y, rect);
+	}
+	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Right))
+	{
+
+	}
+
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 	{
 		SCENE_MGR.ChangeScene(SceneId::Game);
@@ -191,16 +245,16 @@ void SceneEdit::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::PageUp))
 	{
-		zoom -= 0.01f;
-		if (zoom <= 0.1f) zoom = 0.1f;
-		worldView.zoom(zoom);
+		worldView.zoom(0.9f);
 	}
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::PageDown))
 	{
-		zoom += 0.01f;
-		if (zoom >= 2.0f) zoom = 2.f;
-		worldView.zoom(zoom);
+		worldView.zoom(1.1f);
 	}
+
+	
+
+
 }
 
 void SceneEdit::Draw(sf::RenderWindow& window)

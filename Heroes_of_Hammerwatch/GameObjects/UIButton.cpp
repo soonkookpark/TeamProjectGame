@@ -6,6 +6,7 @@
 UIButton::UIButton(const std::string& textureId, const std::string& n)
 	:SpriteGo(textureId, n)
 {
+	
 }
 
 UIButton::~UIButton()
@@ -16,7 +17,6 @@ UIButton::~UIButton()
 void UIButton::Init()
 {
 	SpriteGo::Init();
-
 	sortLayer = SortLayer::UI;
 }
 
@@ -35,7 +35,7 @@ void UIButton::Update(float dt)
 {
 	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 	sf::Vector2f uiMousePos = SCENE_MGR.GetCurrScene()->ScreenToUiPos(mousePos);
-	
+
 	bool prevHover = isHover;
 	isHover = sprite.getGlobalBounds().contains(uiMousePos);
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TileMap.h"
 #include "rapidcsv.h"
+#include "ResourceMgr.h"
 
 TileMap::TileMap(const std::string& textureId, const std::string& n)
     : VertexArrayGo(textureId, n)
@@ -97,6 +98,8 @@ bool TileMap::DrawTexture(const std::string& filePath)
 
 bool TileMap::DrawTexture(int row, int col)
 {
+    texture = RESOURCE_MGR.GetTexture(textureId);
+
     size = { col, row };
 
     for (int i = 0; i < size.y; ++i)
@@ -127,9 +130,9 @@ bool TileMap::DrawTexture(int row, int col)
     sf::Vector2f texOffsets[4] =
     {
         { 0.f, 0.f },
-        { texSize.x, 0.f },
-        { texSize.x, texSize.y },
-        { 0.f, texSize.y }
+        { 32.f, 0.f },
+        { 32.f, 32.f },
+        { 0.f, 32.f }
     };
 
 
@@ -153,6 +156,32 @@ bool TileMap::DrawTexture(int row, int col)
     }
 
     return true;
+}
+
+bool TileMap::ChangeTile(int tilePosX, int tilePosY, sf::IntRect rectInt)
+{
+    if (tilePosX < 0 || tilePosY < 0) return false;
+    if (tilePosX >= size.x || tilePosY >= size.y) return false;
+
+    sf::FloatRect rect = (sf::FloatRect)rectInt;
+
+    sf::Vector2f texOffsets[4] =
+    {
+        { rect.left, rect.top },
+        { rect.left + rect.width, rect.top },
+        { rect.left + rect.width, rect.top + rect.height },
+        { rect.left, rect.top + rect.height }
+    };
+
+    int tileIndex = tilePosY * size.x + tilePosX;
+    
+    for (int k = 0; k < 4; k++)
+    {
+        int vertexIndex = tileIndex * 4 + k;
+        vertexArray[vertexIndex].texCoords = texOffsets[k];
+   
+    }
+    return false;
 }
 
 bool TileMap::LoadInfo(const std::string& filePath)

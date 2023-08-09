@@ -30,8 +30,11 @@ public:
 
 	bool DrawTexture(const std::string& filePath);
 	bool DrawTexture(int row, int col);
+	bool ChangeTile(int tilePosX, int tilePosy, sf::IntRect rect);
 
 	bool LoadInfo(const std::string& filePath);
+
+	void LoadTileInfo(const std::string& filePath);
 
 	std::vector<Tile> tiles;
 	std::unordered_map<std::string, TileInfo> tileInfo;
