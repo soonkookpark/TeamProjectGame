@@ -1,4 +1,18 @@
 "RESOURCE_TYPES (0: 텍스쳐, 1: 폰트, 2: 사운드클럽, 3: 애니메이션 클립)",RESOURCE_PATH
-3,animations/idleB.csv
-0,graphics/square.png
+3,animations/MoveR.csv
+3,animations/MoveUR.csv
+3,animations/MoveU.csv
+3,animations/MoveUL.csv
+3,animations/MoveL.csv
+3,animations/MoveDL.csv
+3,animations/MoveD.csv
+3,animations/MoveDR.csv
+3,animations/IdleR.csv
+3,animations/IdleUR.csv
+3,animations/IdleU.csv
+3,animations/IdleUL.csv
+3,animations/IdleL.csv
+3,animations/IdleDL.csv
+3,animations/IdleD.csv
+3,animations/IdleDR.csv
 0,graphics/Paladin.png

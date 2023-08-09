@@ -5,17 +5,38 @@
 #include "ResourceMgr.h"
 #include "TileMap.h"
 #include "RectangleGo.h"
+#include "SceneMgr.h"
+#include "SceneGame.h"
 void Player::Init()
 {
 	//애니메이션 csv 
 
-	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/idleB.csv");
+	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/MoveR.csv");
 	//캐릭ㅇ터 애니메이션 그리고 나오게 함.
 	
 	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/idleF.csv");
 	
 	//파일 입출력
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/idleB.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveU.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveDL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveD.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveDR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleUR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleU.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleUL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleD.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDR.csv"));
+
+
+
+
 	animation.SetTarget(&sprite);
 	SetOrigin(Origins::MC);
 	sprite.setScale(1.0, 1.0);
@@ -38,30 +59,48 @@ void Player::Init()
 	//clipInfos.push_back({ "IdleS", "MoveS", true, Utils::Normalize({ 1.f, 1.f }) });
 	
 	sortLayer = SortLayer::PLAYER;
+
 }
 
 void Player::Reset()
 {
-	animation.Play("IdleB");
+	animation.Play("IdleD");
 	SetOrigin(origin);
 	//SetPosition({ 0, 0 });
 	SetFlipX(false);
-	box.setSize({ sprite.getGlobalBounds().width,sprite.getGlobalBounds().height });
+	box.setSize({8,16});
+	box.setOrigin(box.getSize() * 0.5f);
+	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 
 	//currentClipInfo = clipInfos[6];*/
 }
 
 void Player::Update(float dt)
 {
-	static float time = 0.f;
-	time += dt;
+	look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
+	angle = Utils::Angle(look);
+	if (angle < 0)
+	{
+		angle += 360;
+	}
+	CharacterSight(angle);
+	std::cout << lookat << std::endl;
+	
+	animation.GetCurrentClipId() != "MoveD";
+	if (INPUT_MGR.GetKey(sf::Keyboard::S))
+	{
+		if(!animation.IsPlaying())
+		{
+			animation.Play("MoveD");
+		}
+	}
+	
+	/*static float time = 0.f;
+	time += dt;*/
 	//이동
 	//if (direction.x != 0||direction.y!=0)
 	
 	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
-	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Tab))
-	{
-	}
 	
 	//direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
 	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
@@ -76,8 +115,15 @@ void Player::Update(float dt)
 		direction /= magnitude;
 
 	}
-	if (direction.x == 0.f)
-		std::cout << time << std::endl;
+	
+
+	
+	/*std::string clipId = magnitude == 0.f ? currentClipInfo.idle : currentClipInfo.move;
+	if (animation.GetCurrentClipId() != clipId)
+	{
+		animation.Play(clipId);
+	}*/
+
 
 	FindTileInfo();
 	if (CheckTileInfo(static_cast<sf::Vector2f>(playerTileIndex)))
@@ -112,6 +158,7 @@ void Player::Update(float dt)
 
 	BoxMaker();
 	animation.Update(dt);
+	box.setPosition(sprite.getPosition());
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -246,6 +293,44 @@ bool Player::CheckTileInfo(sf::Vector2f info)
 			return 1;
 		}
 	}
+}
+
+int Player::CharacterSight(float angle)
+{
+	if (angle > 22.5 && angle <= 67.5)
+	{
+		lookat = DR;
+	}
+	else if (angle > 67.5 && angle <= 112.5)
+	{
+		lookat = D;
+	}
+	else if (angle > 112.5 && angle <= 157.5)
+	{
+		lookat = DL;
+	}
+	else if (angle > 157.5 && angle <= 202.5)
+	{
+		lookat = L;
+	}
+	else if (angle > 202.5 && angle <= 247.5)
+	{
+		lookat = UL;
+	}
+	else if (angle > 247.5 && angle <= 292.5)
+	{
+		lookat = U;
+	}
+	else if (angle > 292.5 && angle <= 337.5)
+	{
+		lookat = UR;
+	}
+	else
+	{
+		lookat = R;
+	}
+	return lookat;
+
 }
 
 void Player::SetTile(TileMap* tile)

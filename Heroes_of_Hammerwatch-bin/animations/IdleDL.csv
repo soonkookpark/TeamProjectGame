@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-IdleB,10,1,,
+IdleDL,8,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/Paladin.png,5,3,16,16
+graphics/Paladin.png,120,0,24,20

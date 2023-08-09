@@ -4,7 +4,8 @@
 
 class TileMap;
 class RectangleGo;
-class Player : public SpriteGo
+
+class Player : public SpriteGo	
 {
 public:
 	struct ClipInfo
@@ -34,6 +35,9 @@ protected:
 	sf::Vector2f agoTile;
 	sf::Vector2f newTile;
 	RectangleGo* testRect;
+	sf::Vector2f look;
+	float angle;
+	SightDegree lookat = SightDegree::R;
 public:
 	Player(const std::string& textureId = "", const std::string& n = "")
 		: SpriteGo(textureId, n) {}
@@ -48,6 +52,7 @@ public:
 	void PlayerMove();
 	void FindTileInfo();
 	bool CheckTileInfo(sf::Vector2f info);
+	int CharacterSight(float angle);
 
 	void SetTile(TileMap* tile);
 	void BoxMaker();

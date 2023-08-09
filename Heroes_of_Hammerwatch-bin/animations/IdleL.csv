@@ -1,0 +1,5 @@
+ID,FPS,LOOPTYPE,,
+IdleL,8,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Paladin.png,96,0,24,20
