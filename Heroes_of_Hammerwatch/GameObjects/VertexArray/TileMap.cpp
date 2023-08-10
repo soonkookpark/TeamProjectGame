@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TileMap.h"
-#include "rapidcsv.h"
 #include "ResourceMgr.h"
+#include <vector>
 
 TileMap::TileMap(const std::string& textureId, const std::string& n)
     : VertexArrayGo(textureId, n)
@@ -13,79 +13,32 @@ TileMap::~TileMap()
 {
 }
 
-bool TileMap::DrawTexture(const std::string& filePath)
+bool TileMap::LoadDrawTexture(const std::string& filePath)
 {
-    rapidcsv::Document map(filePath, rapidcsv::LabelParams(-1, -1));
+    rapidcsv::Document map(filePath, rapidcsv::LabelParams(0, -1));
+    std::cout << (int)map.GetRowCount();
     size = { (int)map.GetColumnCount(), (int)map.GetRowCount() };
 
-    for (int i = 0; i < size.y; ++i)
-    {
-        for (int j = 0; j < size.x; ++j)
-        {
-            Tile tile;
-            tile.x = j;
-            tile.y = i;
-            tile.texIndex = map.GetCell<int>(j, i);
-            tiles.push_back(tile);
-        }
-    }
+    LoadDataArray(map);
+    LoadInfo("graphics/mine/mine_tile.csv");
 
     // resize the vertex array to fit the level size
     vertexArray.setPrimitiveType(sf::Quads);
     vertexArray.resize(size.x * size.y * 4);
     sf::Vector2f startPos = { 0, 0 };
     sf::Vector2f currPos = startPos;
-
-    sf::Vector2f offsets[4] =
-    {
-        { 0.f, 0.f },
-        { tileSize.x, 0.f },
-        { tileSize.x, tileSize.y },
-        { 0.f, tileSize.y }
-    };
-
-    sf::Vector2f texOffsets[4] =
-    {
-        { 0.f, 0.f },
-        { texSize.x, 0.f },
-        { texSize.x, texSize.y },
-        { 0.f, texSize.y }
-    };
-
-    sf::Vector2f wallTexOffsets[4] =
-    {
-        { 32.f, 32.f },
-        { 32 + texSize.x, 32},
-        { 32 + texSize.x, 32 + texSize.y },
-        { 32.f, 32 + texSize.y }
-    };
-
-    sf::Vector2f WOTexOffsets[4] =
-    {
-        { 64.f, 32.f },
-        { 64 + texSize.x, 32},
-        { 64 + texSize.x, 32 + texSize.y },
-        { 64.f, 32 + texSize.y }
-    };
-
-
-
+    
     for (int i = 0; i < size.y; i++)
     {
         for (int j = 0; j < size.x; j++)
         {
             int tileIndex = size.x * i + j;
-            int texIndex = tiles[tileIndex].texIndex;
+            int texIndex = tileArray[i][j];
             for (int k = 0; k < 4; k++)
             {
                 int vertexIndex = tileIndex * 4 + k;
                 vertexArray[vertexIndex].position = currPos + offsets[k];
-
-                vertexArray[vertexIndex].texCoords = texOffsets[k];
-                if (texIndex == 0)
-                {
-                    vertexArray[vertexIndex].texCoords = wallTexOffsets[k];
-                }
+                vertexArray[vertexIndex].texCoords = tileOffset[texIndex][k];
             }
             currPos.x += tileSize.x;
         }
@@ -112,6 +65,8 @@ bool TileMap::DrawTexture(int row, int col)
             tiles.push_back(tile);
         }
     }
+    ResetDataArray();
+    LoadInfo("graphics/mine/mine_tile.csv");
 
     // resize the vertex array to fit the level size
     vertexArray.setPrimitiveType(sf::Quads);
@@ -119,51 +74,32 @@ bool TileMap::DrawTexture(int row, int col)
     sf::Vector2f startPos = { 0, 0 };
     sf::Vector2f currPos = startPos;
 
-    sf::Vector2f offsets[4] =
-    {
-        { 0.f, 0.f },
-        { tileSize.x, 0.f },
-        { tileSize.x, tileSize.y },
-        { 0.f, tileSize.y }
-    };
-
-    sf::Vector2f texOffsets[4] =
-    {
-        { 0.f, 0.f },
-        { 32.f, 0.f },
-        { 32.f, 32.f },
-        { 0.f, 32.f }
-    };
-
-
-
     for (int i = 0; i < size.y; i++)
     {
         for (int j = 0; j < size.x; j++)
         {
             int tileIndex = size.x * i + j;
-            int texIndex = tiles[tileIndex].texIndex;
+            int texIndex = tileArray[i][j];
             for (int k = 0; k < 4; k++)
             {
                 int vertexIndex = tileIndex * 4 + k;
                 vertexArray[vertexIndex].position = currPos + offsets[k];
-                vertexArray[vertexIndex].texCoords = texOffsets[k];
+                vertexArray[vertexIndex].texCoords = tileOffset[texIndex][k];
             }
             currPos.x += tileSize.x;
         }
         currPos.x = startPos.x;
         currPos.y += tileSize.y;
     }
-
     return true;
 }
 
-bool TileMap::ChangeTile(int tilePosX, int tilePosY, sf::IntRect rectInt)
+bool TileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
 {
     if (tilePosX < 0 || tilePosY < 0) return false;
     if (tilePosX >= size.x || tilePosY >= size.y) return false;
 
-    sf::FloatRect rect = (sf::FloatRect)rectInt;
+    sf::FloatRect rect = tileInfoArray[idx].bound;
 
     sf::Vector2f texOffsets[4] =
     {
@@ -173,56 +109,163 @@ bool TileMap::ChangeTile(int tilePosX, int tilePosY, sf::IntRect rectInt)
         { rect.left, rect.top + rect.height }
     };
 
+    tileArray[tilePosY][tilePosX] = idx;
+
     int tileIndex = tilePosY * size.x + tilePosX;
-    
     for (int k = 0; k < 4; k++)
     {
         int vertexIndex = tileIndex * 4 + k;
         vertexArray[vertexIndex].texCoords = texOffsets[k];
-   
     }
     return false;
 }
 
 bool TileMap::LoadInfo(const std::string& filePath)
 {
-    rapidcsv::Document doc(filePath, rapidcsv::LabelParams(-1, -1));
+    if (checkLoad) return true;
+    checkLoad = true;
+
+    rapidcsv::Document doc(filePath, rapidcsv::LabelParams(0, -1));
     sf::Vector2i size = { (int)doc.GetColumnCount(), (int)doc.GetRowCount() };
 
-    for (int col = 1; col < size.y; ++col)
+    for (int col = 0; col < size.y; ++col)
     {
-        for (int row = 0; row < size.x; ++row)
+        TileInfo tile;
+        for (int row = 0; row < size.x-1; ++row)
         {
-            TileInfo tile;
+            //std::cout << col << ", " << row << std::endl;
             switch (row)
             {
             case 0:
-                tile.texture_ID = doc.GetCell<std::string>(col, row);
+                tile.texture_ID = doc.GetCell<std::string>(row, col);
                 break;
             case 1:
-                tile.bound.left = doc.GetCell<int>(col, row);
+                tile.bound.left = doc.GetCell<int>(row, col);
                 break;
             case 2:
-                tile.bound.top = doc.GetCell<int>(col, row);
+                tile.bound.top = doc.GetCell<int>(row, col);
                 break;
             case 3:
-                tile.bound.width = doc.GetCell<int>(col, row);
+                tile.bound.width = doc.GetCell<int>(row, col);
                 break;
             case 4:
-                tile.bound.height = doc.GetCell<int>(col, row);
+                tile.bound.height = doc.GetCell<int>(row, col);
                 break;
             case 5:
-                tile.name = doc.GetCell<std::string>(col, row);
+                tile.name = doc.GetCell<std::string>(row, col);
                 break;
+            case 6:
+                tile.index = doc.GetCell<int>(row, col);
             default:
-                throw std::out_of_range("Can't Find");
+                std::cout << col << ", " << row << std::endl;
+                break;
             }
-
-            tileInfo[tile.name] = tile;
         }
+        tileInfoArray.push_back(tile);
+        tileInfo[tile.index] = tile;
+    }
+
+    for (auto obj : tileInfoArray)
+    {
+        std::vector<sf::Vector2f> bound;
+        bound.push_back({ obj.bound.left, obj.bound.top });
+        bound.push_back({ obj.bound.left + obj.bound.width, obj.bound.top });
+        bound.push_back({ obj.bound.left + obj.bound.width, obj.bound.top + obj.bound.height });
+        bound.push_back({ obj.bound.left, obj.bound.top + obj.bound.height });
+        tileOffset.push_back(bound);
     }
 
     return true;
+}
+
+void TileMap::SaveTexture(const std::string& filePath)
+{
+    std::ofstream outputFile(filePath);
+    if (outputFile.is_open())
+    {
+        outputFile << textureId << "\n";
+        for (const auto& row : tileArray)
+        {
+            for (size_t i = 0; i < row.size(); i++)
+            {
+                outputFile << row[i];
+                if (i < row.size() - 1)
+                    outputFile << ", ";
+            }
+            outputFile << "\n";
+        }
+        outputFile.close();
+    }
+    else
+    {
+        std::cout << "File Open Error!" << std::endl;
+    }
+
+}
+
+void TileMap::LoadTexture(const std::string& filePath)
+{
+    rapidcsv::Document map(filePath, rapidcsv::LabelParams(0, -1));
+    size = { (int)map.GetColumnCount(), (int)map.GetRowCount() };
+
+    LoadDataArray(map);
+    LoadInfo("graphics/mine/mine_tile.csv");
+
+    // resize the vertex array to fit the level size
+    vertexArray.setPrimitiveType(sf::Quads);
+    vertexArray.resize(size.x * size.y * 4);
+    sf::Vector2f startPos = { 0, 0 };
+    sf::Vector2f currPos = startPos;
+
+    for (int i = 0; i < size.y; i++)
+    {
+        for (int j = 0; j < size.x; j++)
+        {
+            int tileIndex = size.x * i + j;
+            int texIndex = tileArray[i][j];
+            for (int k = 0; k < 4; k++)
+            {
+                int vertexIndex = tileIndex * 4 + k;
+                vertexArray[vertexIndex].position = currPos + offsets[k];
+                vertexArray[vertexIndex].texCoords = tileOffset[texIndex][k];
+            }
+            currPos.x += tileSize.x;
+        }
+        currPos.x = startPos.x;
+        currPos.y += tileSize.y;
+    }
+}
+
+void TileMap::LoadDataArray(rapidcsv::Document& map)
+{
+    tileArray.resize(size.y, std::vector<int>(size.x));
+
+    for (size_t i = 0; i < size.y; i++)
+    {
+        for (size_t j = 0; j < size.x; j++)
+        {
+            tileArray[i][j] = map.GetCell<int>(j, i);
+        }
+    }
+
+}
+
+void TileMap::ResetDataArray()
+{
+    tileArray.resize(size.y, std::vector<int>(size.x));
+
+    for (size_t i = 0; i < size.y; i++)
+    {
+        for (size_t j = 0; j < size.x; j++)
+        {
+            tileArray[i][j] = 1;
+        }
+    }
+}
+
+sf::IntRect TileMap::GetTileBound(int index)
+{
+    return sf::IntRect(tileInfoArray[index].bound);
 }
 
 sf::Vector2f TileMap::TileSize()

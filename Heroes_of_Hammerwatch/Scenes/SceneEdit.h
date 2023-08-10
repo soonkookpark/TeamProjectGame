@@ -7,6 +7,12 @@ class TileMap;
 class GridMap;
 class RectangleGo;
 
+struct TileOnMouse
+{
+	RectangleGo* tile;
+	int tileIndex;
+};
+
 class SceneEdit : public Scene
 {
 protected:
@@ -16,6 +22,8 @@ protected:
 	UIButton* rowUp;
 	UIButton* rowDown;
 	UIButton* edit;
+	UIButton* save;
+	UIButton* load;
 
 	UIButton* tileSelector[6];
 	UIButton* uiBackground;
@@ -26,7 +34,8 @@ protected:
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
 
-	RectangleGo* tileOnMouse;
+	TileOnMouse tileOnMouse;
+
 
 	int col = 1;
 	int row = 1;
@@ -44,4 +53,7 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+
+	void SetTileSelector(const std::string& filePath, int idx);
+
 };

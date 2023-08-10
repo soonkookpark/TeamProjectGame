@@ -72,5 +72,12 @@ enum SightDegree
 	UR,
 };
 
+struct TileInfo
+{
+	std::string texture_ID;
+	sf::FloatRect bound;
+	std::string name;
+	int index;
+};
 
 #include "AnimationClip.h"
