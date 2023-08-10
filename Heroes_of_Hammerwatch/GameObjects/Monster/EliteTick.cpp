@@ -28,7 +28,7 @@ void EliteTick::SetDatas(const std::string& name)
 	spawnRange = EliteTickTable["spawnRange"];
 	skillFrequency = EliteTickTable["skillFrequency"];
 	buffRange = EliteTickTable["buffRange"];
-	textureId = "graphics/EliteTick.png";
+	textureId = "graphics/Monster/EliteTick.png";
 }
 
 void EliteTick::Chase(float dt)
@@ -40,12 +40,13 @@ void EliteTick::Chase(float dt)
 	if (timer > skillFrequency)
 	{
 		timer = 0;
-
+		SummonTicks();
 	}
 }
 
 void EliteTick::SummonTicks()
 {
+	
 	Monster* mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Tick"));
 	mob->SetPosition(position.x + spawnRange, position.y + spawnRange);
 	mob->Reset();

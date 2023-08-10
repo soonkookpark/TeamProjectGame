@@ -51,7 +51,7 @@ public:
 	void HealMP(int value);
 
 	void AcquireOre(int value) { ore += value; };
-	void AcquireMoney(int value) { money == value; };
+	void AcquireMoney(int value) { money += value; };
 	void AcquireKey(int value) {};
 	void AcquireItem(int key) {};//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
 };

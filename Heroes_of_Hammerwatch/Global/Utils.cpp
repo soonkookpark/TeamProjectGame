@@ -133,7 +133,7 @@ float Utils::Angle(const sf::Vector2f& dir)
 	return (float)(atan2(dir.y, dir.x) * (180.f / M_PI));
 }
 
-bool Utils::CircleToRect(const sf::Vector2f& circlePos, const float& radius, const sf::FloatRect& rect, const sf::Vector2f& dir = { 1,1 }, float angle = 360)
+bool Utils::CircleToRect(const sf::Vector2f& circlePos, const float& radius, const sf::FloatRect& rect, const sf::Vector2f& dir, float angle)
 {
 	// temporary variables to set edges for testing
 	sf::Vector2f test = circlePos;
@@ -162,4 +162,9 @@ bool Utils::CircleToRect(const sf::Vector2f& circlePos, const float& radius, con
 		return true;
 	}
 	return false;
+}
+
+bool Utils::SpriteToSprite(const sf::Sprite& checker, const sf::Sprite& target)
+{
+	return checker.getGlobalBounds().intersects(target.getGlobalBounds());
 }

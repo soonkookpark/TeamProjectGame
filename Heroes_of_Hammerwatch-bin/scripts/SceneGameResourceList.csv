@@ -8,9 +8,11 @@
 "3",animations/moveF.csv
 "3",animations/moveS.csv
 "0",graphics/testSprite.png
-"0",graphics/Bat.png
-"0",graphics/EliteMaggot.png
-"0",graphics/EliteTick.png
-"0",graphics/Maggot.png
-"0",graphics/SkeletonFootman.png
-"0",graphics/Tick.png
+"0",graphics/Monster/Bat.png
+"0",graphics/Monster/EliteMaggot.png
+"0",graphics/Monster/EliteTick.png
+"0",graphics/Monster/Maggot.png
+"0",graphics/Monster/SkeletonFootman.png
+"0",graphics/Monster/Tick.png
+"0",graphics/Item/FieldItems.png
+"0",graphics/Item/Items.png

@@ -37,7 +37,7 @@ public:
 	static float Angle(const sf::Vector2f& dir);
 
 	static bool CircleToRect(const sf::Vector2f& circlePos, const float& radius, const sf::FloatRect& rect, const sf::Vector2f& dir = {1,1}, float angle = 360);
-
+	static bool SpriteToSprite(const sf::Sprite& checker, const sf::Sprite& target);
 
 };
 

@@ -28,7 +28,9 @@ public:
 
     void SetDatas(const std::string& key);
 
-    void Update();
+    void Reset();
+
+    void Update(float dt);
 
     void IntersectsWithItem();   
 };

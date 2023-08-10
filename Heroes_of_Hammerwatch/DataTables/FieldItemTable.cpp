@@ -26,7 +26,7 @@ bool FieldItemTable::Load()
     }
 
 
-    return ;
+    return true;
 }
 
 void FieldItemTable::Release()

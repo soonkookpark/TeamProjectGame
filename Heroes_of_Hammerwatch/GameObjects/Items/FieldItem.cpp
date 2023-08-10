@@ -17,13 +17,21 @@ void FieldItem::SetDatas(const std::string& key)
 	FieldItemTable* table = DATATABLE_MGR.Get<FieldItemTable>(DataTable::Ids::FieldItem);
 	itemType = static_cast<ItemType>(table->Get(key)[0]);
 	value = table->Get(key)[1];
-	sprite.setTexture(*RESOURCE_MGR.GetTexture(key));
+	sprite.setTexture(*RESOURCE_MGR.GetTexture(key));	
+}
+
+void FieldItem::Reset()
+{
+	SpriteGo::Reset();
 	player = (Player*)SCENE_MGR.GetCurrScene()->FindGo("player");
 }
 
-void FieldItem::Update()
+void FieldItem::Update(float dt)
 {
-	
+	if (Utils::SpriteToSprite(sprite, player->sprite))
+	{
+		IntersectsWithItem();
+	}
 }
 
 void FieldItem::IntersectsWithItem()
