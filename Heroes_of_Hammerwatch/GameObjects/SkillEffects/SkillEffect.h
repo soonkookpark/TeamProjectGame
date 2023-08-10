@@ -1,11 +1,13 @@
 #pragma once
 #include "SpriteGo.h"
 class SkillEffect :
-    public SpriteGo
+    public GameObject
 {
 protected:
     float phisicalDamage;
     float magicalDamage;
+
+    std::vector<GameObject*> targets;
 public:
     SkillEffect(const std::string& key);
     virtual ~SkillEffect() = default;
@@ -14,5 +16,5 @@ public:
 
     //virtual void Update(float dt);
 
-    //virtual bool IsDamaged();
+    virtual bool CheckIntersected() = 0;
 };

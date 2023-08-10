@@ -35,7 +35,7 @@ void EliteTick::Chase(float dt)
 {
 	Monster::Chase(dt);
 	
-	Buff();
+	//Buff();
 	timer += dt;
 	if (timer > skillFrequency)
 	{
@@ -45,8 +45,7 @@ void EliteTick::Chase(float dt)
 }
 
 void EliteTick::SummonTicks()
-{
-	
+{	
 	Monster* mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Tick"));
 	mob->SetPosition(position.x + spawnRange, position.y + spawnRange);
 	mob->Reset();
@@ -63,7 +62,7 @@ void EliteTick::SummonTicks()
 	mob->SetPosition(position.x - spawnRange, position.y - spawnRange);
 	mob->Reset();
 }
-
+/*
 void EliteTick::Buff()
 {
 	std::list<GameObject*> mobs;
@@ -87,3 +86,4 @@ void EliteTick::Buff()
 		}
 	}
 }
+*/

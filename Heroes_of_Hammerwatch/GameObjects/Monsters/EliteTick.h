@@ -17,5 +17,5 @@ public:
     void Chase(float dt);
 
     void SummonTicks();
-    void Buff();
+    //void Buff();
 };

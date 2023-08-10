@@ -5,20 +5,31 @@
     <ClCompile Include="Animation\AnimationController.cpp" />
     <ClCompile Include="DataTables\DataTable.cpp" />
     <ClCompile Include="DataTables\StringTable.cpp" />
+    <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
+    <ClCompile Include="DataTables\FieldItemTable.cpp" />
+    <ClCompile Include="GameObjects\SkillEffects\FallingObject.cpp" />
+    <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
+    <ClCompile Include="GameObjects\Monsters\BossGolem.cpp" />
     <ClCompile Include="GameObjects\Monsters\EliteTick.cpp" />
     <ClCompile Include="Framework\DataTableMgr.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\InputMgr.cpp" />
     <ClCompile Include="GameObjects\GameObject.cpp" />
     <ClCompile Include="GameObjects\SpriteEffect.cpp" />
+    <ClCompile Include="GameObjects\TextGo.cpp" />
     <ClCompile Include="GameObjects\VertexArray\VertexArrayGo.cpp" />
     <ClCompile Include="Global\Utils.cpp" />
+    <ClCompile Include="GameObjects\VertexArray\GridMap.cpp" />
+    <ClCompile Include="GameObjects\SkillEffects\Lurker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Framework\ResourceMgr.cpp" />
     <ClCompile Include="GameObjects\Player.cpp" />
     <ClCompile Include="GameObjects\RectangleGo.cpp" />
     <ClCompile Include="GameObjects\Monsters\Monster.cpp" />
     <ClCompile Include="DataTables\MonsterTable.cpp" />
+    <ClCompile Include="GameObjects\PlayerClass\Paladin.cpp" />
+    <ClCompile Include="DataTables\PlayerTable.cpp" />
+    <ClCompile Include="GameObjects\SkillEffects\Projectile.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
@@ -27,22 +38,8 @@
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="GameObjects\VertexArray\TileMap.cpp" />
     <ClCompile Include="Scenes\SceneEdit.cpp" />
-    <ClCompile Include="GameObjects\VertexArray\GridMap.cpp" />
-    <ClCompile Include="GameObjects\TextGo.cpp" />
-    <ClCompile Include="GameObjects\Monsters\BossGolem.cpp" />
-    <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
-    <ClCompile Include="DataTables\FieldItemTable.cpp" />
-    <ClCompile Include="GameObjects\PlayerClass\Paladin.cpp" />
-    <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
-    <ClCompile Include="Framework\SkillMgr.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="DataTables\PlayerTable.cpp" />
-=======
     <ClCompile Include="GameObjects\SkillEffects\SkillEffect.cpp" />
-    <ClCompile Include="GameObjects\SkillEffects\Projectile.cpp" />
-    <ClCompile Include="GameObjects\SkillEffects\Lurker.cpp" />
-    <ClCompile Include="GameObjects\SkillEffects\FallingObject.cpp" />
->>>>>>> origin/DH
+    <ClCompile Include="Creature.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -50,11 +47,17 @@
     <ClInclude Include="Animation\AnimationClip.h" />
     <ClInclude Include="DataTables\DataTable.h" />
     <ClInclude Include="DataTables\StringTable.h" />
+    <ClInclude Include="DataTables\EliteMonsterTable.h" />
+    <ClInclude Include="DataTables\FieldItemTable.h" />
+    <ClInclude Include="GameObjects\SkillEffects\FallingObject.h" />
+    <ClInclude Include="GameObjects\Items\FieldItem.h" />
+    <ClInclude Include="GameObjects\Monsters\BossGolem.h" />
     <ClInclude Include="GameObjects\Monsters\EliteTick.h" />
     <ClInclude Include="Framework\DataTableMgr.h" />
     <ClInclude Include="Framework\ObjectPool.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
     <ClInclude Include="GameObjects\SpriteEffect.h" />
+    <ClInclude Include="GameObjects\TextGo.h" />
     <ClInclude Include="GameObjects\VertexArray\VertexArrayGo.h" />
     <ClInclude Include="Global\Defines.h" />
     <ClInclude Include="Framework\Framework.h" />
@@ -65,6 +68,11 @@
     <ClInclude Include="GameObjects\RectangleGo.h" />
     <ClInclude Include="GameObjects\Monsters\Monster.h" />
     <ClInclude Include="DataTables\MonsterTable.h" />
+    <ClInclude Include="GameObjects\PlayerClass\Paladin.h" />
+    <ClInclude Include="GameObjects\VertexArray\GridMap.h" />
+    <ClInclude Include="DataTables\PlayerTable.h" />
+    <ClInclude Include="GameObjects\SkillEffects\Lurker.h" />
+    <ClInclude Include="GameObjects\SkillEffects\Projectile.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
@@ -75,23 +83,7 @@
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="GameObjects\VertexArray\TileMap.h" />
     <ClInclude Include="Scenes\SceneEdit.h" />
-    <ClInclude Include="GameObjects\VertexArray\GridMap.h" />
-    <ClInclude Include="GameObjects\TextGo.h" />
-    <ClInclude Include="GameObjects\Monsters\BossGolem.h" />
-    <ClInclude Include="GameObjects\Items\FieldItem.h" />
-    <ClInclude Include="DataTables\FieldItemTable.h" />
-    <ClInclude Include="GameObjects\PlayerClass\Paladin.h" />
-    <ClInclude Include="DataTables\EliteMonsterTable.h" />
-<<<<<<< HEAD
-    <ClInclude Include="SkillMgr.h" />
-    <ClInclude Include="Framework\SkillMgr.h" />
-    <ClInclude Include="DataTables\PlayerTable.h" />
-=======
-    <ClInclude Include="Framework\SkillMgr.h" />
     <ClInclude Include="GameObjects\SkillEffects\SkillEffect.h" />
-    <ClInclude Include="GameObjects\SkillEffects\Projectile.h" />
-    <ClInclude Include="GameObjects\SkillEffects\Lurker.h" />
-    <ClInclude Include="GameObjects\SkillEffects\FallingObject.h" />
->>>>>>> origin/DH
+    <ClInclude Include="Creature.h" />
   </ItemGroup>
 </Project>

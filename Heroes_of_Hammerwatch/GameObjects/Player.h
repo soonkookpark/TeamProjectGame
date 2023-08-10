@@ -1,11 +1,11 @@
 #pragma once
-#include "SpriteGo.h"
+#include "Creature.h"
 #include "AnimationController.h"
 
 class TileMap;
 class RectangleGo;
 
-class Player : public SpriteGo	
+class Player : public Creature
 {
 public:
 	struct ClipInfo
@@ -17,8 +17,9 @@ public:
 	};
 	struct PlayerInfo
 	{
+		CreatureInfo creatureInfo;
 		std::string ClassName;
-		int healthPower = 0;
+		//int healthPower = 0;
 		int manaPoint = 0;
 		int healthPowerPerLevel = 0;
 		int manaPointPerLevel = 0;
@@ -26,19 +27,19 @@ public:
 		float ManaHeal;
 		float HealthHealPerLevel;
 		float ManaHealPerLevel;
-		float Defence;
+		//float Defence;
 		float DefencePerLevel;
-		float Resistance;
+		//float Resistance;
 		float ResistancePerLevel;
-		int MoveSpeed;
+		//int MoveSpeed;
 		float AttackPower;
 		float SkillPower;
 		float CriticalRate;
 		float CriticalDamage;
 		float SkillCriticalRate;
 		float SkillCriticalDamage;
-		float EvadeRate;
-		float Exp;
+		//float EvadeRate;
+		//float Exp;
 		float ExpPerLevel;
 	};
 
@@ -51,7 +52,7 @@ protected:
 	bool filpX = false;
 	bool isGround = true;
 	bool isAnimationPlay = false;
-
+	
 	PlayerInfo pTable;
 	sf::Vector2i playerTileIndex;
 	std::vector<ClipInfo> clipInfos;
@@ -75,7 +76,7 @@ protected:
 	SightDegree lookat = SightDegree::R;
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")
-		: SpriteGo(textureId, n) {}
+		: Creature(textureId, n) {}
 	virtual ~Player() override { Release(); }
 
 	virtual void Init() override;
