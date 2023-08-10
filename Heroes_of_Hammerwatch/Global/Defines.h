@@ -60,5 +60,17 @@ enum SortLayer
 	UI = 101,
 };
 
+enum SightDegree
+{
+	R = 0, //-22.5~22.5
+	DR,
+	D,
+	DL,
+	L,
+	UL,
+	U,
+	UR,
+};
+
 
 #include "AnimationClip.h"

@@ -2,10 +2,12 @@
 #include "Scene.h"
 
 class Player;
+class Paladin;
 class TileMap;
 class GridMap;
 class UIButton;
 
+class Monster;
 class SceneGame : public Scene
 {
 protected:
@@ -14,6 +16,7 @@ protected:
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
 
+	Monster* monster = nullptr;
 public:
 	SceneGame();
 	virtual ~SceneGame() override = default;

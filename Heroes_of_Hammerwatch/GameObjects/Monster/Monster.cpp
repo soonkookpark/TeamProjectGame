@@ -10,6 +10,8 @@ Monster::Monster(const std::string& type, const std::string& name)
 {
 	origin = Origins::MC;
 	SetDatas(type);
+
+	
 }
 
 void Monster::Init()

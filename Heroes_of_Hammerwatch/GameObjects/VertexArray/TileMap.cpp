@@ -227,7 +227,7 @@ bool TileMap::LoadInfo(const std::string& filePath)
 
 sf::Vector2f TileMap::TileSize()
 {
-    return sf::Vector2f();
+    return tileSize;
 }
 
 sf::Vector2i TileMap::TileIntSize()

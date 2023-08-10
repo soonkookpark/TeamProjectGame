@@ -38,6 +38,8 @@ public:
 	void Stop();
 
 	void SetFrame(const AnimationFrame& frame);
+	void SetFrame(int frame) { currentFrame = frame; }
 	std::string GetCurrentClipId();
+	int GetCurrFrame() { return currentFrame; }
 };
 

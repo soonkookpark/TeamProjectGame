@@ -43,5 +43,7 @@ public:
 	sf::Vector2i TileIntSize();
 	sf::Vector2f TilePixelSize();
 	Tile& GetTile(int x, int y);
+
+	
 };
 

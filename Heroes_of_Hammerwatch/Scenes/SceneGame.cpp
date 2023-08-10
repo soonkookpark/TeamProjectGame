@@ -12,7 +12,7 @@
 #include "UIButton.h"
 #include "Monster.h"
 #include "EliteTick.h"
-
+#include "Paladin.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -25,10 +25,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
 	
-	player = (Player*)AddGo(new Player("","player"));
-	//player->sortLayer = 1;
-	player->SetPosition(1, 1);
-	player->SetActive(true);
+
 	
 	//TestCode
 	std::cout << "여기지남" << std::endl;
@@ -44,15 +41,14 @@ void SceneGame::Init() // 안바뀔거면 여기
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
-	button->SetPosition(windowSize.x,0.f);
-	*/
-
-	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
+	button->SetPosition(windowSize.x,0.f);*/
+	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
 	tileMap->DrawTexture("graphics/mine/tilemap.csv");
 
-	gridMap = (GridMap*)AddGo(new GridMap());
-	gridMap->DrawGrid(tileMap);
-
+	player = (Paladin*)AddGo(new Paladin());
+	player->SetPosition(100, 100);
+	player->SetActive(true);
+	player->SetTile(tileMap);
 
 	for (auto go : gameObjects)
 	{
@@ -71,6 +67,7 @@ void SceneGame::Release()
 
 void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 {
+	
 	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
 
 	auto size = FRAMEWORK.GetWindowSize();
@@ -90,6 +87,9 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 void SceneGame::Exit()
 {
+	RemoveGo(FindGo("EliteTick"));
+	delete FindGo("EliteTick");
+
 	Scene::Exit();
 }
 
@@ -112,6 +112,7 @@ void SceneGame::Update(float dt)
 	{
 		SCENE_MGR.ChangeScene(SceneId::Title);
 	}
+	//std::cout << INPUT_MGR.GetMousePos().x << ", " << INPUT_MGR.GetMousePos().y << std::endl;
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

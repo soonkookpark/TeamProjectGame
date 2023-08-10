@@ -32,6 +32,8 @@
     <ClCompile Include="GameObjects\Monster\BossGolem.cpp" />
     <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
     <ClCompile Include="DataTables\FieldItemTable.cpp" />
+    <ClCompile Include="GameObjects\PlayerClass\Paladin.cpp" />
+    <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -69,5 +71,7 @@
     <ClInclude Include="GameObjects\Monster\BossGolem.h" />
     <ClInclude Include="GameObjects\Items\FieldItem.h" />
     <ClInclude Include="DataTables\FieldItemTable.h" />
+    <ClInclude Include="GameObjects\PlayerClass\Paladin.h" />
+    <ClInclude Include="DataTables\EliteMonsterTable.h" />
   </ItemGroup>
 </Project>
