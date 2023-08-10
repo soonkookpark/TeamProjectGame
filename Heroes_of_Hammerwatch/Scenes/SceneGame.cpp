@@ -78,23 +78,33 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
+	Monster* monster = (Monster*)AddGo(new Monster("Tick"));
+	monster->SetPosition(300,300);
+
+	monster = (Monster*)AddGo(new Monster("Bat"));
+	monster->SetPosition(200,200);
 
 	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
-	ET->SetPosition(300, 300);
+	ET->SetPosition(400, 400);
 
 	Scene::Enter();
 }
 
 void SceneGame::Exit()
 {
-	RemoveGo(FindGo("EliteTick"));
-	delete FindGo("EliteTick");
-
+	for (auto GO : gameObjects)
+	{
+		if (GO->GetName() == "mob" || GO->GetName() == "EliteTick")
+		{
+			RemoveGo(GO);
+		}
+	}
 	Scene::Exit();
 }
 
 void SceneGame::Update(float dt)
 {
+
 	Scene::Update(dt);
 	
 	worldView.setCenter(player->GetPosition());

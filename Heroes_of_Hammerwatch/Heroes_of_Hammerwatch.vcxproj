@@ -159,6 +159,7 @@
     <ClCompile Include="DataTables\StringTable.cpp" />
     <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
     <ClCompile Include="DataTables\FieldItemTable.cpp" />
+    <ClCompile Include="Framework\SkillMgr.cpp" />
     <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
     <ClCompile Include="GameObjects\Monster\BossGolem.cpp" />
     <ClCompile Include="GameObjects\Monster\EliteTick.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="DataTables\StringTable.h" />
     <ClInclude Include="DataTables\EliteMonsterTable.h" />
     <ClInclude Include="DataTables\FieldItemTable.h" />
+    <ClInclude Include="Framework\SkillMgr.h" />
     <ClInclude Include="GameObjects\Items\FieldItem.h" />
     <ClInclude Include="GameObjects\Monster\BossGolem.h" />
     <ClInclude Include="GameObjects\Monster\EliteTick.h" />
