@@ -15,8 +15,6 @@ protected:
 	Player* player;
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
-
-	Monster* monster = nullptr;
 public:
 	SceneGame();
 	virtual ~SceneGame() override = default;

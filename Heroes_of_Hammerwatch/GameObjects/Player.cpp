@@ -78,7 +78,7 @@ void Player::Update(float dt)
 	{
 		pastAngle = lookat;
 	}
-	std::cout << lookat << std::endl;
+	//std::cout << lookat << std::endl;
 
 
 

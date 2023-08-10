@@ -60,28 +60,15 @@ void Monster::Update(float dt)
 
 void Monster::SetDatas(const std::string& name)
 {	
-	MonsterTable* table = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster);
-	MonsterTable::MonsterParameters param = table->Get(name);
 	this->name = name;
-	this->monsterType = param.monsterType;
-	this-> exp = param.exp;
-	this-> moveRange = param.moveRange;
-	this->moveFrequency = param.moveFrequency;
-	this->maxHealth = param.maxHealth;
-	this->armor = param.armor;
-	this->resistance = param.resistance;
-	this->attackType = param.attackType;
-	this->damage = param.damage;
-	this->physicalEvade = param.physicalEvade;
-	this->MagicalEvade = param.MagicalEvade;
-	this->searchRange = param.searchRange;
-	this->speed = param.speed;
-	this->isFlying = param.isFlying;
-	this->isMelee = param.isMelee;
-	this->attackArc = param.attackArc;
-	this->attackRange = param.attackRange;
-	textureId = "graphics/Monster/Bat.png";
-	if (isFlying)
+	param = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name);	
+
+	if(name == "Bat")
+		textureId = "graphics/Test/testBat.png";
+	else if (name == "Tick")
+		textureId = "graphics/Test/testTick.png";
+
+	if (param.isFlying)
 	{
 		sortLayer = SortLayer::A_MONSTER;
 	}
@@ -94,7 +81,7 @@ void Monster::SetDatas(const std::string& name)
 void Monster::Wander(float dt)
 {
 	dir = Utils::Normalize(destination - position);
-	SetPosition(position + (dir * dt * speed));
+	SetPosition(position + (dir * dt * param.speed));
 	if (Utils::Distance(position, destination) < 0.1)
 	{
 		state = State::DEFAULT;
@@ -104,7 +91,7 @@ void Monster::Wander(float dt)
 
 void Monster::Attack(float dt)
 {
-	if (isMelee)
+	if (param.isMelee)
 	{
 		if (meleeAttack())
 		{
@@ -121,13 +108,13 @@ void Monster::Chase(float dt)
 {
 	destination = player->GetPosition();	
 	dir = Utils::Normalize(destination - position);
-	SetPosition(position + (dir * dt * speed));
+	SetPosition(position + (dir * dt * param.speed));
 
 	if (!DetectTarget())
 	{
 		state = State::DEFAULT;
 	}
-	if (Utils::Distance(player->GetPosition(), position) < attackRange)
+	if (Utils::Distance(player->GetPosition(), position) < param.attackRange)
 	{
 		state = State::ATTACK;
 		//std::cout << "atk" << std::endl;
@@ -137,10 +124,10 @@ void Monster::Chase(float dt)
 void Monster::Default(float dt)
 {	
 	timer += dt;
-	if (Utils::RandomRange(static_cast<float>(0), timer) > moveFrequency)
+	if (Utils::RandomRange(static_cast<float>(0), timer) > param.moveFrequency)
 	{
 		timer = 0;
-		destination = originalPos + Utils::RandomInCircle(moveRange);
+		destination = originalPos + Utils::RandomInCircle(param.moveRange);
 		state = State::WANDER;
 		//std::cout << "wander" << std::endl;
 	}
@@ -154,8 +141,8 @@ void Monster::Die(float dt)
 
 void Monster::Damaged(float physicalDmg, float magicalDmg)
 {
-	physicalDmg = (1 - 1 / (1+armor/ 50)) * physicalDmg;
-	magicalDmg = (1 - 1 / (1+resistance/ 50)) * magicalDmg;
+	physicalDmg = (1 - 1 / (1+ param.armor/ 50)) * physicalDmg;
+	magicalDmg = (1 - 1 / (1+ param.resistance/ 50)) * magicalDmg;
 
 	//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
 
@@ -170,27 +157,27 @@ bool Monster::DetectTarget()
 {
 	if (player == nullptr)
 		return false;
-	return Utils::Distance(player->GetPosition(), position) < searchRange;
+	return Utils::Distance(player->GetPosition(), position) < param.searchRange;
 }
 
 void Monster::GetBuff()
 {
-	damage *= 1.5f;
-	speed *= 1.2f;
+	param.damage *= 1.5f;
+	param.speed *= 1.2f;
 	sprite.setColor({255,125,125,255});
 	isBuffed = true;
 }
 
 void Monster::LoseBuff()
 {
-	damage /= 1.5f;
-	speed /= 1.2f;
-	sprite.setColor({ 255,225,225,255 });
+	param.damage /= 1.5f;
+	param.speed /= 1.2f;
+	sprite.setColor({ 255,255,255,255 });
 	isBuffed = false;
 }
 
 bool Monster::meleeAttack()
 {
-	Utils::CircleToRect(position, attackRange, player->sprite.getGlobalBounds(), attackAngle, static_cast<float>(attackArc));
+	Utils::CircleToRect(position, param.attackRange, player->sprite.getGlobalBounds(), attackAngle, static_cast<float>(param.attackArc));
 	return false;
 }
