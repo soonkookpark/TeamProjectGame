@@ -62,6 +62,7 @@ void Monster::SetDatas(const std::string& name)
 {	
 	this->name = name;
 	param = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name);	
+
 	if(name == "Bat")
 		textureId = "graphics/Test/testBat.png";
 	else if (name == "Tick")
