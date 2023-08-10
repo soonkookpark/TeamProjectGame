@@ -128,6 +128,8 @@ void Scene::Update(float dt)
 		gameObjects.remove(go);
 	}
 	removeGameObjects.clear();
+
+	//std::cout << (int)this->sceneId << std::endl;
 }
 
 void Scene::Draw(sf::RenderWindow& window)

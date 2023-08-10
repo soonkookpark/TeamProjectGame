@@ -79,6 +79,11 @@ void Monster::SetDatas(const std::string& name)
 	this->attackArc = param.attackArc;
 	this->attackRange = param.attackRange;
 	textureId = "graphics/Bat.png";
+
+	if (isFlying)
+		sortLayer = SortLayer::A_MONSTER;
+	else
+		sortLayer = SortLayer::G_MONSTER;
 }
 
 void Monster::Wander(float dt)

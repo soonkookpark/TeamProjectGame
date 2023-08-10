@@ -15,6 +15,9 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+	
+	sf::IntRect GetTextureRect() { return sprite.getTextureRect(); }
+	sf::FloatRect GetBounds() { return sprite.getGlobalBounds(); }
 
 	sf::Text text;
 
