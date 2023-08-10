@@ -79,11 +79,7 @@ void Player::Update(float dt)
 		pastAngle = lookat;
 	}
 	//std::cout << lookat << std::endl;
-
-
-
-
-
+	
 	if (direction == sf::Vector2f{0, 0})
 	{
 		IdleAnimationPrint(lookat);
@@ -213,8 +209,8 @@ void Player::Update(float dt)
 	if (CheckTileInfo(static_cast<sf::Vector2f>(playerTileIndex)))
 	{
 
-	}
-	position += direction * speed * dt;
+	}	
+	position += direction * pTable.creatureInfo.speed * dt;
 	SetPosition(position);
 
 	/*if (direction.x != 0.f || direction.y != 0.f)
@@ -417,9 +413,9 @@ int Player::CharacterSight(float angle)
 
 }
 
-void Player::IdleAnimationPrint(int num)
+void Player::IdleAnimationPrint(SightDegree lookat)
 {
-	switch (num)
+	switch (lookat)
 	{
 	case 0 :
 		animation.Play("IdleR");
@@ -448,9 +444,9 @@ void Player::IdleAnimationPrint(int num)
 	}
 }
 
-void Player::MoveAnimationPrint(int num)
+void Player::MoveAnimationPrint(SightDegree lookat)
 {
-	switch (num)
+	switch (lookat)
 	{
 	case 0:
 		if (animation.GetCurrentClipId() == "MoveR")
@@ -517,9 +513,28 @@ void Player::BoxMaker()
 
 void Player::HealHP(int value)
 {
-	
+	curHealth += value;
+	if (curHealth > pTable.creatureInfo.maxHealth)
+		curHealth = pTable.creatureInfo.maxHealth;
 }
 
 void Player::HealMP(int value)
 {
+	curMana += value;
+	if (curMana > pTable.manaPoint)
+		curMana = pTable.manaPoint;
+}
+
+void Player::Damaged(float physicalDmg, float magicalDmg)
+{
+	physicalDmg = (1 - 1 / (1 + pTable.creatureInfo.armor / 50)) * physicalDmg;
+	magicalDmg = (1 - 1 / (1 + pTable.creatureInfo.resistance / 50)) * magicalDmg;
+
+	//대충 위에 받은 데미지 숫자 뜬다는 뜻 유틸에 넣어야 할듯
+
+	curHealth -= physicalDmg + magicalDmg;
+	if (curHealth < 0)
+	{
+		//죽을때 함수
+	}
 }

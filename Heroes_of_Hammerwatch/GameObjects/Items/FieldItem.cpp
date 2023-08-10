@@ -18,6 +18,7 @@ void FieldItem::SetDatas(const std::string& key)
 	itemType = static_cast<ItemType>(table->Get(key)[0]);
 	value = table->Get(key)[1];
 	sprite.setTexture(*RESOURCE_MGR.GetTexture(key));	
+	sortLayer = SortLayer::FIELD_ITEMS;
 }
 
 void FieldItem::Reset()
@@ -36,6 +37,7 @@ void FieldItem::Update(float dt)
 
 void FieldItem::IntersectsWithItem()
 {
+	std::cout << "플레이어가 " << (int)itemType << "번 타입의 아이템을 얻었습니다." << std::endl;
 	switch (itemType)
 	{
 	case FieldItem::ItemType::HP_POTION:

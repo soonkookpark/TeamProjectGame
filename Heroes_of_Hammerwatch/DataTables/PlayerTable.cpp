@@ -39,13 +39,9 @@ bool PlayerTable::Load()
             });
         std::cout << i << "¹ø ³¡!" << std::endl;
     }
-
-
-
-
-
 	return true;
 }
+
 PlayerTable::PlayerTable()
 	:DataTable(Ids::PlayerClass)
 {

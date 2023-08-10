@@ -13,6 +13,9 @@
 #include "Monster.h"
 #include "EliteTick.h"
 #include "Paladin.h"
+#include "BossGolem.h"
+#include "Items/FieldItem.h"
+#include "DataTableMgr.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -66,14 +69,26 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
-	Monster* monster = (Monster*)AddGo(new Monster("Tick"));
+	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
 	monster->SetPosition(300,300);
 
-	monster = (Monster*)AddGo(new Monster("Bat"));
+	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
 
-	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
+	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
 	ET->SetPosition(400, 400);
+
+	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
+	BG->SetPosition(300, 100);
+
+	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Apple")));
+	item->SetPosition(150, 100);
+
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("GoldKey")));
+	item->SetPosition(100, 150);
+
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("SmallManaStone")));
+	item->SetPosition(150, 150);
 
 	Scene::Enter();
 }

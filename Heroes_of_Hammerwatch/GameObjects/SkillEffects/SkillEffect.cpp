@@ -2,7 +2,7 @@
 #include "SkillEffect.h"
 
 SkillEffect::SkillEffect(const std::string& key)
-	:GameObject(key)
+	:Skill(key)
 {
 	SetDatas(key);
 }

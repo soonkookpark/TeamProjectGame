@@ -5,10 +5,13 @@
 BossGolem::BossGolem()
 	:Monster("BossGolem", "BossGolem")
 {
+	SetDatas("BossGolem");
+	textureId = "graphics/Test/testBoss.png";
 }
 
 void BossGolem::Update(float dt)
 {
+	Monster::Update(dt);
 }
 
 void BossGolem::SummonBats()
