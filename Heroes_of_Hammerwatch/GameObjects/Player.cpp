@@ -11,6 +11,8 @@ void Player::Init()
 	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/idleB.csv");
 	//캐릭ㅇ터 애니메이션 그리고 나오게 함.
 
+
+
 	//파일 입출력
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/idleB.csv"));
 	animation.SetTarget(&sprite);
@@ -25,7 +27,7 @@ void Player::Reset()
 	SetOrigin(origin);
 	SetPosition({ 0, 0 });
 	SetFlipX(false);
-
+	sortLayer = SortLayer::PLAYER;
 	//currentClipInfo = clipInfos[6];*/
 }
 
@@ -85,4 +87,13 @@ void Player::PlayerMove()
 {
 	direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
 	direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
+}
+
+void Player::HealHP(int value)
+{
+	
+}
+
+void Player::HealMP(int value)
+{
 }

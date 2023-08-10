@@ -8,7 +8,8 @@ public:
 		None = -1,
 		String,
 		Monster,
-		Buff,
+		EliteMonster,
+		FieldItem,
 	};
 
 	DataTable(const DataTable& other) = delete;

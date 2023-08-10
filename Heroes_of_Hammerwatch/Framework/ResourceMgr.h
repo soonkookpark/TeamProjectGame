@@ -24,6 +24,7 @@ public:
 
 	void Load(ResourceTypes t, const std::string path, bool isDefault = false);//false¸é »­.
 	//void Load(const std::vector<std::tuple<ResourceTypes, std::string>>& array);
+	void LoadTextureRect(const std::string name,const std::string path,int left, int top, int width, int height, bool isDefault = false);//false¸é »­.
 
 	void Unload(ResourceTypes t, const std::string path);
 	//void Unload(const std::vector<std::tuple<ResourceTypes, std::string>>& array);

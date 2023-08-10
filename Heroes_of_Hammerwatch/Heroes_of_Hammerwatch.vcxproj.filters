@@ -29,6 +29,9 @@
     <ClCompile Include="Scenes\SceneEdit.cpp" />
     <ClCompile Include="GameObjects\VertexArray\GridMap.cpp" />
     <ClCompile Include="GameObjects\TextGo.cpp" />
+    <ClCompile Include="GameObjects\Monster\BossGolem.cpp" />
+    <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
+    <ClCompile Include="DataTables\FieldItemTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -63,5 +66,8 @@
     <ClInclude Include="Scenes\SceneEdit.h" />
     <ClInclude Include="GameObjects\VertexArray\GridMap.h" />
     <ClInclude Include="GameObjects\TextGo.h" />
+    <ClInclude Include="GameObjects\Monster\BossGolem.h" />
+    <ClInclude Include="GameObjects\Items\FieldItem.h" />
+    <ClInclude Include="DataTables\FieldItemTable.h" />
   </ItemGroup>
 </Project>

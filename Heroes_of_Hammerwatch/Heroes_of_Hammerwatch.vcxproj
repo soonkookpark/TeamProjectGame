@@ -157,6 +157,10 @@
     <ClCompile Include="Animation\AnimationController.cpp" />
     <ClCompile Include="DataTables\DataTable.cpp" />
     <ClCompile Include="DataTables\StringTable.cpp" />
+    <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
+    <ClCompile Include="DataTables\FieldItemTable.cpp" />
+    <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
+    <ClCompile Include="GameObjects\Monster\BossGolem.cpp" />
     <ClCompile Include="GameObjects\Monster\EliteTick.cpp" />
     <ClCompile Include="Framework\DataTableMgr.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
@@ -194,6 +198,10 @@
     <ClInclude Include="Animation\AnimationClip.h" />
     <ClInclude Include="DataTables\DataTable.h" />
     <ClInclude Include="DataTables\StringTable.h" />
+    <ClInclude Include="DataTables\EliteMonsterTable.h" />
+    <ClInclude Include="DataTables\FieldItemTable.h" />
+    <ClInclude Include="GameObjects\Items\FieldItem.h" />
+    <ClInclude Include="GameObjects\Monster\BossGolem.h" />
     <ClInclude Include="GameObjects\Monster\EliteTick.h" />
     <ClInclude Include="Framework\DataTableMgr.h" />
     <ClInclude Include="Framework\ObjectPool.h" />

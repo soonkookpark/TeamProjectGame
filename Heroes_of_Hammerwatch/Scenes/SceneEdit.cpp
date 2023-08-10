@@ -226,19 +226,19 @@ void SceneEdit::Update(float dt)
 		SCENE_MGR.ChangeScene(SceneId::Game);
 	}
 	
-	if (INPUT_MGR.GetKey(sf::Keyboard::W))
+	if (INPUT_MGR.GetKey(sf::Keyboard::Up))
 	{
 		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y - 0.5);
 	}
-	if (INPUT_MGR.GetKey(sf::Keyboard::A))
+	if (INPUT_MGR.GetKey(sf::Keyboard::Left))
 	{
 		worldView.setCenter(worldView.getCenter().x - 0.5, worldView.getCenter().y);
 	}
-	if (INPUT_MGR.GetKey(sf::Keyboard::S))
+	if (INPUT_MGR.GetKey(sf::Keyboard::Down))
 	{
 		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y + 0.5);
 	}
-	if (INPUT_MGR.GetKey(sf::Keyboard::D))
+	if (INPUT_MGR.GetKey(sf::Keyboard::Right))
 	{
 		worldView.setCenter(worldView.getCenter().x + 0.5, worldView.getCenter().y);
 	}

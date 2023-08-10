@@ -25,6 +25,22 @@ void SceneGame::Init() // 안바뀔거면 여기
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
 	
+	player = (Player*)AddGo(new Player("","player"));
+	//player->sortLayer = 1;
+	player->SetPosition(1, 1);
+	player->SetActive(true);
+	
+	//TestCode
+	std::cout << "여기지남" << std::endl;
+	RectangleGo* Baggounrd = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Hi"));
+	Baggounrd->SetOrigin(Origins::ML);
+	Baggounrd->SetPosition(0, 0);
+	Baggounrd->rectangle.setFillColor(sf::Color::Blue);
+	RectangleGo* leftGround = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Bye"));
+	leftGround->SetOrigin(Origins::MR);
+	leftGround->SetPosition(0, 0);
+	leftGround->rectangle.setFillColor(sf::Color::Magenta);
+
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
@@ -66,6 +82,9 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
 
+	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
+	ET->SetPosition(300, 300);
+
 	Scene::Enter();
 }
 
@@ -78,22 +97,7 @@ void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
 	
-	if (INPUT_MGR.GetKey(sf::Keyboard::W))
-	{
-		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y - 0.5);
-	}
-	if (INPUT_MGR.GetKey(sf::Keyboard::A))
-	{
-		worldView.setCenter(worldView.getCenter().x - 0.5, worldView.getCenter().y);
-	}
-	if (INPUT_MGR.GetKey(sf::Keyboard::S))
-	{
-		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y + 0.5);
-	}
-	if (INPUT_MGR.GetKey(sf::Keyboard::D))
-	{
-		worldView.setCenter(worldView.getCenter().x + 0.5, worldView.getCenter().y);
-	}
+	worldView.setCenter(player->GetPosition());
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::PageUp))
 	{

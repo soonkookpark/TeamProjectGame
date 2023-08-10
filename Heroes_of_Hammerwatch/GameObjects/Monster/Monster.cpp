@@ -22,7 +22,7 @@ void Monster::Reset()
 	SpriteGo::Reset();
 	player = dynamic_cast<Player*>(SCENE_MGR.GetCurrScene()->FindGo("player"));
 	state = Monster::State::DEFAULT;
-	std::cout << "default" << std::endl;
+	//std::cout << "default" << std::endl;
 	timer = 0;
 }
 
@@ -33,7 +33,7 @@ void Monster::Update(float dt)
 		if (DetectTarget())
 		{
 			state = State::CHASE;
-			std::cout << "chase" << std::endl;
+			//std::cout << "chase" << std::endl;
 		}
 	}
 	switch (state)
@@ -78,12 +78,15 @@ void Monster::SetDatas(const std::string& name)
 	this->isMelee = param.isMelee;
 	this->attackArc = param.attackArc;
 	this->attackRange = param.attackRange;
-	textureId = "graphics/Bat.png";
-
+	textureId = "graphics/Monster/Bat.png";
 	if (isFlying)
+	{
 		sortLayer = SortLayer::A_MONSTER;
+	}
 	else
+	{
 		sortLayer = SortLayer::G_MONSTER;
+	}
 }
 
 void Monster::Wander(float dt)
@@ -93,7 +96,7 @@ void Monster::Wander(float dt)
 	if (Utils::Distance(position, destination) < 0.1)
 	{
 		state = State::DEFAULT;
-		std::cout << "default" << std::endl;
+		//std::cout << "default" << std::endl;
 	}
 }
 
@@ -101,7 +104,10 @@ void Monster::Attack(float dt)
 {
 	if (isMelee)
 	{
-		//근거리 공격 player skill과 공유 하는점이 많아 나중에 추가 예정
+		if (meleeAttack())
+		{
+			//플레이어 피격 함수
+		}
 	}
 	else
 	{
@@ -115,10 +121,14 @@ void Monster::Chase(float dt)
 	dir = Utils::Normalize(destination - position);
 	SetPosition(position + (dir * dt * speed));
 
+	if (!DetectTarget())
+	{
+		state = State::DEFAULT;
+	}
 	if (Utils::Distance(player->GetPosition(), position) < attackRange)
 	{
 		state = State::ATTACK;
-		std::cout << "atk" << std::endl;
+		//std::cout << "atk" << std::endl;
 	}
 }
 
@@ -130,7 +140,7 @@ void Monster::Default(float dt)
 		timer = 0;
 		destination = originalPos + Utils::RandomInCircle(moveRange);
 		state = State::WANDER;
-		std::cout << "wander" << std::endl;
+		//std::cout << "wander" << std::endl;
 	}
 }
 
@@ -163,14 +173,22 @@ bool Monster::DetectTarget()
 
 void Monster::GetBuff()
 {
-	damage *= 1.5;
-	speed *= 1.2;
+	damage *= 1.5f;
+	speed *= 1.2f;
 	sprite.setColor({255,125,125,255});
+	isBuffed = true;
 }
 
 void Monster::LoseBuff()
 {
-	damage /= 1.5;
-	speed /= 1.2;
+	damage /= 1.5f;
+	speed /= 1.2f;
 	sprite.setColor({ 255,225,225,255 });
+	isBuffed = false;
+}
+
+bool Monster::meleeAttack()
+{
+	Utils::CircleToRect(position, attackRange, player->sprite.getGlobalBounds(), attackAngle, static_cast<float>(attackArc));
+	return false;
 }

@@ -157,6 +157,13 @@ void ResourceMgr::Load(ResourceTypes t, const std::string path, bool isDefault)
 	}
 }
 
+void ResourceMgr::LoadTextureRect(const std::string name, const std::string path, int left, int top, int width, int height, bool isDefault)
+{
+	auto texture = new sf::Texture();
+	texture->loadFromFile(name, {left, top, width, height});
+	mapTexture.insert({ name, { texture, isDefault} });
+}
+
 //void ResourceMgr::Load(const std::vector<std::tuple<ResourceTypes, std::string>>& array)
 //{
 //	for (const auto& tuple : array)

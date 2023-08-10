@@ -13,7 +13,7 @@ public:
         NONE = -1,
         BEATST,
         UNDEAD,
-        BOSS,
+        STRUCTURE,
         COUNT,
     };
     enum class State
@@ -57,9 +57,10 @@ protected:
 
     Player* player = nullptr;
     sf::Vector2f destination;
+    sf::Vector2f attackAngle;
     bool isBuffed;
     float timer;
-
+    bool inAction;
 public:
     Monster(const std::string& type, const std::string& name = "mob");
     virtual ~Monster() = default;
@@ -69,7 +70,7 @@ public:
     virtual void Reset();	// √ ±‚»≠
     virtual void Update(float dt);
 
-    void SetDatas(const std::string& name);
+    virtual void SetDatas(const std::string& name);
 
     virtual void Wander(float dt);
     virtual void Attack(float dt);
@@ -84,5 +85,7 @@ public:
 
     void GetBuff();
     void LoseBuff();
+
+    bool meleeAttack();
 };
 
