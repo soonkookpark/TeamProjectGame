@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+AttackR,8,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/Tick.png,40,80,20,20
+graphics/Monster/Tick.png,100,80,20,20

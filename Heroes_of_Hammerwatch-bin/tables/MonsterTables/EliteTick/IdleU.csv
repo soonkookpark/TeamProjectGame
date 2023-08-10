@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+IdleU,8,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/EliteTick.png,32,0,32,32
+graphics/Monster/EliteTick.png,128,0,32,32

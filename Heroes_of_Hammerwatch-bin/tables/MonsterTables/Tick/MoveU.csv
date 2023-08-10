@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+MoveU,8,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/Tick.png,140,0,20,20
+graphics/Monster/Tick.png,200,0,20,20

@@ -1,16 +1,18 @@
 #pragma once
 #include "Scene.h"
-
+#include "AnimationController.h"
 class Player;
 class Paladin;
 class TileMap;
 class GridMap;
 class UIButton;
-
+class SpriteGo;
 class Monster;
 class SceneGame : public Scene
 {
 protected:
+	AnimationController animation1;
+	SpriteGo* Hi;
 	sf::FloatRect groundBounds;
 	Player* player;
 	TileMap* tileMap = nullptr;

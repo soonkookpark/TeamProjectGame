@@ -159,6 +159,7 @@
     <ClCompile Include="DataTables\StringTable.cpp" />
     <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
     <ClCompile Include="DataTables\FieldItemTable.cpp" />
+    <ClCompile Include="Framework\SkillMgr.cpp" />
     <ClCompile Include="GameObjects\SkillEffects\FallingObject.cpp" />
     <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
     <ClCompile Include="GameObjects\Monsters\BossGolem.cpp" />
@@ -197,6 +198,7 @@
     <ClCompile Include="GameObjects\VertexArray\TileMap.cpp" />
     <ClCompile Include="Scenes\SceneEdit.cpp" />
     <ClCompile Include="GameObjects\SkillEffects\SkillEffect.cpp" />
+    <ClCompile Include="GameObjects\SkillEffects\WhirlWind.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -206,6 +208,7 @@
     <ClInclude Include="DataTables\StringTable.h" />
     <ClInclude Include="DataTables\EliteMonsterTable.h" />
     <ClInclude Include="DataTables\FieldItemTable.h" />
+    <ClInclude Include="Framework\SkillMgr.h" />
     <ClInclude Include="GameObjects\SkillEffects\FallingObject.h" />
     <ClInclude Include="GameObjects\Items\FieldItem.h" />
     <ClInclude Include="GameObjects\Monsters\BossGolem.h" />
@@ -240,8 +243,8 @@
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="GameObjects\VertexArray\TileMap.h" />
     <ClInclude Include="Scenes\SceneEdit.h" />
-    
     <ClInclude Include="GameObjects\SkillEffects\SkillEffect.h" />
+    <ClInclude Include="GameObjects\SkillEffects\WhirlWind.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
