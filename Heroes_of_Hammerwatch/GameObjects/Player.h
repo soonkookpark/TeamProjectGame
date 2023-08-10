@@ -17,29 +17,29 @@ public:
 	};
 	struct PlayerInfo
 	{
-		/*ClassName
-		HealthPower
-		ManaPoint
-		HealthPowerPerLevel
-		ManaPointPerLevel
-		HealthHeal
-		ManaHeal
-		HealthHealPerLevel
-		ManaHealPerLevel
-		Defence
-		DefencePerLevel
-		Resistance
-		ResistancePerLevel
-		MoveSpeed
-		AttackPower
-		SkillPower
-		CriticalRate
-		CriticalDamage
-		SkillCriticalRate
-		SkillCriticalDamage
-		EvadeRate
-		Exp
-		ExpPerLevel*/
+		std::string ClassName;
+		int healthPower = 0;
+		int manaPoint = 0;
+		int healthPowerPerLevel = 0;
+		int manaPointPerLevel = 0;
+		float HealthHeal;
+		float ManaHeal;
+		float HealthHealPerLevel;
+		float ManaHealPerLevel;
+		float Defence;
+		float DefencePerLevel;
+		float Resistance;
+		float ResistancePerLevel;
+		int MoveSpeed;
+		float AttackPower;
+		float SkillPower;
+		float CriticalRate;
+		float CriticalDamage;
+		float SkillCriticalRate;
+		float SkillCriticalDamage;
+		float EvadeRate;
+		float Exp;
+		float ExpPerLevel;
 	};
 
 protected:
@@ -52,7 +52,7 @@ protected:
 	bool isGround = true;
 	bool isAnimationPlay = false;
 
-
+	PlayerInfo pTable;
 	sf::Vector2i playerTileIndex;
 	std::vector<ClipInfo> clipInfos;
 	ClipInfo currentClipInfo;
@@ -82,6 +82,7 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+	void SetDatas(const std::string& name);
 	bool GetFlipX() const;
 	void SetFlipX(bool filp);
 	void PlayerMove();

@@ -2,5 +2,5 @@ ID,FPS,LOOPTYPE,,
 MoveDR,8,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/Paladin.png,168,23,24,20
-graphics/Paladin.png,168,0,24,20
+graphics/Player/Paladin.png,168,23,24,20
+graphics/Player/Paladin.png,168,0,24,20

@@ -24,19 +24,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	Release();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
-	
 
-	
-	//TestCode
-	std::cout << "여기지남" << std::endl;
-	RectangleGo* Baggounrd = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Hi"));
-	Baggounrd->SetOrigin(Origins::ML);
-	Baggounrd->SetPosition(0, 0);
-	Baggounrd->rectangle.setFillColor(sf::Color::Blue);
-	RectangleGo* leftGround = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Bye"));
-	leftGround->SetOrigin(Origins::MR);
-	leftGround->SetPosition(0, 0);
-	leftGround->rectangle.setFillColor(sf::Color::Magenta);
 
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
@@ -78,23 +66,33 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
+	Monster* monster = (Monster*)AddGo(new Monster("Tick"));
+	monster->SetPosition(300,300);
+
+	monster = (Monster*)AddGo(new Monster("Bat"));
+	monster->SetPosition(200,200);
 
 	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
-	ET->SetPosition(300, 300);
+	ET->SetPosition(400, 400);
 
 	Scene::Enter();
 }
 
 void SceneGame::Exit()
 {
-	RemoveGo(FindGo("EliteTick"));
-	delete FindGo("EliteTick");
-
+	for (auto GO : gameObjects)
+	{
+		if (GO->GetName() == "mob" || GO->GetName() == "EliteTick")
+		{
+			RemoveGo(GO);
+		}
+	}
 	Scene::Exit();
 }
 
 void SceneGame::Update(float dt)
 {
+
 	Scene::Update(dt);
 	
 	worldView.setCenter(player->GetPosition());

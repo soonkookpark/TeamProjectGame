@@ -28,7 +28,7 @@ void EliteTick::SetDatas(const std::string& name)
 	spawnRange = EliteTickTable["spawnRange"];
 	skillFrequency = EliteTickTable["skillFrequency"];
 	buffRange = EliteTickTable["buffRange"];
-	textureId = "graphics/Monster/EliteTick.png";
+	textureId = "graphics/Test/testElite.png";
 }
 
 void EliteTick::Chase(float dt)

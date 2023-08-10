@@ -2,4 +2,4 @@ ID,FPS,LOOPTYPE,,
 IdleDL,8,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/Paladin.png,120,0,24,20
+graphics/Player/Paladin.png,120,0,24,20

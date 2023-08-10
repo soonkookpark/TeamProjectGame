@@ -2,7 +2,7 @@
 #include "Paladin.h"
 #include "ResourceMgr.h"
 
-Paladin::Paladin() 
+Paladin::Paladin()
 {
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUR.csv"));
@@ -22,4 +22,6 @@ Paladin::Paladin()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDR.csv"));
 
 	animation.SetTarget(&sprite);
+	SetDatas("Paladin");
 }
+
