@@ -3,12 +3,14 @@
 #include "StringTable.h"
 #include "MonsterTable.h"
 #include "EliteMonsterTable.h"
+#include "PlayerTable.h"
 
 void DataTableMgr::LoadAll()
 {
 	tables.insert({ DataTable::Ids::String, new StringTable() });
 	tables.insert({ DataTable::Ids::Monster, new MonsterTable() });
 	tables.insert({ DataTable::Ids::EliteMonster, new EliteMonsterTable() });
+	tables.insert({ DataTable::Ids::PlayerClass, new PlayerTable() });
 
 	for (auto pair : tables)
 	{

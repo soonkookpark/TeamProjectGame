@@ -2,5 +2,5 @@ ID,FPS,LOOPTYPE,,
 MoveUL,8,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/Paladin.png,72,23,24,20
-graphics/Paladin.png,72,0,24,20
+graphics/Player/Paladin.png,72,23,24,20
+graphics/Player/Paladin.png,72,0,24,20

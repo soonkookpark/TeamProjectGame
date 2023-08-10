@@ -34,6 +34,8 @@
     <ClCompile Include="DataTables\FieldItemTable.cpp" />
     <ClCompile Include="GameObjects\PlayerClass\Paladin.cpp" />
     <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
+    <ClCompile Include="Framework\SkillMgr.cpp" />
+    <ClCompile Include="DataTables\PlayerTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -73,5 +75,8 @@
     <ClInclude Include="DataTables\FieldItemTable.h" />
     <ClInclude Include="GameObjects\PlayerClass\Paladin.h" />
     <ClInclude Include="DataTables\EliteMonsterTable.h" />
+    <ClInclude Include="SkillMgr.h" />
+    <ClInclude Include="Framework\SkillMgr.h" />
+    <ClInclude Include="DataTables\PlayerTable.h" />
   </ItemGroup>
 </Project>

@@ -24,19 +24,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	Release();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
-	
 
-	
-	//TestCode
-	std::cout << "여기지남" << std::endl;
-	RectangleGo* Baggounrd = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Hi"));
-	Baggounrd->SetOrigin(Origins::ML);
-	Baggounrd->SetPosition(0, 0);
-	Baggounrd->rectangle.setFillColor(sf::Color::Blue);
-	RectangleGo* leftGround = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Bye"));
-	leftGround->SetOrigin(Origins::MR);
-	leftGround->SetPosition(0, 0);
-	leftGround->rectangle.setFillColor(sf::Color::Magenta);
 
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);

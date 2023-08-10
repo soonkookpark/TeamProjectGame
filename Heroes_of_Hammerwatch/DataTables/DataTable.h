@@ -10,6 +10,7 @@ public:
 		Monster,
 		EliteMonster,
 		FieldItem,
+		PlayerClass,
 	};
 
 	DataTable(const DataTable& other) = delete;

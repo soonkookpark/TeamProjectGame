@@ -7,15 +7,10 @@
 #include "RectangleGo.h"
 #include "SceneMgr.h"
 #include "SceneGame.h"
+#include "PlayerTable.h"
+#include "DataTableMgr.h"
 void Player::Init()
 {
-	//애니메이션 csv 
-
-	RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/MoveR.csv");
-	//캐릭ㅇ터 애니메이션 그리고 나오게 함.
-	
-	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/idleF.csv");
-	
 	//파일 입출력
 	/*animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUR.csv"));
@@ -43,19 +38,16 @@ void Player::Init()
 	box.setOutlineColor(sf::Color::Red);
 	box.setOutlineThickness(1);
 
-	//clipInfos.push_back({ "IdleS", "MoveS", false, Utils::Normalize({ -1.f, -1.f }) });
-	//clipInfos.push_back({ "IdleB", "MoveB", true, {0.f, -1.f} });
-	//clipInfos.push_back({ "IdleS", "MoveS", true, Utils::Normalize({ 1.f, -1.f }) });
 
-	//clipInfos.push_back({ "IdleS", "MoveS", false, {-1.f, 0.f} });
-	//clipInfos.push_back({ "IdleS", "MoveS", true, {1.f, 0.f} });
-
-	//clipInfos.push_back({ "IdleS", "MoveS", false, Utils::Normalize({ -1.f, 1.f }) });
-	//clipInfos.push_back({ "IdleF", "MoveF", true,{0.f, 1.f} });
-	//clipInfos.push_back({ "IdleS", "MoveS", true, Utils::Normalize({ 1.f, 1.f }) });
 	
 	sortLayer = SortLayer::PLAYER;
 
+}
+
+void Player::SetDatas(const std::string& name)
+{
+	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name);
+	
 }
 
 void Player::Reset()
@@ -211,6 +203,7 @@ void Player::Update(float dt)
 	
 	/*std::string clipId = magnitude == 0.f ? currentClipInfo.idle : currentClipInfo.move;
 	if (animation.GetCurrentClipId() != clipId)
+
 	{
 		animation.Play(clipId);
 	}*/
@@ -520,6 +513,7 @@ void Player::BoxMaker()
 		}
 	}
 }
+
 
 void Player::HealHP(int value)
 {
