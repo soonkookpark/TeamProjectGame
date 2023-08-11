@@ -81,6 +81,7 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	//test
 	Hi->SetPosition(player->GetPosition());
 	Hi->sortLayer = 205;
+	Hi->sprite.setScale(2.4, 2.4);
 	Scene::Enter();
 }
 
@@ -120,7 +121,7 @@ void SceneGame::Update(float dt)
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F11))
 	{
 		animation1.Play("AttackD");
-	
+		
 	}
 	animation1.Update(dt);
 

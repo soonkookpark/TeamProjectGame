@@ -2,6 +2,8 @@
 #include "Player.h"
 class Paladin :	public Player
 {
+	
+
 private:
 public:
 	Paladin();
