@@ -188,7 +188,7 @@
     <ClCompile Include="DataTables\MonsterTable.cpp" />
     <ClCompile Include="GameObjects\PlayerClass\Paladin.cpp" />
     <ClCompile Include="DataTables\PlayerTable.cpp" />
-    <ClCompile Include="GameObjects\Skills\Projectile.cpp" />
+    <ClCompile Include="GameObjects\Skills\RangeAttack.cpp" />
     <ClCompile Include="GameObjects\Skills\PassiveSkill.cpp" />
     <ClCompile Include="GameObjects\Skills\MeleeAttack.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
@@ -234,7 +234,7 @@
     <ClInclude Include="GameObjects\VertexArray\GridMap.h" />
     <ClInclude Include="DataTables\PlayerTable.h" />
     <ClInclude Include="GameObjects\Skills\Lurker.h" />
-    <ClInclude Include="GameObjects\Skills\Projectile.h" />
+    <ClInclude Include="GameObjects\Skills\RangeAttack.h" />
     <ClInclude Include="GameObjects\Skills\PassiveSkill.h" />
     <ClInclude Include="GameObjects\Skills\MeleeAttack.h" />
     <ClInclude Include="Scenes\Scene.h" />

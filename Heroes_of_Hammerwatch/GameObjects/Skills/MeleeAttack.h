@@ -6,8 +6,6 @@ class MeleeAttack :
 protected:
     float attackAngle = 0;
     float attackRange = 0;
-
-    sf::Sprite* sprite;
 public:
     MeleeAttack(const std::string& key);
     virtual ~MeleeAttack() = default;

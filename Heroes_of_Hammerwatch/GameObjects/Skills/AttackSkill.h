@@ -10,9 +10,8 @@ protected:
     float magicalDamage;
 
     std::vector<Creature*> targets;
-    sf::Keyboard::Key pressed;
 public:
-    AttackSkill(const std::string& key, sf::Keyboard::Key pressed);
+    AttackSkill(const std::string& key);
     virtual ~AttackSkill() = default;
 
     virtual void SetData(const std::string& key);

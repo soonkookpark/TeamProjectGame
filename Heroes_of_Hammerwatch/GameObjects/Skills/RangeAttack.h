@@ -1,6 +1,6 @@
 #pragma once
 #include "AttackSkill.h"
-class Projectile :
+class RangeAttack :
     public AttackSkill
 {
 };

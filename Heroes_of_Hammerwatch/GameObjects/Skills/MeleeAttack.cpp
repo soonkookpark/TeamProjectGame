@@ -3,7 +3,7 @@
 #include "Creature.h"
 
 MeleeAttack::MeleeAttack(const std::string& key)
-	:AttackSkill(key,sf::Keyboard::A)
+	:AttackSkill(key)
 {
 }
 
