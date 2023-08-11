@@ -33,7 +33,7 @@ public:
         //float armor = 0;
         //float resistance = 0;
         //AttackType attackType;
-        //float damage = 0;
+        float damage = 0;
         bool isMelee = true;
         bool isFlying = false;
         float searchRange = 0;
@@ -47,8 +47,6 @@ public:
         Monster::MonsterType monsterType;
     };
 protected:
-    std::string name;
-
     MonsterParameters param;
 
     State state = State::DEFAULT;
@@ -57,7 +55,6 @@ protected:
 
     Player* player = nullptr;
     sf::Vector2f destination;
-    sf::Vector2f attackAngle;
     bool isBuffed;
     float timer;
     bool inAction;
@@ -70,7 +67,7 @@ public:
     virtual void Reset();	// √ ±‚»≠
     virtual void Update(float dt);
 
-    virtual void SetDatas(const std::string& name);
+    virtual void SetData(const std::string& name);
 
     virtual void Wander(float dt);
     virtual void Attack(float dt);

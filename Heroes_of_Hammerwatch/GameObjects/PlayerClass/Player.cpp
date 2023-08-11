@@ -37,14 +37,12 @@ void Player::Init()
 	box.setFillColor(sf::Color::Transparent);
 	box.setOutlineColor(sf::Color::Red);
 	box.setOutlineThickness(1);
-
-
-	
+		
 	sortLayer = SortLayer::PLAYER;
 
 }
 
-void Player::SetDatas(const std::string& name)
+void Player::SetData(const std::string& name)
 {
 	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name);
 	

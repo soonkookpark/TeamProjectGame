@@ -9,10 +9,10 @@
 FieldItem::FieldItem(const std::string& key)
 	:SpriteGo("","FieldItem")
 {
-	SetDatas(key);
+	SetData(key);
 }
 
-void FieldItem::SetDatas(const std::string& key)
+void FieldItem::SetData(const std::string& key)
 {
 	FieldItemTable* table = DATATABLE_MGR.Get<FieldItemTable>(DataTable::Ids::FieldItem);
 	itemType = static_cast<ItemType>(table->Get(key)[0]);
@@ -37,7 +37,16 @@ void FieldItem::Update(float dt)
 
 void FieldItem::IntersectsWithItem()
 {
-	std::cout << "플레이어가 " << (int)itemType << "번 타입의 아이템을 얻었습니다." << std::endl;
+	std::string itemTypes[(int)ItemType::COUNT] =
+	{
+		"HP_POTION",
+		"MP_POTION",
+		"MONEY",
+		"ORE",
+		"KEY",
+		"ITEM",
+	};
+	std::cout << "플레이어가 " << itemTypes[(int)itemType] << " 타입의 아이템을 얻었습니다." << std::endl;
 	switch (itemType)
 	{
 	case FieldItem::ItemType::HP_POTION:

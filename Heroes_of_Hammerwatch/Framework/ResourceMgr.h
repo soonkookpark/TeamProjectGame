@@ -33,7 +33,7 @@ public:
 	sf::Texture* GetTexture(const std::string& id);
 	sf::Font* GetFont(const std::string& id);
 	sf::SoundBuffer* GetSoundBuffer(const std::string& id);
-	AnimationClip* GetAnimationClip(const std::string& id);
+	AnimationClip* GetAnimationClip(const std::string& id);	
 };
 
 #define RESOURCE_MGR (ResourceMgr::Instance())

@@ -9,7 +9,7 @@ Monster::Monster(const std::string& type, const std::string& name)
 	:Creature("",name)
 {
 	origin = Origins::MC;
-	SetDatas(type);
+	SetData(type);
 
 	
 }
@@ -58,7 +58,7 @@ void Monster::Update(float dt)
 	}
 }
 
-void Monster::SetDatas(const std::string& name)
+void Monster::SetData(const std::string& name)
 {	
 	this->name = name;
 	param = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name);	

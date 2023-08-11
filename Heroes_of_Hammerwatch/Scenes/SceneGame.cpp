@@ -97,7 +97,7 @@ void SceneGame::Exit()
 {
 	for (auto GO : gameObjects)
 	{
-		if (GO->GetName() == "mob" || GO->GetName() == "EliteTick")
+		if (GO->GetName() == "mob" || GO->GetName() == "EliteTick" || GO->GetName() == "BossGolem" || GO->GetName() == "FieldItem")
 		{
 			RemoveGo(GO);
 		}

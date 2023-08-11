@@ -12,5 +12,7 @@ public:
     virtual void Reset() override;
     virtual void Update(float dt) override;
     virtual void Draw(sf::RenderWindow& window) override;
+
+    virtual void Active() = 0;
 };
 

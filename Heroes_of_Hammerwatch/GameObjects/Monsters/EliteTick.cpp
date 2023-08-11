@@ -8,7 +8,7 @@
 EliteTick::EliteTick()
 	:Monster("EliteTick", "EliteTick")
 {	
-	SetDatas("EliteTick");
+	SetData("EliteTick");
 }
 
 void EliteTick::Update(float dt)
@@ -20,9 +20,9 @@ void EliteTick::Update(float dt)
 	}
 }
 
-void EliteTick::SetDatas(const std::string& name)
+void EliteTick::SetData(const std::string& name)
 {
-	Monster::SetDatas(name);
+	Monster::SetData(name);
 	EliteMonsterTable* dataTable = DATATABLE_MGR.Get<EliteMonsterTable>(DataTable::Ids::EliteMonster);
 	std::unordered_map<std::string, float> EliteTickTable = dataTable->Get(name);
 	spawnRange = EliteTickTable["spawnRange"];

@@ -64,8 +64,7 @@ protected:
 	sf::RectangleShape box;
 	sf::Vector2f agoTile;
 	sf::Vector2f newTile;
-	RectangleGo* testRect;
-	sf::Vector2f look;
+	RectangleGo* testRect;	
 	
 	float angle = 0.f;
 	float pastAngle = 0.f;
@@ -83,7 +82,7 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
-	void SetDatas(const std::string& name);
+	void SetData(const std::string& name);
 	bool GetFlipX() const;
 	void SetFlipX(bool filp);
 	void PlayerMove();

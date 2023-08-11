@@ -20,7 +20,7 @@ bool MonsterTable::Load()
                     doc.GetCell<float>(1,i),
                 },
                 //static_cast<AttackType>(doc.GetCell<int>(5,i)),
-                //doc.GetCell<float>(6,i),
+                doc.GetCell<float>(6,i),
                 static_cast<bool>(doc.GetCell<int>(7,i)),
                 static_cast<bool>(doc.GetCell<int>(8,i)),
                 doc.GetCell<float>(9,i),

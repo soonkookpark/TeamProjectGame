@@ -5,7 +5,7 @@
 BossGolem::BossGolem()
 	:Monster("BossGolem", "BossGolem")
 {
-	SetDatas("BossGolem");
+	SetData("BossGolem");
 	textureId = "graphics/Test/testBoss.png";
 }
 

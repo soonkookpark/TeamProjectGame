@@ -13,7 +13,7 @@ public:
 
     virtual void Update(float dt);
 
-    virtual void SetDatas(const std::string& name);
+    virtual void SetData(const std::string& name);
     void Chase(float dt);
 
     void SummonTicks();
