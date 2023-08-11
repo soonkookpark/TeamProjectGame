@@ -4,6 +4,7 @@
 #include "MonsterTable.h"
 #include "EliteMonsterTable.h"
 #include "PlayerTable.h"
+#include "FieldItemTable.h"
 
 void DataTableMgr::LoadAll()
 {
@@ -11,6 +12,7 @@ void DataTableMgr::LoadAll()
 	tables.insert({ DataTable::Ids::Monster, new MonsterTable() });
 	tables.insert({ DataTable::Ids::EliteMonster, new EliteMonsterTable() });
 	tables.insert({ DataTable::Ids::PlayerClass, new PlayerTable() });
+	tables.insert({ DataTable::Ids::FieldItem, new FieldItemTable() });
 
 	for (auto pair : tables)
 	{

@@ -6,7 +6,7 @@ class FieldItemTable :
 protected:
     std::map<std::string,std::vector<int>> tables;
 public:
-    FieldItemTable();
+    FieldItemTable() : DataTable(DataTable::Ids::FieldItem) {};
     virtual ~FieldItemTable() = default;
     // DataTable을(를) 통해 상속됨
     virtual bool Load() override;

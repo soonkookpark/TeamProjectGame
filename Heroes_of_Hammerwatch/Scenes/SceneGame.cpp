@@ -13,7 +13,9 @@
 #include "Monster.h"
 #include "EliteTick.h"
 #include "Paladin.h"
-#include "SpriteGo.h"
+#include "BossGolem.h"
+#include "Items/FieldItem.h"
+#include "DataTableMgr.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -25,7 +27,6 @@ void SceneGame::Init() // 안바뀔거면 여기
 	Release();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
-	Hi = (SpriteGo*)AddGo(new SpriteGo("", "Hi"));
 
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
@@ -38,9 +39,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	player->SetPosition(100, 100);
 	player->SetActive(true);
 	player->SetTile(tileMap);
-	//testcode
-	animation1.AddClip(*RESOURCE_MGR.GetAnimationClip("tables/MonsterTables/EliteTick/AttackD.csv"));
-	animation1.SetTarget(&Hi->sprite);
+
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -69,19 +68,27 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
-	Monster* monster = (Monster*)AddGo(new Monster("Tick"));
+	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
 	monster->SetPosition(300,300);
 
-	monster = (Monster*)AddGo(new Monster("Bat"));
+	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
 
-	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
+	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
 	ET->SetPosition(400, 400);
 
-	//test
-	Hi->SetPosition(player->GetPosition());
-	Hi->sortLayer = 205;
-	Hi->sprite.setScale(2.4, 2.4);
+	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
+	BG->SetPosition(300, 100);
+
+	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Apple")));
+	item->SetPosition(150, 100);
+
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("GoldKey")));
+	item->SetPosition(100, 150);
+
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("SmallManaStone")));
+	item->SetPosition(150, 150);
+
 	Scene::Enter();
 }
 
@@ -89,7 +96,7 @@ void SceneGame::Exit()
 {
 	for (auto GO : gameObjects)
 	{
-		if (GO->GetName() == "mob" || GO->GetName() == "EliteTick")
+		if (GO->GetName() == "mob" || GO->GetName() == "EliteTick" || GO->GetName() == "BossGolem" || GO->GetName() == "FieldItem")
 		{
 			RemoveGo(GO);
 		}
@@ -117,14 +124,6 @@ void SceneGame::Update(float dt)
 	{
 		SCENE_MGR.ChangeScene(SceneId::Title);
 	}
-
-	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F11))
-	{
-		animation1.Play("AttackD");
-		
-	}
-	animation1.Update(dt);
-
 	//std::cout << INPUT_MGR.GetMousePos().x << ", " << INPUT_MGR.GetMousePos().y << std::endl;
 }
 

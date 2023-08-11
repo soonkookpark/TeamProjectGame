@@ -1,18 +1,17 @@
 #pragma once
 #include "Scene.h"
-#include "AnimationController.h"
+#include "Creature.h"
+
 class Player;
 class Paladin;
 class TileMap;
 class GridMap;
 class UIButton;
-class SpriteGo;
+
 class Monster;
 class SceneGame : public Scene
 {
 protected:
-	AnimationController animation1;
-	SpriteGo* Hi;
 	sf::FloatRect groundBounds;
 	Player* player;
 	TileMap* tileMap = nullptr;
@@ -28,6 +27,5 @@ public:
 	virtual void Exit() override;
 
 	virtual void Update(float dt) override;
-	virtual void Draw(sf::RenderWindow& window) override;
+	virtual void Draw(sf::RenderWindow& window) override;		
 };
-

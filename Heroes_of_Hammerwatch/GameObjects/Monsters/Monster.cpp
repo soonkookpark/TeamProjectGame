@@ -6,10 +6,10 @@
 #include "MonsterTable.h"
 
 Monster::Monster(const std::string& type, const std::string& name)
-	:SpriteGo("",name)
+	:Creature("",name)
 {
 	origin = Origins::MC;
-	SetDatas(type);
+	SetData(type);
 
 	
 }
@@ -58,7 +58,7 @@ void Monster::Update(float dt)
 	}
 }
 
-void Monster::SetDatas(const std::string& name)
+void Monster::SetData(const std::string& name)
 {	
 	this->name = name;
 	param = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name);	
@@ -80,8 +80,8 @@ void Monster::SetDatas(const std::string& name)
 
 void Monster::Wander(float dt)
 {
-	dir = Utils::Normalize(destination - position);
-	SetPosition(position + (dir * dt * param.speed));
+	dir = Utils::Normalize(destination - position);	
+	SetPosition(position + (dir * dt * param.creatureInfo.speed));
 	if (Utils::Distance(position, destination) < 0.1)
 	{
 		state = State::DEFAULT;
@@ -93,10 +93,7 @@ void Monster::Attack(float dt)
 {
 	if (param.isMelee)
 	{
-		if (meleeAttack())
-		{
-			//플레이어 피격 함수
-		}
+		//근거리 공격 player skill과 공유 하는점이 많아 나중에 추가 예정
 	}
 	else
 	{
@@ -108,7 +105,7 @@ void Monster::Chase(float dt)
 {
 	destination = player->GetPosition();	
 	dir = Utils::Normalize(destination - position);
-	SetPosition(position + (dir * dt * param.speed));
+	SetPosition(position + (dir * dt * param.creatureInfo.speed));
 
 	if (!DetectTarget())
 	{
@@ -141,8 +138,8 @@ void Monster::Die(float dt)
 
 void Monster::Damaged(float physicalDmg, float magicalDmg)
 {
-	physicalDmg = (1 - 1 / (1+ param.armor/ 50)) * physicalDmg;
-	magicalDmg = (1 - 1 / (1+ param.resistance/ 50)) * magicalDmg;
+	physicalDmg = (1 - 1 / (1+ param.creatureInfo.armor/ 50)) * physicalDmg;
+	magicalDmg = (1 - 1 / (1+ param.creatureInfo.resistance/ 50)) * magicalDmg;
 
 	//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
 
@@ -159,7 +156,7 @@ bool Monster::DetectTarget()
 		return false;
 	return Utils::Distance(player->GetPosition(), position) < param.searchRange;
 }
-
+/*
 void Monster::GetBuff()
 {
 	param.damage *= 1.5f;
@@ -181,3 +178,4 @@ bool Monster::meleeAttack()
 	Utils::CircleToRect(position, param.attackRange, player->sprite.getGlobalBounds(), attackAngle, static_cast<float>(param.attackArc));
 	return false;
 }
+*/

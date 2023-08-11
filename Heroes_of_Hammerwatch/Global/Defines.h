@@ -53,6 +53,7 @@ enum SortLayer
 {
 	//SortLayer °ª Á¤ÀÇ
 	TILE = 0,
+	FIELD_ITEMS,
 	PLAYER,
 	G_MONSTER,
 	WALL,
