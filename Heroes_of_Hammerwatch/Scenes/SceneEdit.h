@@ -5,6 +5,7 @@ class UIButton;
 class TextGo;
 class TileMap;
 class GridMap;
+class OnTileMap;
 class RectangleGo;
 
 struct TileOnMouse
@@ -33,6 +34,7 @@ protected:
 
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
+	OnTileMap* onTileMap = nullptr;
 
 	TileOnMouse tileOnMouse;
 
@@ -56,6 +58,6 @@ public:
 
 	void SetTileSelector(const std::string& filePath, int idx);
 	
-	const std::wstring GetLoadPathWithWindow();
+	const std::string GetLoadPathWithWindow();
 	const std::wstring GetSavePathWithWindow();
 };

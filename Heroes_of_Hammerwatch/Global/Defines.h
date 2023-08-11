@@ -80,4 +80,10 @@ struct TileInfo
 	int index;
 };
 
+struct Tile
+{
+	int x = 0;
+	int y = 0;
+	int texIndex = 0;
+};
 #include "AnimationClip.h"

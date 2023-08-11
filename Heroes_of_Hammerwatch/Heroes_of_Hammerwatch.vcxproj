@@ -184,6 +184,7 @@
     <ClCompile Include="GameObjects\Monster\Monster.cpp" />
     <ClCompile Include="DataTables\MonsterTable.cpp" />
     <ClCompile Include="GameObjects\PlayerClass\Paladin.cpp" />
+    <ClCompile Include="GameObjects\VertexArray\OnTileMap.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="DataTables\MonsterTable.h" />
     <ClInclude Include="GameObjects\PlayerClass\Paladin.h" />
     <ClInclude Include="GameObjects\VertexArray\GridMap.h" />
+    <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Framework\SceneMgr.h" />

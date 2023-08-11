@@ -9,6 +9,7 @@
 #include "Framework.h"
 #include "TileMap.h"
 #include "GridMap.h"
+#include "OnTileMap.h"
 #include "RectangleGo.h"
 #include <string>
 
@@ -29,6 +30,11 @@ SceneEdit::SceneEdit() : Scene(SceneId::Title)
 
 void SceneEdit::Init()
 {
+	{
+		std::string abc = GetLoadPathWithWindow();
+		std::cout << abc << std::endl;
+	}
+
 	Release();
 	windowSize = FRAMEWORK.GetWindowSize();
 
@@ -120,6 +126,9 @@ void SceneEdit::Init()
 		GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
 		tempGridMap->DrawGrid(col, row, 16);
 
+		OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+		tempOnTileMap->LoadDrawOnTile(tempTileMap);
+
 
 		if (tileMap != nullptr)
 		{
@@ -133,9 +142,17 @@ void SceneEdit::Init()
 			delete gridMap;
 			gridMap = nullptr;
 		}
+		if (onTileMap != nullptr)
+		{
+			RemoveGo(onTileMap);
+			delete onTileMap;
+			onTileMap = nullptr;
+		}
+
 
 		tileMap = tempTileMap;
 		gridMap = tempGridMap;
+		onTileMap = tempOnTileMap;
 	};
 
 	save->sortLayer = SortLayer::UI;
@@ -150,8 +167,6 @@ void SceneEdit::Init()
 	load->SetPosition(windowSize.x - 120, 20);
 	load->OnClick = [this]()
 	{
-		//std::string abc = Utils::WstringToString(GetLoadPathWithWindow());
-		//std::cout << abc << std::endl;
 
 		TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
 		tempTileMap->LoadDrawTexture("save/new.csv");
@@ -250,6 +265,7 @@ void SceneEdit::Update(float dt)
 	{
 		int idx = tileOnMouse.tileIndex;
 		tileMap->ChangeTile(tileIndex.x, tileIndex.y, idx);
+		onTileMap->ChangeTile(tileIndex.x, tileIndex.y, idx);
 	}
 	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Right))
 	{
@@ -286,6 +302,18 @@ void SceneEdit::Update(float dt)
 	{
 		worldView.zoom(1.1f);
 	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F1))
+	{
+		tileMap->SetActive(!tileMap->GetActive());
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F2))
+	{
+		gridMap->SetActive(!gridMap->GetActive());
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F3))
+	{
+		onTileMap->SetActive(!onTileMap->GetActive());
+	}
 }
 
 void SceneEdit::Draw(sf::RenderWindow& window)
@@ -293,13 +321,12 @@ void SceneEdit::Draw(sf::RenderWindow& window)
 	Scene::Draw(window);
 }
 
-const std::wstring SceneEdit::GetLoadPathWithWindow()
+const std::string SceneEdit::GetLoadPathWithWindow()
 {
 	OPENFILENAME OFN;
 	TCHAR filePathName[100] = L"";
 	TCHAR lpstrFile[100] = L"";
-	//static TCHAR filter[] = L"모든 파일\0*.*\0JSON 파일\0*.json";
-	static TCHAR filter[] = L"CSV 파일\0*.csv";
+	static TCHAR filter[] = L"모든 파일\0*.*\0텍스트 파일\0*.txt\0csv 파일\0*.csv";
 
 	memset(&OFN, 0, sizeof(OPENFILENAME));
 	OFN.lStructSize = sizeof(OPENFILENAME);
@@ -309,15 +336,41 @@ const std::wstring SceneEdit::GetLoadPathWithWindow()
 	OFN.nMaxFile = 100;
 	OFN.lpstrInitialDir = L".";
 
-	if (GetOpenFileName(&OFN) != 0)
-	{
-		//wsprintf(filePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
-		//MessageBox(FRAMEWORK.GetHWnd(), filePathName, L"열기 선택", MB_OK);
-		
-		return OFN.lpstrFile;
-	}
+	if (GetOpenFileName(&OFN) != 0) {
+		wsprintf(filePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
+		MessageBox(FRAMEWORK.GetHWnd() , filePathName, L"열기 선택", MB_OK);
 
-	return L"";
+		std::string t = Utils::WstringToString(OFN.lpstrFile);
+		
+		int a = 0;
+		return t;
+	}
+	return "";
+
+
+	//OPENFILENAME OFN;
+	//TCHAR filePathName[100] = L"";
+	//TCHAR lpstrFile[100] = L"";
+	////static TCHAR filter[] = L"모든 파일\0*.*\0JSON 파일\0*.json";
+	//static TCHAR filter[] = L"CSV 파일\0*.csv";
+
+	//memset(&OFN, 0, sizeof(OPENFILENAME));
+	//OFN.lStructSize = sizeof(OPENFILENAME);
+	//OFN.hwndOwner = FRAMEWORK.GetHWnd();
+	//OFN.lpstrFilter = filter;
+	//OFN.lpstrFile = lpstrFile;
+	//OFN.nMaxFile = 100;
+	//OFN.lpstrInitialDir = L".";
+
+	//if (GetOpenFileName(&OFN) != 0)
+	//{
+	//	//wsprintf(filePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
+	//	//MessageBox(FRAMEWORK.GetHWnd(), filePathName, L"열기 선택", MB_OK);
+	//	
+	//	return OFN.lpstrFile;
+	//}
+
+	//return L"";
 }
 
 const std::wstring SceneEdit::GetSavePathWithWindow()
