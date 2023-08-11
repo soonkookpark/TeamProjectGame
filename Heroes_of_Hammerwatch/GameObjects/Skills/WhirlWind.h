@@ -1,7 +1,9 @@
 #pragma once
 #include "SkillEffect.h"
-class FallingObject :
+class WhirlWind :
     public SkillEffect
 {
+   WhirlWind();
+
 };
 

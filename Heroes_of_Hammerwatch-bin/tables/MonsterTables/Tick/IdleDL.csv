@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+IdleDL,8,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/Tick.png,0,40,20,20
+graphics/Monster/Tick.png,60,40,20,20

@@ -8,7 +8,7 @@
 EliteTick::EliteTick()
 	:Monster("EliteTick", "EliteTick")
 {	
-	SetDatas("EliteTick");
+	SetData("EliteTick");
 }
 
 void EliteTick::Update(float dt)
@@ -20,9 +20,9 @@ void EliteTick::Update(float dt)
 	}
 }
 
-void EliteTick::SetDatas(const std::string& name)
+void EliteTick::SetData(const std::string& name)
 {
-	Monster::SetDatas(name);
+	Monster::SetData(name);
 	EliteMonsterTable* dataTable = DATATABLE_MGR.Get<EliteMonsterTable>(DataTable::Ids::EliteMonster);
 	std::unordered_map<std::string, float> EliteTickTable = dataTable->Get(name);
 	spawnRange = EliteTickTable["spawnRange"];
@@ -35,7 +35,7 @@ void EliteTick::Chase(float dt)
 {
 	Monster::Chase(dt);
 	
-	Buff();
+	//Buff();
 	timer += dt;
 	if (timer > skillFrequency)
 	{
@@ -45,8 +45,7 @@ void EliteTick::Chase(float dt)
 }
 
 void EliteTick::SummonTicks()
-{
-	
+{	
 	Monster* mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Tick"));
 	mob->SetPosition(position.x + spawnRange, position.y + spawnRange);
 	mob->Reset();
@@ -63,7 +62,7 @@ void EliteTick::SummonTicks()
 	mob->SetPosition(position.x - spawnRange, position.y - spawnRange);
 	mob->Reset();
 }
-
+/*
 void EliteTick::Buff()
 {
 	std::list<GameObject*> mobs;
@@ -87,3 +86,4 @@ void EliteTick::Buff()
 		}
 	}
 }
+*/

@@ -26,7 +26,7 @@ public:
     FieldItem(const std::string& key);
     virtual ~FieldItem() = default;
 
-    void SetDatas(const std::string& key);
+    void SetData(const std::string& key);
 
     void Reset();
 

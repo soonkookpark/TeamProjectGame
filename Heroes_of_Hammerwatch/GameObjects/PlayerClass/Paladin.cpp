@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Paladin.h"
 #include "ResourceMgr.h"
+#include "MeleeAttack.h"
+#include "SceneMgr.h"
 
 Paladin::Paladin()
 {
@@ -21,7 +23,8 @@ Paladin::Paladin()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleD.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDR.csv"));
 
+	//skills.insert({ "",(Skill*) SCENE_MGR.GetCurrScene()->AddGo(new MeleeAttack("sdfg")) });
 	animation.SetTarget(&sprite);
-	SetDatas("Paladin");
+	SetData("Paladin");
 }
 
