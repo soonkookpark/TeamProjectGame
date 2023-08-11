@@ -19,6 +19,9 @@ void Framework::Init(int width, int height, const std::string& title)
     // Resource
     RESOURCE_MGR.Init();
     SCENE_MGR.Init();
+
+    // WinAPI
+    hWnd = window.getSystemHandle();
 }
 
 void Framework::Release()

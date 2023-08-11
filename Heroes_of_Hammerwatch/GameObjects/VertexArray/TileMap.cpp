@@ -15,6 +15,8 @@ TileMap::~TileMap()
 
 bool TileMap::LoadDrawTexture(const std::string& filePath)
 {
+    texture = RESOURCE_MGR.GetTexture(textureId);
+
     rapidcsv::Document map(filePath, rapidcsv::LabelParams(0, -1));
     std::cout << (int)map.GetRowCount();
     size = { (int)map.GetColumnCount(), (int)map.GetRowCount() };
@@ -183,14 +185,20 @@ void TileMap::SaveTexture(const std::string& filePath)
     std::ofstream outputFile(filePath);
     if (outputFile.is_open())
     {
-        outputFile << textureId << "\n";
+        outputFile << textureId;
+        for (size_t i = 0; i < tileArray[0].size() - 1; i++)
+        {
+            outputFile << ",";
+        }
+        outputFile << "\n";
+
         for (const auto& row : tileArray)
         {
             for (size_t i = 0; i < row.size(); i++)
             {
                 outputFile << row[i];
                 if (i < row.size() - 1)
-                    outputFile << ", ";
+                    outputFile << ",";
             }
             outputFile << "\n";
         }

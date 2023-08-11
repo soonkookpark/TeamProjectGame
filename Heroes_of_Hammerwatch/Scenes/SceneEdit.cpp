@@ -10,6 +10,7 @@
 #include "TileMap.h"
 #include "GridMap.h"
 #include "RectangleGo.h"
+#include <string>
 
 /*
 Down 아이콘 214, 0, 9, 11
@@ -41,6 +42,7 @@ void SceneEdit::Init()
 	rowNum = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf"));
 	colNum = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf"));
 	
+	//Tile 초기화
 	SetTileSelector("graphics/mine/mine_tile.csv", sizeof(tileSelector) / sizeof(UIButton*));
 
 	uiBackground = (UIButton*)AddGo(new UIButton("graphics/button/UIBG.png"));
@@ -140,14 +142,22 @@ void SceneEdit::Init()
 	save->SetPosition(windowSize.x - 240, 20);
 	save->OnClick = [this]()
 	{
-		tileMap->SaveTexture("save/file.csv");
+		//std::string path = Utils::WstringToString(GetSavePathWithWindow());
+		tileMap->SaveTexture("save/new.csv");
 	};
 
 	load->sortLayer = SortLayer::UI;
 	load->SetPosition(windowSize.x - 120, 20);
 	load->OnClick = [this]()
 	{
+		//std::string abc = Utils::WstringToString(GetLoadPathWithWindow());
+		//std::cout << abc << std::endl;
+
 		TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
+		tempTileMap->LoadDrawTexture("save/new.csv");
+
+		GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
+		tempGridMap->DrawGrid(tempTileMap);
 
 		if (tileMap != nullptr)
 		{
@@ -155,9 +165,15 @@ void SceneEdit::Init()
 			delete tileMap;
 			tileMap = nullptr;
 		}
+		if (gridMap != nullptr)
+		{
+			RemoveGo(gridMap);
+			delete gridMap;
+			gridMap = nullptr;
+		}
 
 		tileMap = tempTileMap;
-		tileMap->LoadDrawTexture("graphics/mine/tilemap.csv");
+		gridMap = tempGridMap;
 	};
 
 	for (auto go : gameObjects)
@@ -275,6 +291,66 @@ void SceneEdit::Update(float dt)
 void SceneEdit::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+const std::wstring SceneEdit::GetLoadPathWithWindow()
+{
+	OPENFILENAME OFN;
+	TCHAR filePathName[100] = L"";
+	TCHAR lpstrFile[100] = L"";
+	//static TCHAR filter[] = L"모든 파일\0*.*\0JSON 파일\0*.json";
+	static TCHAR filter[] = L"CSV 파일\0*.csv";
+
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = FRAMEWORK.GetHWnd();
+	OFN.lpstrFilter = filter;
+	OFN.lpstrFile = lpstrFile;
+	OFN.nMaxFile = 100;
+	OFN.lpstrInitialDir = L".";
+
+	if (GetOpenFileName(&OFN) != 0)
+	{
+		//wsprintf(filePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
+		//MessageBox(FRAMEWORK.GetHWnd(), filePathName, L"열기 선택", MB_OK);
+		
+		return OFN.lpstrFile;
+	}
+
+	return L"";
+}
+
+const std::wstring SceneEdit::GetSavePathWithWindow()
+{
+	OPENFILENAME OFN;
+	TCHAR filePathName[100] = L"";
+	TCHAR lpstrFile[100] = L"";
+	//static TCHAR filter[] = L"모든 파일\0*.*\0JSON 파일\0*.json";
+	static TCHAR filter[] = L"CSV 파일\0 * .csv";
+
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = FRAMEWORK.GetHWnd();
+	OFN.lpstrFilter = filter;
+	OFN.lpstrFile = lpstrFile;
+	OFN.nMaxFile = 100;
+	OFN.lpstrInitialDir = L".";
+	OFN.Flags = OFN_OVERWRITEPROMPT;
+
+	if (GetSaveFileName(&OFN) != 0)
+	{
+		//wsprintf(filePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
+		//MessageBox(FRAMEWORK.GetHWnd(), filePathName, L"열기 선택", MB_OK); 
+
+		std::wstring path = OFN.lpstrFile;
+		if (!Utils::Contains(path, '.'))
+		{
+			path += L".csv";
+		}
+		return path;
+	}
+
+	return L"";
 }
 
 void SceneEdit::SetTileSelector(const std::string& filePath, int idx)

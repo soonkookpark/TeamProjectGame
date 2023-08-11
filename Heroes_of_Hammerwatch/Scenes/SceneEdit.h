@@ -55,5 +55,7 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 
 	void SetTileSelector(const std::string& filePath, int idx);
-
+	
+	const std::wstring GetLoadPathWithWindow();
+	const std::wstring GetSavePathWithWindow();
 };
