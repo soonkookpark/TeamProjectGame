@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObjects\Skills\ActiveBuff.cpp" />
     <ClCompile Include="Animation\AnimationClip.cpp" />
     <ClCompile Include="Animation\AnimationController.cpp" />
     <ClCompile Include="GameObjects\Creature.cpp" />
@@ -160,7 +161,6 @@
     <ClCompile Include="DataTables\StringTable.cpp" />
     <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
     <ClCompile Include="DataTables\FieldItemTable.cpp" />
-    <ClCompile Include="GameObjects\Skills\FallingObject.cpp" />
     <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
     <ClCompile Include="GameObjects\Monsters\BossGolem.cpp" />
     <ClCompile Include="GameObjects\Monsters\EliteTick.cpp" />
@@ -176,7 +176,6 @@
     <ClCompile Include="GameObjects\VertexArray\VertexArrayGo.cpp" />
     <ClCompile Include="Global\Utils.cpp" />
     <ClCompile Include="GameObjects\VertexArray\GridMap.cpp" />
-    <ClCompile Include="GameObjects\Skills\Lurker.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -199,11 +198,12 @@
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="GameObjects\VertexArray\TileMap.cpp" />
     <ClCompile Include="Scenes\SceneEdit.cpp" />
-    <ClCompile Include="GameObjects\Skills\AttackSkill.cpp" />
+    <ClCompile Include="GameObjects\Skills\ActiveSkill.cpp" />
     <ClCompile Include="GameObjects\Skills\Skill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="GameObjects\Skills\ActiveBuff.h" />
     <ClInclude Include="Animation\AnimationController.h" />
     <ClInclude Include="Animation\AnimationClip.h" />
     <ClInclude Include="GameObjects\Creature.h" />
@@ -211,7 +211,6 @@
     <ClInclude Include="DataTables\StringTable.h" />
     <ClInclude Include="DataTables\EliteMonsterTable.h" />
     <ClInclude Include="DataTables\FieldItemTable.h" />
-    <ClInclude Include="GameObjects\Skills\FallingObject.h" />
     <ClInclude Include="GameObjects\Items\FieldItem.h" />
     <ClInclude Include="GameObjects\Monsters\BossGolem.h" />
     <ClInclude Include="GameObjects\Monsters\EliteTick.h" />
@@ -233,7 +232,6 @@
     <ClInclude Include="GameObjects\PlayerClass\Paladin.h" />
     <ClInclude Include="GameObjects\VertexArray\GridMap.h" />
     <ClInclude Include="DataTables\PlayerTable.h" />
-    <ClInclude Include="GameObjects\Skills\Lurker.h" />
     <ClInclude Include="GameObjects\Skills\RangeAttack.h" />
     <ClInclude Include="GameObjects\Skills\PassiveSkill.h" />
     <ClInclude Include="GameObjects\Skills\MeleeAttack.h" />
@@ -247,7 +245,7 @@
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="GameObjects\VertexArray\TileMap.h" />
     <ClInclude Include="Scenes\SceneEdit.h" />
-    <ClInclude Include="GameObjects\Skills\AttackSkill.h" />
+    <ClInclude Include="GameObjects\Skills\ActiveSkill.h" />
     <ClInclude Include="GameObjects\Skills\Skill.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

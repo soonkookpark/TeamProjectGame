@@ -3,6 +3,7 @@
 #include "ResourceMgr.h"
 #include "MeleeAttack.h"
 #include "SceneMgr.h"
+#include "InputMgr.h"
 
 Paladin::Paladin()
 {
@@ -23,8 +24,26 @@ Paladin::Paladin()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleD.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDR.csv"));
 
-	skills.insert({ "",(Skill*) SCENE_MGR.GetCurrScene()->AddGo(new MeleeAttack("sdfg")) });
+	
+
 	animation.SetTarget(&sprite);
 	SetData("Paladin");
+}
+
+void Paladin::Update(float dt)
+{
+	Player::Update(dt);
+	if (InputMgr::Instance().GetMouseButtonDown(sf::Mouse::Left))
+	{
+		skills["atk"]->Active();
+	}
+}
+
+void Paladin::SetData(const std::string& name)
+{
+	Player::SetData(name);
+
+	skills.insert({ "atk", new MeleeAttack("test") });
+	skills["atk"]->SetOwner(this);
 }
 

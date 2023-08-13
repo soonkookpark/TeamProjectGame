@@ -63,7 +63,7 @@ void Player::Reset()
 
 void Player::Update(float dt)
 {
-
+	
 	animation.Update(dt);
 	look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
 	angle = Utils::Angle(look);
@@ -237,6 +237,7 @@ void Player::Update(float dt)
 	BoxMaker();
 	
 	box.setPosition(sprite.getPosition());
+	Creature::Update(dt);
 }
 
 void Player::Draw(sf::RenderWindow& window)

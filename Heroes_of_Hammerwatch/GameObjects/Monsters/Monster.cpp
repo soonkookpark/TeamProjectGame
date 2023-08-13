@@ -30,6 +30,12 @@ void Monster::Reset()
 
 void Monster::Update(float dt)
 {
+	Creature::Update(dt);
+	if (state == State::DIE)
+	{
+		Die(dt);
+		return;
+	}
 	if (state != State::CHASE)
 	{
 		if (DetectTarget())
@@ -51,9 +57,6 @@ void Monster::Update(float dt)
 		break;
 	case Monster::State::ATTACK:
 		Attack(dt);
-		break;
-	case Monster::State::DIE:
-		Die(dt);
 		break;
 	}
 }
@@ -132,20 +135,24 @@ void Monster::Default(float dt)
 
 void Monster::Die(float dt)
 {
+	std::cout << "주거써!" << std::endl;
 	//죽는 애니메이션
 	SCENE_MGR.GetCurrScene()->RemoveGo(this);
 }
 
 void Monster::Damaged(float physicalDmg, float magicalDmg)
 {
+	std::cout << "damaged" << std::endl;
 	physicalDmg = (1 - 1 / (1+ param.creatureInfo.armor/ 50)) * physicalDmg;
 	magicalDmg = (1 - 1 / (1+ param.creatureInfo.resistance/ 50)) * magicalDmg;
 
 	//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
-
-	curHealth -= physicalDmg + magicalDmg;
+	std::cout << physicalDmg + magicalDmg << "데미지 받음" << std::endl;
+	std::cout << curHealth << "잔여 피" << std::endl;
+	curHealth -= (physicalDmg + magicalDmg);
 	if (curHealth < 0)
 	{
+		std::cout << "죽음!" << std::endl;
 		state = State::DIE;
 	}
 }

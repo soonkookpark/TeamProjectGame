@@ -2,17 +2,20 @@
 #include "Skill.h"
 
 class Creature;
-class AttackSkill :
+class ActiveSkill :
     public Skill
 {
 protected:
-    float phisicalDamage;
+    float physicalDamage;
     float magicalDamage;
 
-    std::vector<Creature*> targets;
+    float timer = 0;
+    float prevDelay = 0;
+
+    bool isSkillActive = false;
 public:
-    AttackSkill(const std::string& key);
-    virtual ~AttackSkill() = default;
+    ActiveSkill(const std::string& key);
+    virtual ~ActiveSkill() = default;
 
     virtual void SetData(const std::string& key);
     virtual void Update(float dt);
@@ -20,4 +23,6 @@ public:
     virtual bool CheckIntersected() = 0;
 
     virtual void Active() override;
+    virtual void Effect() = 0;
+
 };

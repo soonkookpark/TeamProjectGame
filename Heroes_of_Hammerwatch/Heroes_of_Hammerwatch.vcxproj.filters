@@ -7,7 +7,6 @@
     <ClCompile Include="DataTables\StringTable.cpp" />
     <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
     <ClCompile Include="DataTables\FieldItemTable.cpp" />
-    <ClCompile Include="GameObjects\Skills\FallingObject.cpp" />
     <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
     <ClCompile Include="GameObjects\Monsters\BossGolem.cpp" />
     <ClCompile Include="GameObjects\Monsters\EliteTick.cpp" />
@@ -20,7 +19,6 @@
     <ClCompile Include="GameObjects\VertexArray\VertexArrayGo.cpp" />
     <ClCompile Include="Global\Utils.cpp" />
     <ClCompile Include="GameObjects\VertexArray\GridMap.cpp" />
-    <ClCompile Include="GameObjects\Skills\Lurker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Framework\ResourceMgr.cpp" />
     <ClCompile Include="GameObjects\RectangleGo.cpp" />
@@ -37,12 +35,13 @@
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="GameObjects\VertexArray\TileMap.cpp" />
     <ClCompile Include="Scenes\SceneEdit.cpp" />
-    <ClCompile Include="GameObjects\Skills\AttackSkill.cpp" />
+    <ClCompile Include="GameObjects\Skills\ActiveSkill.cpp" />
     <ClCompile Include="GameObjects\Creature.cpp" />
     <ClCompile Include="GameObjects\PlayerClass\Player.cpp" />
     <ClCompile Include="GameObjects\Skills\Skill.cpp" />
     <ClCompile Include="GameObjects\Skills\PassiveSkill.cpp" />
     <ClCompile Include="GameObjects\Skills\MeleeAttack.cpp" />
+    <ClCompile Include="GameObjects\Skills\ActiveBuff.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -52,7 +51,6 @@
     <ClInclude Include="DataTables\StringTable.h" />
     <ClInclude Include="DataTables\EliteMonsterTable.h" />
     <ClInclude Include="DataTables\FieldItemTable.h" />
-    <ClInclude Include="GameObjects\Skills\FallingObject.h" />
     <ClInclude Include="GameObjects\Items\FieldItem.h" />
     <ClInclude Include="GameObjects\Monsters\BossGolem.h" />
     <ClInclude Include="GameObjects\Monsters\EliteTick.h" />
@@ -73,7 +71,6 @@
     <ClInclude Include="GameObjects\PlayerClass\Paladin.h" />
     <ClInclude Include="GameObjects\VertexArray\GridMap.h" />
     <ClInclude Include="DataTables\PlayerTable.h" />
-    <ClInclude Include="GameObjects\Skills\Lurker.h" />
     <ClInclude Include="GameObjects\Skills\RangeAttack.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
@@ -85,11 +82,12 @@
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="GameObjects\VertexArray\TileMap.h" />
     <ClInclude Include="Scenes\SceneEdit.h" />
-    <ClInclude Include="GameObjects\Skills\AttackSkill.h" />
+    <ClInclude Include="GameObjects\Skills\ActiveSkill.h" />
     <ClInclude Include="GameObjects\Creature.h" />
     <ClInclude Include="GameObjects\PlayerClass\Player.h" />
     <ClInclude Include="GameObjects\Skills\Skill.h" />
     <ClInclude Include="GameObjects\Skills\PassiveSkill.h" />
     <ClInclude Include="GameObjects\Skills\MeleeAttack.h" />
+    <ClInclude Include="GameObjects\Skills\ActiveBuff.h" />
   </ItemGroup>
 </Project>

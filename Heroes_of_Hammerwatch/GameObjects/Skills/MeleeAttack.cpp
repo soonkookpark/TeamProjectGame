@@ -3,29 +3,38 @@
 #include "Creature.h"
 
 MeleeAttack::MeleeAttack(const std::string& key)
-	:AttackSkill(key)
+	:ActiveSkill(key)
 {
+	SetData(key);
 }
 
 void MeleeAttack::Reset()
 {
 }
 
-void MeleeAttack::Draw(sf::RenderWindow& window)
-{
-	if (sprite != nullptr)
-		window.draw(*sprite);
-}
 
-void MeleeAttack::Active()
+void MeleeAttack::Effect()
 {
+	std::cout << "attacked" << std::endl;
 	for (auto target : targets)
 	{
-		if (Utils::CircleToRect(position, attackRange, target->sprite.getGlobalBounds(), target->look, attackAngle))
+		if (Utils::CircleToRect(owner->GetPosition(), range, target->sprite.getGlobalBounds(), owner->look, attackAngle))
 		{
-			target->Damaged(phisicalDamage, magicalDamage);
+			target->Damaged(physicalDamage, magicalDamage);
 		}
 	}
+}
+
+void MeleeAttack::SetData(const std::string& key)
+{
+	//testCode
+	range = 30.f;
+	targetType = TargetType::ENEMY;
+	physicalDamage = 30;
+	magicalDamage = 0;
+
+	prevDelay = 0.f;
+	attackAngle = 180;
 }
 
 bool MeleeAttack::CheckIntersected()

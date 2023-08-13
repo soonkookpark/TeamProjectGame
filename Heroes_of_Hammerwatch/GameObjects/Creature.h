@@ -19,12 +19,15 @@ public:
 protected:
     float curHealth = 0.f;
     std::map<std::string, Skill*> skills;
+    SightDegree lookat = SightDegree::R;
 public:
     sf::Vector2f look;
-    SightDegree lookat = SightDegree::R;
+
     Creature(const std::string& textureId = "", const std::string& n = "")
         : SpriteGo(textureId, n) {};
     virtual ~Creature() { Release(); };
+
+    virtual void Update(float dt) override;
 
     virtual void Damaged(float physicalDmg, float magicalDmg) = 0;
 };

@@ -1,6 +1,6 @@
 #pragma once
 #include "ActiveSkill.h"
-class RangeAttack :
+class ActiveBuff :
     public ActiveSkill
 {
 };
