@@ -43,6 +43,7 @@
     <ClCompile Include="GameObjects\Skills\Skill.cpp" />
     <ClCompile Include="GameObjects\Skills\PassiveSkill.cpp" />
     <ClCompile Include="GameObjects\Skills\MeleeAttack.cpp" />
+    <ClCompile Include="DataTables\SkillDataTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -91,5 +92,6 @@
     <ClInclude Include="GameObjects\Skills\Skill.h" />
     <ClInclude Include="GameObjects\Skills\PassiveSkill.h" />
     <ClInclude Include="GameObjects\Skills\MeleeAttack.h" />
+    <ClInclude Include="DataTables\SkillDataTable.h" />
   </ItemGroup>
 </Project>

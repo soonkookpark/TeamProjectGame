@@ -28,3 +28,13 @@ Paladin::Paladin()
 	SetData("Paladin");
 }
 
+void Paladin::Update(float dt)
+{
+	
+}
+
+void Paladin::SetData(const std::string& name)
+{
+	Player::SetData(name);
+
+}

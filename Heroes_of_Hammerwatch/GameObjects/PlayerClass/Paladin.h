@@ -3,12 +3,19 @@
 class Paladin :	public Player
 {
 	
+public:
+	struct SkillInfo
+	{
 
-private:
+	};
+protected:
 public:
 	Paladin();
 	virtual ~Paladin() override { Release(); }
+	
+	virtual void Update(float dt);
 
+	void SetData(const std::string& name);
 
 };
 

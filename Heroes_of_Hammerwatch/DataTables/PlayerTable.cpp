@@ -37,7 +37,7 @@ bool PlayerTable::Load()
                 doc.GetCell<float>(22,i),                
             }
             });
-        std::cout << i << "번 끝!" << std::endl;
+       // std::cout << i << "번 끝!" << std::endl;
     }
 	return true;
 }
