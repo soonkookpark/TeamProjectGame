@@ -40,21 +40,22 @@ bool OnTileMap::LoadDrawOnTile(TileMap* tileMap)
         {
             int tileIndex = size.x * i + j;
             int texIndex = tileArray[i][j];
-            for (int k = 0; k < 4; k++)
-            {
-                int vertexIndex = tileIndex * 4 + k;
-                //vertexArray[vertexIndex].position = currPos + offsets[k];
-                if (texIndex == Wall::None)
-                {
-                    vertexArray[vertexIndex].position = currPos + offsets[k];
-                    vertexArray[vertexIndex].texCoords = tileOffset[Wall::None][k];
-                }
-                else
-                {
-                    vertexArray[vertexIndex].position = currPos + offsetsLong[k];
-                    vertexArray[vertexIndex].texCoords = tileOffset[Wall::Wood_L][k];
-                }
-            }
+            ChangeTile(j, i, texIndex);
+            //for (int k = 0; k < 4; k++)
+            //{
+            //    int vertexIndex = tileIndex * 4 + k;
+            //    //vertexArray[vertexIndex].position = currPos + offsets[k];
+            //    if (texIndex > 0) //0 벽, 1~9 타일
+            //    {
+            //        vertexArray[vertexIndex].position = currPos + offsets[k];
+            //        vertexArray[vertexIndex].texCoords = tileOffset[Wall::None][k];
+            //    }
+            //    else if(texIndex == 0)
+            //    {
+            //        vertexArray[vertexIndex].position = currPos + offsetsLong[k];
+            //        vertexArray[vertexIndex].texCoords = tileOffset[Wall::Wood_L][k];
+            //    }
+            //}
             currPos.x += tileSize.x;
         }
         currPos.x = startPos.x;
@@ -71,30 +72,96 @@ bool OnTileMap::DrawTexture(int row, int col)
 
 bool OnTileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
 {
+    /*
+    idx 0 벽
+    idx 1 ~ 10 타일
+
+    */
+    Wall wall[5] = { Wall::None };
+
     if (tilePosX < 0 || tilePosY < 0) return false;
     if (tilePosX >= size.x || tilePosY >= size.y) return false;
 
-    if (idx == 0) {
-        idx = 2;
-    }
-
-    sf::FloatRect rect = tileInfoArray[idx].bound;
-
-    sf::Vector2f texOffsets[4] =
-    {
-        { rect.left, rect.top },
-        { rect.left + rect.width, rect.top },
-        { rect.left + rect.width, rect.top + rect.height },
-        { rect.left, rect.top + rect.height }
-    };
-
     tileArray[tilePosY][tilePosX] = idx;
 
-    int tileIndex = tilePosY * size.x + tilePosX;
-    for (int k = 0; k < 4; k++)
+    if (idx == 0)
     {
-        int vertexIndex = tileIndex * 4 + k;
-        vertexArray[vertexIndex].texCoords = texOffsets[k];
+        wall[0] = CheckAdjacent(tilePosX, tilePosY);
+    }
+    else if (idx >= 1 && idx <= 10)
+    {
+        wall[0] = Wall::None;
+    }
+
+    if (tilePosX - 1 < 0) wall[1] = Wall::None;
+    else wall[1] = tileArray[tilePosY][tilePosX - 1] == 0 ? CheckAdjacent(tilePosX - 1, tilePosY) : Wall::None;
+    
+    if (tilePosX + 1 >= size.x) wall[2] = Wall::None;
+    else wall[2] = tileArray[tilePosY][tilePosX + 1] == 0 ? CheckAdjacent(tilePosX + 1, tilePosY) : Wall::None;
+
+    if (tilePosY - 1 < 0) wall[3] = Wall::None;
+    else wall[3] = tileArray[tilePosY - 1][tilePosX] == 0 ? CheckAdjacent(tilePosX, tilePosY - 1) : Wall::None;
+    
+    if (tilePosY + 1 >= size.y) wall[4] = Wall::None;
+    else wall[4] = tileArray[tilePosY + 1][tilePosX] == 0 ? CheckAdjacent(tilePosX, tilePosY + 1) : Wall::None;
+
+    sf::Vector2f currPos[5] = {
+        {tilePosX * tileSize.x, tilePosY * tileSize.y},
+        {(tilePosX - 1) * tileSize.x, tilePosY * tileSize.y},
+        {(tilePosX + 1) * tileSize.x, tilePosY * tileSize.y},
+        {tilePosX * tileSize.x, (tilePosY - 1) * tileSize.y},
+        {tilePosX * tileSize.x, (tilePosY + 1) * tileSize.y}
+    };
+
+    for (int i = 0; i < 5; i++)
+    {
+        sf::FloatRect rect = tileInfoArray[wall[i]].bound;
+        sf::Vector2f texOffsets[4] =
+        {
+            { rect.left, rect.top },
+            { rect.left + rect.width, rect.top },
+            { rect.left + rect.width, rect.top + rect.height },
+            { rect.left, rect.top + rect.height }
+        };
+
+        int tileIndex;
+        switch (i)
+        {
+        case 0:
+            tileIndex = tilePosY * size.x + tilePosX;
+            break;
+        case 1:
+            tileIndex = tilePosY * size.x + tilePosX - 1;
+            if (tilePosX - 1 < 0) continue;
+            break;
+        case 2:
+            tileIndex = tilePosY * size.x + tilePosX + 1;
+            if (tilePosX + 1 >= size.x) continue;
+            break;
+        case 3:
+            tileIndex = (tilePosY - 1) * size.x + tilePosX;
+            if (tilePosY - 1 < 0) continue;
+            break;
+        case 4:
+            tileIndex = (tilePosY + 1) * size.x + tilePosX;
+            if (tilePosY + 1 >= size.y) continue;
+            break;
+        }
+
+        for (int k = 0; k < 4; k++)
+        {
+            int vertexIndex = tileIndex * 4 + k;
+            if (rect.height < 0)
+            {
+                vertexArray[vertexIndex].position = currPos[i] + offsetsLong[k];
+                vertexArray[vertexIndex].texCoords = texOffsets[k];
+            }
+            else
+            {
+                vertexArray[vertexIndex].position = currPos[i] + offsets[k];
+                vertexArray[vertexIndex].texCoords = texOffsets[k];
+            }
+        }
     }
     return false;
 }
@@ -140,6 +207,11 @@ bool OnTileMap::LoadInfo(const std::string& filePath)
                 break;
             }
         }
+        if (tile.bound.height == 48)
+        {
+            tile.bound.top += tile.bound.height;
+            tile.bound.height = -tile.bound.height;
+        }
         tileInfoArray.push_back(tile);
         tileInfo[tile.index] = tile;
     }
@@ -181,25 +253,21 @@ void OnTileMap::LoadTileDataArray(rapidcsv::Document& map)
     }
 }
 
-void OnTileMap::CheckAdjacent()
+Wall OnTileMap::CheckAdjacent(int i, int j)
 {
-    for (size_t i = 0; i < size.y; i++)
+    int index = tileArray[j][i];
+
+    if (index == 0)
     {
-        for (size_t j = 0; j < size.x; j++)
-        {
-            int index = tileArray[i][j];
+        bool left = CheckWall(j, i - 1);
+        bool right = CheckWall(j, i + 1);
+        bool top = CheckWall(j - 1, i);
+        bool behind = CheckWall(j + 1, i);
+        //벽이 있으면 true 없으면 false
 
-            if (index >= Wall::Wall_B && index < Wall::None)
-            {
-                bool left = CheckWall(i - 1, j);
-                bool right = CheckWall(i + 1, j);
-                bool up = CheckWall(i, j - 1);
-                bool down = CheckWall(i, j + 1);
-
-                SelectWall(left, right, up, down);
-            }
-        }
+        return SelectWall(left, right, top, behind);
     }
+    return Wall::None;
 }
 
 void OnTileMap::ResetDataArray()
@@ -208,14 +276,14 @@ void OnTileMap::ResetDataArray()
 
 bool OnTileMap::CheckWall(int x, int y)
 {
-    if (x < 0 || x > size.x) return false;
-    if (y < 0 || y > size.x) return false;
+    if (x < 0 || x >= size.y) return false;
+    if (y < 0 || y >= size.x) return false;
 
 
     int index = tileArray[x][y];
-    if (index >= Wall::Wall_B && index < Wall::None) 
-        return true;
 
+    if (index == 0) 
+        return true;
     return false;
 }
 
@@ -223,60 +291,43 @@ Wall OnTileMap::SelectWall(bool left, bool right, bool up, bool down)
 {
     switch ((left << 3) | (right << 2) | (up << 1) | down) {
     case 0b0000:
-        std::cout << "All variables are false." << std::endl;
-        break;
+        return Wall::Wall_None;
     case 0b0001:
-        std::cout << "var1 is true, others are false." << std::endl;
-        break;
+        return Wall::Wall_B;
     case 0b0010:
-        std::cout << "var2 is true, others are false." << std::endl;
-        break;
+        return Wall::Wall_T;
     case 0b0011:
-        std::cout << "var1 and var2 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_TB;
     case 0b0100:
-        std::cout << "var3 is true, others are false." << std::endl;
-        break;
+        return Wall::Wall_R;
     case 0b0101:
-        std::cout << "var1 and var3 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_RB;
     case 0b0110:
-        std::cout << "var2 and var3 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_RT;
     case 0b0111:
-        std::cout << "var1, var2, and var3 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_RTB;
     case 0b1000:
-        std::cout << "var4 is true, others are false." << std::endl;
-        break;
+        return Wall::Wall_L;
     case 0b1001:
-        std::cout << "var1 and var4 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_LB;
     case 0b1010:
-        std::cout << "var2 and var4 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_LT;
     case 0b1011:
-        std::cout << "var1, var2, and var4 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_LTB;
     case 0b1100:
-        std::cout << "var3 and var4 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_LR;
     case 0b1101:
-        std::cout << "var1, var3, and var4 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_LRB;        
     case 0b1110:
-        std::cout << "var2, var3, and var4 are true, others are false." << std::endl;
-        break;
+        return Wall::Wall_LRT;
     case 0b1111:
-        std::cout << "All variables are true." << std::endl;
-        break;
+        return Wall::Wall_LRTB;
     default:
         std::cout << "Invalid combination of variables." << std::endl;
         break;
     }
 
-
-    return Wall();
+    return Wall::None;
 }
 
 sf::IntRect OnTileMap::GetTileBound(int index)

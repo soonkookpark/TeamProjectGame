@@ -34,6 +34,7 @@ bool TileMap::LoadDrawTexture(const std::string& filePath)
     {
         for (int j = 0; j < size.x; j++)
         {
+            //ChangeTile(j, i, tileArray[i][j]);
             int tileIndex = size.x * i + j;
             int texIndex = tileArray[i][j];
             for (int k = 0; k < 4; k++)
@@ -47,6 +48,8 @@ bool TileMap::LoadDrawTexture(const std::string& filePath)
         currPos.x = startPos.x;
         currPos.y += tileSize.y;
     }
+
+    
 
     return true;
 }
@@ -303,4 +306,10 @@ Tile& TileMap::GetTile(int x, int y)
         // 예외 처리: 인덱스가 올바르지 않은 경우
         throw std::out_of_range("Tile index out of range");
     }
+}
+
+void DivideTile()
+{
+    int ranRatio = Utils::RandomRange(0, 10);
+    
 }

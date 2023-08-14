@@ -20,13 +20,17 @@ protected:
 	sf::Vector2f windowSize;
 	UIButton* colUp;
 	UIButton* colDown;
+	UIButton* colUpUp;
+	UIButton* colDownDown;
 	UIButton* rowUp;
 	UIButton* rowDown;
+	UIButton* rowUpUp;
+	UIButton* rowDownDown;
 	UIButton* edit;
 	UIButton* save;
 	UIButton* load;
 
-	UIButton* tileSelector[6];
+	UIButton* tileSelector[10];
 	UIButton* uiBackground;
 
 	TextGo* colNum;
@@ -42,6 +46,7 @@ protected:
 	int col = 1;
 	int row = 1;
 	int tileSize = 32;
+	bool changeTile = true;
 
 public:
 	SceneEdit();

@@ -30,10 +30,10 @@ SceneEdit::SceneEdit() : Scene(SceneId::Title)
 
 void SceneEdit::Init()
 {
-	{
+	/*{
 		std::string abc = GetLoadPathWithWindow();
 		std::cout << abc << std::endl;
-	}
+	}*/
 
 	Release();
 	windowSize = FRAMEWORK.GetWindowSize();
@@ -57,9 +57,11 @@ void SceneEdit::Init()
 	uiBackground->sortOrder = -1;
 	uiBackground->OnEnter = [this]() {
 		this->tileOnMouse.tile->SetActive(false);
+		changeTile = false;
 	};
 	uiBackground->OnExit = [this]() {
 		this->tileOnMouse.tile->SetActive(true);
+		changeTile = true;
 	};
 
 	sf::Vector2f size = { 16.f , 16.f };
@@ -111,7 +113,7 @@ void SceneEdit::Init()
 	rowDown->SetPosition(190.f, 80.f);
 
 	colNum->sortLayer = SortLayer::UI;
-	colNum->text.setString("Col : " + std::to_string(row));
+	colNum->text.setString("Col : " + std::to_string(col));
 	colNum->SetPosition(50.f, 170.f);
 	colUp->SetPosition(190.f, 140.f);
 	colDown->SetPosition(190.f, 200.f);
@@ -174,6 +176,15 @@ void SceneEdit::Init()
 		GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
 		tempGridMap->DrawGrid(tempTileMap);
 
+		OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+		tempOnTileMap->LoadDrawOnTile(tempTileMap);
+
+		col = tempTileMap->TileIntSize().x;
+		colNum->text.setString("Col : " + std::to_string(col));
+
+		row = tempTileMap->TileIntSize().y;
+		rowNum->text.setString("Row : " + std::to_string(row));
+
 		if (tileMap != nullptr)
 		{
 			RemoveGo(tileMap);
@@ -186,9 +197,16 @@ void SceneEdit::Init()
 			delete gridMap;
 			gridMap = nullptr;
 		}
+		if (onTileMap != nullptr)
+		{
+			RemoveGo(onTileMap);
+			delete onTileMap;
+			onTileMap = nullptr;
+		}
 
 		tileMap = tempTileMap;
 		gridMap = tempGridMap;
+		onTileMap = tempOnTileMap;
 	};
 
 	for (auto go : gameObjects)
@@ -261,7 +279,7 @@ void SceneEdit::Update(float dt)
 
 	tileOnMouse.tile->SetPosition((sf::Vector2f)tileSnap);
 
-	if (INPUT_MGR.GetMouseButton(sf::Mouse::Left))
+	if (INPUT_MGR.GetMouseButton(sf::Mouse::Left) && changeTile)
 	{
 		int idx = tileOnMouse.tileIndex;
 		tileMap->ChangeTile(tileIndex.x, tileIndex.y, idx);
@@ -448,7 +466,7 @@ void SceneEdit::SetTileSelector(const std::string& filePath, int idx)
 		tileSelector[col] = (UIButton*)AddGo(new UIButton("graphics/mine/mine_tile.png"));
 		tileSelector[col]->sprite.setTextureRect((sf::IntRect)tile.bound);
 		tileSelector[col]->sprite.setScale(2.0, 2.0);
-		tileSelector[col]->SetPosition(20 + 120.f * (col % 2), 450 + 100.f * (col / 2));
+		tileSelector[col]->SetPosition(20 + 18 * (col % 2)*4, 450 + 18 * (col / 2)*4);
 		tileSelector[col]->OnClick = [this, col]() {
 			this->tileOnMouse.tile->rectangle.setTexture(RESOURCE_MGR.GetTexture("graphics/mine/mine_tile.png"));
 			this->tileOnMouse.tile->rectangle.setTextureRect(tileSelector[col]->GetTextureRect());

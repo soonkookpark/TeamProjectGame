@@ -11,10 +11,10 @@ enum Wall
 	Wood_R,
 	Wall_R,
 	Wall_L,
-	Wall_BR,
-	Wall_BL,
-	Wall_TR,
-	Wall_TL,
+	Wall_RB,
+	Wall_LB,
+	Wall_RT,
+	Wall_LT,
 	Wood_T,
 	Wood_B,
 	Wall_B,
@@ -60,6 +60,7 @@ protected:
 
 	std::vector<TileInfo> tileInfoArray;
 	std::vector<std::vector<int>> tileArray;
+	std::vector<std::vector<int>> wallArray;
 
 public:
 	OnTileMap(const std::string& textureId = "", const std::string& n = "");
@@ -79,7 +80,7 @@ public:
 
 	void LoadTileDataArray(rapidcsv::Document& map);
 
-	void CheckAdjacent();
+	Wall CheckAdjacent(int i, int j);
 	bool CheckWall(int x, int y);
 	Wall SelectWall(bool left, bool right, bool top, bool down);
 
