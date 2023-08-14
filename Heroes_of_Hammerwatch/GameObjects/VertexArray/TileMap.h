@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include "rapidcsv.h"
 
+class Tree;
+
 class TileMap : public VertexArrayGo
 {
 protected:
@@ -25,6 +27,8 @@ protected:
 
 	std::vector<TileInfo> tileInfoArray;
 	std::vector<std::vector<int>> tileArray;
+
+	Tree* route;
 
 public:
 	TileMap(const std::string& textureId = "", const std::string& n = "");
@@ -53,6 +57,6 @@ public:
 	sf::Vector2f TilePixelSize();
 	Tile& GetTile(int x, int y);
 
-	void DivideTile();
+	void Divide();
 };
 

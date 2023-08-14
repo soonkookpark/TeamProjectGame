@@ -87,17 +87,4 @@ struct Tile
 	int texIndex = 0;
 };
 
-struct Tree
-{
-	sf::FloatRect rect;
-	sf::Vector2f center;
-
-	Tree* Parent;
-	Tree* Child_L;
-	Tree* Child_R;
-
-	Tree() : Parent(nullptr), Child_L(nullptr), Child_R(nullptr) {}
-};
-
-
 #include "AnimationClip.h"

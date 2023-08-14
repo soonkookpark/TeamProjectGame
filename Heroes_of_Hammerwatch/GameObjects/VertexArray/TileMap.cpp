@@ -2,15 +2,21 @@
 #include "TileMap.h"
 #include "ResourceMgr.h"
 #include <vector>
+#include "Tree.h"
 
 TileMap::TileMap(const std::string& textureId, const std::string& n)
     : VertexArrayGo(textureId, n)
 {
     sortLayer = SortLayer::TILE;
+    route = nullptr;
 }
 
 TileMap::~TileMap()
 {
+    if(route != nullptr)
+        delete route;
+
+    route = nullptr;
 }
 
 bool TileMap::LoadDrawTexture(const std::string& filePath)
@@ -49,7 +55,7 @@ bool TileMap::LoadDrawTexture(const std::string& filePath)
         currPos.y += tileSize.y;
     }
 
-    
+    Divide();
 
     return true;
 }
@@ -308,8 +314,52 @@ Tile& TileMap::GetTile(int x, int y)
     }
 }
 
-void DivideTile()
+void TileMap::Divide()
 {
-    int ranRatio = Utils::RandomRange(0, 10);
-    
+    if (route == nullptr)
+    {
+        route = new Tree();
+        route->rect = sf::FloatRect{ 0, 0, static_cast<float>(size.x), static_cast<float>(size.y) };
+    }
+
+    if (route->child_L == nullptr && route->child_R == nullptr)
+    {
+        sf::Vector2f cut = route->Divide(route->rect);
+        if (cut.x != 0)
+        {
+            for (int i = 0; i < size.y; i++)
+            {
+                ChangeTile(cut.x, i, 0);
+            }
+        }
+        else if (cut.y != 0)
+        {
+            for (int j = 0; j < size.x; j++)
+            {
+                ChangeTile(j, cut.y, 0);
+            }
+        }
+        return;
+    }
+
+    if (route->child_L->child_L == nullptr)
+    {
+        sf::Vector2f cut = route->child_L->Divide(route->child_L->rect);
+
+        if (cut.x != 0)
+        {
+            for (int i = 0; i < route->child_L->rect.height; i++)
+            {
+                ChangeTile(cut.x, i, 0);
+            }
+        }
+        else if (cut.y != 0)
+        {
+            for (int j = 0; j < route->child_L->rect.width; j++)
+            {
+                ChangeTile(j, cut.y, 0);
+            }
+        }
+        return;
+    }
 }

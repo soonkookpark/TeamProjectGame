@@ -332,6 +332,10 @@ void SceneEdit::Update(float dt)
 	{
 		onTileMap->SetActive(!onTileMap->GetActive());
 	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F4))
+	{
+		tileMap->Divide();
+	}
 }
 
 void SceneEdit::Draw(sf::RenderWindow& window)
