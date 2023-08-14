@@ -203,6 +203,7 @@
     <ClCompile Include="Scenes\SceneEdit.cpp" />
     <ClCompile Include="GameObjects\Skills\ActiveSkill.cpp" />
     <ClCompile Include="GameObjects\Skills\Skill.cpp" />
+    <ClCompile Include="DataTables\SkillDataTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -253,6 +254,7 @@
     <ClInclude Include="Scenes\SceneEdit.h" />
     <ClInclude Include="GameObjects\Skills\ActiveSkill.h" />
     <ClInclude Include="GameObjects\Skills\Skill.h" />
+    <ClInclude Include="DataTables\SkillDataTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

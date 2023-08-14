@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-MoveR,8,1,,
+AttackR,8,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
 graphics/Player/Paladin.png,0,48,24,20

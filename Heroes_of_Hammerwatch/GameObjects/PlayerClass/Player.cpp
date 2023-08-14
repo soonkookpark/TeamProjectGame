@@ -83,14 +83,14 @@ void Player::Update(float dt)
 	}
 	//std::cout << lookat << std::endl;
 	
-	if (direction == sf::Vector2f{0, 0})
+	if (direction == sf::Vector2f{0, 0}&& !attackNow)
 	{
 		IdleAnimationPrint(lookat);
 	}
-	else if(((INPUT_MGR.GetKey(sf::Keyboard::S))
+	else if((((INPUT_MGR.GetKey(sf::Keyboard::S))
 		||(INPUT_MGR.GetKey(sf::Keyboard::W)) 
 		||(INPUT_MGR.GetKey(sf::Keyboard::D)) 
-		||(INPUT_MGR.GetKey(sf::Keyboard::A)))
+		||(INPUT_MGR.GetKey(sf::Keyboard::A)))&& !attackNow)
 		)
 	{
 		MoveAnimationPrint(lookat); //마우스가 가리키는 방향으로 움직이는 애니메이션.
@@ -371,6 +371,54 @@ void Player::MoveAnimationPrint(SightDegree lookat)
 		if (animation.GetCurrentClipId() == "MoveUR")
 			if (animation.GetCurrFrame() <= 1) break;
 		animation.Play("MoveUR");
+		break;
+	}
+}
+
+void Player::AttackAnimationPrint(SightDegree lookat)
+{
+
+	switch (lookat)
+	{
+	case 0:
+		if (animation.GetCurrentClipId() == "AttackR")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackR");
+		break;
+	case 1:
+		if (animation.GetCurrentClipId() == "AttackDR")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackDR");
+		break;
+	case 2:
+		if (animation.GetCurrentClipId() == "AttackD")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackD");
+		break;
+	case 3:
+		if (animation.GetCurrentClipId() == "AttackDL")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackDL");
+		break;
+	case 4:
+		if (animation.GetCurrentClipId() == "AttackL")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackL");
+		break;
+	case 5:
+		if (animation.GetCurrentClipId() == "AttackUL")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackUL");
+		break;
+	case 6:
+		if (animation.GetCurrentClipId() == "AttackU")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackU");
+		break;
+	case 7:
+		if (animation.GetCurrentClipId() == "AttackUR")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackUR");
 		break;
 	}
 }

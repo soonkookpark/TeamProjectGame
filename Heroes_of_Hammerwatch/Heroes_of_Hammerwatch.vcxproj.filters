@@ -45,6 +45,7 @@
     <ClCompile Include="GameObjects\Buffs\Buff.cpp" />
     <ClCompile Include="GameObjects\Buffs\BloodLust.cpp" />
     <ClCompile Include="GameObjects\Buffs\LayOnHands.cpp" />
+    <ClCompile Include="DataTables\SkillDataTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -95,5 +96,6 @@
     <ClInclude Include="GameObjects\Buffs\Buff.h" />
     <ClInclude Include="GameObjects\Buffs\BloodLust.h" />
     <ClInclude Include="GameObjects\Buffs\LayOnHands.h" />
+    <ClInclude Include="DataTables\SkillDataTable.h" />
   </ItemGroup>
 </Project>

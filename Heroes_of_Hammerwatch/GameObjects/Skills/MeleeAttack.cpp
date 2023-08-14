@@ -15,7 +15,7 @@ void MeleeAttack::Reset()
 
 void MeleeAttack::Effect()
 {
-	std::cout << "attacked" << std::endl;
+	//std::cout << "attacked" << std::endl;
 	for (auto target : targets)
 	{
 		if (Utils::CircleToRect(owner->GetPosition(), range, target->sprite.getGlobalBounds(), owner->look, attackAngle))

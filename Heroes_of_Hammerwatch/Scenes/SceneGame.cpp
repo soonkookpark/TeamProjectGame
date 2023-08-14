@@ -28,7 +28,6 @@ void SceneGame::Init() // 안바뀔거면 여기
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
 
-
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
@@ -69,7 +68,7 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
-	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
+	/*Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
 	monster->SetPosition(300,300);
 	/*
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));

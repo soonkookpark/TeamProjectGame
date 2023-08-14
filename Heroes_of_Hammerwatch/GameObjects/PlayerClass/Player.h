@@ -53,6 +53,7 @@ protected:
 	bool filpX = false;
 	bool isGround = true;
 	bool isAnimationPlay = false;
+	bool attackNow = false;
 	
 	PlayerInfo pTable;
 	sf::Vector2i playerTileIndex;
@@ -64,7 +65,7 @@ protected:
 	sf::RectangleShape box;
 	sf::Vector2f agoTile;
 	sf::Vector2f newTile;
-	RectangleGo* testRect;	
+	//RectangleGo* testRect;	
 	
 	float angle = 0.f;
 	float pastAngle = 0.f;
@@ -92,9 +93,14 @@ public:
 	int CharacterSight(float angle);
 	void IdleAnimationPrint(SightDegree lookat);
 	void MoveAnimationPrint(SightDegree lookat);
+	void AttackAnimationPrint(SightDegree lookat);
 	void SetTile(TileMap* tile);
 	void BoxMaker();
-	
+
+	void Sword();
+	void Shield();
+	void Skill3();
+	 
 	void HealHP(int value);
 	void HealMP(int value);
 
