@@ -15,6 +15,8 @@ public:
 	
 	virtual void Update(float dt);
 
+	
+
 	void SetData(const std::string& name);
 
 };

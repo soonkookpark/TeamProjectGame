@@ -9,52 +9,49 @@ SkillDataTable::SkillDataTable()
 
 bool SkillDataTable::Load()
 {
-	rapidcsv::Document doc("tables/PlayerTables/PlayerSkill.csv");
-
-    for (int i = 0; (doc.GetRowCount()-1) > i; i++)
+    
+	std::string filename("tables/PlayerTables/PlayerSkill.csv");
+    rapidcsv::Document doc(filename);
+    for (int i = 0; doc.GetRowCount() > i; i++)
     {
-        sTables.insert({ doc.GetCell<std::string>(1,i),
-            {
-                //string
-                doc.GetCell<std::string>(1,i),
-                doc.GetCell<std::string>(2,i),
-                doc.GetCell<std::string>(3,i),
-                doc.GetCell<std::string>(10,i),
-                doc.GetCell<std::string>(11,i),
-                //int
-                doc.GetCell<int>(4,i),
-                doc.GetCell<int>(5,i),
-                doc.GetCell<int>(6,i),
-                doc.GetCell<int>(8,i),
-                doc.GetCell<int>(9,i),
-                doc.GetCell<int>(14,i),
-                doc.GetCell<int>(15,i),
-                doc.GetCell<int>(18,i),
-                doc.GetCell<int>(19,i),
-                doc.GetCell<int>(20,i),
-                doc.GetCell<int>(21,i),
-                doc.GetCell<int>(22,i),
-                doc.GetCell<int>(23,i),
-                doc.GetCell<int>(24,i),
-                doc.GetCell<int>(25,i),
-                doc.GetCell<int>(26,i),
-                doc.GetCell<int>(27,i),
-                //float
-                doc.GetCell<float>(7,i),
-                doc.GetCell<float>(12,i),
-                doc.GetCell<float>(13,i),
-                doc.GetCell<float>(16,i),
-                doc.GetCell<float>(17,i),
-               
-            }
+        sTables.insert(
+            { 
+                {
+                    //조건을 찾dmfusmsrj
+                    doc.GetCell<std::string>(1,i), 
+                    doc.GetCell<std::string>(2,i),
+                    doc.GetCell <int>(4,i),
+                },
+                {
+                    doc.GetCell<std::string>(1,i),
+                    doc.GetCell<std::string>(2,i),
+                    //doc.GetCell<Skill::SkillType>(3,i),
+                    (Skill::SkillType)0   ,
+                    doc.GetCell<int>(4,i),
+                    doc.GetCell<int>(5,i),
+                    doc.GetCell<float>(6,i),
+                    doc.GetCell<std::string>(7,i),
+                    doc.GetCell<std::string>(8,i),
+                    doc.GetCell<float>(9,i),
+                    doc.GetCell<int>(10,i),
+                    doc.GetCell<float>(11,i),
+                    doc.GetCell<int>(12,i),
+                    doc.GetCell<int>(13,i),
+                    doc.GetCell<int>(14,i),
+                    doc.GetCell<int>(15,i),
+                    doc.GetCell<int>(16,i),
+                }
             });
-        std::cout << i << "번 끝!" << std::endl;
+       // std::cout << i << "번 끝!" << std::endl;
     }
+    
+    
+    
     return true;
 
 }
 
 void SkillDataTable::Release()
 {
-    sTables.clear();
+    //sTables.clear();
 }

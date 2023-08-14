@@ -13,17 +13,17 @@ void MeleeAttack::Reset()
 
 void MeleeAttack::Draw(sf::RenderWindow& window)
 {
-	if (sprite != nullptr)
-		window.draw(*sprite);
+	//if (sprite != nullptr)
+	//	window.draw(*sprite);
 }
 
 void MeleeAttack::Active()
 {
-	for (auto target : targets)
+	//for (auto target : targets)
 	{
-		if (Utils::CircleToRect(position, attackRange, target->sprite.getGlobalBounds(), target->look, attackAngle))
+		//if (Utils::CircleToRect(position, attackRange, target->sprite.getGlobalBounds(), target->look, attackAngle))
 		{
-			target->Damaged(phisicalDamage, magicalDamage);
+		//	target->Damaged(phisicalDamage, magicalDamage);
 		}
 	}
 }
