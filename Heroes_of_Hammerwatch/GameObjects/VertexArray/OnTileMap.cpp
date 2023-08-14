@@ -221,6 +221,59 @@ bool OnTileMap::CheckWall(int x, int y)
 
 Wall OnTileMap::SelectWall(bool left, bool right, bool up, bool down)
 {
+    switch ((left << 3) | (right << 2) | (up << 1) | down) {
+    case 0b0000:
+        std::cout << "All variables are false." << std::endl;
+        break;
+    case 0b0001:
+        std::cout << "var1 is true, others are false." << std::endl;
+        break;
+    case 0b0010:
+        std::cout << "var2 is true, others are false." << std::endl;
+        break;
+    case 0b0011:
+        std::cout << "var1 and var2 are true, others are false." << std::endl;
+        break;
+    case 0b0100:
+        std::cout << "var3 is true, others are false." << std::endl;
+        break;
+    case 0b0101:
+        std::cout << "var1 and var3 are true, others are false." << std::endl;
+        break;
+    case 0b0110:
+        std::cout << "var2 and var3 are true, others are false." << std::endl;
+        break;
+    case 0b0111:
+        std::cout << "var1, var2, and var3 are true, others are false." << std::endl;
+        break;
+    case 0b1000:
+        std::cout << "var4 is true, others are false." << std::endl;
+        break;
+    case 0b1001:
+        std::cout << "var1 and var4 are true, others are false." << std::endl;
+        break;
+    case 0b1010:
+        std::cout << "var2 and var4 are true, others are false." << std::endl;
+        break;
+    case 0b1011:
+        std::cout << "var1, var2, and var4 are true, others are false." << std::endl;
+        break;
+    case 0b1100:
+        std::cout << "var3 and var4 are true, others are false." << std::endl;
+        break;
+    case 0b1101:
+        std::cout << "var1, var3, and var4 are true, others are false." << std::endl;
+        break;
+    case 0b1110:
+        std::cout << "var2, var3, and var4 are true, others are false." << std::endl;
+        break;
+    case 0b1111:
+        std::cout << "All variables are true." << std::endl;
+        break;
+    default:
+        std::cout << "Invalid combination of variables." << std::endl;
+        break;
+    }
 
 
     return Wall();
