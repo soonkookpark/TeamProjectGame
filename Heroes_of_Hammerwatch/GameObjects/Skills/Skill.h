@@ -8,6 +8,8 @@ public:
         NONE = -1,
         MELEE_ATTACK,
         RANGE_ATTACK,
+        BUFF,
+        PASSIVE,
         COUNT,
     };
     enum class TargetType

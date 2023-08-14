@@ -1,8 +1,8 @@
-ID,Using_Class,Skill_Name,Skill_Type,Learning_Tier,Star_Cost,Star_Cost_Up,Skill_CoolTime,Cost_Mana,Cost_Mana_Per_Tier,Skill_Explain,Skill_Image,Charge_Length,Charge_Length_Per_Tier,Heal,Heal_Per_Tier,Duration,Duration_Per_Tier,Skill_Arc_Range,Skill_Arc_Range_Per_Tier,Reduce_Magic_Damage,Reduce_Magic_Damage_Per_Tier,Reduce_Physics_Damage,Reduce_Physics_Damage_Per_Tier,Rate,Rate_Per_Tier,Stack,Stack_Per_Tier
-1,Paladin,Sword,Primary,0,3,1,0.3,0,0,0,0,0,0,0,0,0,0,90,30,0,0,0,0,0,0,0,0
-2,Paladin,Charge,NonPrimary,0,3,1,1,10,3,0,0,1,0.2,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-3,Paladin,LayOnHands,NonPrimary,2,5,2,1,30,10,0,0,0,0,3,2,3,0.5,0,0,5,5,0,0,25,0,0,0
-4,Paladin,WhirlWind,NonPrimary,3,7,2,1,50,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-5,Paladin,Shield,Passive,0,2,1,0,0,0,0,0,0,0,0,0,0,0,60,20,0,0,0,5,25,0,0,0
-6,Paladin,StunningBlows,Passive,2,4,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,5,0,0
-7,Paladin,FlamesOfDevotion,Passive,4,10,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12
+Using_Class,Skill_Name,Skill_Type,Learning_Tier,Star_Cost,Star_Cost_Up,Skill_CoolTime,Cost_Mana,Cost_Mana_Per_Tier,Skill_Explain,Skill_Image,Charge_Length,Charge_Length_Per_Tier,Heal,Heal_Per_Tier,Duration,Duration_Per_Tier,Skill_Arc_Range,Skill_Arc_Range_Per_Tier,Reduce_Magic_Damage,Reduce_Magic_Damage_Per_Tier,Reduce_Physics_Damage,Reduce_Physics_Damage_Per_Tier,Rate,Rate_Per_Tier,Stack,Stack_Per_Tier
+Paladin,Primary,0,0,3,1,0.3,0,0,0,0,0,0,0,0,0,0,90,30,0,0,0,0,0,0,0,0
+Paladin,Active1,0,0,3,1,1,10,3,0,0,1,0.2,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Paladin,Active2,1,2,5,2,1,30,10,0,0,0,0,3,2,3,0.5,0,0,5,5,0,0,25,0,0,0
+Paladin,Active3,1,3,7,2,1,50,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Paladin,Passive1,2,0,2,1,0,0,0,0,0,0,0,0,0,0,0,60,20,0,0,0,5,25,0,0,0
+Paladin,Passive2,2,2,4,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,5,0,0
+Paladin,Passive3,2,4,10,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12

@@ -42,6 +42,9 @@
     <ClCompile Include="GameObjects\Skills\PassiveSkill.cpp" />
     <ClCompile Include="GameObjects\Skills\MeleeAttack.cpp" />
     <ClCompile Include="GameObjects\Skills\ActiveBuff.cpp" />
+    <ClCompile Include="GameObjects\Buffs\Buff.cpp" />
+    <ClCompile Include="GameObjects\Buffs\BloodLust.cpp" />
+    <ClCompile Include="GameObjects\Buffs\LayOnHands.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -89,5 +92,8 @@
     <ClInclude Include="GameObjects\Skills\PassiveSkill.h" />
     <ClInclude Include="GameObjects\Skills\MeleeAttack.h" />
     <ClInclude Include="GameObjects\Skills\ActiveBuff.h" />
+    <ClInclude Include="GameObjects\Buffs\Buff.h" />
+    <ClInclude Include="GameObjects\Buffs\BloodLust.h" />
+    <ClInclude Include="GameObjects\Buffs\LayOnHands.h" />
   </ItemGroup>
 </Project>

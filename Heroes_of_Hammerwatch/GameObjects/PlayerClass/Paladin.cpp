@@ -33,17 +33,10 @@ Paladin::Paladin()
 void Paladin::Update(float dt)
 {
 	Player::Update(dt);
-	if (InputMgr::Instance().GetMouseButtonDown(sf::Mouse::Left))
-	{
-		skills["atk"]->Active();
-	}
 }
 
 void Paladin::SetData(const std::string& name)
 {
 	Player::SetData(name);
-
-	skills.insert({ "atk", new MeleeAttack("test") });
-	skills["atk"]->SetOwner(this);
 }
 

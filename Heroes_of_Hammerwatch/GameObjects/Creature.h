@@ -2,6 +2,8 @@
 #include "SpriteGo.h"
 
 class Skill;
+class Buff;
+
 class Creature :
     public SpriteGo
 {
@@ -19,6 +21,7 @@ public:
 protected:
     float curHealth = 0.f;
     std::map<std::string, Skill*> skills;
+    std::list <Buff*> buffs;
     SightDegree lookat = SightDegree::R;
 public:
     sf::Vector2f look;
@@ -28,6 +31,9 @@ public:
     virtual ~Creature() { Release(); };
 
     virtual void Update(float dt) override;
+
+    void GainBuff(Buff* buff);
+    void LoseBuff(Buff* buff);
 
     virtual void Damaged(float physicalDmg, float magicalDmg) = 0;
 };

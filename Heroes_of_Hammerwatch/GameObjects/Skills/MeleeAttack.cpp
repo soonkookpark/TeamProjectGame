@@ -36,8 +36,3 @@ void MeleeAttack::SetData(const std::string& key)
 	prevDelay = 0.f;
 	attackAngle = 180;
 }
-
-bool MeleeAttack::CheckIntersected()
-{
-	return false;
-}

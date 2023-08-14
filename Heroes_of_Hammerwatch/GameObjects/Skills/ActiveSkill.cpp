@@ -17,17 +17,24 @@ void ActiveSkill::Update(float dt)
 	if (!isSkillActive)
 		return;
 	timer += dt;
+	if (repeat == rptCounter)
+	{
+		if (timer > coolDown)
+			isSkillActive = false;
+	}
 	if (timer > prevDelay)
 	{
-		if(CheckIntersected())
 		Effect();
-		isSkillActive = false;
-	}
+		rptCounter++;
+		timer = 0.f ;
+	}	
 }
 
 
 void ActiveSkill::Active()
 {
 	Skill::Active();
+	timer = 0;
+	rptCounter = 0;
 	isSkillActive = true;
 }

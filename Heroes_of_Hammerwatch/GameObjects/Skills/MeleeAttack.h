@@ -16,6 +16,5 @@ public:
     virtual void Effect() override;
     virtual void SetData(const std::string& key);
 
-    // AttackSkill을(를) 통해 상속됨
-    virtual bool CheckIntersected() override;
+    
 };

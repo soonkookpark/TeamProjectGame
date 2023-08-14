@@ -9,6 +9,8 @@
 #include "SceneGame.h"
 #include "PlayerTable.h"
 #include "DataTableMgr.h"
+#include "MeleeAttack.h"
+
 void Player::Init()
 {
 	//파일 입출력
@@ -44,8 +46,11 @@ void Player::Init()
 
 void Player::SetData(const std::string& name)
 {
-	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name);
-	
+	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name);	
+
+
+	skills.insert({ "atk", new MeleeAttack("test") });
+	skills["atk"]->SetOwner(this);
 }
 
 void Player::Reset()
@@ -91,99 +96,7 @@ void Player::Update(float dt)
 		MoveAnimationPrint(lookat); //마우스가 가리키는 방향으로 움직이는 애니메이션.
 		//isAnimationPlay = true;
 	}
-	/*else if(pastAngle!= lookat)
-	{
-		isAnimationPlay = false;
-		std::cout << "요기 난 지날게" << std::endl;
-	}*/
-	
-
-	//look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
-	//angle = Utils::Angle(look);
-	//if (angle < 0)
-	//{
-	//	angle += 360;
-	//}
-	//CharacterSight(angle);
-
-	//// 이전에 재생 중인 애니메이션 종료 처리
-	//if (lookat != CharacterSight(angle))
-	//{
-	//	isAnimationPlay = false;
-	//}
-
-	//// 움직임 및 애니메이션 처리
-	//if (direction == sf::Vector2f{0, 0})
-	//{
-	//	if (isAnimationPlay)
-	//	{
-	//		// 재생 중인 애니메이션 업데이트
-	//		IdleAnimationUpdate();
-	//	}
-	//	else
-	//	{
-	//		// 애니메이션 재생 및 재생 상태 설정
-	//		IdleAnimationPrint(lookat);
-	//		isAnimationPlay = true;
-	//	}
-	//}
-	//else if (INPUT_MGR.GetKeyDown(sf::Keyboard::S) || INPUT_MGR.GetKey(sf::Keyboard::W) || INPUT_MGR.GetKey(sf::Keyboard::D) || INPUT_MGR.GetKey(sf::Keyboard::A))
-	//{
-	//	if (isAnimationPlay)
-	//	{
-	//		// 재생 중인 애니메이션 업데이트
-	//		MoveAnimationUpdate();
-	//	}
-	//	else
-	//	{
-	//		// 애니메이션 재생 및 재생 상태 설정
-	//		MoveAnimationPrint(lookat);
-	//		isAnimationPlay = true;
-	//	}
-	//}
-	//else
-	//{
-	//	// 움직임이 없을 경우 애니메이션 정지 상태 설정
-	//	isAnimationPlay = false;
-	//}
-	//{
-	//	//moveanimation 출력!!!!!!!!!!!!!
-	//}
-	//else if () 
-	//{
-	//
-	//}
-
-	//}
-	//std::cout << animation.GetCurrentClipId() << std::endl;// != "MoveD";
-	//{
-	//	if(animation.GetCurrentClipId()!="MoveD")
-	//	{
-	/*if (INPUT_MGR.GetKey(sf::Keyboard::S)&&!isAnimationPlay)
-	{
-		animation.Play("MoveD");
-		isAnimationPlay = true;
-	}
-	if (animation.GetCurrentClipId() != "MoveD")
-	{
-		isAnimationPlay = false;
-	}*/
-	
-	//	}
-	//}
-	
-	/*static float time = 0.f;
-	time += dt;*/
-	//이동
-	//if (direction.x != 0||direction.y!=0)
-	
 	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
-	
-	//direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
-	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
-
-
-	//std::cout << playerTileIndex.x << ", " << playerTileIndex.y << std::endl;
 
 	PlayerMove();
 	float magnitude = Utils::Magnitude(direction);
@@ -192,16 +105,6 @@ void Player::Update(float dt)
 		direction /= magnitude;
 
 	}
-	
-
-	
-	/*std::string clipId = magnitude == 0.f ? currentClipInfo.idle : currentClipInfo.move;
-	if (animation.GetCurrentClipId() != clipId)
-
-	{
-		animation.Play(clipId);
-	}*/
-
 
 	FindTileInfo();
 	if (CheckTileInfo(static_cast<sf::Vector2f>(playerTileIndex)))
@@ -211,33 +114,15 @@ void Player::Update(float dt)
 	position += direction * pTable.creatureInfo.speed * dt;
 	SetPosition(position);
 
-	/*if (direction.x != 0.f || direction.y != 0.f)
-	{
-		auto min = std::min_element(clipInfos.begin(), clipInfos.end(),
-			[this](const ClipInfo& lhs, const ClipInfo& rhs) {
-				return Utils::Distance(lhs.point, direction) < Utils::Distance(rhs.point, direction);
-			});
-		currentClipInfo = *min;
-	}
-
-	std::string clipId = magnitude == 0.f ? currentClipInfo.idle : currentClipInfo.move;
-	if (GetFlipX() != currentClipInfo.flipX)
-	{
-		SetFlipX(currentClipInfo.flipX);
-	}*/
-
-	/*if (animation.GetCurrentClipId() != clipId)
-	{
-		animation.Play(clipId);
-	}*/
-
-	
-	//CheckTileInfo();
-
 	BoxMaker();
 	
 	box.setPosition(sprite.getPosition());
 	Creature::Update(dt);
+
+	if (InputMgr::Instance().GetMouseButtonDown(sf::Mouse::Left))
+	{
+		skills["atk"]->Active();
+	}
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -526,8 +411,9 @@ void Player::HealMP(int value)
 
 void Player::Damaged(float physicalDmg, float magicalDmg)
 {
-	physicalDmg = (1 - 1 / (1 + pTable.creatureInfo.armor / 50)) * physicalDmg;
-	magicalDmg = (1 - 1 / (1 + pTable.creatureInfo.resistance / 50)) * magicalDmg;
+	std::cout << "피격됨" << std::endl;
+	physicalDmg = 1 / (1 + pTable.creatureInfo.armor / 50) * physicalDmg;
+	magicalDmg = 1 / (1 + pTable.creatureInfo.resistance / 50) * magicalDmg;
 
 	//대충 위에 받은 데미지 숫자 뜬다는 뜻 유틸에 넣어야 할듯
 

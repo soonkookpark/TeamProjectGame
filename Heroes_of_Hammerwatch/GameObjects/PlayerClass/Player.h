@@ -94,11 +94,7 @@ public:
 	void MoveAnimationPrint(SightDegree lookat);
 	void SetTile(TileMap* tile);
 	void BoxMaker();
-
-	void Sword();
-	void Shield();
-	void Skill3();
-	 
+	
 	void HealHP(int value);
 	void HealMP(int value);
 
@@ -108,5 +104,7 @@ public:
 	void AcquireMoney(int value) { money += value; };
 	void AcquireKey(int value) {};
 	void AcquireItem(int key) {};//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
+
+	
 };
 

@@ -20,7 +20,6 @@ void Skill::Update(float dt)
 {
 }
 
-
 void Skill::SetTarget()
 {
 	targets.clear();
@@ -32,10 +31,10 @@ void Skill::SetTarget()
 	for (GameObject* finder : SCENE_MGR.GetCurrScene()->GetGos())
 	{
 		
-		if (Utils::Distance(finder->GetPosition(), owner->GetPosition()) > range)
-			continue;
 		Creature* checker = dynamic_cast<Creature*>(finder);
 		if (checker == nullptr)
+			continue;
+		if (!Utils::CircleToRect(owner->GetPosition(), range, checker->sprite.getGlobalBounds(), owner->look))
 			continue;
 		if (dynamic_cast<Player*>(owner) != nullptr)
 		{
@@ -71,7 +70,5 @@ void Skill::SetTarget()
 
 void Skill::Active()
 {
-
 	SetTarget();
-	Effect();
 }
