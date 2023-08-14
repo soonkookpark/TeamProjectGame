@@ -15,18 +15,18 @@ bool SkillDataTable::Load()
     for (int i = 0; doc.GetRowCount() > i; i++)
     {
         sTables.insert(
-            { 
+            {
                 {
                     //조건을 찾dmfusmsrj
-                    doc.GetCell<std::string>(1,i), 
+                    doc.GetCell<std::string>(1,i),
                     doc.GetCell<std::string>(2,i),
                     doc.GetCell <int>(4,i),
                 },
                 {
                     doc.GetCell<std::string>(1,i),
                     doc.GetCell<std::string>(2,i),
-                    //doc.GetCell<Skill::SkillType>(3,i),
-                    (Skill::SkillType)0   ,
+                    static_cast<Skill::SkillType>(doc.GetCell<int>(3,i)),
+                    
                     doc.GetCell<int>(4,i),
                     doc.GetCell<int>(5,i),
                     doc.GetCell<float>(6,i),

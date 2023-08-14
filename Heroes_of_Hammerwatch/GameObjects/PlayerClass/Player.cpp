@@ -91,12 +91,13 @@ void Player::Update(float dt)
 		MoveAnimationPrint(lookat); //마우스가 가리키는 방향으로 움직이는 애니메이션.
 		//isAnimationPlay = true;
 	}
-	if (INPUT_MGR.GetMouseButton(sf::Mouse::Left))
+	if (INPUT_MGR.GetMouseButton(sf::Mouse::Left) && !attackNow)
 	{
 		attackNow = true;
 		AttackAnimationPrint(lookat);
 	}
-	else
+	
+	if(attackNow && animation.GetCurrFrame() == 3)
 	{
 		attackNow = false;
 	}
