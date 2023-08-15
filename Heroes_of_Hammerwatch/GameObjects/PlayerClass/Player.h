@@ -63,8 +63,8 @@ protected:
 	int tileSize = 0;
 	int tilePixelSize = 16;
 	sf::RectangleShape box;
-	sf::Vector2f agoTile;
-	sf::Vector2f newTile;
+	sf::Vector2i tileIntSize;
+	
 	//RectangleGo* testRect;	
 	
 	float angle = 0.f;

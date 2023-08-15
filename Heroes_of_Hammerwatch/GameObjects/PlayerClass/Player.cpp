@@ -13,7 +13,7 @@
 
 void Player::Init()
 {
-	//ÆÄÀÏ ÀÔÃâ·Â
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 	/*animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveU.csv"));
@@ -34,6 +34,7 @@ void Player::Init()
 	SetOrigin(Origins::MC);
 	sprite.setScale(1.0, 1.0);
 	tileSize = tilemap->tiles.size();
+	tileIntSize = tilemap->TileIntSize();
 	//animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/idleF.csv"));
 
 	box.setFillColor(sf::Color::Transparent);
@@ -41,6 +42,7 @@ void Player::Init()
 	box.setOutlineThickness(1);
 		
 	sortLayer = SortLayer::PLAYER;
+	
 
 }
 
@@ -59,7 +61,7 @@ void Player::Reset()
 	SetOrigin(origin);
 	//SetPosition({ 0, 0 });
 	SetFlipX(false);
-	box.setSize({8,16});
+	box.setSize({16,16});
 	box.setOrigin(box.getSize() * 0.5f);
 	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 
@@ -69,6 +71,7 @@ void Player::Reset()
 void Player::Update(float dt)
 {
 	
+	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 	animation.Update(dt);
 	look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
 	angle = Utils::Angle(look);
@@ -93,28 +96,81 @@ void Player::Update(float dt)
 		||(INPUT_MGR.GetKey(sf::Keyboard::A)))&& !attackNow)
 		)
 	{
-		MoveAnimationPrint(lookat); //¸¶¿ì½º°¡ °¡¸®Å°´Â ¹æÇâÀ¸·Î ¿òÁ÷ÀÌ´Â ¾Ö´Ï¸ÞÀÌ¼Ç.
+		MoveAnimationPrint(lookat); //ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½.
 		//isAnimationPlay = true;
 	}
-	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
-
-	PlayerMove();
-	float magnitude = Utils::Magnitude(direction);
-	if (magnitude > 1.f)
+	if (INPUT_MGR.GetMouseButton(sf::Mouse::Left) && !attackNow)
 	{
-		direction /= magnitude;
-
+		attackNow = true;
+		AttackAnimationPrint(lookat);
+	}
+	
+	if(attackNow && animation.GetCurrFrame() == 3)
+	{
+		attackNow = false;
 	}
 
-	FindTileInfo();
-	if (CheckTileInfo(static_cast<sf::Vector2f>(playerTileIndex)))
+	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Tilde))
 	{
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+		std::cout << playerTileIndex.x << ", " << playerTileIndex.y << std::endl;
+		//Å¸ï¿½ï¿½ ï¿½ï¿½Ã¼ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		std::cout << tileIntSize.x<< ", " << tileIntSize.y << std::endl;
+		//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+		std::cout << GetPosition().x << ", " << GetPosition().y << std::endl;
+		
 
-	}	
+	}
+	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
+	{
+		std::cout << mousePos.x << "," << mousePos.y << std::endl;
+		//animation1.Play("MonsterBallEffect");
+		if (direction.x == 0 && direction.y == 0)
+		{
+			//(CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)}));
+		}
+	}
+	
+	//direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
+	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
+	//sprite.g
+
+	//std::cout << playerTileIndex.x << ", " << playerTileIndex.y << std::endl;
+
+	PlayerMove();
+	
+	//std::cout << GetPosition().x << std::endl;
+	
 	position += direction * pTable.creatureInfo.speed * dt;
 	SetPosition(position);
 
-	BoxMaker();
+	
+	/*if (direction.x != 0.f || direction.y != 0.f)
+	{
+		auto min = std::min_element(clipInfos.begin(), clipInfos.end(),
+			[this](const ClipInfo& lhs, const ClipInfo& rhs) {
+				return Utils::Distance(lhs.point, direction) < Utils::Distance(rhs.point, direction);
+			});
+		currentClipInfo = *min;
+	}
+
+	std::string clipId = magnitude == 0.f ? currentClipInfo.idle : currentClipInfo.move;
+	if (GetFlipX() != currentClipInfo.flipX)
+	{
+		SetFlipX(currentClipInfo.flipX);
+	}*/
+
+	/*if (animation.GetCurrentClipId() != clipId)
+	{
+		animation.Play(clipId);
+	}*/
+
+	
+	//CheckTileInfo();
+	//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½
+	//FindTileInfo();
+	//BoxMaker();
 	
 	box.setPosition(sprite.getPosition());
 	Creature::Update(dt);
@@ -153,6 +209,7 @@ void Player::PlayerMove()
 	{
 		if ((CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
 		{
+			//std::cout<<playerTileIndex.x << std::endl;
 			direction.x = +1;
 		}
 		
@@ -179,7 +236,7 @@ void Player::PlayerMove()
 	{
 		if ((CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
 		{
-		direction.y = +1;
+			direction.y = +1;
 		}
 		//direction.y = 1;
 	}
@@ -213,7 +270,7 @@ void Player::FindTileInfo()
 				std::cout << texIndex << /*", " << tilemap->TileSize().y<<*/ std::endl;
 
 			}
-			if (texIndex != 1)//ÀÌµ¿ºÒ°¡Å¸¿î
+			if (texIndex != 1)//ï¿½Ìµï¿½ï¿½Ò°ï¿½Å¸ï¿½ï¿½
 			{
 				/*if (direction.x < 0)
 				{
@@ -239,6 +296,21 @@ void Player::FindTileInfo()
 
 bool Player::CheckTileInfo(sf::Vector2f info)
 {
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
+	{
+		
+		
+		std::cout << "Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ";
+		std::cout << info.x * tilePixelSize + (tilePixelSize / 2) << std::endl;
+		std::cout << "ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ";
+		std::cout << box.getPosition().x - box.getSize().x << std::endl;
+		
+
+		std::cout << "Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ";
+		std::cout << (info.x * tilePixelSize + (tilePixelSize / 2)) << std::endl;
+		std::cout << "ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ";
+		std::cout << box.getPosition().x + box.getSize().x << std::endl;
+	}
 	int tileSize = tilemap->tiles.size();
 	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
 	for (int i = 0; i < tileSize; i++)
@@ -247,12 +319,23 @@ bool Player::CheckTileInfo(sf::Vector2f info)
 		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
 		{
 			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
-			if (texIndex != 1)//´ÙÀ½ ÀÌµ¿ÇÒ°÷ÀÌ °¥ ¼ö ¾ø¾î
+			if (texIndex != 1)// ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â°ï¿½ï¿½Ì¾ï¿½ ï¿½Ú°ï¿½
 			{
+				if((info.x*tilePixelSize+(tilePixelSize/2)> box.getPosition().x - box.getSize().x)
+					|| ((info.x * tilePixelSize + (tilePixelSize / 2)) < box.getPosition().x + box.getSize().x))
+					return 0;
 				
-				//std::cout << "¿©±ä ¹Ù´ÚÀÌ ¾Æ´Ï¾ß" << std::endl;
-				
-				return 0;
+				/*
+				Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 8
+				ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 15.9863
+				Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 8
+				ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 47.9863
+				*/
+
+
+
+
+
 			}
 			return 1;
 		}
@@ -459,15 +542,15 @@ void Player::HealMP(int value)
 
 void Player::Damaged(float physicalDmg, float magicalDmg)
 {
-	std::cout << "ÇÇ°ÝµÊ" << std::endl;
+	std::cout << "ï¿½Ç°Ýµï¿½" << std::endl;
 	physicalDmg = 1 / (1 + pTable.creatureInfo.armor / 50) * physicalDmg;
 	magicalDmg = 1 / (1 + pTable.creatureInfo.resistance / 50) * magicalDmg;
 
-	//´ëÃæ À§¿¡ ¹ÞÀº µ¥¹ÌÁö ¼ýÀÚ ¶á´Ù´Â ¶æ À¯Æ¿¿¡ ³Ö¾î¾ß ÇÒµí
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ¿ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Òµï¿½
 
 	curHealth -= physicalDmg + magicalDmg;
 	if (curHealth < 0)
 	{
-		//Á×À»¶§ ÇÔ¼ö
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	}
 }
