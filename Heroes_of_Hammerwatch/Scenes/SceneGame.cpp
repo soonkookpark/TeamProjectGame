@@ -43,7 +43,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	button->sortLayer = 100;
 	button->SetPosition(windowSize.x,0.f);*/
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
-	tileMap->DrawTexture("graphics/mine/tilemap.csv");
+	tileMap->LoadDrawTexture("graphics/mine/tilemap.csv");
 
 	player = (Paladin*)AddGo(new Paladin());
 	player->SetPosition(100, 100);
@@ -87,8 +87,14 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 void SceneGame::Exit()
 {
-	RemoveGo(FindGo("EliteTick"));
-	delete FindGo("EliteTick");
+	for (auto GO : gameObjects)
+	{
+		if (GO->GetName() == "mob" || GO->GetName() == "EliteTick")
+		{
+			RemoveGo(GO);
+			//delete GO;
+		}
+	}
 
 	Scene::Exit();
 }
@@ -96,6 +102,9 @@ void SceneGame::Exit()
 void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
+
+	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<
+	//	tileMap->vertexArray.getBounds().width << tileMap->vertexArray.getBounds().height << std::endl;
 	
 	worldView.setCenter(player->GetPosition());
 
