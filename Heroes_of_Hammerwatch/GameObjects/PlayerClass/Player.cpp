@@ -10,6 +10,7 @@
 #include "PlayerTable.h"
 #include "DataTableMgr.h"
 #include "MeleeAttack.h"
+#include "Buffs/AllBuffs.hpp"
 
 void Player::Init()
 {
@@ -67,6 +68,7 @@ void Player::Reset()
 	box.setOrigin(box.getSize() * 0.5f);
 	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 
+	buffs.push_back(new BloodLust(this, 10));
 	//currentClipInfo = clipInfos[6];*/
 }
 
