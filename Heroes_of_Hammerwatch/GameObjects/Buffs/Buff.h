@@ -6,12 +6,13 @@ class Buff
 public:
 	enum ClassBuffType
 	{
+		NONE,
 		AURA,
 		NONE_AURA,
 	};
 protected:
-	Creature& owner;
-	ClassBuffType type;
+	Creature* owner;
+	ClassBuffType type = NONE;
 
 	Creature* provider;
 	float range;
@@ -19,16 +20,19 @@ protected:
 	float duration = 0;
 	float timer = 0;
 public:
-	Buff(const std::string& key, Creature& owner, ClassBuffType type);
-	virtual ~Buff() = default;
+	Buff(const std::string& key, Creature* owner, Creature* provider, float range);
+	Buff(const std::string& key, Creature* owner, float duration);
+	virtual ~Buff() {};
 
 	virtual void Update(float dt);
 
 	virtual bool CheckPersistan(float dt);
 
 	virtual void SetData(const std::string& key) {};
-	virtual void GetBuff();
+
+	virtual void GetBuff() {};
 	virtual void DuringBuff(float dt);
 	virtual void LoseBuff();
+
 };
 

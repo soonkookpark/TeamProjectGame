@@ -17,7 +17,7 @@ public:
 	};
 	struct PlayerInfo
 	{
-		CreatureInfo creatureInfo;
+		//CreatureInfo creatureInfo;
 		std::string ClassName;
 		//int healthPower = 0;
 		int manaPoint = 0;
@@ -73,6 +73,12 @@ protected:
 	int money = 0;
 	int ore = 0;
 
+	//test clock
+	sf::Clock clock1;
+	
+	sf::RectangleShape testTiles[8];
+	sf::RectangleShape testIntersect;
+
 	//RectangleGo* testRect;
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")
@@ -87,9 +93,15 @@ public:
 	void SetData(const std::string& name);
 	bool GetFlipX() const;
 	void SetFlipX(bool filp);
-	void PlayerMove();
+	void PlayerMove(float dt);
 	void FindTileInfo();
-	bool CheckTileInfo(sf::Vector2f info);
+
+	//상하좌우 움직임
+	bool CheckTileInfoLeft(sf::Vector2f info);
+	bool CheckTileInfoRight(sf::Vector2f info);
+	bool CheckTileInfoUp(sf::Vector2f info);
+	bool CheckTileInfoDown(sf::Vector2f info);
+
 	int CharacterSight(float angle);
 	void IdleAnimationPrint(SightDegree lookat);
 	void MoveAnimationPrint(SightDegree lookat);
@@ -97,9 +109,6 @@ public:
 	void SetTile(TileMap* tile);
 	void BoxMaker();
 
-	void Sword();
-	void Shield();
-	void Skill3();
 	 
 	void HealHP(int value);
 	void HealMP(int value);
@@ -111,6 +120,6 @@ public:
 	void AcquireKey(int value) {};
 	void AcquireItem(int key) {};//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
 
-	
+	void Collider(int x, int y);
 };
 

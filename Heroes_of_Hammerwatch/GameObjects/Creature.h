@@ -19,9 +19,11 @@ public:
         float exp = 0.f;
     };
 protected:
+    CreatureInfo creatureInfo;
     float curHealth = 0.f;
     std::map<std::string, Skill*> skills;
     std::list <Buff*> buffs;
+    std::list <Buff*> hadBuffs;
     SightDegree lookat = SightDegree::R;
 public:
     sf::Vector2f look;
@@ -34,6 +36,8 @@ public:
 
     void GainBuff(Buff* buff);
     void LoseBuff(Buff* buff);
+
+    CreatureInfo* ControlCreatureInfos() { return &creatureInfo; }
 
     virtual void Damaged(float physicalDmg, float magicalDmg) = 0;
 };

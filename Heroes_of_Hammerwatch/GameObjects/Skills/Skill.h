@@ -24,7 +24,7 @@ protected:
     Creature* owner = nullptr;
     float range = 0.f;
     TargetType targetType = TargetType::NONE;
-    std::vector<Creature*> targets;
+    std::list<Creature*> targets;
 public:
     Skill(const std::string& name);
     virtual void Init();
@@ -34,7 +34,7 @@ public:
     virtual void SetData(const std::string& key) = 0;
     virtual void SetOwner(Creature* owner) { this->owner = owner; };
     
-    void SetTarget();
+    virtual void SetTarget();
     virtual void Active();
     virtual void Effect() = 0;
 };

@@ -3,13 +3,16 @@
 class BloodLust :
     public Buff
 {
-    BloodLust(Creature& owner, Creature* provider, float range);
-    BloodLust(Creature& owner, float duration);
+protected:
+    float param = 1.2f;
+public:
+    BloodLust(Creature* owner, Creature* provider, float range);
+    BloodLust(Creature* owner, float duration);
     ~BloodLust() override = default;
     // Buff을(를) 통해 상속됨
     virtual void SetData(const std::string& key) override;
 
-    virtual void GetBuff() override;
+    virtual void GetBuff()override;
     virtual void DuringBuff(float dt) override;
     virtual void LoseBuff() override;
 };

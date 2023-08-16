@@ -33,7 +33,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	button->sortLayer = 100;
 	button->SetPosition(windowSize.x,0.f);*/
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
-	tileMap->DrawTexture("graphics/mine/tilemap.csv");
+	tileMap->LoadDrawTexture("graphics/mine/tilemap.csv");
 
 	player = (Paladin*)AddGo(new Paladin());
 	player->SetPosition(100, 100);
@@ -68,15 +68,15 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
-	/*Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
+	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
 	monster->SetPosition(300,300);
-	/*
+	
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
 
 	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
 	ET->SetPosition(400, 400);
-
+	/*
 	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
 	BG->SetPosition(300, 100);
 
@@ -108,6 +108,9 @@ void SceneGame::Update(float dt)
 {
 
 	Scene::Update(dt);
+
+	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<
+	//	tileMap->vertexArray.getBounds().width << tileMap->vertexArray.getBounds().height << std::endl;
 	
 	worldView.setCenter(player->GetPosition());
 
