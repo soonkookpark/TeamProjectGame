@@ -193,7 +193,7 @@ void Player::Draw(sf::RenderWindow& window)
 	for (auto& tile : testTiles)
 	{
 		window.draw(tile);
-	}
+}
 }
 
 bool Player::GetFlipX() const
@@ -218,19 +218,29 @@ void Player::PlayerMove(float dt)
 	if (INPUT_MGR.GetKey(sf::Keyboard::D))
 	{
 		direction.x = 1;
+		}
+		
+		
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::A))
 	{
-		direction.x = -1;
+		if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
+		{
+			direction.x = -1;
+		}
+		
+		//direction.x = -1;
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::W))
 	{
 		direction.y = -1;
+		}
+		//direction.y = -1;
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::S))
 	{
 		direction.y = 1;
-	}
+		}
 
 
 	position += direction * pTable.creatureInfo.speed * dt;
@@ -347,8 +357,8 @@ bool Player::CheckTileInfoLeft(sf::Vector2f info)
 	if (info.x >= 0 && info.y >= 0)
 	{
 		//if (tilemap->GetTileArray()[info.x][info.y])
-		{
-				
+	{
+
 			if (tilemap->GetTileArray()[info.x][info.y] == 0)// if(움직일 수 없다)
 			{
 				if ((info.x * tilePixelSize + (tilePixelSize / 2) > box.getPosition().x - box.getSize().x / 2 - tilePixelSize / 2));
@@ -375,9 +385,9 @@ bool Player::CheckTileInfoRight(sf::Vector2f info)
 		clock1.restart();
 	}
 	if (info.x >= 0 && info.y >= 0)
-	{
-		//if (tilemap->GetTileArray()[info.x][info.y])
 		{
+		//if (tilemap->GetTileArray()[info.x][info.y])
+			{
 
 			if (tilemap->GetTileArray()[info.x][info.y] != 1)// if(움직일 수 없다)
 			{
@@ -390,7 +400,7 @@ bool Player::CheckTileInfoRight(sf::Vector2f info)
 	else
 	{
 		return 0;
-	}
+}
 }
 
 bool Player::CheckTileInfoUp(sf::Vector2f info)
