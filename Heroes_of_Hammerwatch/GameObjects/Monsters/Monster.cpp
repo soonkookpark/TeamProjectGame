@@ -37,14 +37,18 @@ void Monster::Update(float dt)
 	creatureAnimation.Update(dt);
 	Creature::Update(dt);
 
-	destination = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
-	findAngle = Utils::Angle(destination-player->GetPosition());
+	destination = GetPosition();
+	findAngle = Utils::Angle(player->GetPosition()-destination);
 
 	if (findAngle < 0)
 	{
 		findAngle += 360;
 	}
 
+	MonsterSight(findAngle);
+	std::cout << lookat << std::endl;
+	std::cout << findAngle << std::endl;
+	
 	if (state == State::DIE)
 	{
 		Die(dt);

@@ -27,6 +27,7 @@ protected:
     std::list <Buff*> buffs;
     std::list <Buff*> hadBuffs;
     SightDegree lookat = SightDegree::R;
+
 public:
     sf::Vector2f look;
 
@@ -41,6 +42,7 @@ public:
     virtual void IdleAnimationPrint(SightDegree lookat);
     virtual void MoveAnimationPrint(SightDegree lookat);
     virtual void AttackAnimationPrint(SightDegree lookat);
+    int MonsterSight(float angle);
 
     CreatureInfo* ControlCreatureInfos() { return &creatureInfo; }
 
