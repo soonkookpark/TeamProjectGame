@@ -5,12 +5,14 @@
 BloodLust::BloodLust(Creature* owner, Creature* provider, float range)
     :Buff("BloodLust", owner, provider, range)
 {
+    kindOfBuff = KindOfBuff::BLOOD_LUST;
     GetBuff();
 }
 
 BloodLust::BloodLust(Creature* owner, float duration)
     :Buff("BloodLust", owner, duration)
 {
+    kindOfBuff = KindOfBuff::BLOOD_LUST;
     GetBuff();
 }
 

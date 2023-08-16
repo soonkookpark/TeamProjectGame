@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "PassiveSkill.h"
 
-PassiveSkill::PassiveSkill(const std::string& key)
-	:Skill(key)
+PassiveSkill::PassiveSkill(const std::string& key, Creature* owner)
+	:Skill(key, owner)
 {
 	SetData(key);
 }

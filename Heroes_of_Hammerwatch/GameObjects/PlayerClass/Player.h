@@ -109,11 +109,10 @@ public:
 	void SetTile(TileMap* tile);
 	void BoxMaker();
 
+	virtual void SetDead() override;
 	 
 	void HealHP(int value);
 	void HealMP(int value);
-
-	void Damaged(float physicalDmg, float magicalDmg);
 
 	void AcquireOre(int value) { ore += value; };
 	void AcquireMoney(int value) { money += value; };

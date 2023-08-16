@@ -53,9 +53,8 @@ void Player::SetData(const std::string& name)
 	creatureInfo = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name).CI;	
 
 
-	buffs.push_back(new BloodLust(this, 10));
-	skills.insert({ "atk", new MeleeAttack("test") });
-	skills["atk"]->SetOwner(this);
+	buffs.push_back(new Shield("", this));
+	skills.insert({ "atk", new MeleeAttack("test",this) });
 }
 
 void Player::Reset()
@@ -218,13 +217,13 @@ void Player::PlayerMove(float dt)
 	if (INPUT_MGR.GetKey(sf::Keyboard::D))
 	{
 		direction.x = 1;
-		}
+		
 		
 		
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::A))
 	{
-		if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
+		//if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
 		{
 			direction.x = -1;
 		}
@@ -234,16 +233,16 @@ void Player::PlayerMove(float dt)
 	if (INPUT_MGR.GetKey(sf::Keyboard::W))
 	{
 		direction.y = -1;
-		}
+		
 		//direction.y = -1;
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::S))
 	{
 		direction.y = 1;
-		}
+	}
 
-
-	position += direction * pTable.creatureInfo.speed * dt;
+	
+	position += Utils::Normalize(direction) * creatureInfo.speed * dt;
 	SetPosition(position);
 
 	//std::cout << box.getGlobalBounds().left << ", " << box.getGlobalBounds().top << std::endl;
@@ -703,6 +702,10 @@ void Player::BoxMaker()
 	}
 }
 
+void Player::SetDead()
+{
+}
+
 
 void Player::HealHP(int value)
 {
@@ -716,21 +719,6 @@ void Player::HealMP(int value)
 	curMana += value;
 	if (curMana > pTable.manaPoint)
 		curMana = pTable.manaPoint;
-}
-
-void Player::Damaged(float physicalDmg, float magicalDmg)
-{
-	std::cout << "�ǰݵ�" << std::endl;
-	physicalDmg = 1 / (1 + creatureInfo.armor / 50) * physicalDmg;
-	magicalDmg = 1 / (1 + creatureInfo.resistance / 50) * magicalDmg;
-
-	//���� ���� ���� ������ ���� ��ٴ�?�� ��ƿ�� �־��?�ҵ�
-
-	curHealth -= physicalDmg + magicalDmg;
-	if (curHealth < 0)
-	{
-		//������ �Լ�
-	}
 }
 
 void Player::Collider(int x, int y)
