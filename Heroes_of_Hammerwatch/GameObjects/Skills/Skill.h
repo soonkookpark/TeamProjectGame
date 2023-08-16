@@ -1,18 +1,43 @@
 #pragma once
-#include "GameObject.h"
-class Skill :
-    public GameObject
+
+class Creature;
+
+class Skill
 {
-protected:
 public:
-    Skill(const std::string& name) : GameObject(name) {};
-    virtual ~Skill() { Release(); };
-    // GameObject을(를) 통해 상속됨
-    virtual void Init() override;
-    virtual void Reset() override;
-    virtual void Update(float dt) override;
-    virtual void Draw(sf::RenderWindow& window) override;
+    enum class SkillType
+    {
+        None = -1,
+        MELEE_ATTACK,
+        RANGE_ATTACK,
+        COUNT,
+    };
+    enum class TargetType
+    {
+        None = 01,
+        SELF,
+        ALLY,
+        ENEMY,
+        COUNT,
+    };
 
-    virtual void Active() = 0;
+    
+protected:
+    Creature* owner = nullptr;
+    float range = 0.f;
+    TargetType targetType = TargetType::None;
+    std::vector<Creature*> targets;
+public:
+    Skill(const std::string& name);
+  
+    virtual void Init() ;
+    virtual void Reset() ;
+    virtual void Update(float dt) ;
+    
+    virtual void SetData(const std::string& key) = 0;
+    virtual void SetOwner(Creature* owner) { this->owner = owner; };
+
+    void SetTarget();
+    virtual void Active();
+    virtual void Effect() = 0;
 };
-

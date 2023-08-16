@@ -53,6 +53,7 @@ protected:
 	bool filpX = false;
 	bool isGround = true;
 	bool isAnimationPlay = false;
+	bool attackNow = false;
 	
 	PlayerInfo pTable;
 	sf::Vector2i playerTileIndex;
@@ -62,9 +63,9 @@ protected:
 	int tileSize = 0;
 	int tilePixelSize = 16;
 	sf::RectangleShape box;
-	sf::Vector2f agoTile;
-	sf::Vector2f newTile;
-	RectangleGo* testRect;	
+	sf::Vector2i tileIntSize;
+	
+	//RectangleGo* testRect;	
 	
 	float angle = 0.f;
 	float pastAngle = 0.f;
@@ -91,12 +92,9 @@ public:
 	int CharacterSight(float angle);
 	void IdleAnimationPrint(SightDegree lookat);
 	void MoveAnimationPrint(SightDegree lookat);
+	void AttackAnimationPrint(SightDegree lookat);
 	void SetTile(TileMap* tile);
 	void BoxMaker();
-
-	void Sword();
-	void Shield();
-	void Skill3();
 	 
 	void HealHP(int value);
 	void HealMP(int value);
@@ -107,5 +105,7 @@ public:
 	void AcquireMoney(int value) { money += value; };
 	void AcquireKey(int value) {};
 	void AcquireItem(int key) {};//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
+
+	
 };
 

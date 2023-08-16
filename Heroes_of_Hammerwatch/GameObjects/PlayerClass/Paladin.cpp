@@ -6,25 +6,48 @@
 
 Paladin::Paladin()
 {
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveR.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUR.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveU.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUL.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveL.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveDL.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveD.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveDR.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleR.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleUR.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleU.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleUL.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleL.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDL.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleD.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleDR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveUR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveU.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveUL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveDL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveD.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveDR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/IdleR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/IdleUR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/IdleU.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/IdleUL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/IdleL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/IdleDL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/IdleD.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/IdleDR.csv"));
+
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackUR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackU.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackUL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackDL.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackD.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackDR.csv"));
+
+	
+
+
+
 
 	//skills.insert({ "",(Skill*) SCENE_MGR.GetCurrScene()->AddGo(new MeleeAttack("sdfg")) });
 	animation.SetTarget(&sprite);
 	SetData("Paladin");
 }
 
+void Paladin::Update(float dt)
+{
+	Player::Update(dt);
+}
+
+void Paladin::SetData(const std::string& name)
+{
+	Player::SetData(name);
+}

@@ -11,6 +11,7 @@ public:
 		EliteMonster,
 		FieldItem,
 		PlayerClass,
+		SkillData,
 	};
 
 	DataTable(const DataTable& other) = delete;

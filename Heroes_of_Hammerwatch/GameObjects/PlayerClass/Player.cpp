@@ -32,6 +32,7 @@ void Player::Init()
 	SetOrigin(Origins::MC);
 	sprite.setScale(1.0, 1.0);
 	tileSize = tilemap->tiles.size();
+	tileIntSize = tilemap->TileIntSize();
 	//animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/idleF.csv"));
 
 	box.setFillColor(sf::Color::Transparent);
@@ -39,6 +40,7 @@ void Player::Init()
 	box.setOutlineThickness(1);
 		
 	sortLayer = SortLayer::PLAYER;
+	
 
 }
 
@@ -54,7 +56,7 @@ void Player::Reset()
 	SetOrigin(origin);
 	//SetPosition({ 0, 0 });
 	SetFlipX(false);
-	box.setSize({8,16});
+	box.setSize({16,16});
 	box.setOrigin(box.getSize() * 0.5f);
 	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 
@@ -63,7 +65,7 @@ void Player::Reset()
 
 void Player::Update(float dt)
 {
-
+	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 	animation.Update(dt);
 	look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
 	angle = Utils::Angle(look);
@@ -78,139 +80,66 @@ void Player::Update(float dt)
 	}
 	//std::cout << lookat << std::endl;
 	
-	if (direction == sf::Vector2f{0, 0})
+	if (direction == sf::Vector2f{0, 0}&& !attackNow)
 	{
 		IdleAnimationPrint(lookat);
 	}
-	else if(((INPUT_MGR.GetKey(sf::Keyboard::S))
+	else if((((INPUT_MGR.GetKey(sf::Keyboard::S))
 		||(INPUT_MGR.GetKey(sf::Keyboard::W)) 
 		||(INPUT_MGR.GetKey(sf::Keyboard::D)) 
-		||(INPUT_MGR.GetKey(sf::Keyboard::A)))
+		||(INPUT_MGR.GetKey(sf::Keyboard::A)))&& !attackNow)
 		)
 	{
 		MoveAnimationPrint(lookat); //마우스가 가리키는 방향으로 움직이는 애니메이션.
 		//isAnimationPlay = true;
 	}
-	/*else if(pastAngle!= lookat)
+	if (INPUT_MGR.GetMouseButton(sf::Mouse::Left) && !attackNow)
 	{
-		isAnimationPlay = false;
-		std::cout << "요기 난 지날게" << std::endl;
-	}*/
-	
-
-	//look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
-	//angle = Utils::Angle(look);
-	//if (angle < 0)
-	//{
-	//	angle += 360;
-	//}
-	//CharacterSight(angle);
-
-	//// 이전에 재생 중인 애니메이션 종료 처리
-	//if (lookat != CharacterSight(angle))
-	//{
-	//	isAnimationPlay = false;
-	//}
-
-	//// 움직임 및 애니메이션 처리
-	//if (direction == sf::Vector2f{0, 0})
-	//{
-	//	if (isAnimationPlay)
-	//	{
-	//		// 재생 중인 애니메이션 업데이트
-	//		IdleAnimationUpdate();
-	//	}
-	//	else
-	//	{
-	//		// 애니메이션 재생 및 재생 상태 설정
-	//		IdleAnimationPrint(lookat);
-	//		isAnimationPlay = true;
-	//	}
-	//}
-	//else if (INPUT_MGR.GetKeyDown(sf::Keyboard::S) || INPUT_MGR.GetKey(sf::Keyboard::W) || INPUT_MGR.GetKey(sf::Keyboard::D) || INPUT_MGR.GetKey(sf::Keyboard::A))
-	//{
-	//	if (isAnimationPlay)
-	//	{
-	//		// 재생 중인 애니메이션 업데이트
-	//		MoveAnimationUpdate();
-	//	}
-	//	else
-	//	{
-	//		// 애니메이션 재생 및 재생 상태 설정
-	//		MoveAnimationPrint(lookat);
-	//		isAnimationPlay = true;
-	//	}
-	//}
-	//else
-	//{
-	//	// 움직임이 없을 경우 애니메이션 정지 상태 설정
-	//	isAnimationPlay = false;
-	//}
-	//{
-	//	//moveanimation 출력!!!!!!!!!!!!!
-	//}
-	//else if () 
-	//{
-	//
-	//}
-
-	//}
-	//std::cout << animation.GetCurrentClipId() << std::endl;// != "MoveD";
-	//{
-	//	if(animation.GetCurrentClipId()!="MoveD")
-	//	{
-	/*if (INPUT_MGR.GetKey(sf::Keyboard::S)&&!isAnimationPlay)
-	{
-		animation.Play("MoveD");
-		isAnimationPlay = true;
+		attackNow = true;
+		AttackAnimationPrint(lookat);
 	}
-	if (animation.GetCurrentClipId() != "MoveD")
+	
+	if(attackNow && animation.GetCurrFrame() == 3)
 	{
-		isAnimationPlay = false;
-	}*/
-	
-	//	}
-	//}
-	
-	/*static float time = 0.f;
-	time += dt;*/
-	//이동
-	//if (direction.x != 0||direction.y!=0)
-	
+		attackNow = false;
+	}
+
 	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Tilde))
+	{
+		//현재 플레이어의 위치
+		std::cout << playerTileIndex.x << ", " << playerTileIndex.y << std::endl;
+		//타일 전체 크기 사이즈
+		std::cout << tileIntSize.x<< ", " << tileIntSize.y << std::endl;
+		//플레이어의 위치
+		std::cout << GetPosition().x << ", " << GetPosition().y << std::endl;
+		
+
+	}
+	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
+	{
+		std::cout << mousePos.x << "," << mousePos.y << std::endl;
+		//animation1.Play("MonsterBallEffect");
+		if (direction.x == 0 && direction.y == 0)
+		{
+			//(CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)}));
+		}
+	}
 	
 	//direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
 	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
-
+	//sprite.g
 
 	//std::cout << playerTileIndex.x << ", " << playerTileIndex.y << std::endl;
 
 	PlayerMove();
-	float magnitude = Utils::Magnitude(direction);
-	if (magnitude > 1.f)
-	{
-		direction /= magnitude;
-
-	}
 	
-
+	//std::cout << GetPosition().x << std::endl;
 	
-	/*std::string clipId = magnitude == 0.f ? currentClipInfo.idle : currentClipInfo.move;
-	if (animation.GetCurrentClipId() != clipId)
-
-	{
-		animation.Play(clipId);
-	}*/
-
-
-	FindTileInfo();
-	if (CheckTileInfo(static_cast<sf::Vector2f>(playerTileIndex)))
-	{
-
-	}	
 	position += direction * pTable.creatureInfo.speed * dt;
 	SetPosition(position);
 
+	
 	/*if (direction.x != 0.f || direction.y != 0.f)
 	{
 		auto min = std::min_element(clipInfos.begin(), clipInfos.end(),
@@ -233,8 +162,9 @@ void Player::Update(float dt)
 
 	
 	//CheckTileInfo();
-
-	BoxMaker();
+	//플레이어의 타일 정보잖아
+	//FindTileInfo();
+	//BoxMaker();
 	
 	box.setPosition(sprite.getPosition());
 }
@@ -267,6 +197,7 @@ void Player::PlayerMove()
 	{
 		if ((CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
 		{
+			//std::cout<<playerTileIndex.x << std::endl;
 			direction.x = +1;
 		}
 		
@@ -293,7 +224,7 @@ void Player::PlayerMove()
 	{
 		if ((CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
 		{
-		direction.y = +1;
+			direction.y = +1;
 		}
 		//direction.y = 1;
 	}
@@ -353,6 +284,21 @@ void Player::FindTileInfo()
 
 bool Player::CheckTileInfo(sf::Vector2f info)
 {
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
+	{
+		
+		
+		std::cout << "타일 좌측 정보: ";
+		std::cout << info.x * tilePixelSize + (tilePixelSize / 2) << std::endl;
+		std::cout << "플레이어 좌측 정보: ";
+		std::cout << box.getPosition().x - box.getSize().x << std::endl;
+		
+
+		std::cout << "타일 우측 정보: ";
+		std::cout << (info.x * tilePixelSize + (tilePixelSize / 2)) << std::endl;
+		std::cout << "플레이어 우측 정보: ";
+		std::cout << box.getPosition().x + box.getSize().x << std::endl;
+	}
 	int tileSize = tilemap->tiles.size();
 	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
 	for (int i = 0; i < tileSize; i++)
@@ -361,12 +307,23 @@ bool Player::CheckTileInfo(sf::Vector2f info)
 		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
 		{
 			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
-			if (texIndex != 1)//다음 이동할곳이 갈 수 없어
+			if (texIndex != 1)// 일단 못가는곳이야 뒤가
 			{
+				if((info.x*tilePixelSize+(tilePixelSize/2)> box.getPosition().x - box.getSize().x)
+					|| ((info.x * tilePixelSize + (tilePixelSize / 2)) < box.getPosition().x + box.getSize().x))
+					return 0;
 				
-				//std::cout << "여긴 바닥이 아니야" << std::endl;
-				
-				return 0;
+				/*
+				타일 좌측 정보 : 8
+				플레이어 좌측 정보 : 15.9863
+				타일 우측 정보 : 8
+				플레이어 우측 정보 : 47.9863
+				*/
+
+
+
+
+
 			}
 			return 1;
 		}
@@ -485,6 +442,54 @@ void Player::MoveAnimationPrint(SightDegree lookat)
 		if (animation.GetCurrentClipId() == "MoveUR")
 			if (animation.GetCurrFrame() <= 1) break;
 		animation.Play("MoveUR");
+		break;
+	}
+}
+
+void Player::AttackAnimationPrint(SightDegree lookat)
+{
+
+	switch (lookat)
+	{
+	case 0:
+		if (animation.GetCurrentClipId() == "AttackR")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackR");
+		break;
+	case 1:
+		if (animation.GetCurrentClipId() == "AttackDR")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackDR");
+		break;
+	case 2:
+		if (animation.GetCurrentClipId() == "AttackD")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackD");
+		break;
+	case 3:
+		if (animation.GetCurrentClipId() == "AttackDL")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackDL");
+		break;
+	case 4:
+		if (animation.GetCurrentClipId() == "AttackL")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackL");
+		break;
+	case 5:
+		if (animation.GetCurrentClipId() == "AttackUL")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackUL");
+		break;
+	case 6:
+		if (animation.GetCurrentClipId() == "AttackU")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackU");
+		break;
+	case 7:
+		if (animation.GetCurrentClipId() == "AttackUR")
+			if (animation.GetCurrFrame() <= 1) break;
+		animation.Play("AttackUR");
 		break;
 	}
 }
