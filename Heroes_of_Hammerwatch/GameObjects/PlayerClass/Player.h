@@ -75,6 +75,9 @@ protected:
 
 	//test clock
 	sf::Clock clock1;
+	
+	sf::RectangleShape testTiles[8];
+	sf::RectangleShape testIntersect;
 
 	//RectangleGo* testRect;
 public:
@@ -117,6 +120,6 @@ public:
 	void AcquireKey(int value) {};
 	void AcquireItem(int key) {};//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
 
-	int Collider(int x, int y);
+	void Collider(int x, int y);
 };
 
