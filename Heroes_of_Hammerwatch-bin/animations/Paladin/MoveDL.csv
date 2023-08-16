@@ -1,6 +1,8 @@
 ID,FPS,LOOPTYPE,,
-MoveDL,8,1,,
+MoveDL,4,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Player/Paladin.png,120,23,24,20
+graphics/Player/Paladin.png,120,0,24,20
 graphics/Player/Paladin.png,120,23,24,20
 graphics/Player/Paladin.png,120,0,24,20

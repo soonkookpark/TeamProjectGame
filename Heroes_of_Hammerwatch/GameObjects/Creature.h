@@ -1,5 +1,6 @@
 #pragma once
 #include "SpriteGo.h"
+#include "AnimationController.h"
 
 class Skill;
 class Buff;
@@ -19,6 +20,7 @@ public:
         float exp = 0.f;
     };
 protected:
+    AnimationController creatureAnimation;
     CreatureInfo creatureInfo;
     float curHealth = 0.f;
     std::map<std::string, Skill*> skills;
@@ -36,6 +38,9 @@ public:
 
     void GainBuff(Buff* buff);
     void LoseBuff(Buff* buff);
+    virtual void IdleAnimationPrint(SightDegree lookat);
+    virtual void MoveAnimationPrint(SightDegree lookat);
+    virtual void AttackAnimationPrint(SightDegree lookat);
 
     CreatureInfo* ControlCreatureInfos() { return &creatureInfo; }
 
