@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "Creature.h"
 
 class Player;
 class Paladin;
@@ -15,8 +16,6 @@ protected:
 	Player* player;
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
-
-	Monster* monster = nullptr;
 public:
 	SceneGame();
 	virtual ~SceneGame() override = default;
@@ -28,6 +27,5 @@ public:
 	virtual void Exit() override;
 
 	virtual void Update(float dt) override;
-	virtual void Draw(sf::RenderWindow& window) override;
+	virtual void Draw(sf::RenderWindow& window) override;		
 };
-

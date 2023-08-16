@@ -1,0 +1,2 @@
+Class_Name,Health_Power,Mana_Point,Health_Power_Per_Level,Mana_Point_Per_Level,Health_Heal,Mana_Heal,Health_Heal_Per_Level,Mana_Heal_Per_Level,Defence,Defence_Per_Level,Resistance,Resistance_Per_Level,Move_Speed,Attack_Power,Skill_Power,Critical_Rate,Critical_Damage,Skill_Critical_Rate,Skill_Critical_Damage,Evade_Rate,Exp,Exp_Per_Level
+Paladin,75,50,8,6,0,0.4,0.025,0.05,10,0.6,0,0.2,100,0,0,0,200,0,200,0,0,100

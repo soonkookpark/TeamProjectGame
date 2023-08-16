@@ -10,6 +10,8 @@
 #include "PlayerTable.h"
 #include "DataTableMgr.h"
 #include "MeleeAttack.h"
+#include "Buffs/AllBuffs.hpp"
+#include "Creature.h"
 
 void Player::Init()
 {
@@ -48,9 +50,11 @@ void Player::Init()
 
 void Player::SetData(const std::string& name)
 {
-	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name);	
+	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name).PI;	
+	creatureInfo = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name).CI;	
 
 
+	buffs.push_back(new BloodLust(this, 10));
 	skills.insert({ "atk", new MeleeAttack("test") });
 	skills["atk"]->SetOwner(this);
 }
@@ -65,6 +69,7 @@ void Player::Reset()
 	box.setOrigin(box.getSize() * 0.5f);
 	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 
+	
 	//currentClipInfo = clipInfos[6];*/
 }
 
@@ -138,13 +143,14 @@ void Player::Update(float dt)
 
 	//std::cout << playerTileIndex.x << ", " << playerTileIndex.y << std::endl;
 
-	PlayerMove();
-	
+	PlayerMove(dt);
+	box.setPosition(sprite.getPosition());
 	//std::cout << GetPosition().x << std::endl;
 	
-	position += direction * pTable.creatureInfo.speed * dt;
+	position += direction * creatureInfo.speed * dt;
 	SetPosition(position);
 
+	
 	
 	/*if (direction.x != 0.f || direction.y != 0.f)
 	{
@@ -172,7 +178,7 @@ void Player::Update(float dt)
 	//FindTileInfo();
 	//BoxMaker();
 	
-	box.setPosition(sprite.getPosition());
+	
 	Creature::Update(dt);
 
 	if (InputMgr::Instance().GetMouseButtonDown(sf::Mouse::Left))
@@ -185,6 +191,11 @@ void Player::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
 	window.draw(box);
+
+	for (auto& tile : testTiles)
+	{
+		window.draw(tile);
+}
 }
 
 bool Player::GetFlipX() const
@@ -201,45 +212,69 @@ void Player::SetFlipX(bool filp)
 	sprite.setScale(scale);
 }
 
-void Player::PlayerMove()
+void Player::PlayerMove(float dt)
 {
 	direction.x = 0.f;
 	direction.y = 0.f;
+
 	if (INPUT_MGR.GetKey(sf::Keyboard::D))
 	{
-		if ((CheckTileInfoRight(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
-		{
-			//std::cout<<playerTileIndex.x << std::endl;
-			direction.x = +1;
-		}
-		
-		
+		direction.x = 1;	
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::A))
 	{
-		if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
-		{
-			direction.x = -1;
-		}
-		
-		//direction.x = -1;
+		direction.x = -1;
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::W))
 	{
-		if ((CheckTileInfoUp(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y-1)})))
-		{
-			direction.y= -1;
-		}
-		//direction.y = -1;
+		direction.y = -1;
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::S))
 	{
-		if ((CheckTileInfoDown(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
-		{
-			direction.y = +1;
-		}
-		//direction.y = 1;
+		direction.y = 1;
 	}
+
+	position += direction * creatureInfo.speed * dt;
+	SetPosition(position);
+
+	Collider(playerTileIndex.x, playerTileIndex.y);
+
+
+	//if (INPUT_MGR.GetKey(sf::Keyboard::D))
+	//{
+	//	if ((CheckTileInfoRight(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
+	//	{
+	//		//std::cout<<playerTileIndex.x << std::endl;
+	//		direction.x = +1;
+	//	}
+	//	
+	//	
+	//}
+	//if (INPUT_MGR.GetKey(sf::Keyboard::A))
+	//{
+	//	if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
+	//	{
+	//		direction.x = -1;
+	//	}
+	//	
+	//	//direction.x = -1;
+	//}
+	//if (INPUT_MGR.GetKey(sf::Keyboard::W))
+	//{
+	//	if ((CheckTileInfoUp(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y-1)})))
+	//	{
+	//		direction.y= -1;
+	//	}
+	//	//direction.y = -1;
+	//}
+	//if (INPUT_MGR.GetKey(sf::Keyboard::S))
+	//{
+	//	if ((CheckTileInfoDown(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
+	//	{
+	//		direction.y = +1;
+	//	}
+	//	//direction.y = 1;
+	//}
 	if (INPUT_MGR.GetKeyUp(sf::Keyboard::W)
 		|| INPUT_MGR.GetKeyUp(sf::Keyboard::S))
 	{
@@ -625,6 +660,8 @@ void Player::BoxMaker()
 	for (int i = 0; i < tileSize; i++)
 	{
 		int textBox = tilemap->tiles[i].texIndex;
+		//tilemap->GetTileArray()[0][0] == 0
+
 		if (textBox == 0)
 		{
 			
@@ -636,8 +673,8 @@ void Player::BoxMaker()
 void Player::HealHP(int value)
 {
 	curHealth += value;
-	if (curHealth > pTable.creatureInfo.maxHealth)
-		curHealth = pTable.creatureInfo.maxHealth;
+	if (curHealth > creatureInfo.maxHealth)
+		curHealth = creatureInfo.maxHealth;
 }
 
 void Player::HealMP(int value)
@@ -650,8 +687,8 @@ void Player::HealMP(int value)
 void Player::Damaged(float physicalDmg, float magicalDmg)
 {
 	std::cout << "ï¿½Ç°Ýµï¿½" << std::endl;
-	physicalDmg = 1 / (1 + pTable.creatureInfo.armor / 50) * physicalDmg;
-	magicalDmg = 1 / (1 + pTable.creatureInfo.resistance / 50) * magicalDmg;
+	physicalDmg = 1 / (1 + creatureInfo.armor / 50) * physicalDmg;
+	magicalDmg = 1 / (1 + creatureInfo.resistance / 50) * magicalDmg;
 
 	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù´ï¿?ï¿½ï¿½ ï¿½ï¿½Æ¿ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿?ï¿½Òµï¿½
 
@@ -660,4 +697,83 @@ void Player::Damaged(float physicalDmg, float magicalDmg)
 	{
 		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	}
+}
+
+void Player::Collider(int x, int y)
+{
+	for (auto& tile : testTiles)
+	{
+		tile.setFillColor(sf::Color::Transparent);
+	}
+	sf::Vector2i LRTP[8] =
+	{
+		{x - 1, y} ,
+		{ x + 1, y },
+		{ x, y - 1 },
+		{ x, y + 1},
+		{x - 1, y - 1},
+		{x + 1, y - 1},
+		{x - 1, y + 1},
+		{x + 1, y + 1}
+	};
+	// L, R, T, P, LT, RT, LB, RB
+
+	std::vector<std::vector<int>> tileArr = tilemap->GetTileArray();
+	//if(x-1<0 || y-1<0 || x+1> tileArr.)
+
+	for (int i = 0; i < 8; i++)
+	{
+		sf::Vector2i arrSize = tilemap->TileIntSize();
+		if (LRTP[i].y < 0 || LRTP[i].x < 0 || LRTP[i].y >= arrSize.x || LRTP[i].x >= arrSize.y)
+		{
+			continue;
+		}
+
+		testTiles[i].setFillColor({ 255, 255, 255, 128 });
+		testTiles[i].setPosition((float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize);
+		testTiles[i].setSize({ (float)tilePixelSize, (float)tilePixelSize });
+
+		if (tileArr[LRTP[i].y][LRTP[i].x] != 0) 
+			continue;
+
+		sf::FloatRect tileRect = { (float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize};
+		sf::FloatRect intersector;
+
+
+
+		if (tileRect.intersects(box.getGlobalBounds(), intersector))
+		{
+			float width = box.getGlobalBounds().width * 0.5f;
+			float height = box.getGlobalBounds().height * 0.5f;
+			//std::cout << tileRect.left<< ", " << tileRect.top << ", ";
+			
+			if (intersector.width > intersector.height) //À§ ¾Æ·¡ ¿¡¼­ ºÎµúÈû
+			{
+				if (box.getGlobalBounds().top == intersector.top) //À­ º®¿¡ ºÎµúÈû
+				{
+					//std::cout << "À§" << std::endl;
+					SetPosition(position.x, tileRect.top + tileRect.height + height);
+				}
+				else if (box.getGlobalBounds().top < intersector.top) //¾Æ·¡ º®¿¡ ºÎµúÈû
+				{
+					SetPosition(position.x, tileRect.top - height);
+					//std::cout << "¾Æ·¡" << std::endl;
+				}
+			}
+			else if(intersector.width < intersector.height)//ÁÂ¿ì¿¡¼­ ºÎµúÈû
+			{
+				if (box.getGlobalBounds().left == intersector.left) //¿ÞÂÊ º®¿¡ ºÎµúÈû
+				{
+					SetPosition(tileRect.left + tileRect.width + width, position.y);
+					//std::cout << "ÁÂ"<< std::endl;
+				}
+				else if (box.getGlobalBounds().left < intersector.left) //¿À¸¥ÂÊ º®¿¡ ºÎµúÈû
+				{
+					SetPosition(tileRect.left - width, position.y);
+					//std::cout << "¿ì" << std::endl;
+				}
+			}
+		}
+	}
+	//return 9;
 }

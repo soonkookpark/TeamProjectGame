@@ -1,7 +1,0 @@
-ID,FPS,LOOPTYPE,,
-AttackU,8,0,,
-,,,,
-TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/Paladin.png,48,48,24,20
-graphics/Paladin.png,48,72,24,20
-graphics/Paladin.png,48,96,24,20

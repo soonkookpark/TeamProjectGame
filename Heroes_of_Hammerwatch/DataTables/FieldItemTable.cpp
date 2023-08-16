@@ -22,7 +22,7 @@ bool FieldItemTable::Load()
             doc.GetCell<int>(4, i),
             doc.GetCell<int>(5, i),
             doc.GetCell<int>(6, i),
-            doc.GetCell<int>(7, i));
+            doc.GetCell<int>(7, i), true);
     }
 
 

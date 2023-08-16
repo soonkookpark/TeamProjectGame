@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+AttackD,8,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Player/Paladin.png,144,48,24,20
+graphics/Player/Paladin.png,144,72,24,20
+graphics/Player/Paladin.png,144,96,24,20
+graphics/Player/Paladin.png,144,96,24,20

@@ -53,6 +53,7 @@ enum SortLayer
 {
 	//SortLayer °ª Á¤ÀÇ
 	TILE = 0,
+	FIELD_ITEMS,
 	PLAYER,
 	G_MONSTER,
 	WALL,
@@ -86,5 +87,6 @@ struct Tile
 	int y = 0;
 	int texIndex = 0;
 };
+
 
 #include "AnimationClip.h"

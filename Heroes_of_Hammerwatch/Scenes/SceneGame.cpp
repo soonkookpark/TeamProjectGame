@@ -13,6 +13,9 @@
 #include "Monster.h"
 #include "EliteTick.h"
 #include "Paladin.h"
+#include "BossGolem.h"
+#include "Items/FieldItem.h"
+#include "DataTableMgr.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -24,19 +27,6 @@ void SceneGame::Init() // 안바뀔거면 여기
 	Release();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
-	
-
-	
-	//TestCode
-	std::cout << "여기지남" << std::endl;
-	RectangleGo* Baggounrd = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Hi"));
-	Baggounrd->SetOrigin(Origins::ML);
-	Baggounrd->SetPosition(0, 0);
-	Baggounrd->rectangle.setFillColor(sf::Color::Blue);
-	RectangleGo* leftGround = (RectangleGo*)AddGo(new RectangleGo(groundSize, "Bye"));
-	leftGround->SetOrigin(Origins::MR);
-	leftGround->SetPosition(0, 0);
-	leftGround->rectangle.setFillColor(sf::Color::Magenta);
 
 	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
 	button->SetOrigin(Origins::TR);
@@ -78,10 +68,27 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
+	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
+	monster->SetPosition(300,300);
+	
+	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
+	monster->SetPosition(200,200);
 
-	EliteTick* ET = (EliteTick*)AddGo(new EliteTick());
-	ET->SetPosition(300, 300);
+	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
+	ET->SetPosition(400, 400);
+	/*
+	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
+	BG->SetPosition(300, 100);
 
+	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Apple")));
+	item->SetPosition(150, 100);
+
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("GoldKey")));
+	item->SetPosition(100, 150);
+
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("SmallManaStone")));
+	item->SetPosition(150, 150);
+	*/
 	Scene::Enter();
 }
 
@@ -89,18 +96,17 @@ void SceneGame::Exit()
 {
 	for (auto GO : gameObjects)
 	{
-		if (GO->GetName() == "mob" || GO->GetName() == "EliteTick")
+		if (GO->GetName() == "mob" || GO->GetName() == "EliteTick" || GO->GetName() == "BossGolem" || GO->GetName() == "FieldItem")
 		{
 			RemoveGo(GO);
-			//delete GO;
 		}
 	}
-
 	Scene::Exit();
 }
 
 void SceneGame::Update(float dt)
 {
+
 	Scene::Update(dt);
 
 	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<
