@@ -184,6 +184,11 @@ void Player::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
 	window.draw(box);
+
+	for (auto& tile : testTiles)
+	{
+		window.draw(tile);
+	}
 }
 
 bool Player::GetFlipX() const
@@ -713,8 +718,12 @@ void Player::Damaged(float physicalDmg, float magicalDmg)
 	}
 }
 
-int Player::Collider(int x, int y)
+void Player::Collider(int x, int y)
 {
+	for (auto& tile : testTiles)
+	{
+		tile.setFillColor(sf::Color::Transparent);
+	}
 	sf::Vector2i LRTP[8] =
 	{
 		{x - 1, y} ,
@@ -738,47 +747,52 @@ int Player::Collider(int x, int y)
 		{
 			continue;
 		}
-		if (tileArr[LRTP[i].y][LRTP[i].x] != 0) continue;
 
+		testTiles[i].setFillColor({ 255, 255, 255, 128 });
+		testTiles[i].setPosition((float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize);
+		testTiles[i].setSize({ (float)tilePixelSize, (float)tilePixelSize });
 
-		sf::FloatRect tileRect = { (float)x * tilePixelSize, (float)y * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize };
+		if (tileArr[LRTP[i].y][LRTP[i].x] != 0) 
+			continue;
+
+		sf::FloatRect tileRect = { (float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize};
 		sf::FloatRect intersector;
+
+
 
 		if (tileRect.intersects(box.getGlobalBounds(), intersector))
 		{
+			float width = box.getGlobalBounds().width * 0.5f;
+			float height = box.getGlobalBounds().height * 0.5f;
 			//std::cout << tileRect.left<< ", " << tileRect.top << ", ";
 			
 			if (intersector.width > intersector.height) //À§ ¾Æ·¡ ¿¡¼­ ºÎµúÈû
 			{
 				if (box.getGlobalBounds().top == intersector.top) //À­ º®¿¡ ºÎµúÈû
 				{
-					std::cout << "À§" << std::endl;
-					SetPosition(position.x, tileRect.top + tileRect.height);
+					//std::cout << "À§" << std::endl;
+					SetPosition(position.x, tileRect.top + tileRect.height + height);
 				}
 				else if (box.getGlobalBounds().top < intersector.top) //¾Æ·¡ º®¿¡ ºÎµúÈû
 				{
-					SetPosition(position.x, tileRect.top);
-					std::cout << "¾Æ·¡" << std::endl;
+					SetPosition(position.x, tileRect.top - height);
+					//std::cout << "¾Æ·¡" << std::endl;
 				}
-			}
-			else if(intersector.width == intersector.height)
-			{
-				std::cout << "¿¡·¯" << std::endl;
 			}
 			else if(intersector.width < intersector.height)//ÁÂ¿ì¿¡¼­ ºÎµúÈû
 			{
 				if (box.getGlobalBounds().left == intersector.left) //¿ÞÂÊ º®¿¡ ºÎµúÈû
 				{
-					SetPosition(tileRect.left + tileRect.width, position.y);
-					std::cout << "ÁÂ"<< std::endl;
+					SetPosition(tileRect.left + tileRect.width + width, position.y);
+					//std::cout << "ÁÂ"<< std::endl;
 				}
 				else if (box.getGlobalBounds().left < intersector.left) //¿À¸¥ÂÊ º®¿¡ ºÎµúÈû
 				{
-					SetPosition(tileRect.left, position.y);
-					std::cout << "¿ì" << std::endl;
+					SetPosition(tileRect.left - width, position.y);
+					//std::cout << "¿ì" << std::endl;
 				}
 			}
 		}
 	}
-	return 9;
+	//return 9;
 }
