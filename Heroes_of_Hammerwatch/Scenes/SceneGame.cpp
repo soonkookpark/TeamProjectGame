@@ -70,7 +70,7 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	uiView.setCenter(0.f, 0.f);
 	/*Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
 	monster->SetPosition(300,300);
-
+	/*
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
 
@@ -87,8 +87,8 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	item->SetPosition(100, 150);
 
 	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("SmallManaStone")));
-	item->SetPosition(150, 150);*/
-
+	item->SetPosition(150, 150);
+	*/
 	Scene::Enter();
 }
 

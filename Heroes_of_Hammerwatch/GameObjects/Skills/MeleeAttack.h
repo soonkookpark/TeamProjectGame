@@ -1,23 +1,20 @@
 #pragma once
-#include "AttackSkill.h"
+#include "ActiveSkill.h"
 class MeleeAttack :
-    public AttackSkill
+    public ActiveSkill
 {
 protected:
     float attackAngle = 0;
-    float attackRange = 0;
-
-  //  sf::Sprite* sprite;
 public:
     MeleeAttack(const std::string& key);
     virtual ~MeleeAttack() = default;
 
     virtual void Reset();
     //virtual void Update(float dt);
-    virtual void Draw(sf::RenderWindow& window);
+    //virtual void Draw(sf::RenderWindow& window);
 
-    virtual void Active() override;
+    virtual void Effect() override;
+    virtual void SetData(const std::string& key);
 
-    // AttackSkill을(를) 통해 상속됨
-    virtual bool CheckIntersected() override;
+    
 };

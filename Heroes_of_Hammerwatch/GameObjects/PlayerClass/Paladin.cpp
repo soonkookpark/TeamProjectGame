@@ -37,7 +37,8 @@ Paladin::Paladin()
 
 
 
-	//skills.insert({ "",(Skill*) SCENE_MGR.GetCurrScene()->AddGo(new MeleeAttack("sdfg")) });
+	
+
 	animation.SetTarget(&sprite);
 	SetData("Paladin");
 }
@@ -51,3 +52,4 @@ void Paladin::SetData(const std::string& name)
 {
 	Player::SetData(name);
 }
+

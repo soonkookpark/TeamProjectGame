@@ -26,7 +26,7 @@ public:
 
 	virtual bool CheckPersistan(float dt);
 
-	virtual void SetData(const std::string& key) = 0;
+	virtual void SetData(const std::string& key) {};
 	virtual void GetBuff();
 	virtual void DuringBuff(float dt);
 	virtual void LoseBuff();

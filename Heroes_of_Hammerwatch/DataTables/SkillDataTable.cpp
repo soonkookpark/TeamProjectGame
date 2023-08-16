@@ -25,8 +25,7 @@ bool SkillDataTable::Load()
                 {
                     doc.GetCell<std::string>(1,i),
                     doc.GetCell<std::string>(2,i),
-                    static_cast<Skill::SkillType>(doc.GetCell<int>(3,i)),
-                    
+                    static_cast<Skill::SKillType>(doc.GetCell<int>(3,i)),
                     doc.GetCell<int>(4,i),
                     doc.GetCell<int>(5,i),
                     doc.GetCell<float>(6,i),
@@ -43,12 +42,8 @@ bool SkillDataTable::Load()
                 }
             });
        // std::cout << i << "¹ø ³¡!" << std::endl;
-    }
-    
-    
-    
+    }   
     return true;
-
 }
 
 void SkillDataTable::Release()

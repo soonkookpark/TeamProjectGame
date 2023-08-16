@@ -4,6 +4,7 @@
 #include "AnimationController.h"
 #include "DataTableMgr.h"
 #include "MonsterTable.h"
+#include "MeleeAttack.h"
 
 Monster::Monster(const std::string& type, const std::string& name)
 	:Creature("",name)
@@ -26,17 +27,16 @@ void Monster::Reset()
 	state = Monster::State::DEFAULT;
 	//std::cout << "default" << std::endl;
 	timer = 0;
+	curHealth = param.creatureInfo.maxHealth;
 }
 
 void Monster::Update(float dt)
 {
-	if (state != State::CHASE)
+	Creature::Update(dt);
+	if (state == State::DIE)
 	{
-		if (DetectTarget())
-		{
-			state = State::CHASE;
-			//std::cout << "chase" << std::endl;
-		}
+		Die(dt);
+		return;
 	}
 	switch (state)
 	{
@@ -51,9 +51,6 @@ void Monster::Update(float dt)
 		break;
 	case Monster::State::ATTACK:
 		Attack(dt);
-		break;
-	case Monster::State::DIE:
-		Die(dt);
 		break;
 	}
 }
@@ -76,6 +73,8 @@ void Monster::SetData(const std::string& name)
 	{
 		sortLayer = SortLayer::G_MONSTER;
 	}
+	skills.insert({ "atk", new MeleeAttack("test") });
+	skills["atk"]->SetOwner(this);
 }
 
 void Monster::Wander(float dt)
@@ -91,14 +90,16 @@ void Monster::Wander(float dt)
 
 void Monster::Attack(float dt)
 {
-	if (param.isMelee)
+	bool isAttacking = false;
+	for (auto skill : skills)
 	{
-		//근거리 공격 player skill과 공유 하는점이 많아 나중에 추가 예정
+		ActiveSkill* activeSkill = dynamic_cast<ActiveSkill*>(skill.second);
+		if (activeSkill == nullptr)
+			continue;
+		isAttacking = isAttacking || activeSkill->GetIsSkillActive();		
 	}
-	else
-	{
-		//원거리 공격 player skill과 공유 하는점이 많아 나중에 추가 예정
-	}
+	if(!isAttacking)
+		state = State::CHASE;
 }
 
 void Monster::Chase(float dt)
@@ -111,9 +112,11 @@ void Monster::Chase(float dt)
 	{
 		state = State::DEFAULT;
 	}
-	if (Utils::Distance(player->GetPosition(), position) < param.attackRange)
+	//if (Utils::Distance(player->GetPosition(), position) < param.attackRange)
+	if (Utils::CircleToRect(position, param.attackRange, player->sprite.getGlobalBounds()))
 	{
 		state = State::ATTACK;
+		skills["atk"]->Active();
 		//std::cout << "atk" << std::endl;
 	}
 }
@@ -128,24 +131,32 @@ void Monster::Default(float dt)
 		state = State::WANDER;
 		//std::cout << "wander" << std::endl;
 	}
+	if (DetectTarget())
+	{
+		state = State::CHASE;
+	}
 }
 
 void Monster::Die(float dt)
 {
+	//std::cout << "주거써!" << std::endl;
 	//죽는 애니메이션
 	SCENE_MGR.GetCurrScene()->RemoveGo(this);
 }
 
 void Monster::Damaged(float physicalDmg, float magicalDmg)
 {
-	physicalDmg = (1 - 1 / (1+ param.creatureInfo.armor/ 50)) * physicalDmg;
-	magicalDmg = (1 - 1 / (1+ param.creatureInfo.resistance/ 50)) * magicalDmg;
+	//std::cout << "damaged" << std::endl;
+	physicalDmg = 1 / (1+ param.creatureInfo.armor/ 50) * physicalDmg;
+	magicalDmg = 1 / (1+ param.creatureInfo.resistance/ 50) * magicalDmg;
 
 	//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
-
-	curHealth -= physicalDmg + magicalDmg;
+	std::cout << physicalDmg + magicalDmg << "데미지 받음" << std::endl;
+	curHealth -= (physicalDmg + magicalDmg);
+	std::cout << curHealth << "잔여 피" << std::endl;
 	if (curHealth < 0)
 	{
+		//std::cout << "죽음!" << std::endl;
 		state = State::DIE;
 	}
 }
@@ -155,6 +166,7 @@ bool Monster::DetectTarget()
 	if (player == nullptr)
 		return false;
 	return Utils::Distance(player->GetPosition(), position) < param.searchRange;
+	//return Utils::CircleToRect(position, param.searchRange, player->sprite.getGlobalBounds());
 }
 /*
 void Monster::GetBuff()

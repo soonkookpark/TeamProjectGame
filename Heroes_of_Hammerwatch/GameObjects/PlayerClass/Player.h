@@ -83,6 +83,7 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+
 	void SetData(const std::string& name);
 	bool GetFlipX() const;
 	void SetFlipX(bool filp);
@@ -95,6 +96,10 @@ public:
 	void AttackAnimationPrint(SightDegree lookat);
 	void SetTile(TileMap* tile);
 	void BoxMaker();
+
+	void Sword();
+	void Shield();
+	void Skill3();
 	 
 	void HealHP(int value);
 	void HealMP(int value);

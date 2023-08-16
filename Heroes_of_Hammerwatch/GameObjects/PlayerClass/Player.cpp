@@ -9,9 +9,11 @@
 #include "SceneGame.h"
 #include "PlayerTable.h"
 #include "DataTableMgr.h"
+#include "MeleeAttack.h"
+
 void Player::Init()
 {
-	//ÆÄÀÏ ÀÔÃâ·Â
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 	/*animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveU.csv"));
@@ -46,8 +48,11 @@ void Player::Init()
 
 void Player::SetData(const std::string& name)
 {
-	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name);
-	
+	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name);	
+
+
+	skills.insert({ "atk", new MeleeAttack("test") });
+	skills["atk"]->SetOwner(this);
 }
 
 void Player::Reset()
@@ -65,6 +70,7 @@ void Player::Reset()
 
 void Player::Update(float dt)
 {
+	
 	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 	animation.Update(dt);
 	look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
@@ -90,7 +96,7 @@ void Player::Update(float dt)
 		||(INPUT_MGR.GetKey(sf::Keyboard::A)))&& !attackNow)
 		)
 	{
-		MoveAnimationPrint(lookat); //¸¶¿ì½º°¡ °¡¸®Å°´Â ¹æÇâÀ¸·Î ¿òÁ÷ÀÌ´Â ¾Ö´Ï¸ÞÀÌ¼Ç.
+		MoveAnimationPrint(lookat); //ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½.
 		//isAnimationPlay = true;
 	}
 	if (INPUT_MGR.GetMouseButton(sf::Mouse::Left) && !attackNow)
@@ -107,11 +113,11 @@ void Player::Update(float dt)
 	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Tilde))
 	{
-		//ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 		std::cout << playerTileIndex.x << ", " << playerTileIndex.y << std::endl;
-		//Å¸ÀÏ ÀüÃ¼ Å©±â »çÀÌÁî
+		//Å¸ï¿½ï¿½ ï¿½ï¿½Ã¼ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		std::cout << tileIntSize.x<< ", " << tileIntSize.y << std::endl;
-		//ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡
+		//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 		std::cout << GetPosition().x << ", " << GetPosition().y << std::endl;
 		
 
@@ -162,11 +168,17 @@ void Player::Update(float dt)
 
 	
 	//CheckTileInfo();
-	//ÇÃ·¹ÀÌ¾îÀÇ Å¸ÀÏ Á¤º¸ÀÝ¾Æ
+	//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½
 	//FindTileInfo();
 	//BoxMaker();
 	
 	box.setPosition(sprite.getPosition());
+	Creature::Update(dt);
+
+	if (InputMgr::Instance().GetMouseButtonDown(sf::Mouse::Left))
+	{
+		skills["atk"]->Active();
+	}
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -258,7 +270,7 @@ void Player::FindTileInfo()
 				std::cout << texIndex << /*", " << tilemap->TileSize().y<<*/ std::endl;
 
 			}
-			if (texIndex != 1)//ÀÌµ¿ºÒ°¡Å¸¿î
+			if (texIndex != 1)//ï¿½Ìµï¿½ï¿½Ò°ï¿½Å¸ï¿½ï¿½
 			{
 				/*if (direction.x < 0)
 				{
@@ -288,15 +300,15 @@ bool Player::CheckTileInfo(sf::Vector2f info)
 	{
 		
 		
-		std::cout << "Å¸ÀÏ ÁÂÃø Á¤º¸: ";
+		std::cout << "Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ";
 		std::cout << info.x * tilePixelSize + (tilePixelSize / 2) << std::endl;
-		std::cout << "ÇÃ·¹ÀÌ¾î ÁÂÃø Á¤º¸: ";
+		std::cout << "ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ";
 		std::cout << box.getPosition().x - box.getSize().x << std::endl;
 		
 
-		std::cout << "Å¸ÀÏ ¿ìÃø Á¤º¸: ";
+		std::cout << "Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ";
 		std::cout << (info.x * tilePixelSize + (tilePixelSize / 2)) << std::endl;
-		std::cout << "ÇÃ·¹ÀÌ¾î ¿ìÃø Á¤º¸: ";
+		std::cout << "ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ";
 		std::cout << box.getPosition().x + box.getSize().x << std::endl;
 	}
 	int tileSize = tilemap->tiles.size();
@@ -307,17 +319,17 @@ bool Player::CheckTileInfo(sf::Vector2f info)
 		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
 		{
 			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
-			if (texIndex != 1)// ÀÏ´Ü ¸ø°¡´Â°÷ÀÌ¾ß µÚ°¡
+			if (texIndex != 1)// ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â°ï¿½ï¿½Ì¾ï¿½ ï¿½Ú°ï¿½
 			{
 				if((info.x*tilePixelSize+(tilePixelSize/2)> box.getPosition().x - box.getSize().x)
 					|| ((info.x * tilePixelSize + (tilePixelSize / 2)) < box.getPosition().x + box.getSize().x))
 					return 0;
 				
 				/*
-				Å¸ÀÏ ÁÂÃø Á¤º¸ : 8
-				ÇÃ·¹ÀÌ¾î ÁÂÃø Á¤º¸ : 15.9863
-				Å¸ÀÏ ¿ìÃø Á¤º¸ : 8
-				ÇÃ·¹ÀÌ¾î ¿ìÃø Á¤º¸ : 47.9863
+				Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 8
+				ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 15.9863
+				Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 8
+				ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 47.9863
 				*/
 
 
@@ -530,14 +542,15 @@ void Player::HealMP(int value)
 
 void Player::Damaged(float physicalDmg, float magicalDmg)
 {
-	physicalDmg = (1 - 1 / (1 + pTable.creatureInfo.armor / 50)) * physicalDmg;
-	magicalDmg = (1 - 1 / (1 + pTable.creatureInfo.resistance / 50)) * magicalDmg;
+	std::cout << "ï¿½Ç°Ýµï¿½" << std::endl;
+	physicalDmg = 1 / (1 + pTable.creatureInfo.armor / 50) * physicalDmg;
+	magicalDmg = 1 / (1 + pTable.creatureInfo.resistance / 50) * magicalDmg;
 
-	//´ëÃæ À§¿¡ ¹ÞÀº µ¥¹ÌÁö ¼ýÀÚ ¶á´Ù´Â ¶æ À¯Æ¿¿¡ ³Ö¾î¾ß ÇÒµí
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ¿ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Òµï¿½
 
 	curHealth -= physicalDmg + magicalDmg;
 	if (curHealth < 0)
 	{
-		//Á×À»¶§ ÇÔ¼ö
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	}
 }

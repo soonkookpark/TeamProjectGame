@@ -26,6 +26,7 @@ public:
 
 	GameObject* FindGo(const std::string& name);
 	void FindGos(std::list<GameObject*>& list, const std::string& name);
+	std::list<GameObject*>& GetGos() { return gameObjects; }
 	bool Exist(GameObject* go);
 	GameObject* AddGo(GameObject* go);
 	void RemoveGo(GameObject* go);

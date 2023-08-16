@@ -36,7 +36,7 @@ class SkillDataTable : public DataTable
     {
         std::string usingClass;
         std::string skillName;
-        Skill::SkillType skillType;
+        Skill::SKillType skillType;
         int skillLevel;
         int costMana;
         float skillCoolTime;

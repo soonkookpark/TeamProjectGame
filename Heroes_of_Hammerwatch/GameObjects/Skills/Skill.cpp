@@ -20,11 +20,6 @@ void Skill::Update(float dt)
 {
 }
 
-
-void Skill::SetData(const std::string& key)
-{
-}
-
 void Skill::SetTarget()
 {
 	targets.clear();
@@ -33,12 +28,47 @@ void Skill::SetTarget()
 		targets.push_back(owner);
 		return;
 	}
+	for (GameObject* finder : SCENE_MGR.GetCurrScene()->GetGos())
+	{
+		
+		Creature* checker = dynamic_cast<Creature*>(finder);
+		if (checker == nullptr)
+			continue;
+		if (!Utils::CircleToRect(owner->GetPosition(), range, checker->sprite.getGlobalBounds(), owner->look))
+			continue;
+		if (dynamic_cast<Player*>(owner) != nullptr)
+		{
+			switch (targetType)
+			{
+			case Skill::TargetType::ALLY:
+				if (dynamic_cast<Player*>(finder) != nullptr)
+					targets.push_back(checker);
+				break;
+			case Skill::TargetType::ENEMY:
+				if (dynamic_cast<Monster*>(finder) != nullptr)
+					targets.push_back(checker);
+				break;
+			}
+		}
+
+		if (dynamic_cast<Monster*>(owner) != nullptr)
+		{
+			switch (targetType)
+			{
+			case Skill::TargetType::ALLY:
+				if (dynamic_cast<Monster*>(finder) != nullptr)
+					targets.push_back(checker);
+				break;
+			case Skill::TargetType::ENEMY:
+				if (dynamic_cast<Player*>(finder) != nullptr)
+					targets.push_back(checker);
+				break;
+			}
+		}
+	}
 }
 
 void Skill::Active()
 {
-}
-
-void Skill::Effect()
-{
+	SetTarget();
 }
