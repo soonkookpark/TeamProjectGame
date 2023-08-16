@@ -10,7 +10,7 @@ public:
 		NONE_AURA,
 	};
 protected:
-	Creature& owner;
+	Creature* owner;
 	ClassBuffType type;
 
 	Creature* provider;
@@ -19,7 +19,8 @@ protected:
 	float duration = 0;
 	float timer = 0;
 public:
-	Buff(const std::string& key, Creature& owner, ClassBuffType type);
+	Buff(const std::string& key, Creature* provider, float range);
+	Buff(const std::string& key, float duration);
 	virtual ~Buff() = default;
 
 	virtual void Update(float dt);
@@ -27,8 +28,11 @@ public:
 	virtual bool CheckPersistan(float dt);
 
 	virtual void SetData(const std::string& key) {};
+	virtual void SetOwner() { this->owner = owner; }
+
 	virtual void GetBuff();
 	virtual void DuringBuff(float dt);
 	virtual void LoseBuff();
+
 };
 

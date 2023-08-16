@@ -48,7 +48,9 @@ void Player::Init()
 
 void Player::SetData(const std::string& name)
 {
-	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name);	
+	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name).PI;	
+	creatureInfo = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name).CI;	
+
 
 
 	skills.insert({ "atk", new MeleeAttack("test") });
@@ -142,7 +144,7 @@ void Player::Update(float dt)
 	
 	//std::cout << GetPosition().x << std::endl;
 	
-	position += direction * pTable.creatureInfo.speed * dt;
+	position += direction * creatureInfo.speed * dt;
 	SetPosition(position);
 
 	
@@ -529,8 +531,8 @@ void Player::BoxMaker()
 void Player::HealHP(int value)
 {
 	curHealth += value;
-	if (curHealth > pTable.creatureInfo.maxHealth)
-		curHealth = pTable.creatureInfo.maxHealth;
+	if (curHealth > creatureInfo.maxHealth)
+		curHealth = creatureInfo.maxHealth;
 }
 
 void Player::HealMP(int value)
@@ -543,8 +545,8 @@ void Player::HealMP(int value)
 void Player::Damaged(float physicalDmg, float magicalDmg)
 {
 	std::cout << "�ǰݵ�" << std::endl;
-	physicalDmg = 1 / (1 + pTable.creatureInfo.armor / 50) * physicalDmg;
-	magicalDmg = 1 / (1 + pTable.creatureInfo.resistance / 50) * magicalDmg;
+	physicalDmg = 1 / (1 + creatureInfo.armor / 50) * physicalDmg;
+	magicalDmg = 1 / (1 + creatureInfo.resistance / 50) * magicalDmg;
 
 	//���� ���� ���� ������ ���� ��ٴ� �� ��ƿ�� �־�� �ҵ�
 

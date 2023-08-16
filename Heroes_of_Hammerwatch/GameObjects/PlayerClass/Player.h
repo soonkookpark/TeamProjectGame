@@ -17,7 +17,7 @@ public:
 	};
 	struct PlayerInfo
 	{
-		CreatureInfo creatureInfo;
+		//CreatureInfo creatureInfo;
 		std::string ClassName;
 		//int healthPower = 0;
 		int manaPoint = 0;

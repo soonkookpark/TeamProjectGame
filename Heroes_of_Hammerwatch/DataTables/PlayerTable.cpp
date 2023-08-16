@@ -18,6 +18,7 @@ bool PlayerTable::Load()
                     doc.GetCell<float>(20,i),
                     doc.GetCell<float>(21,i),
                 },
+                {
                 doc.GetCell<std::string>(0,i),
                 doc.GetCell<int>(2,i),
                 doc.GetCell<int>(3,i),
@@ -34,7 +35,8 @@ bool PlayerTable::Load()
                 doc.GetCell<float>(17,i),
                 doc.GetCell<float>(18,i),
                 doc.GetCell<float>(19,i),
-                doc.GetCell<float>(22,i),                
+                doc.GetCell<float>(22,i),        
+                }
             }
             });
        // std::cout << i << "¹ø ³¡!" << std::endl;

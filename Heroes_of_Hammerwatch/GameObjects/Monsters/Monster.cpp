@@ -27,7 +27,7 @@ void Monster::Reset()
 	state = Monster::State::DEFAULT;
 	//std::cout << "default" << std::endl;
 	timer = 0;
-	curHealth = param.creatureInfo.maxHealth;
+	curHealth = creatureInfo.maxHealth;
 }
 
 void Monster::Update(float dt)
@@ -58,7 +58,8 @@ void Monster::Update(float dt)
 void Monster::SetData(const std::string& name)
 {	
 	this->name = name;
-	param = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name);	
+	param = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).MI;
+	creatureInfo = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).CI;
 
 	if(name == "Bat")
 		textureId = "graphics/Test/testBat.png";
@@ -80,7 +81,7 @@ void Monster::SetData(const std::string& name)
 void Monster::Wander(float dt)
 {
 	dir = Utils::Normalize(destination - position);	
-	SetPosition(position + (dir * dt * param.creatureInfo.speed));
+	SetPosition(position + (dir * dt * creatureInfo.speed));
 	if (Utils::Distance(position, destination) < 0.1)
 	{
 		state = State::DEFAULT;
@@ -106,7 +107,7 @@ void Monster::Chase(float dt)
 {
 	destination = player->GetPosition();	
 	dir = Utils::Normalize(destination - position);
-	SetPosition(position + (dir * dt * param.creatureInfo.speed));
+	SetPosition(position + (dir * dt * creatureInfo.speed));
 
 	if (!DetectTarget())
 	{
@@ -147,8 +148,8 @@ void Monster::Die(float dt)
 void Monster::Damaged(float physicalDmg, float magicalDmg)
 {
 	//std::cout << "damaged" << std::endl;
-	physicalDmg = 1 / (1+ param.creatureInfo.armor/ 50) * physicalDmg;
-	magicalDmg = 1 / (1+ param.creatureInfo.resistance/ 50) * magicalDmg;
+	physicalDmg = 1 / (1+ creatureInfo.armor/ 50) * physicalDmg;
+	magicalDmg = 1 / (1+ creatureInfo.resistance/ 50) * magicalDmg;
 
 	//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
 	std::cout << physicalDmg + magicalDmg << "데미지 받음" << std::endl;

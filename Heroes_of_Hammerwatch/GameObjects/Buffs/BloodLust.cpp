@@ -1,17 +1,15 @@
 #include "stdafx.h"
 #include "BloodLust.h"
+#include "Creature.h"
 
-BloodLust::BloodLust(Creature& owner, Creature* provider, float range)
-    :Buff("LayOnHands", owner, Buff::AURA)
+BloodLust::BloodLust(Creature* provider, float range)
+    :Buff("BloodLust", provider, range)
 {
-    this->provider = provider;
-    this->range = range;
 }
 
-BloodLust::BloodLust(Creature& owner, float duration)
-    :Buff("LayOnHands", owner, Buff::NONE_AURA)
+BloodLust::BloodLust(float duration)
+    :Buff("BloodLust", duration)
 {
-    this->duration = duration;
 }
 
 void BloodLust::SetData(const std::string& key)
@@ -21,6 +19,8 @@ void BloodLust::SetData(const std::string& key)
 void BloodLust::GetBuff()
 {
 	Buff::GetBuff();
+    owner->sprite.setColor({ 255,125,125 });
+    owner->ControlCreatureInfos()->speed *= param;
 }
 
 void BloodLust::DuringBuff(float dt)
@@ -31,4 +31,6 @@ void BloodLust::DuringBuff(float dt)
 void BloodLust::LoseBuff()
 {
 	Buff::LoseBuff();
+    owner->sprite.setColor({ 255,255,255 });
+    owner->ControlCreatureInfos()->speed /= param;
 }
