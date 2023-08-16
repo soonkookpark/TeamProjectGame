@@ -115,5 +115,6 @@
     <ClInclude Include="DataTables\EliteMonsterTable.h" />
     <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
     <ClInclude Include="GameObjects\Tree.h" />
+    <ClInclude Include="GameObjects\PlayerClass\Player.h" />
   </ItemGroup>
 </Project>
