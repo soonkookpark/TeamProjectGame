@@ -2,17 +2,16 @@
 #include "LayOnHands.h"
 
 
-LayOnHands::LayOnHands(Creature& owner, Creature* provider, float range)
-    :Buff("LayOnHands",owner,Buff::AURA)
+LayOnHands::LayOnHands(Creature* owner, Creature* provider, float range)
+    :Buff("LayOnHands",owner, provider, range)
 {
-    this->provider = provider;
-    this->range = range;
+    GetBuff();
 }
 
-LayOnHands::LayOnHands(Creature& owner, float duration)
-    :Buff("LayOnHands", owner, Buff::NONE_AURA)
+LayOnHands::LayOnHands(Creature* owner, float duration)
+    :Buff("LayOnHands",owner, duration)
 {
-    this->duration = duration;
+    GetBuff();
 }
 
 void LayOnHands::SetData(const std::string& key)

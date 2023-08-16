@@ -27,7 +27,7 @@ public:
     };
     struct MonsterParameters
     {
-        CreatureInfo creatureInfo;
+        //CreatureInfo creatureInfo;
         //int exp = 0;
         //float maxHealth = 0;
         //float armor = 0;

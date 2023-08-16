@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObjects\Skills\BuffToOther.cpp" />
     <ClCompile Include="GameObjects\Buffs\BloodLust.cpp" />
     <ClCompile Include="GameObjects\Buffs\Buff.cpp" />
     <ClCompile Include="GameObjects\Skills\ActiveBuff.cpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="GameObjects\Skills\RangeAttack.cpp" />
     <ClCompile Include="GameObjects\Skills\PassiveSkill.cpp" />
     <ClCompile Include="GameObjects\Skills\MeleeAttack.cpp" />
+    <ClCompile Include="GameObjects\Skills\PassiveToMe.cpp" />
     <ClCompile Include="GameObjects\VertexArray\OnTileMap.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
@@ -209,6 +211,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="GameObjects\AllCreutures.hpp" />
+    <ClInclude Include="GameObjects\Skills\BuffToOther.h" />
+    <ClInclude Include="GameObjects\Buffs\AllBuffs.hpp" />
     <ClInclude Include="GameObjects\Buffs\BloodLust.h" />
     <ClInclude Include="GameObjects\Buffs\Buff.h" />
     <ClInclude Include="GameObjects\Skills\ActiveBuff.h" />
@@ -225,6 +230,7 @@
     <ClInclude Include="Framework\DataTableMgr.h" />
     <ClInclude Include="Framework\ObjectPool.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
+    <ClInclude Include="GameObjects\Skills\AllSkills.hpp" />
     <ClInclude Include="GameObjects\SpriteEffect.h" />
     <ClInclude Include="GameObjects\TextGo.h" />
     <ClInclude Include="GameObjects\VertexArray\VertexArrayGo.h" />
@@ -244,6 +250,7 @@
     <ClInclude Include="GameObjects\Skills\PassiveSkill.h" />
     <ClInclude Include="GameObjects\Skills\MeleeAttack.h" />
     <ClInclude Include="GameObjects\Buffs\LayOnHands.h" />
+    <ClInclude Include="GameObjects\Skills\PassiveToMe.h" />
     <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />

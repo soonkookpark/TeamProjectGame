@@ -9,4 +9,5 @@ PassiveSkill::PassiveSkill(const std::string& key)
 
 void PassiveSkill::SetData(const std::string& key)
 {
+	
 }

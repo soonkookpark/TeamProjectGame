@@ -19,6 +19,7 @@ bool MonsterTable::Load()
                     doc.GetCell<float>(13,i),
                     doc.GetCell<float>(1,i),
                 },
+                {
                 //static_cast<AttackType>(doc.GetCell<int>(5,i)),
                 doc.GetCell<float>(6,i),
                 static_cast<bool>(doc.GetCell<int>(7,i)),
@@ -29,6 +30,7 @@ bool MonsterTable::Load()
                 //doc.GetCell<int>(15,i),
                 doc.GetCell<float>(16,i),
                 static_cast<Monster::MonsterType>(doc.GetCell<int>(17,i))
+                }
             }
             });        
     }
