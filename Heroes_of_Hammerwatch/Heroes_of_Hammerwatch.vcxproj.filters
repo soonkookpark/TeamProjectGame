@@ -35,6 +35,15 @@
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="GameObjects\VertexArray\TileMap.cpp" />
     <ClCompile Include="Scenes\SceneEdit.cpp" />
+    <ClCompile Include="GameObjects\VertexArray\GridMap.cpp" />
+    <ClCompile Include="GameObjects\TextGo.cpp" />
+    <ClCompile Include="GameObjects\Monster\BossGolem.cpp" />
+    <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
+    <ClCompile Include="DataTables\FieldItemTable.cpp" />
+    <ClCompile Include="GameObjects\PlayerClass\Paladin.cpp" />
+    <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
+    <ClCompile Include="GameObjects\VertexArray\OnTileMap.cpp" />
+    <ClCompile Include="GameObjects\Tree.cpp" />
     <ClCompile Include="GameObjects\Skills\ActiveSkill.cpp" />
     <ClCompile Include="GameObjects\Creature.cpp" />
     <ClCompile Include="GameObjects\PlayerClass\Player.cpp" />
@@ -46,15 +55,6 @@
     <ClCompile Include="GameObjects\Buffs\BloodLust.cpp" />
     <ClCompile Include="GameObjects\Buffs\LayOnHands.cpp" />
     <ClCompile Include="DataTables\SkillDataTable.cpp" />
-    <ClCompile Include="GameObjects\VertexArray\GridMap.cpp" />
-    <ClCompile Include="GameObjects\TextGo.cpp" />
-    <ClCompile Include="GameObjects\Monster\BossGolem.cpp" />
-    <ClCompile Include="GameObjects\Items\FieldItem.cpp" />
-    <ClCompile Include="DataTables\FieldItemTable.cpp" />
-    <ClCompile Include="GameObjects\PlayerClass\Paladin.cpp" />
-    <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
-    <ClCompile Include="GameObjects\VertexArray\OnTileMap.cpp" />
-    <ClCompile Include="GameObjects\Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />

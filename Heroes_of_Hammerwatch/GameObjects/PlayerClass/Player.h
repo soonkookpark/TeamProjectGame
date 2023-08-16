@@ -89,7 +89,13 @@ public:
 	void SetFlipX(bool filp);
 	void PlayerMove();
 	void FindTileInfo();
-	bool CheckTileInfo(sf::Vector2f info);
+
+	//상하좌우 움직임
+	bool CheckTileInfoLeft(sf::Vector2f info);
+	bool CheckTileInfoRight(sf::Vector2f info);
+	bool CheckTileInfoUp(sf::Vector2f info);
+	bool CheckTileInfoDown(sf::Vector2f info);
+
 	int CharacterSight(float angle);
 	void IdleAnimationPrint(SightDegree lookat);
 	void MoveAnimationPrint(SightDegree lookat);
@@ -97,9 +103,6 @@ public:
 	void SetTile(TileMap* tile);
 	void BoxMaker();
 
-	void Sword();
-	void Shield();
-	void Skill3();
 	 
 	void HealHP(int value);
 	void HealMP(int value);

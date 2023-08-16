@@ -13,7 +13,7 @@
 
 void Player::Init()
 {
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿?
 	/*animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveUR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveU.csv"));
@@ -209,15 +209,17 @@ void Player::PlayerMove()
 	direction.y = 0.f;
 	if (INPUT_MGR.GetKey(sf::Keyboard::D))
 	{
-		if ((CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
+		if ((CheckTileInfoRight(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
 		{
 			//std::cout<<playerTileIndex.x << std::endl;
 			direction.x = +1;
 		}
+		
+		
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::A))
 	{
-		if ((CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
+		if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
 		{
 			direction.x = -1;
 		}
@@ -226,7 +228,7 @@ void Player::PlayerMove()
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::W))
 	{
-		if ((CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y-1)})))
+		if ((CheckTileInfoUp(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y-1)})))
 		{
 			direction.y= -1;
 		}
@@ -234,7 +236,7 @@ void Player::PlayerMove()
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::S))
 	{
-		if ((CheckTileInfo(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
+		if ((CheckTileInfoDown(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
 		{
 			direction.y = +1;
 		}
@@ -294,7 +296,87 @@ void Player::FindTileInfo()
 	}
 }
 
-bool Player::CheckTileInfo(sf::Vector2f info)
+bool Player::CheckTileInfoLeft(sf::Vector2f info)
+{
+	int tileSize = tilemap->tiles.size();
+	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
+	for (int i = 0; i < tileSize; i++)
+	{
+
+		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
+		{
+			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
+			if (texIndex != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
+			{
+				if ((info.x * tilePixelSize + (tilePixelSize / 2) > box.getPosition().x - box.getSize().x))
+					return 0;
+			}
+			return 1;
+		}
+	}
+}
+
+bool Player::CheckTileInfoRight(sf::Vector2f info)
+{
+	int tileSize = tilemap->tiles.size();
+	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
+	for (int i = 0; i < tileSize; i++)
+	{
+
+		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
+		{
+			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
+			if (texIndex != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
+			{
+				if ((info.x * tilePixelSize + (tilePixelSize / 2)) < box.getPosition().x + box.getSize().x)
+					return 0;
+			}
+			return 1;
+		}
+	}
+}
+
+bool Player::CheckTileInfoUp(sf::Vector2f info)
+{
+	int tileSize = tilemap->tiles.size();
+	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
+	for (int i = 0; i < tileSize; i++)
+	{
+
+		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
+		{
+			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
+			if (texIndex != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
+			{
+				if ((info.y * tilePixelSize + (tilePixelSize / 2) > box.getPosition().y - box.getSize().y))
+					return 0;
+			}
+			return 1;
+		}
+	}
+}
+
+bool Player::CheckTileInfoDown(sf::Vector2f info)
+{
+	int tileSize = tilemap->tiles.size();
+	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
+	for (int i = 0; i < tileSize; i++)
+	{
+
+		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
+		{
+			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
+			if (texIndex != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
+			{
+				if ((info.y * tilePixelSize + (tilePixelSize / 2) < box.getPosition().y + box.getSize().y))
+					return 0;
+			}
+			return 1;
+		}
+	}
+}
+
+/*bool Player::CheckTileInfo(sf::Vector2f info)
 {
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
 	{
@@ -319,19 +401,46 @@ bool Player::CheckTileInfo(sf::Vector2f info)
 		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
 		{
 			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
-			if (texIndex != 1)// ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â°ï¿½ï¿½Ì¾ï¿½ ï¿½Ú°ï¿½
+			if (texIndex != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
 			{
 				if((info.x*tilePixelSize+(tilePixelSize/2)> box.getPosition().x - box.getSize().x)
 					|| ((info.x * tilePixelSize + (tilePixelSize / 2)) < box.getPosition().x + box.getSize().x))
 					return 0;
 				
-				/*
+				
 				Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 8
 				ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 15.9863
 				Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 8
 				ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 47.9863
-				*/
+				
 
+				//	ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡
+				//	ÇÃ·¹ÀÌ¾î°¡ Å°¸¦ ´­·¶À»¶§ÀÇ Å¸ÀÏÀÇ À§Ä¡
+				//	ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡
+				//	Å¸ÀÏ ÇÑÄ­ ÇÑÄ­ÀÇ »çÀÌÁî
+				//	Å¸ÀÏ ÇÑÄ­ ÇÑÄ­ÀÇ »çÀÌÁî
+				//	ÀÎµ¦½º°¡ ¾Æ´Ï¶ó
+				//	±× Å¸ÀÏÀÇ ÁÂÇ¥¿Í
+				//	ÇÃ·¹ÀÌ¾îÀÇ ÁÂÇ¥¸¦ ºñ±³ÇØ¼­ ±× µÑÀÇ Àý¹Ý »çÀÌÁî¸¸Å­ ºÙÀ» ¼ö ÀÖ°Ô ÇÏÀÚ
+
+				//	°¡µµµÇ³Ä°¡
+				//	±× Å¸ÀÏÀÇ ÁßÁ¡±îÁö ÀÌµ¿ÇÏ°Ô ÇØÁà¾ßÇØ.
+				//	³»°¡ ¾Ë¾Æ¾ßÇÒ°Í
+
+
+
+				//	ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡ getposition
+				//	ÇÃ·¹ÀÌ¾îÀÇ x»çÀÌÁî getposition
+				//	// ÇÃ·¹ÀÌ¾î Å¸ÀÏÀÇ Á¤º¸ FindTileInfo
+
+				//	Å¸ÀÏÀÇ ÁÂÇ¥
+				//	Å¸ÀÏÀÇ Á¤º¸ CheckTileInfo //°¥ ¼ö ÀÖ³Ä ÆÇ´Ü
+				//	Å¸ÀÏÀÇ »çÀÌÁî
+
+				//	x·Î °¥¶§ È®ÀÎy·Î °¥¶§ È®ÀÎ
+
+				//	//¾Ë°í½ÍÀº ÁÂÃø Å¸ÀÏÀÇ x ÁÂÇ¥
+				//	(info.x * tilePixelSize + (tilePixelSize / 2))
 
 
 
@@ -340,7 +449,7 @@ bool Player::CheckTileInfo(sf::Vector2f info)
 			return 1;
 		}
 	}
-}
+}*/
 
 int Player::CharacterSight(float angle)
 {
@@ -546,7 +655,7 @@ void Player::Damaged(float physicalDmg, float magicalDmg)
 	physicalDmg = 1 / (1 + creatureInfo.armor / 50) * physicalDmg;
 	magicalDmg = 1 / (1 + creatureInfo.resistance / 50) * magicalDmg;
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ¿ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Òµï¿½
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù´ï¿?ï¿½ï¿½ ï¿½ï¿½Æ¿ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿?ï¿½Òµï¿½
 
 	curHealth -= physicalDmg + magicalDmg;
 	if (curHealth < 0)
