@@ -5,12 +5,14 @@
 LayOnHands::LayOnHands(Creature* owner, Creature* provider, float range)
     :Buff("LayOnHands",owner, provider, range)
 {
+    kindOfBuff = KindOfBuff::LAY_ON_HANDS;
     GetBuff();
 }
 
 LayOnHands::LayOnHands(Creature* owner, float duration)
     :Buff("LayOnHands",owner, duration)
 {
+    kindOfBuff = KindOfBuff::LAY_ON_HANDS;
     GetBuff();
 }
 

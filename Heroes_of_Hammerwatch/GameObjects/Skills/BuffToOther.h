@@ -6,16 +6,17 @@ class BuffToOther :
     public PassiveSkill
 {
 protected:
-    Buff* GiveThis;
     std::list<Creature*> buffedTarget;
+    std::list<Creature*> hadBuffedTarget;
 public:
-    BuffToOther(const std::string& key) : PassiveSkill(key) {};
+    BuffToOther(const std::string& key, Creature* owner);
     virtual ~BuffToOther() override = default;        
 
     void SetData(const std::string& key);
 
     void Update(float dt);
 
-    void GiveBuff();
+
+    virtual void Effect() override;
 };
 

@@ -5,20 +5,29 @@
 #include "SceneMgr.h"
 #include "AllCreutures.hpp"
 
-void BuffToOther::SetData(const std::string& key)
+BuffToOther::BuffToOther(const std::string& key, Creature* owner)
+	: PassiveSkill(key, owner)
 {
-	GiveThis = new BloodLust(owner, range);
+	SetData("test");
+}
+
+void BuffToOther::SetData(const std::string& key)
+{	
+	range = 200;
+	targetType = TargetType::ALLY;
+	MakeBuff = [this](Creature* target) {return new BloodLust(target, owner, range); };
 }
 
 void BuffToOther::Update(float dt)
 {
-	GiveBuff();
+	Skill::Update(dt);
+	Effect();
 }
 
-void BuffToOther::GiveBuff()
+void BuffToOther::Effect()
 {
 	for (auto target : targets)
-	{		
+	{
 		bool hasThis = false;
 		for (auto checker : buffedTarget)
 		{
@@ -29,9 +38,28 @@ void BuffToOther::GiveBuff()
 		}
 		if (!hasThis)
 		{
-			target->GainBuff(GiveThis);
-
+			target->GainBuff(MakeBuff(target));
 			buffedTarget.push_back(target);
 		}
 	}
+	for (auto target : buffedTarget)
+	{
+		bool hasThis = false;
+		for (auto checker : targets)
+		{
+			if (target == checker)
+			{
+				hasThis = true;
+			}
+		}
+		if (!hasThis)
+		{
+			hadBuffedTarget.push_back(target);
+		}
+	}
+	for (auto obj : hadBuffedTarget)
+	{
+		buffedTarget.remove(obj);
+	}
+	hadBuffedTarget.clear();
 }

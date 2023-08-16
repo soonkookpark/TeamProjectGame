@@ -2,8 +2,8 @@
 #include "ActiveSkill.h"
 #include "InputMgr.h"
 
-ActiveSkill::ActiveSkill(const std::string& key)
-	:Skill(key)
+ActiveSkill::ActiveSkill(const std::string& key, Creature* owner)
+	:Skill(key,owner)
 {
 	SetData(key);
 }

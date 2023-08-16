@@ -75,7 +75,8 @@ public:
     virtual void Default(float dt);
     virtual void Die(float dt);
 
-    virtual void Damaged(float physicalDmg, float magicalDmg);
+    virtual void SetDead() override;
+    //virtual void Damaged(float physicalDmg, float magicalDmg, Creature* attacker);
         
     bool DetectTarget();
     bool GetIsBuffed() { return isBuffed; };

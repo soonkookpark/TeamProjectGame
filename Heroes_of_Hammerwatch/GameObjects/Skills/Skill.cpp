@@ -4,7 +4,8 @@
 #include "Player.h"
 #include "Monster.h"
 
-Skill::Skill(const std::string& name)
+Skill::Skill(const std::string& name, Creature* owner)
+	:owner(owner)
 {
 }
 
@@ -18,6 +19,7 @@ void Skill::Reset()
 
 void Skill::Update(float dt)
 {
+	SetTarget();
 }
 
 void Skill::SetTarget()
