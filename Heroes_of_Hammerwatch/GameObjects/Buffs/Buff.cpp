@@ -6,12 +6,14 @@ Buff::Buff(const std::string& key, Creature* owner, Creature* provider, float ra
 	:type(Buff::AURA),provider(provider), range(range),owner(owner)
 {
 	SetData(key);	
+	GetBuff();
 }
 
 Buff::Buff(const std::string& key, Creature* owner, float duration)
 	:type(Buff::NONE_AURA), duration(duration), owner(owner)
 {
 	SetData(key);
+	GetBuff();
 }
 
 void Buff::Update(float dt)

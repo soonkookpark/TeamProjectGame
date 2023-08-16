@@ -11,6 +11,7 @@ BloodLust::BloodLust(Creature* owner, Creature* provider, float range)
 BloodLust::BloodLust(Creature* owner, float duration)
     :Buff("BloodLust", owner, duration)
 {
+    GetBuff();
 }
 
 void BloodLust::SetData(const std::string& key)

@@ -6,12 +6,13 @@ class Buff
 public:
 	enum ClassBuffType
 	{
+		NONE,
 		AURA,
 		NONE_AURA,
 	};
 protected:
 	Creature* owner;
-	ClassBuffType type;
+	ClassBuffType type = NONE;
 
 	Creature* provider;
 	float range;

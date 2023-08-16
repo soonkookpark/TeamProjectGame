@@ -53,7 +53,7 @@ void Player::SetData(const std::string& name)
 	creatureInfo = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name).CI;	
 
 
-
+	buffs.push_back(new BloodLust(this, 10));
 	skills.insert({ "atk", new MeleeAttack("test") });
 	skills["atk"]->SetOwner(this);
 }
@@ -68,7 +68,7 @@ void Player::Reset()
 	box.setOrigin(box.getSize() * 0.5f);
 	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 
-	buffs.push_back(new BloodLust(this, 10));
+	
 	//currentClipInfo = clipInfos[6];*/
 }
 
@@ -211,7 +211,7 @@ void Player::PlayerMove()
 	direction.y = 0.f;
 	if (INPUT_MGR.GetKey(sf::Keyboard::D))
 	{
-		if ((CheckTileInfoRight(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
+		//if ((CheckTileInfoRight(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
 		{
 			//std::cout<<playerTileIndex.x << std::endl;
 			direction.x = +1;
@@ -221,7 +221,7 @@ void Player::PlayerMove()
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::A))
 	{
-		if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
+		//if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
 		{
 			direction.x = -1;
 		}
@@ -230,7 +230,7 @@ void Player::PlayerMove()
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::W))
 	{
-		if ((CheckTileInfoUp(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y-1)})))
+		//if ((CheckTileInfoUp(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y-1)})))
 		{
 			direction.y= -1;
 		}
@@ -238,7 +238,7 @@ void Player::PlayerMove()
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::S))
 	{
-		if ((CheckTileInfoDown(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
+		//if ((CheckTileInfoDown(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
 		{
 			direction.y = +1;
 		}

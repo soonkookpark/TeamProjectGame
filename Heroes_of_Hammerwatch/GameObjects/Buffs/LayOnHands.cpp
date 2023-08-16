@@ -5,11 +5,13 @@
 LayOnHands::LayOnHands(Creature* owner, Creature* provider, float range)
     :Buff("LayOnHands",owner, provider, range)
 {
+    GetBuff();
 }
 
 LayOnHands::LayOnHands(Creature* owner, float duration)
     :Buff("LayOnHands",owner, duration)
 {
+    GetBuff();
 }
 
 void LayOnHands::SetData(const std::string& key)
