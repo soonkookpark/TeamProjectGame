@@ -169,6 +169,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="GameObjects\PlayerClass\Player.cpp" />
     <ClCompile Include="GameObjects\SpriteEffect.cpp" />
     <ClCompile Include="GameObjects\TextGo.cpp" />
     <ClCompile Include="GameObjects\VertexArray\VertexArrayGo.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="Framework\DataTableMgr.h" />
     <ClInclude Include="Framework\ObjectPool.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
+    <ClInclude Include="GameObjects\PlayerClass\Player.h" />
     <ClInclude Include="GameObjects\SpriteEffect.h" />
     <ClInclude Include="GameObjects\TextGo.h" />
     <ClInclude Include="GameObjects\VertexArray\VertexArrayGo.h" />

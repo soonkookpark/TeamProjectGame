@@ -36,6 +36,7 @@
     <ClCompile Include="DataTables\EliteMonsterTable.cpp" />
     <ClCompile Include="GameObjects\VertexArray\OnTileMap.cpp" />
     <ClCompile Include="GameObjects\Tree.cpp" />
+    <ClCompile Include="GameObjects\PlayerClass\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -77,5 +78,6 @@
     <ClInclude Include="DataTables\EliteMonsterTable.h" />
     <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
     <ClInclude Include="GameObjects\Tree.h" />
+    <ClInclude Include="GameObjects\PlayerClass\Player.h" />
   </ItemGroup>
 </Project>
