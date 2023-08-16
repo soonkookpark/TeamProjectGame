@@ -23,6 +23,7 @@ protected:
     float curHealth = 0.f;
     std::map<std::string, Skill*> skills;
     std::list <Buff*> buffs;
+    std::list <Buff*> hadBuffs;
     SightDegree lookat = SightDegree::R;
 public:
     sf::Vector2f look;

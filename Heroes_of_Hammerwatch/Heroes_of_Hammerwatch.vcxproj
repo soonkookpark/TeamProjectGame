@@ -252,7 +252,6 @@
     <ClInclude Include="GameObjects\Buffs\LayOnHands.h" />
     <ClInclude Include="GameObjects\Skills\PassiveToMe.h" />
     <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
-    <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Framework\SceneMgr.h" />

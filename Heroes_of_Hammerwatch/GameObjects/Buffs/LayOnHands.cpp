@@ -2,13 +2,13 @@
 #include "LayOnHands.h"
 
 
-LayOnHands::LayOnHands(Creature* provider, float range)
-    :Buff("LayOnHands", provider, range)
+LayOnHands::LayOnHands(Creature* owner, Creature* provider, float range)
+    :Buff("LayOnHands",owner, provider, range)
 {
 }
 
-LayOnHands::LayOnHands(float duration)
-    :Buff("LayOnHands", duration)
+LayOnHands::LayOnHands(Creature* owner, float duration)
+    :Buff("LayOnHands",owner, duration)
 {
 }
 

@@ -13,14 +13,32 @@ void Creature::Update(float dt)
 	{
 		buff->Update(dt);
 	}
+	for (auto buff : hadBuffs)
+	{
+		buffs.remove(buff);
+		delete(buff);
+	}
+	hadBuffs.clear();
 }
 
 void Creature::GainBuff(Buff* buff)
 {
 	buffs.push_back(buff);
+	buff->GetBuff();
 }
 
 void Creature::LoseBuff(Buff* buff)
 {
-	buffs.remove(buff);
+	/*
+	for (auto it = buffs.begin(); it != buffs.end(); ) {
+		if (*it == buff) {
+			it = buffs.erase(it); // 삭제 후 다음 원소로 이동
+		}
+		else {
+			++it;
+		}
+	}
+	*/
+	
+	hadBuffs.push_back(buff);
 }

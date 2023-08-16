@@ -2,14 +2,14 @@
 #include "Buff.h"
 #include "Creature.h"
 
-Buff::Buff(const std::string& key, Creature* provider, float range)
-	:type(Buff::AURA),provider(provider), range(range)
+Buff::Buff(const std::string& key, Creature* owner, Creature* provider, float range)
+	:type(Buff::AURA),provider(provider), range(range),owner(owner)
 {
-	SetData(key);
+	SetData(key);	
 }
 
-Buff::Buff(const std::string& key, float duration)
-	:type(Buff::NONE_AURA), duration(duration)
+Buff::Buff(const std::string& key, Creature* owner, float duration)
+	:type(Buff::NONE_AURA), duration(duration), owner(owner)
 {
 	SetData(key);
 }
@@ -38,11 +38,6 @@ bool Buff::CheckPersistan(float dt)
 	}
 }
 
-void Buff::GetBuff()
-{
-	owner->GainBuff(this);
-}
-
 void Buff::DuringBuff(float dt)
 {
 
@@ -51,5 +46,4 @@ void Buff::DuringBuff(float dt)
 void Buff::LoseBuff()
 {
 	owner->LoseBuff(this);
-	delete(this);
 }
