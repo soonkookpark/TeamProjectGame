@@ -24,7 +24,7 @@ bool TileMap::LoadDrawTexture(const std::string& filePath)
     texture = RESOURCE_MGR.GetTexture(textureId);
 
     rapidcsv::Document map(filePath, rapidcsv::LabelParams(0, -1));
-    std::cout << (int)map.GetRowCount();
+    //std::cout << (int)map.GetRowCount();
     size = { (int)map.GetColumnCount(), (int)map.GetRowCount() };
 
     LoadDataArray(map);
@@ -50,12 +50,23 @@ bool TileMap::LoadDrawTexture(const std::string& filePath)
                 vertexArray[vertexIndex].texCoords = tileOffset[texIndex][k];
             }
             currPos.x += tileSize.x;
+            //std::cout << tileArray[i][j] << std::endl;
         }
         currPos.x = startPos.x;
         currPos.y += tileSize.y;
     }
 
     Divide();
+
+    for (int i = 0; i < size.y; i++)
+    {
+        for (int j = 0; j < size.x; j++)
+        {
+            std::cout << tileArray[i][j];
+        }
+        std::cout << std::endl;
+    }
+   
 
     return true;
 }

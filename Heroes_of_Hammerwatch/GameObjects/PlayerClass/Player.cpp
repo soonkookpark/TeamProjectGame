@@ -142,8 +142,8 @@ void Player::Update(float dt)
 
 	//std::cout << playerTileIndex.x << ", " << playerTileIndex.y << std::endl;
 
-	PlayerMove();
-	
+	PlayerMove(dt);
+	box.setPosition(sprite.getPosition());
 	//std::cout << GetPosition().x << std::endl;
 	
 	position += direction * creatureInfo.speed * dt;
@@ -176,7 +176,7 @@ void Player::Update(float dt)
 	//FindTileInfo();
 	//BoxMaker();
 	
-	box.setPosition(sprite.getPosition());
+	
 	Creature::Update(dt);
 
 	if (InputMgr::Instance().GetMouseButtonDown(sf::Mouse::Left))
@@ -205,45 +205,73 @@ void Player::SetFlipX(bool filp)
 	sprite.setScale(scale);
 }
 
-void Player::PlayerMove()
+void Player::PlayerMove(float dt)
 {
 	direction.x = 0.f;
 	direction.y = 0.f;
+
 	if (INPUT_MGR.GetKey(sf::Keyboard::D))
 	{
-		//if ((CheckTileInfoRight(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
-		{
-			//std::cout<<playerTileIndex.x << std::endl;
-			direction.x = +1;
-		}
-		
-		
+		direction.x = 1;
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::A))
 	{
-		//if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
-		{
-			direction.x = -1;
-		}
-		
-		//direction.x = -1;
+		direction.x = -1;
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::W))
 	{
-		//if ((CheckTileInfoUp(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y-1)})))
-		{
-			direction.y= -1;
-		}
-		//direction.y = -1;
+		direction.y = -1;
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::S))
 	{
-		//if ((CheckTileInfoDown(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
-		{
-			direction.y = +1;
-		}
-		//direction.y = 1;
+		direction.y = 1;
 	}
+
+
+	position += direction * pTable.creatureInfo.speed * dt;
+	SetPosition(position);
+
+	//std::cout << box.getGlobalBounds().left << ", " << box.getGlobalBounds().top << std::endl;
+
+
+	Collider(playerTileIndex.x, playerTileIndex.y);
+
+
+	//if (INPUT_MGR.GetKey(sf::Keyboard::D))
+	//{
+	//	if ((CheckTileInfoRight(sf::Vector2f{static_cast<float>(playerTileIndex.x + 1), static_cast<float>(playerTileIndex.y)})))
+	//	{
+	//		//std::cout<<playerTileIndex.x << std::endl;
+	//		direction.x = +1;
+	//	}
+	//	
+	//	
+	//}
+	//if (INPUT_MGR.GetKey(sf::Keyboard::A))
+	//{
+	//	if ((CheckTileInfoLeft(sf::Vector2f{static_cast<float>(playerTileIndex.x - 1), static_cast<float>(playerTileIndex.y)})))
+	//	{
+	//		direction.x = -1;
+	//	}
+	//	
+	//	//direction.x = -1;
+	//}
+	//if (INPUT_MGR.GetKey(sf::Keyboard::W))
+	//{
+	//	if ((CheckTileInfoUp(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y-1)})))
+	//	{
+	//		direction.y= -1;
+	//	}
+	//	//direction.y = -1;
+	//}
+	//if (INPUT_MGR.GetKey(sf::Keyboard::S))
+	//{
+	//	if ((CheckTileInfoDown(sf::Vector2f{static_cast<float>(playerTileIndex.x), static_cast<float>(playerTileIndex.y+1)})))
+	//	{
+	//		direction.y = +1;
+	//	}
+	//	//direction.y = 1;
+	//}
 	if (INPUT_MGR.GetKeyUp(sf::Keyboard::W)
 		|| INPUT_MGR.GetKeyUp(sf::Keyboard::S))
 	{
@@ -300,41 +328,63 @@ void Player::FindTileInfo()
 
 bool Player::CheckTileInfoLeft(sf::Vector2f info)
 {
-	int tileSize = tilemap->tiles.size();
+	//tilemap->GetTileArray()[0][0]; //¾Ë°í½ÍÀº Å¸ÀÏ
+	//tilemap->GetTileArray()[info.x][info.y];
+	//int tileSize = tilemap->tiles.size();
 	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
-	for (int i = 0; i < tileSize; i++)
+	sf::Time time1;
+	if (clock1.getElapsedTime().asSeconds() >= 1.f)
 	{
-
-		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
+		//std::cout << info.x << ", " << info.y << std::endl;
+		//std::cout << tilemap->GetTileArray()[info.x][info.y] << std::endl;
+		clock1.restart();
+	}
+	if (info.x >= 0 && info.y >= 0)
+	{
+		//if (tilemap->GetTileArray()[info.x][info.y])
 		{
-			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
-			if (texIndex != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
+				
+			if (tilemap->GetTileArray()[info.x][info.y] == 0)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
 			{
-				if ((info.x * tilePixelSize + (tilePixelSize / 2) > box.getPosition().x - box.getSize().x))
+				if ((info.x * tilePixelSize + (tilePixelSize / 2) > box.getPosition().x - box.getSize().x / 2 - tilePixelSize / 2));
 					return 0;
 			}
 			return 1;
 		}
 	}
+	else 
+	{
+		return 0;
+	}
+	
 }
 
 bool Player::CheckTileInfoRight(sf::Vector2f info)
 {
-	int tileSize = tilemap->tiles.size();
+	//int tileSize = tilemap->tiles.size();
 	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
-	for (int i = 0; i < tileSize; i++)
+	if (clock1.getElapsedTime().asSeconds() >= 1.f)
 	{
-
-		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
+		std::cout << info.x << ", " << info.y << std::endl;
+		std::cout << tilemap->GetTileArray()[info.x][info.y] << std::endl;
+		clock1.restart();
+	}
+	if (info.x >= 0 && info.y >= 0)
+	{
+		//if (tilemap->GetTileArray()[info.x][info.y])
 		{
-			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
-			if (texIndex != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
+
+			if (tilemap->GetTileArray()[info.x][info.y] != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
 			{
-				if ((info.x * tilePixelSize + (tilePixelSize / 2)) < box.getPosition().x + box.getSize().x)
+				if ((info.x * tilePixelSize + (tilePixelSize / 2) < box.getPosition().x + box.getSize().x))
 					return 0;
 			}
 			return 1;
 		}
+	}
+	else
+	{
+		return 0;
 	}
 }
 
@@ -629,6 +679,8 @@ void Player::BoxMaker()
 	for (int i = 0; i < tileSize; i++)
 	{
 		int textBox = tilemap->tiles[i].texIndex;
+		//tilemap->GetTileArray()[0][0] == 0
+
 		if (textBox == 0)
 		{
 			
@@ -664,4 +716,74 @@ void Player::Damaged(float physicalDmg, float magicalDmg)
 	{
 		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	}
+}
+
+int Player::Collider(int x, int y)
+{
+	sf::Vector2i LRTP[8] =
+	{
+		{x - 1, y} ,
+		{ x + 1, y },
+		{ x, y - 1 },
+		{ x, y + 1},
+		{x - 1, y - 1},
+		{x + 1, y - 1},
+		{x - 1, y + 1},
+		{x + 1, y + 1}
+	};
+	// L, R, T, P, LT, RT, LB, RB
+
+	std::vector<std::vector<int>> tileArr = tilemap->GetTileArray();
+	//if(x-1<0 || y-1<0 || x+1> tileArr.)
+
+	for (int i = 0; i < 8; i++)
+	{
+		sf::Vector2i arrSize = tilemap->TileIntSize();
+		if (LRTP[i].y < 0 || LRTP[i].x < 0 || LRTP[i].y >= arrSize.x || LRTP[i].x >= arrSize.y)
+		{
+			continue;
+		}
+		if (tileArr[LRTP[i].y][LRTP[i].x] != 0) continue;
+
+
+		sf::FloatRect tileRect = { (float)x * tilePixelSize, (float)y * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize };
+		sf::FloatRect intersector;
+
+		if (tileRect.intersects(box.getGlobalBounds(), intersector))
+		{
+			//std::cout << tileRect.left<< ", " << tileRect.top << ", ";
+			
+			if (intersector.width > intersector.height) //À§ ¾Æ·¡ ¿¡¼­ ºÎµúÈû
+			{
+				if (box.getGlobalBounds().top == intersector.top) //À­ º®¿¡ ºÎµúÈû
+				{
+					std::cout << "À§" << std::endl;
+					SetPosition(position.x, tileRect.top + tileRect.height);
+				}
+				else if (box.getGlobalBounds().top < intersector.top) //¾Æ·¡ º®¿¡ ºÎµúÈû
+				{
+					SetPosition(position.x, tileRect.top);
+					std::cout << "¾Æ·¡" << std::endl;
+				}
+			}
+			else if(intersector.width == intersector.height)
+			{
+				std::cout << "¿¡·¯" << std::endl;
+			}
+			else if(intersector.width < intersector.height)//ÁÂ¿ì¿¡¼­ ºÎµúÈû
+			{
+				if (box.getGlobalBounds().left == intersector.left) //¿ÞÂÊ º®¿¡ ºÎµúÈû
+				{
+					SetPosition(tileRect.left + tileRect.width, position.y);
+					std::cout << "ÁÂ"<< std::endl;
+				}
+				else if (box.getGlobalBounds().left < intersector.left) //¿À¸¥ÂÊ º®¿¡ ºÎµúÈû
+				{
+					SetPosition(tileRect.left, position.y);
+					std::cout << "¿ì" << std::endl;
+				}
+			}
+		}
+	}
+	return 9;
 }

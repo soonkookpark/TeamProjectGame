@@ -73,6 +73,9 @@ protected:
 	int money = 0;
 	int ore = 0;
 
+	//test clock
+	sf::Clock clock1;
+
 	//RectangleGo* testRect;
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")
@@ -87,7 +90,7 @@ public:
 	void SetData(const std::string& name);
 	bool GetFlipX() const;
 	void SetFlipX(bool filp);
-	void PlayerMove();
+	void PlayerMove(float dt);
 	void FindTileInfo();
 
 	//상하좌우 움직임
@@ -114,6 +117,6 @@ public:
 	void AcquireKey(int value) {};
 	void AcquireItem(int key) {};//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
 
-	
+	int Collider(int x, int y);
 };
 
