@@ -12,6 +12,7 @@ protected:
 
 	sf::RenderWindow window;
 	sf::Clock clock;
+	sf::WindowHandle hWnd;
 
 	int screenWidth = 1600;
 	int screenHeight = 900;
@@ -28,6 +29,7 @@ public:
 
 	sf::Vector2f GetWindowSize();
 	sf::RenderWindow& GetWindow();
+	sf::WindowHandle& GetHWnd() { return hWnd; }
 };
 
 #define FRAMEWORK (Framework::Instance())

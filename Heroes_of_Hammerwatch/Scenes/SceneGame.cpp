@@ -33,7 +33,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	button->sortLayer = 100;
 	button->SetPosition(windowSize.x,0.f);*/
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
-	tileMap->DrawTexture("graphics/mine/tilemap.csv");
+	tileMap->LoadDrawTexture("graphics/mine/tilemap.csv");
 
 	player = (Paladin*)AddGo(new Paladin());
 	player->SetPosition(100, 100);
@@ -108,6 +108,9 @@ void SceneGame::Update(float dt)
 {
 
 	Scene::Update(dt);
+
+	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<
+	//	tileMap->vertexArray.getBounds().width << tileMap->vertexArray.getBounds().height << std::endl;
 	
 	worldView.setCenter(player->GetPosition());
 

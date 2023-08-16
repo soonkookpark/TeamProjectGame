@@ -3,15 +3,41 @@
 #include <unordered_map>
 #include "rapidcsv.h"
 
-class Tree;
+enum Wall
+{
+	None = 0,
+	ITEM = 1,
+	Wood_L,
+	Wood_R,
+	Wall_R,
+	Wall_L,
+	Wall_RB,
+	Wall_LB,
+	Wall_RT,
+	Wall_LT,
+	Wood_T,
+	Wood_B,
+	Wall_B,
+	Wall_T,
+	Wall_LRB,
+	Wall_TB,
+	Wall_LRTB,
+	Wall_RTB,
+	Wall_LTB,
+	Wall_LRT,
+	Wall_LR,
+	Wall_None,
+};
 
-class TileMap : public VertexArrayGo
+class TileMap;
+
+class OnTileMap : public VertexArrayGo
 {
 protected:
 	bool checkLoad = false;
 
 	sf::Vector2f tileSize = { 16.f, 16.f };
-	sf::Vector2f texSize = { 32.f, 32.f };
+	sf::Vector2f texSize = { 16.f, 16.f };
 	sf::Vector2i size;
 
 	sf::Vector2f offsets[4]
@@ -22,32 +48,46 @@ protected:
 		{ 0, tileSize.y }
 	};
 
-	//std::vector<sf::Vector2f[4]> tileOffset;
+	sf::Vector2f offsetsLong[4]
+	{
+		{ 0.f, 16.f },
+		{ 16.f, 16.f },
+		{ 16.f, -32.f },
+		{ 0, -32.f }
+	};
+
 	std::vector<std::vector<sf::Vector2f>> tileOffset;
 
 	std::vector<TileInfo> tileInfoArray;
 	std::vector<std::vector<int>> tileArray;
-
-	Tree* route;
+	std::vector<std::vector<int>> wallArray;
 
 public:
-	TileMap(const std::string& textureId = "", const std::string& n = "");
-	virtual ~TileMap() override;
+	OnTileMap(const std::string& textureId = "", const std::string& n = "");
+	virtual ~OnTileMap() override;
 
-	bool LoadDrawTexture(const std::string& filePath);
+	bool LoadDrawOnTile(TileMap* tileMap);
+
+
+
+
 	bool DrawTexture(int row, int col);
-	bool ChangeTile(int tilePosX, int tilePosy, int idx);
+	bool ChangeTile(int tilePosX, int tilePosY, int idx);
 
 	bool LoadInfo(const std::string& filePath);
-	
 	void SaveTexture(const std::string& filePath);
 	void LoadTexture(const std::string& filePath);
 
-	void LoadDataArray(rapidcsv::Document& map);
+	void LoadTileDataArray(rapidcsv::Document& map);
+
+	Wall CheckAdjacent(int i, int j);
+	bool CheckWall(int x, int y);
+	Wall SelectWall(bool left, bool right, bool top, bool down);
+
+
 	void ResetDataArray();
 
 	sf::IntRect GetTileBound(int index);
-	std::vector<std::vector<int>> GetTileArray() { return tileArray; }
 
 	std::vector<Tile> tiles;
 	std::unordered_map<int, TileInfo> tileInfo;
@@ -56,7 +96,4 @@ public:
 	sf::Vector2i TileIntSize();
 	sf::Vector2f TilePixelSize();
 	Tile& GetTile(int x, int y);
-
-	void Divide();
 };
-

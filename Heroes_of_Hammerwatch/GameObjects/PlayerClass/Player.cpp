@@ -214,8 +214,6 @@ void Player::PlayerMove()
 			//std::cout<<playerTileIndex.x << std::endl;
 			direction.x = +1;
 		}
-		
-		
 	}
 	if (INPUT_MGR.GetKey(sf::Keyboard::A))
 	{

@@ -190,6 +190,7 @@
     <ClCompile Include="GameObjects\Monsters\Monster.cpp" />
     <ClCompile Include="DataTables\MonsterTable.cpp" />
     <ClCompile Include="GameObjects\PlayerClass\Paladin.cpp" />
+    <ClCompile Include="GameObjects\VertexArray\OnTileMap.cpp" />
     <ClCompile Include="DataTables\PlayerTable.cpp" />
     <ClCompile Include="GameObjects\Skills\RangeAttack.cpp" />
     <ClCompile Include="GameObjects\Skills\PassiveSkill.cpp" />
@@ -203,6 +204,7 @@
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="GameObjects\VertexArray\TileMap.cpp" />
     <ClCompile Include="Scenes\SceneEdit.cpp" />
+    <ClCompile Include="GameObjects\Tree.cpp" />
     <ClCompile Include="GameObjects\Skills\ActiveSkill.cpp" />
     <ClCompile Include="GameObjects\Skills\Skill.cpp" />
     <ClCompile Include="DataTables\SkillDataTable.cpp" />
@@ -249,6 +251,7 @@
     <ClInclude Include="GameObjects\Skills\MeleeAttack.h" />
     <ClInclude Include="GameObjects\Buffs\LayOnHands.h" />
     <ClInclude Include="GameObjects\Skills\PassiveToMe.h" />
+    <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
@@ -259,6 +262,7 @@
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="GameObjects\VertexArray\TileMap.h" />
     <ClInclude Include="Scenes\SceneEdit.h" />
+    <ClInclude Include="GameObjects\Tree.h" />
     <ClInclude Include="GameObjects\Skills\ActiveSkill.h" />
     <ClInclude Include="GameObjects\Skills\Skill.h" />
     <ClInclude Include="DataTables\SkillDataTable.h" />
