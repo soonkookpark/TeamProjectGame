@@ -333,7 +333,7 @@ void TileMap::Divide()
 {
     if (route == nullptr)
     {
-        route = new Tree(sf::FloatRect{ 0, 0, static_cast<float>(size.x), static_cast<float>(size.y) });
+        route = new Tree(sf::IntRect{ 3, 3, size.x - 6, size.y - 6});
     }
     route->Divide(this);
 }
@@ -347,5 +347,5 @@ void TileMap::ConnectRoom()
 void TileMap::DrawRoom(sf::RenderWindow& window)
 {
     if (route == nullptr) return;
-    route->DrawRoom(window);
+    route->SettinRoom();
 }

@@ -65,11 +65,6 @@ bool OnTileMap::LoadDrawOnTile(TileMap* tileMap)
     return true;
 }
 
-bool OnTileMap::DrawTexture(int row, int col)
-{
-	return false;
-}
-
 bool OnTileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
 {
     /*
@@ -229,14 +224,6 @@ bool OnTileMap::LoadInfo(const std::string& filePath)
     return true;
 }
 
-void OnTileMap::SaveTexture(const std::string& filePath)
-{
-}
-
-void OnTileMap::LoadTexture(const std::string& filePath)
-{
-}
-
 void OnTileMap::LoadTileDataArray(rapidcsv::Document& map)
 {
     tileArray.resize(size.y, std::vector<int>(size.x));
@@ -268,10 +255,6 @@ Wall OnTileMap::CheckAdjacent(int i, int j)
         return SelectWall(left, right, top, behind);
     }
     return Wall::None;
-}
-
-void OnTileMap::ResetDataArray()
-{
 }
 
 bool OnTileMap::CheckWall(int x, int y)
@@ -330,22 +313,7 @@ Wall OnTileMap::SelectWall(bool left, bool right, bool up, bool down)
     return Wall::None;
 }
 
-sf::IntRect OnTileMap::GetTileBound(int index)
+void OnTileMap::SetEntrance()
 {
-	return sf::IntRect();
-}
 
-sf::Vector2f OnTileMap::TileSize()
-{
-	return sf::Vector2f();
-}
-
-sf::Vector2i OnTileMap::TileIntSize()
-{
-	return sf::Vector2i();
-}
-
-sf::Vector2f OnTileMap::TilePixelSize()
-{
-	return sf::Vector2f();
 }

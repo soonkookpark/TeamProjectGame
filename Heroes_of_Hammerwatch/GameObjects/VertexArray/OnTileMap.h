@@ -68,9 +68,6 @@ public:
 
 	bool LoadDrawOnTile(TileMap* tileMap);
 
-
-
-
 	bool DrawTexture(int row, int col);
 	bool ChangeTile(int tilePosX, int tilePosY, int idx);
 
@@ -84,16 +81,8 @@ public:
 	bool CheckWall(int x, int y);
 	Wall SelectWall(bool left, bool right, bool top, bool down);
 
-
-	void ResetDataArray();
-
-	sf::IntRect GetTileBound(int index);
-
 	std::vector<Tile> tiles;
 	std::unordered_map<int, TileInfo> tileInfo;
 
-	sf::Vector2f TileSize();
-	sf::Vector2i TileIntSize();
-	sf::Vector2f TilePixelSize();
-	Tile& GetTile(int x, int y);
+	void SetEntrance();
 };

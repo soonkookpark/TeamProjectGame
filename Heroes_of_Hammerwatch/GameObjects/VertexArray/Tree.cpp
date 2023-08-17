@@ -3,6 +3,15 @@
 #include "Utils.h"
 #include "TileMap.h"
 
+bool Tree::entrance = false;
+bool Tree::starting = false;
+
+Tree::Tree(sf::IntRect rect) 
+	: parent(nullptr), child_L(nullptr), child_R(nullptr), rect(rect) 
+{
+
+}
+
 Tree::~Tree()
 {
 	if (child_L != nullptr)
@@ -30,6 +39,23 @@ void Tree::Divide(TileMap* tileMapPtr)
 	TileMap* tileMap = tileMapPtr;
 
 	int randRatio = Utils::RandomRange(3, 8); //30~70
+	if (rect.height > rect.width)
+	{
+		while (GetCenter().y + 1 > (rect.height * randRatio) / 10 &&
+			GetCenter().y - 1 < (rect.height * randRatio) / 10)
+		{
+			randRatio = Utils::RandomRange(3, 8);
+		}
+	}
+	else
+	{
+		while (GetCenter().x + 1 > (rect.width * randRatio) / 10 &&
+			GetCenter().x - 1 < (rect.width * randRatio) / 10)
+		{
+			randRatio = Utils::RandomRange(3, 8);
+		}
+	}
+
 
 	child_L = new Tree();
 	child_R = new Tree();
@@ -93,17 +119,6 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 	sf::Vector2i center = this->GetCenter();
 	sf::Vector2i route = parent->GetCenter();
 	
-	/*for (int i = rect.left; i < rect.left + rect.width; i++)
-	{
-		tileMap->ChangeTile(i, rect.top + 1, 0);
-		tileMap->ChangeTile(i, rect.top + rect.height - 1, 0);
-	}
-	for (int i = rect.top; i < rect.top + rect.height; i++)
-	{
-		tileMap->ChangeTile(rect.left + 1, i, 0);
-		tileMap->ChangeTile(rect.left + rect.width - 1, i, 0);
-	}
-	*/
 	for (int i = 0; i < tileMap->TileIntSize().x; i++)
 	{
 		tileMap->ChangeTile(i, 0, 0);
@@ -117,10 +132,7 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 
 	if (route.x == center.x)
 	{	
-		int rand;
-		if (rect.width >= 5)
-			rand = Utils::RandomRange(-3, 4);
-
+		int rand = Utils::RandomRange(0, 4);
 
 		if (center.y < route.y)
 		{
@@ -128,16 +140,7 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 			{
 				tileMap->ChangeTile(center.x, i, 8);
 				tileMap->ChangeTile(center.x + 1, i, 8);
-				tileMap->ChangeTile(center.x - 1, i, 8);
-
-
-/*				if (i < center.y + 3) continue;
-				if (level >= 5) continue;
-				tileMap->ChangeTile(center.x + 2, i, 0);
-				tileMap->ChangeTile(center.x + 3, i, 0);
-
-				tileMap->ChangeTile(center.x - 2, i, 0);
-				tileMap->ChangeTile(center.x - 3, i, 0);*/		
+				tileMap->ChangeTile(center.x - 1, i, 8);	
 			}
 		}
 		else
@@ -147,23 +150,11 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 				tileMap->ChangeTile(center.x, i, 8);
 				tileMap->ChangeTile(center.x + 1, i, 8);
 				tileMap->ChangeTile(center.x - 1, i, 8);
-
-				//if (i > center.y - 3) continue;
-				//if (level >= 5) continue;
-				//tileMap->ChangeTile(center.x + 2, i, 0);
-				//tileMap->ChangeTile(center.x + 3, i, 0);
-
-				//tileMap->ChangeTile(center.x - 2, i, 0);
-				//tileMap->ChangeTile(center.x - 3, i, 0);
 			}
 		}
 	}
 	else
 	{
-		int rand;
-		if (rect.height >= 5)
-			rand = Utils::RandomRange(-3, 4);
-
 		if (center.x < route.x)
 		{
 			for (int i = center.x; i <= route.x; i++)
@@ -171,14 +162,6 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 				tileMap->ChangeTile(i, center.y, 8);
 				tileMap->ChangeTile(i, center.y + 1, 8);
 				tileMap->ChangeTile(i, center.y - 1, 8);
-
-				//if (i < center.x + 3) continue;
-				//if (level >= 5) continue;
-				//tileMap->ChangeTile(i, center.y + 2, 0);
-				//tileMap->ChangeTile(i, center.y + 3, 0);
-
-				//tileMap->ChangeTile(i, center.y - 2, 0);
-				//tileMap->ChangeTile(i, center.y - 3, 0);
 			}
 		}
 		else
@@ -188,14 +171,6 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 				tileMap->ChangeTile(i, center.y, 8);
 				tileMap->ChangeTile(i, center.y + 1, 8);
 				tileMap->ChangeTile(i, center.y - 1, 8);
-
-				//if (i > center.x - 3) continue;
-				//if (level >= 5) continue;
-				//tileMap->ChangeTile(i, center.y + 2, 0);
-				//tileMap->ChangeTile(i, center.y + 3, 0);
-
-				//tileMap->ChangeTile(i, center.y - 2, 0);
-				//tileMap->ChangeTile(i, center.y - 3, 0);
 			}
 		}
 	}
@@ -204,20 +179,21 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 	//tileMap->ChangeTile(0, 0, 8); //xÁÂÇ¥, yÁÂÇ¥, Å¸ÀÏ ÀÎµ¦½º
 }
 
-void Tree::DrawRoom(sf::RenderWindow& window)
+void Tree::SettinRoom()
 {
 	if (child_L != nullptr && child_R != nullptr)
 	{
-		child_L->DrawRoom(window);
-		child_R->DrawRoom(window);
+		child_L->SettinRoom();
+		child_R->SettinRoom();
 	}
+	if (entrance || starting) return;
 
-	room.setSize({ (float)rect.width - 1, (float)rect.width - 1 });
-	room.setPosition((sf::Vector2f)GetCenter());
-	room.setOutlineColor(sf::Color::Red);
-	room.setOutlineThickness(3);
+ 
 
-	window.draw(room);
+
+
+
+
 }
 
 sf::Vector2i Tree::GetCenter()
