@@ -34,8 +34,8 @@ void Monster::Reset()
 
 void Monster::Update(float dt)
 {
-	creatureAnimation.Update(dt);
 	Creature::Update(dt);
+	creatureAnimation.Update(dt);
 
 	destination = GetPosition();
 	findAngle = Utils::Angle(player->GetPosition()-destination);
@@ -237,22 +237,22 @@ void Monster::MoveAnimationPrint(SightDegree lookat)
 	switch (lookat)
 	{
 	case 0:
-		//if (creatureAnimation.GetCurrentClipId() != "MoveR")
+		//if (creatureAnimation.GetCurrentClipId() == "MoveR")
 		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveR");
 		break;
 	case 1:
-		//if (creatureAnimation.GetCurrentClipId() != "MoveDR")
+		//if (creatureAnimation.GetCurrentClipId() == "MoveDR")
 		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveDR");
 		break;
 	case 2:
-		//if (creatureAnimation.GetCurrentClipId() != "MoveD")
+		//if (creatureAnimation.GetCurrentClipId() == "MoveD")
 		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveD");
 		break;
 	case 3:
-		//if (creatureAnimation.GetCurrentClipId() != "MoveDL")
+		//if (creatureAnimation.GetCurrentClipId() == "MoveDL")
 		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveDL");
 		break;
