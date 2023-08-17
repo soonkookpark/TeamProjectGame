@@ -6,7 +6,7 @@ class MeleeAttack :
 protected:
     float attackAngle = 0;
 public:
-    MeleeAttack(const std::string& key);
+    MeleeAttack(const std::string& key, Creature* owner);
     virtual ~MeleeAttack() = default;
 
     virtual void Reset();

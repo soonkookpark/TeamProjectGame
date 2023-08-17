@@ -33,6 +33,8 @@ void Monster::Reset()
 void Monster::Update(float dt)
 {
 	Creature::Update(dt);
+	look = dir;
+
 	if (state == State::DIE)
 	{
 		Die(dt);
@@ -74,8 +76,7 @@ void Monster::SetData(const std::string& name)
 	{
 		sortLayer = SortLayer::G_MONSTER;
 	}
-	skills.insert({ "atk", new MeleeAttack("test") });
-	skills["atk"]->SetOwner(this);
+	skills.insert({ "atk", new MeleeAttack("test",this) });
 }
 
 void Monster::Wander(float dt)
@@ -145,7 +146,12 @@ void Monster::Die(float dt)
 	SCENE_MGR.GetCurrScene()->RemoveGo(this);
 }
 
-void Monster::Damaged(float physicalDmg, float magicalDmg)
+void Monster::SetDead()
+{
+	state = State::DIE;
+}
+/*
+void Monster::Damaged(float physicalDmg, float magicalDmg, Creature* attacker)
 {
 	//std::cout << "damaged" << std::endl;
 	physicalDmg = 1 / (1+ creatureInfo.armor/ 50) * physicalDmg;
@@ -161,7 +167,7 @@ void Monster::Damaged(float physicalDmg, float magicalDmg)
 		state = State::DIE;
 	}
 }
-
+*/
 bool Monster::DetectTarget()
 {
 	if (player == nullptr)

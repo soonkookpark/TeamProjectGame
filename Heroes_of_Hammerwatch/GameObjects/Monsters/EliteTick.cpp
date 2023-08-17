@@ -4,6 +4,7 @@
 #include "InputMgr.h"
 #include "DataTableMgr.h"
 #include "EliteMonsterTable.h"
+#include "BuffToOther.h"
 
 EliteTick::EliteTick()
 	:Monster("EliteTick", "EliteTick")
@@ -29,6 +30,8 @@ void EliteTick::SetData(const std::string& name)
 	skillFrequency = EliteTickTable["skillFrequency"];
 	buffRange = EliteTickTable["buffRange"];
 	textureId = "graphics/Test/testElite.png";
+	skills.insert({ "Buff",new BuffToOther("test",this) });
+	creatureInfo.speed = 0;
 }
 
 void EliteTick::Chase(float dt)

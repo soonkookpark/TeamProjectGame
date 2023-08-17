@@ -4,7 +4,8 @@
 #include "Player.h"
 #include "Monster.h"
 
-Skill::Skill(const std::string& name)
+Skill::Skill(const std::string& name, Creature* owner)
+	:owner(owner)
 {
 }
 
@@ -14,20 +15,19 @@ void Skill::Init()
 
 void Skill::Reset()
 {
+	if (targetType == TargetType::SELF)
+		targets.push_back(owner);
 }
 
 void Skill::Update(float dt)
 {
+	if (targetType != TargetType::SELF)
+		SetTarget();
 }
 
 void Skill::SetTarget()
 {
-	targets.clear();
-	if (targetType == Skill::TargetType::SELF)
-	{
-		targets.push_back(owner);
-		return;
-	}
+	targets.clear();	
 	for (GameObject* finder : SCENE_MGR.GetCurrScene()->GetGos())
 	{
 		
@@ -71,4 +71,5 @@ void Skill::SetTarget()
 void Skill::Active()
 {
 	SetTarget();
+	//Effect();
 }

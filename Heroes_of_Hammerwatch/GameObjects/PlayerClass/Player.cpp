@@ -9,7 +9,7 @@
 #include "SceneGame.h"
 #include "PlayerTable.h"
 #include "DataTableMgr.h"
-#include "MeleeAttack.h"
+#include "AllSkills.hpp"
 #include "Buffs/AllBuffs.hpp"
 #include "Creature.h"
 
@@ -54,9 +54,10 @@ void Player::SetData(const std::string& name)
 	creatureInfo = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name).CI;	
 
 
-	buffs.push_back(new BloodLust(this, 10));
-	skills.insert({ "atk", new MeleeAttack("test") });
-	skills["atk"]->SetOwner(this);
+	buffs.push_back(new Shield("", this));
+	skills.insert({ "heal", new ActiveBuff("test",this) });
+	skills.insert({ "atk", new MeleeAttack("test",this) });
+	skills.insert({ "buff", new PassiveToMe("test",this) });
 }
 
 void Player::Reset()
@@ -181,6 +182,11 @@ void Player::Update(float dt)
 	{
 		skills["atk"]->Active();
 	}
+
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Q))
+	{
+		skills["heal"]->Active();
+	}
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -230,8 +236,12 @@ void Player::PlayerMove(float dt)
 		direction.y = 1;
 	}
 
-	position += direction * creatureInfo.speed * dt;
+	
+	position += Utils::Normalize(direction) * creatureInfo.speed * dt;
 	SetPosition(position);
+
+	//std::cout << box.getGlobalBounds().left << ", " << box.getGlobalBounds().top << std::endl;
+
 
 	Collider(playerTileIndex.x, playerTileIndex.y);
 
@@ -327,42 +337,64 @@ void Player::FindTileInfo()
 
 bool Player::CheckTileInfoLeft(sf::Vector2f info)
 {
-	int tileSize = tilemap->tiles.size();
+	//tilemap->GetTileArray()[0][0]; //¾Ë°í½ÍÀº Å¸ÀÏ
+	//tilemap->GetTileArray()[info.x][info.y];
+	//int tileSize = tilemap->tiles.size();
 	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
-	for (int i = 0; i < tileSize; i++)
+	sf::Time time1;
+	if (clock1.getElapsedTime().asSeconds() >= 1.f)
+	{
+		//std::cout << info.x << ", " << info.y << std::endl;
+		//std::cout << tilemap->GetTileArray()[info.x][info.y] << std::endl;
+		clock1.restart();
+	}
+	if (info.x >= 0 && info.y >= 0)
+	{
+		//if (tilemap->GetTileArray()[info.x][info.y])
 	{
 
-		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
-		{
-			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
-			if (texIndex != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
+			if (tilemap->GetTileArray()[info.x][info.y] == 0)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
 			{
-				if ((info.x * tilePixelSize + (tilePixelSize / 2) > box.getPosition().x - box.getSize().x))
+				if ((info.x * tilePixelSize + (tilePixelSize / 2) > box.getPosition().x - box.getSize().x / 2 - tilePixelSize / 2));
 					return 0;
 			}
 			return 1;
 		}
 	}
+	else 
+	{
+		return 0;
+	}
+	
 }
 
 bool Player::CheckTileInfoRight(sf::Vector2f info)
 {
-	int tileSize = tilemap->tiles.size();
+	//int tileSize = tilemap->tiles.size();
 	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
-	for (int i = 0; i < tileSize; i++)
+	if (clock1.getElapsedTime().asSeconds() >= 1.f)
 	{
-
-		if (tilemap->tiles[i].x == info.x && tilemap->tiles[i].y == info.y)
+		std::cout << info.x << ", " << info.y << std::endl;
+		std::cout << tilemap->GetTileArray()[info.x][info.y] << std::endl;
+		clock1.restart();
+	}
+	if (info.x >= 0 && info.y >= 0)
 		{
-			int texIndex = static_cast<int>(tilemap->tiles[i].texIndex);
-			if (texIndex != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
+		//if (tilemap->GetTileArray()[info.x][info.y])
 			{
-				if ((info.x * tilePixelSize + (tilePixelSize / 2)) < box.getPosition().x + box.getSize().x)
+
+			if (tilemap->GetTileArray()[info.x][info.y] != 1)// if(¿òÁ÷ÀÏ ¼ö ¾ø´Ù)
+			{
+				if ((info.x * tilePixelSize + (tilePixelSize / 2) < box.getPosition().x + box.getSize().x))
 					return 0;
 			}
 			return 1;
 		}
 	}
+	else
+	{
+		return 0;
+}
 }
 
 bool Player::CheckTileInfoUp(sf::Vector2f info)
@@ -665,12 +697,8 @@ void Player::BoxMaker()
 	}
 }
 
-
-void Player::HealHP(int value)
+void Player::SetDead()
 {
-	curHealth += value;
-	if (curHealth > creatureInfo.maxHealth)
-		curHealth = creatureInfo.maxHealth;
 }
 
 void Player::HealMP(int value)
@@ -678,21 +706,6 @@ void Player::HealMP(int value)
 	curMana += value;
 	if (curMana > pTable.manaPoint)
 		curMana = pTable.manaPoint;
-}
-
-void Player::Damaged(float physicalDmg, float magicalDmg)
-{
-	std::cout << "ï¿½Ç°Ýµï¿½" << std::endl;
-	physicalDmg = 1 / (1 + creatureInfo.armor / 50) * physicalDmg;
-	magicalDmg = 1 / (1 + creatureInfo.resistance / 50) * magicalDmg;
-
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù´ï¿?ï¿½ï¿½ ï¿½ï¿½Æ¿ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿?ï¿½Òµï¿½
-
-	curHealth -= physicalDmg + magicalDmg;
-	if (curHealth < 0)
-	{
-		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
-	}
 }
 
 void Player::Collider(int x, int y)
