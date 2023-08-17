@@ -20,9 +20,13 @@ void Player::Init()
 	tileSize = tilemap->tiles.size();
 	tileIntSize = tilemap->TileIntSize();
 	box.setFillColor(sf::Color::Transparent);
-	box.setOutlineColor(sf::Color::Red);
+	box.setOutlineColor(sf::Color::Transparent);
 	box.setOutlineThickness(1);
 	sortLayer = SortLayer::PLAYER;
+	for (auto& tile : testTiles)
+	{
+		tile.setFillColor(sf::Color::Transparent);
+	}
 }
 
 void Player::SetData(const std::string& name)
@@ -95,9 +99,6 @@ void Player::Update(float dt)
 	{
 		direction /= magnitude;
 	}
-	sf::Vector2f tempspeed = direction * creatureInfo.speed;
-	position += direction * creatureInfo.speed * dt;
-	SetPosition(position);
 	
 	Creature::Update(dt);
 
@@ -105,6 +106,7 @@ void Player::Update(float dt)
 	{
 		skills["atk"]->Active();
 	}
+	TestCode();
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -341,10 +343,10 @@ void Player::Damaged(float physicalDmg, float magicalDmg)
 
 void Player::Collider(int x, int y)
 {
-	for (auto& tile : testTiles)
+	/*for (auto& tile : testTiles)
 	{
 		tile.setFillColor(sf::Color::Transparent);
-	}
+	}*/
 	sf::Vector2i LRTP[8] =
 	{
 		{x - 1, y} ,
@@ -368,7 +370,7 @@ void Player::Collider(int x, int y)
 			continue;
 		}
 
-		testTiles[i].setFillColor({ 255, 255, 255, 128 });
+		//testTiles[i].setFillColor({ 255, 255, 255, 128 });
 		testTiles[i].setPosition((float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize);
 		testTiles[i].setSize({ (float)tilePixelSize, (float)tilePixelSize });
 
@@ -407,6 +409,29 @@ void Player::Collider(int x, int y)
 					SetPosition(tileRect.left - width, position.y);
 				}
 			}
+		}
+	}
+}
+
+void Player::TestCode()
+{
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Hyphen))
+	{
+		box.setOutlineColor(sf::Color::Transparent);
+
+		for (int i = 0 ; i<8;i++)
+		{
+			testTiles[i].setFillColor(sf::Color::Transparent);
+		}
+	}
+
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Equal))
+	{
+		box.setOutlineColor(sf::Color::Red);
+
+		for (int i = 0; i < 8; i++)
+		{
+			testTiles[i].setFillColor({255, 255, 255, 128});
 		}
 	}
 }

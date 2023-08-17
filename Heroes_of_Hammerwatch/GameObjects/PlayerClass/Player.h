@@ -112,5 +112,6 @@ public:
 	void AcquireItem(int key) {};//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
 
 	void Collider(int x, int y);
+	void TestCode();
 };
 

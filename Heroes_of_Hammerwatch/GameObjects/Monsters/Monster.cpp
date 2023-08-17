@@ -233,43 +233,43 @@ void Monster::MoveAnimationPrint(SightDegree lookat)
 	switch (lookat)
 	{
 	case 0:
-		//if (creatureAnimation.GetCurrentClipId() == "MoveR")
-		//	if (creatureAnimation.GetCurrFrame() <= 1) break;
+		//if (creatureAnimation.GetCurrentClipId() != "MoveR")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveR");
 		break;
 	case 1:
-		//if (creatureAnimation.GetCurrentClipId() == "MoveDR")
-		//	if (creatureAnimation.GetCurrFrame() <= 1) break;
+		//if (creatureAnimation.GetCurrentClipId() != "MoveDR")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveDR");
 		break;
 	case 2:
-		//if (creatureAnimation.GetCurrentClipId() == "MoveD")
-		//	if (creatureAnimation.GetCurrFrame() <= 1) break;
+		//if (creatureAnimation.GetCurrentClipId() != "MoveD")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveD");
 		break;
 	case 3:
-		//if (creatureAnimation.GetCurrentClipId() == "MoveDL")
-		//	if (creatureAnimation.GetCurrFrame() <= 1) break;
+		//if (creatureAnimation.GetCurrentClipId() != "MoveDL")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveDL");
 		break;
 	case 4:
-		//if (creatureAnimation.GetCurrentClipId() == "MoveL")
-		//	if (creatureAnimation.GetCurrFrame() <= 1) break;
+		//if (creatureAnimation.GetCurrentClipId() != "MoveL")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveL");
 		break;
 	case 5:
-		//if (creatureAnimation.GetCurrentClipId() == "MoveUL")
-		//	if (creatureAnimation.GetCurrFrame() <= 1) break;
+		//if (creatureAnimation.GetCurrentClipId() != "MoveUL")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveUL");
 		break;
 	case 6:
-		//if (creatureAnimation.GetCurrentClipId() == "MoveU")
-		//	if (creatureAnimation.GetCurrFrame() <= 1) break;
+		//if (creatureAnimation.GetCurrentClipId() != "MoveU")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveU");
 		break;
 	case 7:
 		//if (creatureAnimation.GetCurrentClipId() == "MoveUR")
-		//	if (creatureAnimation.GetCurrFrame() <= 1) break;
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveUR");
 		break;
 	}
