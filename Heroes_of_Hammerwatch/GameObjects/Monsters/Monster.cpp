@@ -5,6 +5,8 @@
 #include "DataTableMgr.h"
 #include "MonsterTable.h"
 #include "MeleeAttack.h"
+#include "ResourceMgr.h"
+#include "InputMgr.h"
 
 Monster::Monster(const std::string& type, const std::string& name)
 	:Creature("",name)
@@ -32,7 +34,21 @@ void Monster::Reset()
 
 void Monster::Update(float dt)
 {
+	creatureAnimation.Update(dt);
 	Creature::Update(dt);
+
+	destination = GetPosition();
+	findAngle = Utils::Angle(player->GetPosition()-destination);
+
+	if (findAngle < 0)
+	{
+		findAngle += 360;
+	}
+
+	MonsterSight(findAngle);
+	std::cout << lookat << std::endl;
+	std::cout << findAngle << std::endl;
+	
 	if (state == State::DIE)
 	{
 		Die(dt);
@@ -60,11 +76,18 @@ void Monster::SetData(const std::string& name)
 	this->name = name;
 	param = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).MI;
 	creatureInfo = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).CI;
-
-	if(name == "Bat")
-		textureId = "graphics/Test/testBat.png";
+	
+	strArr = Utils::LoadAnimationString(name);
+	for (const std::string& strArr : strArr) 
+	{
+		creatureAnimation.AddClip(*RESOURCE_MGR.GetAnimationClip(strArr));
+	}
+	creatureAnimation.SetTarget(&sprite);
+	//std::cout << "allbareuge choollyukdoem" << std::endl;
+	if (name == "Bat")
+		std::cout << "Bat 持失" << std::endl;
 	else if (name == "Tick")
-		textureId = "graphics/Test/testTick.png";
+		std::cout << "Tick 持失" << std::endl;
 
 	if (param.isFlying)
 	{
@@ -82,6 +105,7 @@ void Monster::Wander(float dt)
 {
 	dir = Utils::Normalize(destination - position);	
 	SetPosition(position + (dir * dt * creatureInfo.speed));
+	IdleAnimationPrint(lookat);
 	if (Utils::Distance(position, destination) < 0.1)
 	{
 		state = State::DEFAULT;
@@ -97,7 +121,8 @@ void Monster::Attack(float dt)
 		ActiveSkill* activeSkill = dynamic_cast<ActiveSkill*>(skill.second);
 		if (activeSkill == nullptr)
 			continue;
-		isAttacking = isAttacking || activeSkill->GetIsSkillActive();		
+		isAttacking = isAttacking || activeSkill->GetIsSkillActive();	
+		AttackAnimationPrint(lookat);
 	}
 	if(!isAttacking)
 		state = State::CHASE;
@@ -108,7 +133,8 @@ void Monster::Chase(float dt)
 	destination = player->GetPosition();	
 	dir = Utils::Normalize(destination - position);
 	SetPosition(position + (dir * dt * creatureInfo.speed));
-
+	MoveAnimationPrint(lookat);
+	std::cout << lookat << std::endl;
 	if (!DetectTarget())
 	{
 		state = State::DEFAULT;
@@ -129,6 +155,7 @@ void Monster::Default(float dt)
 	{
 		timer = 0;
 		destination = originalPos + Utils::RandomInCircle(param.moveRange);
+		//idle
 		state = State::WANDER;
 		//std::cout << "wander" << std::endl;
 	}
@@ -169,26 +196,130 @@ bool Monster::DetectTarget()
 	return Utils::Distance(player->GetPosition(), position) < param.searchRange;
 	//return Utils::CircleToRect(position, param.searchRange, player->sprite.getGlobalBounds());
 }
-/*
-void Monster::GetBuff()
+
+void Monster::IdleAnimationPrint(SightDegree lookat)
 {
-	param.damage *= 1.5f;
-	param.speed *= 1.2f;
-	sprite.setColor({255,125,125,255});
-	isBuffed = true;
+	switch (lookat)
+	{
+	case 0:
+		creatureAnimation.Play("IdleR");
+		break;
+	case 1:
+		creatureAnimation.Play("IdleDR");
+		break;
+	case 2:
+		creatureAnimation.Play("IdleD");
+		break;
+	case 3:
+		creatureAnimation.Play("IdleDL");
+		break;
+	case 4:
+		creatureAnimation.Play("IdleL");
+		break;
+	case 5:
+		creatureAnimation.Play("IdleUL");
+		break;
+	case 6:
+		creatureAnimation.Play("IdleU");
+		break;
+	case 7:
+		creatureAnimation.Play("IdleUR");
+		break;
+	}
 }
 
-void Monster::LoseBuff()
+void Monster::MoveAnimationPrint(SightDegree lookat)
 {
-	param.damage /= 1.5f;
-	param.speed /= 1.2f;
-	sprite.setColor({ 255,255,255,255 });
-	isBuffed = false;
+	switch (lookat)
+	{
+	case 0:
+		//if (creatureAnimation.GetCurrentClipId() != "MoveR")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("MoveR");
+		break;
+	case 1:
+		//if (creatureAnimation.GetCurrentClipId() != "MoveDR")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("MoveDR");
+		break;
+	case 2:
+		//if (creatureAnimation.GetCurrentClipId() != "MoveD")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("MoveD");
+		break;
+	case 3:
+		//if (creatureAnimation.GetCurrentClipId() != "MoveDL")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("MoveDL");
+		break;
+	case 4:
+		//if (creatureAnimation.GetCurrentClipId() != "MoveL")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("MoveL");
+		break;
+	case 5:
+		//if (creatureAnimation.GetCurrentClipId() != "MoveUL")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("MoveUL");
+		break;
+	case 6:
+		//if (creatureAnimation.GetCurrentClipId() != "MoveU")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("MoveU");
+		break;
+	case 7:
+		//if (creatureAnimation.GetCurrentClipId() == "MoveUR")
+		//if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("MoveUR");
+		break;
+	}
 }
 
-bool Monster::meleeAttack()
+void Monster::AttackAnimationPrint(SightDegree lookat)
 {
-	Utils::CircleToRect(position, param.attackRange, player->sprite.getGlobalBounds(), attackAngle, static_cast<float>(param.attackArc));
-	return false;
+	switch (lookat)
+	{
+	case 0:
+		if (creatureAnimation.GetCurrentClipId() == "AttackR")
+			if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("AttackR");
+		break;
+	case 1:
+		if (creatureAnimation.GetCurrentClipId() == "AttackDR")
+			if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("AttackDR");
+		break;
+	case 2:
+		if (creatureAnimation.GetCurrentClipId() == "AttackD")
+			if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("AttackD");
+		break;
+	case 3:
+		if (creatureAnimation.GetCurrentClipId() == "AttackDL")
+			if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("AttackDL");
+		break;
+	case 4:
+		if (creatureAnimation.GetCurrentClipId() == "AttackL")
+			if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("AttackL");
+		break;
+	case 5:
+		if (creatureAnimation.GetCurrentClipId() == "AttackUL")
+			if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("AttackUL");
+		break;
+	case 6:
+		if (creatureAnimation.GetCurrentClipId() == "AttackU")
+			if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("AttackU");
+		break;
+	case 7:
+		if (creatureAnimation.GetCurrentClipId() == "AttackUR")
+			if (creatureAnimation.GetCurrFrame() <= 1) break;
+		creatureAnimation.Play("AttackUR");
+		break;
+	}
 }
-*/
+
+

@@ -52,9 +52,10 @@ protected:
     State state = State::DEFAULT;
     sf::Vector2f originalPos;
     sf::Vector2f dir;
-
+    std::vector<std::string> strArr;
     Player* player = nullptr;
     sf::Vector2f destination;
+    float findAngle = 0.f;
     bool isBuffed;
     float timer;
     bool inAction;
@@ -79,11 +80,10 @@ public:
         
     bool DetectTarget();
     bool GetIsBuffed() { return isBuffed; };
-    /*
-    void GetBuff();
-    void LoseBuff();
 
-    bool meleeAttack();
-    */
+    virtual void IdleAnimationPrint(SightDegree lookat) override;
+    virtual void MoveAnimationPrint(SightDegree lookat) override;
+    virtual void AttackAnimationPrint(SightDegree lookat) override;
+
 };
 

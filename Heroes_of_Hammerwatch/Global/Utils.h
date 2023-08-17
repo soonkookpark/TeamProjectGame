@@ -41,5 +41,7 @@ public:
 
 	static bool Contains(const std::wstring& str, const char& c);
 	static std::string WstringToString(const std::wstring& value);
+	
+	static std::vector<std::string> LoadAnimationString(const std::string name);
 };
 

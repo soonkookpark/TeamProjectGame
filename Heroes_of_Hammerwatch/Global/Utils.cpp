@@ -181,3 +181,50 @@ std::string Utils::WstringToString(const std::wstring& value)
 	auto& facet = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(loc);
 	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).to_bytes(value);
 }
+
+std::vector<std::string> Utils::LoadAnimationString(const std::string name)
+{
+	std::vector<std::string> stringArr;
+	for (int i = 0; i < 24; ++i) {
+		std::string animationPath = "animations/" + name;
+
+		if (i < 8) {  // Move animations
+			animationPath += "/Move";
+		}
+		else if (i < 16) {  // Attack animations
+			animationPath += "/Attack";
+		}
+		else {  // Idle animations
+			animationPath += "/Idle";
+		}
+
+		if (i % 8 == 0) {
+			animationPath += "DL.csv";
+		}
+		else if (i % 8 == 1) {
+			animationPath += "D.csv";
+		}
+		else if (i % 8 == 2) {
+			animationPath += "DR.csv";
+		}
+		else if (i % 8 == 3) {
+			animationPath += "L.csv";
+		}
+		else if (i % 8 == 4) {
+			animationPath += "R.csv";
+		}
+		else if (i % 8 == 5) {
+			animationPath += "UL.csv";
+		}
+		else if (i % 8 == 6) {
+			animationPath += "U.csv";
+		}
+		else if (i % 8 == 7) {
+			animationPath += "UR.csv";
+		}
+		stringArr.push_back(animationPath);
+	}
+	
+	return stringArr;
+}
+

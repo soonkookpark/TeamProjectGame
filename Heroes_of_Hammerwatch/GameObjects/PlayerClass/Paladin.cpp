@@ -6,7 +6,7 @@
 
 Paladin::Paladin()
 {
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveR.csv"));
+	/*animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveUR.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveU.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/MoveUL.csv"));
@@ -30,16 +30,14 @@ Paladin::Paladin()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackL.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackDL.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackD.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackDR.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/Paladin/AttackDR.csv"));*/
+	std::vector<std::string> loadString = Utils::LoadAnimationString("Paladin");
+	for (const std::string& loadString : loadString)
+	{
+		creatureAnimation.AddClip(*RESOURCE_MGR.GetAnimationClip(loadString));
+	}
 
-	
-
-
-
-
-	
-
-	animation.SetTarget(&sprite);
+	creatureAnimation.SetTarget(&sprite);
 	SetData("Paladin");
 }
 

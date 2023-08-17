@@ -1,6 +1,8 @@
 ID,FPS,LOOPTYPE,,
-AttackU,8,0,,
+AttackU,4,0,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/EliteTick.png,32,192,32,32
+graphics/Monster/EliteTick.png,128,192,32,32
 graphics/Monster/EliteTick.png,32,192,32,32
 graphics/Monster/EliteTick.png,128,192,32,32
