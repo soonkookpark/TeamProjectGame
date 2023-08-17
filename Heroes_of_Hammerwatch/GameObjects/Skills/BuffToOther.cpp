@@ -28,15 +28,7 @@ void BuffToOther::Effect()
 {
 	for (auto target : targets)
 	{
-		bool hasThis = false;
-		for (auto checker : buffedTarget)
-		{
-			if (target == checker)
-			{
-				hasThis = true;
-			}
-		}
-		if (!hasThis)
+		if (std::find(buffedTarget.begin(), buffedTarget.end(), target) == buffedTarget.end())
 		{
 			target->GainBuff(MakeBuff(target));
 			buffedTarget.push_back(target);
@@ -44,15 +36,7 @@ void BuffToOther::Effect()
 	}
 	for (auto target : buffedTarget)
 	{
-		bool hasThis = false;
-		for (auto checker : targets)
-		{
-			if (target == checker)
-			{
-				hasThis = true;
-			}
-		}
-		if (!hasThis)
+		if (std::find(targets.begin(), targets.end(), target) == targets.end())
 		{
 			hadBuffedTarget.push_back(target);
 		}
