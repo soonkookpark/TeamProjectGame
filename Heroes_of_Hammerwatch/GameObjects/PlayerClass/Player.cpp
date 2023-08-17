@@ -46,7 +46,7 @@ void Player::Reset()
 	creatureAnimation.Play("IdleD");
 	SetOrigin(origin);
 	SetFlipX(false);
-	box.setSize({16,16});
+	box.setSize({8,16});
 	box.setOrigin(box.getSize() * 0.5f);
 	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 }
@@ -92,7 +92,7 @@ void Player::Update(float dt)
 	{
 		attackNow = false;
 	}
-
+	//ekgnsdk dlrjf TJ
 	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
 
 	PlayerMove(dt);
@@ -105,9 +105,14 @@ void Player::Update(float dt)
 	
 	Creature::Update(dt);
 
-	if (InputMgr::Instance().GetMouseButtonDown(sf::Mouse::Left))
+	if (InputMgr::Instance().GetMouseButton(sf::Mouse::Left))
 	{
-		skills["atk"]->Active();
+		if (clock1.getElapsedTime().asSeconds() > 0.3f)
+		{
+			std::cout << clock1.getElapsedTime().asSeconds()<<std::endl;
+			skills["atk"]->Active();
+			clock1.restart();
+		}
 	}
 
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Q))
@@ -147,7 +152,7 @@ void Player::PlayerMove(float dt)
 	direction.x = INPUT_MGR.GetAxisRaw(Axis::Horizontal);
 	direction.y = INPUT_MGR.GetAxisRaw(Axis::Vertical);
 	
-	position += direction * creatureInfo.speed * dt;
+	position += direction * creatureInfo.speed*5.f * dt;
 	SetPosition(position);
 
 	//std::cout << box.getGlobalBounds().left << ", " << box.getGlobalBounds().top << std::endl;

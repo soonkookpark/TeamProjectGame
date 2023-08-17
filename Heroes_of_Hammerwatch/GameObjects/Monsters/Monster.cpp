@@ -37,8 +37,8 @@ void Monster::Update(float dt)
 	Creature::Update(dt);
 	creatureAnimation.Update(dt);
 
-	destination = GetPosition();
-	findAngle = Utils::Angle(player->GetPosition()-destination);
+	//destination = GetPosition();
+	findAngle = Utils::Angle(player->GetPosition()-position);
 
 	if (findAngle < 0)
 	{
@@ -46,8 +46,8 @@ void Monster::Update(float dt)
 	}
 
 	MonsterSight(findAngle);
-	std::cout << lookat << std::endl;
-	std::cout << findAngle << std::endl;
+	//std::cout << lookat << std::endl;
+	//std::cout << findAngle << std::endl;
 	
 	if (state == State::DIE)
 	{
@@ -84,10 +84,10 @@ void Monster::SetData(const std::string& name)
 	}
 	creatureAnimation.SetTarget(&sprite);
 	//std::cout << "allbareuge choollyukdoem" << std::endl;
-	if (name == "Bat")
-		std::cout << "Bat 持失" << std::endl;
-	else if (name == "Tick")
-		std::cout << "Tick 持失" << std::endl;
+	//if (name == "Bat")
+		//std::cout << "Bat 持失" << std::endl;
+	//else if (name == "Tick")
+		//std::cout << "Tick 持失" << std::endl;
 
 	if (param.isFlying)
 	{
@@ -133,7 +133,7 @@ void Monster::Chase(float dt)
 	dir = Utils::Normalize(destination - position);
 	SetPosition(position + (dir * dt * creatureInfo.speed));
 	MoveAnimationPrint(lookat);
-	std::cout << lookat << std::endl;
+	//std::cout << lookat << std::endl;
 	if (!DetectTarget())
 	{
 		state = State::DEFAULT;
