@@ -1,3 +1,5 @@
 #include "MeleeAttack.h"
 #include "RangeAttack.h"
-#include "PassiveSkill.h"
+#include "BuffToOther.h"
+#include "PassiveToMe.h"
+#include "ActiveBuff.h"

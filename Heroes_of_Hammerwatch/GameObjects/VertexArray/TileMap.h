@@ -4,11 +4,13 @@
 #include "rapidcsv.h"
 
 class Tree;
+class OnTileMap;
 
 class TileMap : public VertexArrayGo
 {
 protected:
 	bool checkLoad = false;
+	OnTileMap* onTileMap;
 
 	sf::Vector2f tileSize = { 16.f, 16.f };
 	sf::Vector2f texSize = { 32.f, 32.f };
@@ -57,6 +59,9 @@ public:
 	sf::Vector2f TilePixelSize();
 	Tile& GetTile(int x, int y);
 
+	void SetOnTileMap(OnTileMap* onTileMap) { this->onTileMap = onTileMap; }
 	void Divide();
+	void ConnectRoom();
+	void DrawRoom(sf::RenderWindow& window);
 };
 

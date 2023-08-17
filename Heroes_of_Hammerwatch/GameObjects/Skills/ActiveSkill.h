@@ -18,7 +18,7 @@ protected:
 
     bool isSkillActive = false;
 public:
-    ActiveSkill(const std::string& key);
+    ActiveSkill(const std::string& key, Creature* owner);
     virtual ~ActiveSkill() = default;
 
     bool GetIsSkillActive() { return isSkillActive; }

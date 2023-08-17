@@ -10,15 +10,22 @@ public:
 		AURA,
 		NONE_AURA,
 	};
+	enum class KindOfBuff
+	{
+		BLOOD_LUST,
+		LAY_ON_HANDS,
+	};
 protected:
 	Creature* owner;
 	ClassBuffType type = NONE;
+	KindOfBuff kindOfBuff;
 
 	Creature* provider;
 	float range;
 
 	float duration = 0;
 	float timer = 0;
+
 public:
 	Buff(const std::string& key, Creature* owner, Creature* provider, float range);
 	Buff(const std::string& key, Creature* owner, float duration);

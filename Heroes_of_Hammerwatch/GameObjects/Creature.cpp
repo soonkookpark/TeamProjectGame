@@ -3,15 +3,21 @@
 #include "Skill.h"
 #include "Buffs/Buff.h"
 
+Creature::Creature(const std::string& textureId, const std::string& n)
+	: SpriteGo(textureId, n)
+{
+	SetData();
+}
+
 void Creature::Update(float dt)
 {
-	for (auto skill : skills)
-	{
-		skill.second->Update(dt);
-	}
 	for (auto buff : buffs)
 	{
 		buff->Update(dt);
+	}
+	for (auto skill : skills)
+	{
+		skill.second->Update(dt);
 	}
 	for (auto buff : hadBuffs)
 	{
@@ -19,6 +25,25 @@ void Creature::Update(float dt)
 		delete(buff);
 	}
 	hadBuffs.clear();
+}
+
+void Creature::SetData()
+{
+	Damaged = [this](float physicalDmg, float magicalDmg, Creature* attacker)
+	{
+		physicalDmg = 1 / (1 + creatureInfo.armor / 50) * physicalDmg;
+		magicalDmg = 1 / (1 + creatureInfo.resistance / 50) * magicalDmg;
+
+		//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
+		std::cout << physicalDmg + magicalDmg << "데미지 받음" << std::endl;
+		curHealth -= (physicalDmg + magicalDmg);
+		std::cout << curHealth << "잔여 피" << std::endl;
+		if (curHealth < 0)
+		{
+			SetDead();
+		}
+	};
+
 }
 
 void Creature::GainBuff(Buff* buff)
@@ -203,4 +228,12 @@ int Creature::MonsterSight(float angle)
 		lookat = R;
 	}
 	return lookat;
+}
+
+void Creature::HealHP(int value)
+{
+	std::cout << value << "만큼 힐됨" << std::endl;
+	curHealth += value;
+	if (curHealth > creatureInfo.maxHealth)
+		curHealth = creatureInfo.maxHealth;
 }

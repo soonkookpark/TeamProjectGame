@@ -9,7 +9,7 @@
 #include "SceneGame.h"
 #include "PlayerTable.h"
 #include "DataTableMgr.h"
-#include "MeleeAttack.h"
+#include "AllSkills.hpp"
 #include "Buffs/AllBuffs.hpp"
 #include "Creature.h"
 
@@ -33,9 +33,12 @@ void Player::SetData(const std::string& name)
 {
 	pTable = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name).PI;	
 	creatureInfo = DATATABLE_MGR.Get<PlayerTable>(DataTable::Ids::PlayerClass)->Get(name).CI;	
-	buffs.push_back(new BloodLust(this, 10));
-	skills.insert({ "atk", new MeleeAttack("test") });
-	skills["atk"]->SetOwner(this);
+
+
+	buffs.push_back(new Shield("", this));
+	skills.insert({ "heal", new ActiveBuff("test",this) });
+	skills.insert({ "atk", new MeleeAttack("test",this) });
+	skills.insert({ "buff", new PassiveToMe("test",this) });
 }
 
 void Player::Reset()
@@ -106,6 +109,11 @@ void Player::Update(float dt)
 	{
 		skills["atk"]->Active();
 	}
+
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Q))
+	{
+		skills["heal"]->Active();
+	}
 	TestCode();
 }
 
@@ -141,6 +149,9 @@ void Player::PlayerMove(float dt)
 	
 	position += direction * creatureInfo.speed * dt;
 	SetPosition(position);
+
+	//std::cout << box.getGlobalBounds().left << ", " << box.getGlobalBounds().top << std::endl;
+
 
 	Collider(playerTileIndex.x, playerTileIndex.y);
 	
@@ -315,11 +326,8 @@ void Player::SetTile(TileMap* tile)
 	this->tilemap = tile;
 }
 
-void Player::HealHP(int value)
+void Player::SetDead()
 {
-	curHealth += value;
-	if (curHealth > creatureInfo.maxHealth)
-		curHealth = creatureInfo.maxHealth;
 }
 
 void Player::HealMP(int value)
@@ -327,18 +335,6 @@ void Player::HealMP(int value)
 	curMana += value;
 	if (curMana > pTable.manaPoint)
 		curMana = pTable.manaPoint;
-}
-
-void Player::Damaged(float physicalDmg, float magicalDmg)
-{
-	physicalDmg = 1 / (1 + creatureInfo.armor / 50) * physicalDmg;
-	magicalDmg = 1 / (1 + creatureInfo.resistance / 50) * magicalDmg;
-
-	curHealth -= physicalDmg + magicalDmg;
-	if (curHealth < 0)
-	{
-		std::cout << "으앙 죽음" << std::endl;
-	}
 }
 
 void Player::Collider(int x, int y)
@@ -365,7 +361,8 @@ void Player::Collider(int x, int y)
 	for (int i = 0; i < 8; i++)
 	{
 		sf::Vector2i arrSize = tilemap->TileIntSize();
-		if (LRTP[i].y < 0 || LRTP[i].x < 0 || LRTP[i].y >= arrSize.x || LRTP[i].x >= arrSize.y)
+		//이게 맞음 버그 수정한거임
+		if (LRTP[i].y < 0 || LRTP[i].x < 0 || LRTP[i].y >= arrSize.y || LRTP[i].x >= arrSize.x)
 		{
 			continue;
 		}

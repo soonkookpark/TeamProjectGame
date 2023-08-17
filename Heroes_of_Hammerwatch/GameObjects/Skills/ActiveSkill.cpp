@@ -2,8 +2,8 @@
 #include "ActiveSkill.h"
 #include "InputMgr.h"
 
-ActiveSkill::ActiveSkill(const std::string& key)
-	:Skill(key)
+ActiveSkill::ActiveSkill(const std::string& key, Creature* owner)
+	:Skill(key,owner)
 {
 	SetData(key);
 }
@@ -20,9 +20,12 @@ void ActiveSkill::Update(float dt)
 	if (repeat == rptCounter)
 	{
 		if (timer > coolDown)
+		{
 			isSkillActive = false;
+			rptCounter = 0;
+		}
 	}
-	if (timer > prevDelay)
+	else if (timer > prevDelay)
 	{
 		Effect();
 		rptCounter++;

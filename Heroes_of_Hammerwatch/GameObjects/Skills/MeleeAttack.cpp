@@ -2,8 +2,8 @@
 #include "MeleeAttack.h"
 #include "Creature.h"
 
-MeleeAttack::MeleeAttack(const std::string& key)
-	:ActiveSkill(key)
+MeleeAttack::MeleeAttack(const std::string& key, Creature* owner)
+	:ActiveSkill(key, owner)
 {
 	SetData(key);
 }
@@ -20,7 +20,7 @@ void MeleeAttack::Effect()
 	{
 		if (Utils::CircleToRect(owner->GetPosition(), range, target->sprite.getGlobalBounds(), owner->look, attackAngle))
 		{
-			target->Damaged(physicalDamage, magicalDamage);
+			target->Damaged(physicalDamage, magicalDamage,owner);
 		}
 	}
 }
@@ -32,6 +32,7 @@ void MeleeAttack::SetData(const std::string& key)
 	targetType = TargetType::ENEMY;
 	physicalDamage = 30;
 	magicalDamage = 0;
+	repeat = 2;
 
 	prevDelay = 0.f;
 	attackAngle = 180;

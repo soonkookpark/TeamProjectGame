@@ -3,6 +3,7 @@
 #include "ResourceMgr.h"
 #include <vector>
 #include "Tree.h"
+#include "OnTileMap.h"
 
 TileMap::TileMap(const std::string& textureId, const std::string& n)
     : VertexArrayGo(textureId, n)
@@ -56,16 +57,16 @@ bool TileMap::LoadDrawTexture(const std::string& filePath)
         currPos.y += tileSize.y;
     }
 
-    Divide();
+    //Divide();
 
-    for (int i = 0; i < size.y; i++)
+    /*for (int i = 0; i < size.y; i++)
     {
         for (int j = 0; j < size.x; j++)
         {
             std::cout << tileArray[i][j];
         }
         std::cout << std::endl;
-    }
+    }*/
    
 
     return true;
@@ -139,6 +140,9 @@ bool TileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
         int vertexIndex = tileIndex * 4 + k;
         vertexArray[vertexIndex].texCoords = texOffsets[k];
     }
+
+    onTileMap->ChangeTile(tilePosX, tilePosY, idx);
+
     return false;
 }
 
@@ -329,48 +333,19 @@ void TileMap::Divide()
 {
     if (route == nullptr)
     {
-        route = new Tree();
-        route->rect = sf::FloatRect{ 0, 0, static_cast<float>(size.x), static_cast<float>(size.y) };
+        route = new Tree(sf::FloatRect{ 0, 0, static_cast<float>(size.x), static_cast<float>(size.y) });
     }
+    route->Divide(this);
+}
 
-    if (route->child_L == nullptr && route->child_R == nullptr)
-    {
-        sf::Vector2f cut = route->Divide(route->rect);
-        if (cut.x != 0)
-        {
-            for (int i = 0; i < size.y; i++)
-            {
-                ChangeTile(cut.x, i, 0);
-            }
-        }
-        else if (cut.y != 0)
-        {
-            for (int j = 0; j < size.x; j++)
-            {
-                ChangeTile(j, cut.y, 0);
-            }
-        }
-        return;
-    }
+void TileMap::ConnectRoom()
+{
+    if (route == nullptr) return;
+    route->ConnectRoom(this);
+}
 
-    if (route->child_L->child_L == nullptr)
-    {
-        sf::Vector2f cut = route->child_L->Divide(route->child_L->rect);
-
-        if (cut.x != 0)
-        {
-            for (int i = 0; i < route->child_L->rect.height; i++)
-            {
-                ChangeTile(cut.x, i, 0);
-            }
-        }
-        else if (cut.y != 0)
-        {
-            for (int j = 0; j < route->child_L->rect.width; j++)
-            {
-                ChangeTile(j, cut.y, 0);
-            }
-        }
-        return;
-    }
+void TileMap::DrawRoom(sf::RenderWindow& window)
+{
+    if (route == nullptr) return;
+    route->DrawRoom(window);
 }

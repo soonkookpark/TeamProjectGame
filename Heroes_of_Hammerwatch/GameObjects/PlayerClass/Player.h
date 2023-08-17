@@ -100,11 +100,10 @@ public:
 	//void MoveAnimationPrint(SightDegree lookat);
 	//void AttackAnimationPrint(SightDegree lookat);
 	void SetTile(TileMap* tile);
-	 
-	void HealHP(int value);
-	void HealMP(int value);
 
-	void Damaged(float physicalDmg, float magicalDmg);
+	virtual void SetDead() override;
+	 
+	void HealMP(int value);
 
 	void AcquireOre(int value) { ore += value; };
 	void AcquireMoney(int value) { money += value; };

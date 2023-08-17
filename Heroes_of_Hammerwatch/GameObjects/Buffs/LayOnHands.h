@@ -3,6 +3,9 @@
 class LayOnHands :
     public Buff
 {
+protected:
+    float healValue;
+public:
     LayOnHands(Creature* owner, Creature* provider, float range);
     LayOnHands(Creature* owner, float duration);
     virtual ~LayOnHands() override = default;
