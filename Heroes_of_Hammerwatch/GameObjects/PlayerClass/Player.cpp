@@ -147,10 +147,6 @@ void Player::Update(float dt)
 	box.setPosition(sprite.getPosition());
 	//std::cout << GetPosition().x << std::endl;
 	
-	position += direction * creatureInfo.speed * dt;
-	SetPosition(position);
-
-	
 	
 	/*if (direction.x != 0.f || direction.y != 0.f)
 	{
@@ -724,7 +720,8 @@ void Player::Collider(int x, int y)
 	for (int i = 0; i < 8; i++)
 	{
 		sf::Vector2i arrSize = tilemap->TileIntSize();
-		if (LRTP[i].y < 0 || LRTP[i].x < 0 || LRTP[i].y >= arrSize.x || LRTP[i].x >= arrSize.y)
+		//이게 맞음 버그 수정한거임
+		if (LRTP[i].y < 0 || LRTP[i].x < 0 || LRTP[i].y >= arrSize.y || LRTP[i].x >= arrSize.x)
 		{
 			continue;
 		}

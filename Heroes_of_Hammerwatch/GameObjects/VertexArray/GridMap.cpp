@@ -5,6 +5,7 @@
 GridMap::GridMap(const std::string& textureId, const std::string& n)
 {
 	sortLayer = SortLayer::TILE + 5;
+	isActive = false;
 }
 
 GridMap::~GridMap()

@@ -39,9 +39,13 @@ void SceneEdit::Init()
 	windowSize = FRAMEWORK.GetWindowSize();
 
 	rowUp = (UIButton*)AddGo(new UIButton("graphics/miscellaneous/icons.png"));
+	rowUpUp = (UIButton*)AddGo(new UIButton("graphics/miscellaneous/icons.png"));
 	rowDown = (UIButton*)AddGo(new UIButton("graphics/miscellaneous/icons.png"));
+	rowDownDown = (UIButton*)AddGo(new UIButton("graphics/miscellaneous/icons.png"));
 	colUp = (UIButton*)AddGo(new UIButton("graphics/miscellaneous/icons.png"));
+	colUpUp = (UIButton*)AddGo(new UIButton("graphics/miscellaneous/icons.png"));
 	colDown = (UIButton*)AddGo(new UIButton("graphics/miscellaneous/icons.png"));
+	colDownDown = (UIButton*)AddGo(new UIButton("graphics/miscellaneous/icons.png"));
 	edit = (UIButton*)AddGo(new UIButton("graphics/button/button_edit.png"));
 	save = (UIButton*)AddGo(new UIButton("graphics/button/button_save.png"));
 	load = (UIButton*)AddGo(new UIButton("graphics/button/button_load.png"));
@@ -79,6 +83,13 @@ void SceneEdit::Init()
 		this->row++;
 		rowNum->text.setString("Row : " + std::to_string(row));
 	};
+	rowUpUp->sprite.setTextureRect({ 223, 0, 9, 11 });
+	rowUpUp->sprite.setScale(3.0, 3.0);
+	rowUpUp->OnClick = [this]()
+	{
+		this->row += 10;
+		rowNum->text.setString("Row : " + std::to_string(row));
+	};
 
 	rowDown->sprite.setTextureRect({ 214, 0, 9, 11 });
 	rowDown->sprite.setScale(3.0, 3.0);
@@ -88,12 +99,27 @@ void SceneEdit::Init()
 		if (row <= 0) this->row = 1;
 		rowNum->text.setString("Row : " + std::to_string(row));
 	};
+	rowDownDown->sprite.setTextureRect({ 214, 0, 9, 11 });
+	rowDownDown->sprite.setScale(3.0, 3.0);
+	rowDownDown->OnClick = [this]()
+	{
+		this->row -= 10;
+		if (row <= 0) this->row = 1;
+		rowNum->text.setString("Row : " + std::to_string(row));
+	};
 
 	colUp->sprite.setTextureRect({ 223, 0, 9, 11 });
 	colUp->sprite.setScale(3.0, 3.0);
 	colUp->OnClick = [this]()
 	{
-		this->col++;
+		this->col += 10;
+		colNum->text.setString("Col : " + std::to_string(col));
+	};
+	colUpUp->sprite.setTextureRect({ 223, 0, 9, 11 });
+	colUpUp->sprite.setScale(3.0, 3.0);
+	colUpUp->OnClick = [this]()
+	{
+		this->col += 10;
 		colNum->text.setString("Col : " + std::to_string(col));
 	};
 
@@ -105,18 +131,30 @@ void SceneEdit::Init()
 		if (col <= 1) this->col = 1;
 		colNum->text.setString("Col : " + std::to_string(col));
 	};
+	colDownDown->sprite.setTextureRect({ 214, 0, 9, 11 });
+	colDownDown->sprite.setScale(3.0, 3.0);
+	colDownDown->OnClick = [this]()
+	{
+		this->col -= 10;
+		if (col <= 1) this->col = 1;
+		colNum->text.setString("Col : " + std::to_string(col));
+	};
 
 	rowNum->sortLayer = SortLayer::UI;
 	rowNum->text.setString("Row : " + std::to_string(row));
 	rowNum->SetPosition(50.f, 50.f);
 	rowUp->SetPosition(190.f, 20.f);
+	rowUpUp->SetPosition(230.f, 20.f);
 	rowDown->SetPosition(190.f, 80.f);
+	rowDownDown->SetPosition(230.f, 80.f);
 
 	colNum->sortLayer = SortLayer::UI;
 	colNum->text.setString("Col : " + std::to_string(col));
 	colNum->SetPosition(50.f, 170.f);
 	colUp->SetPosition(190.f, 140.f);
 	colDown->SetPosition(190.f, 200.f);
+	colUpUp->SetPosition(230.f, 140.f);
+	colDownDown->SetPosition(230.f, 200.f);
 
 	edit->sortLayer = SortLayer::UI;
 	edit->SetPosition(30.f, 270.f);
@@ -155,6 +193,8 @@ void SceneEdit::Init()
 		tileMap = tempTileMap;
 		gridMap = tempGridMap;
 		onTileMap = tempOnTileMap;
+
+		tileMap->SetOnTileMap(onTileMap);
 	};
 
 	save->sortLayer = SortLayer::UI;
@@ -207,6 +247,7 @@ void SceneEdit::Init()
 		tileMap = tempTileMap;
 		gridMap = tempGridMap;
 		onTileMap = tempOnTileMap;
+		tileMap->SetOnTileMap(onTileMap);
 	};
 
 	for (auto go : gameObjects)
@@ -283,7 +324,6 @@ void SceneEdit::Update(float dt)
 	{
 		int idx = tileOnMouse.tileIndex;
 		tileMap->ChangeTile(tileIndex.x, tileIndex.y, idx);
-		onTileMap->ChangeTile(tileIndex.x, tileIndex.y, idx);
 	}
 	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Right))
 	{
@@ -336,6 +376,20 @@ void SceneEdit::Update(float dt)
 	{
 		tileMap->Divide();
 	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F5))
+	{
+		tileMap->ConnectRoom();
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F6))
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			tileMap->Divide();
+		}
+		tileMap->ConnectRoom();
+	}
+	
+
 }
 
 void SceneEdit::Draw(sf::RenderWindow& window)
