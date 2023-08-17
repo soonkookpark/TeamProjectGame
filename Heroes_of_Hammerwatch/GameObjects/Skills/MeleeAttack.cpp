@@ -32,6 +32,7 @@ void MeleeAttack::SetData(const std::string& key)
 	targetType = TargetType::ENEMY;
 	physicalDamage = 30;
 	magicalDamage = 0;
+	repeat = 2;
 
 	prevDelay = 0.f;
 	attackAngle = 180;

@@ -11,5 +11,5 @@ public:
     PassiveSkill(const std::string& key, Creature* owner);
     virtual ~PassiveSkill() = default;
 
-    void SetData(const std::string& key);
+    virtual void SetData(const std::string& key) override;
 };

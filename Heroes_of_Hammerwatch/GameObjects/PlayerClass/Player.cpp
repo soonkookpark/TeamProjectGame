@@ -9,7 +9,7 @@
 #include "SceneGame.h"
 #include "PlayerTable.h"
 #include "DataTableMgr.h"
-#include "MeleeAttack.h"
+#include "AllSkills.hpp"
 #include "Buffs/AllBuffs.hpp"
 
 void Player::Init()
@@ -54,7 +54,9 @@ void Player::SetData(const std::string& name)
 
 
 	buffs.push_back(new Shield("", this));
+	skills.insert({ "heal", new ActiveBuff("test",this) });
 	skills.insert({ "atk", new MeleeAttack("test",this) });
+	skills.insert({ "buff", new PassiveToMe("test",this) });
 }
 
 void Player::Reset()
@@ -181,6 +183,11 @@ void Player::Update(float dt)
 	if (InputMgr::Instance().GetMouseButtonDown(sf::Mouse::Left))
 	{
 		skills["atk"]->Active();
+	}
+
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Q))
+	{
+		skills["heal"]->Active();
 	}
 }
 
@@ -704,14 +711,6 @@ void Player::BoxMaker()
 
 void Player::SetDead()
 {
-}
-
-
-void Player::HealHP(int value)
-{
-	curHealth += value;
-	if (curHealth > creatureInfo.maxHealth)
-		curHealth = creatureInfo.maxHealth;
 }
 
 void Player::HealMP(int value)

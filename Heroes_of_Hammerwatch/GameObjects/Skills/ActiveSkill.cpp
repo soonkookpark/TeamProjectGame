@@ -20,9 +20,12 @@ void ActiveSkill::Update(float dt)
 	if (repeat == rptCounter)
 	{
 		if (timer > coolDown)
+		{
 			isSkillActive = false;
+			rptCounter = 0;
+		}
 	}
-	if (timer > prevDelay)
+	else if (timer > prevDelay)
 	{
 		Effect();
 		rptCounter++;

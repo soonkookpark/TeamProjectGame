@@ -111,7 +111,6 @@ public:
 
 	virtual void SetDead() override;
 	 
-	void HealHP(int value);
 	void HealMP(int value);
 
 	void AcquireOre(int value) { ore += value; };

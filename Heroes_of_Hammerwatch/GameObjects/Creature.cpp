@@ -67,3 +67,11 @@ void Creature::LoseBuff(Buff* buff)
 	
 	hadBuffs.push_back(buff);
 }
+
+void Creature::HealHP(int value)
+{
+	std::cout << value << "¸¸Å­ ÈúµÊ" << std::endl;
+	curHealth += value;
+	if (curHealth > creatureInfo.maxHealth)
+		curHealth = creatureInfo.maxHealth;
+}

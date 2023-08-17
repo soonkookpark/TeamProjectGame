@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "LayOnHands.h"
+#include "Creature.h"
+
 
 
 LayOnHands::LayOnHands(Creature* owner, Creature* provider, float range)
@@ -18,6 +20,7 @@ LayOnHands::LayOnHands(Creature* owner, float duration)
 
 void LayOnHands::SetData(const std::string& key)
 {
+    healValue = 1;
 }
 
 void LayOnHands::GetBuff()
@@ -28,6 +31,7 @@ void LayOnHands::GetBuff()
 void LayOnHands::DuringBuff(float dt)
 {
     Buff::DuringBuff(dt);
+    owner->HealHP(1 + healValue + (owner->ControlCreatureInfos()->maxHealth * 0.02));
 }
 
 void LayOnHands::LoseBuff()

@@ -41,6 +41,8 @@ public:
     void GainBuff(Buff* buff);
     void LoseBuff(Buff* buff);
 
+    void HealHP(int value);
+
     CreatureInfo* ControlCreatureInfos() { return &creatureInfo; }
     //BuffToOther* AccessSkill(const std::string& key) { return dynamic_cast<BuffToOther*>(skills[key]); }
     std::function<void(float physicalDmg, float magicalDmg, Creature* attacker)> Damaged;
