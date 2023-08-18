@@ -209,6 +209,8 @@
     <ClCompile Include="DataTables\SkillDataTable.cpp" />
     <ClCompile Include="GameObjects\VertexArray\Tree.cpp" />
     <ClCompile Include="GameObjects\Buffs\Shield.cpp" />
+    <ClCompile Include="Scenes\SceneTitle.cpp" />
+    <ClCompile Include="GameObjects\SliceSpriteGo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -268,6 +270,8 @@
     <ClInclude Include="DataTables\SkillDataTable.h" />
     <ClInclude Include="GameObjects\VertexArray\Tree.h" />
     <ClInclude Include="GameObjects\Buffs\Shield.h" />
+    <ClInclude Include="Scenes\SceneTitle.h" />
+    <ClInclude Include="GameObjects\SliceSpriteGo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
