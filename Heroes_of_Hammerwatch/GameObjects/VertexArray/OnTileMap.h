@@ -36,6 +36,9 @@ class OnTileMap : public VertexArrayGo
 protected:
 	bool checkLoad = false;
 
+	sf::Sprite ent;
+	sf::Sprite start;
+
 	sf::Vector2f tileSize = { 16.f, 16.f };
 	sf::Vector2f texSize = { 16.f, 16.f };
 	sf::Vector2i size;
@@ -66,14 +69,17 @@ public:
 	OnTileMap(const std::string& textureId = "", const std::string& n = "");
 	virtual ~OnTileMap() override;
 
+	virtual void Draw(sf::RenderWindow& window) override;
+
 	bool LoadDrawOnTile(TileMap* tileMap);
 
 	bool DrawTexture(int row, int col);
 	bool ChangeTile(int tilePosX, int tilePosY, int idx);
+	void ChangeDoor(sf::Vector2i ent, sf::Vector2i start);
 
 	bool LoadInfo(const std::string& filePath);
-	void SaveTexture(const std::string& filePath);
-	void LoadTexture(const std::string& filePath);
+	//void SaveTexture(const std::string& filePath);
+	//void LoadTexture(const std::string& filePath);
 
 	void LoadTileDataArray(rapidcsv::Document& map);
 

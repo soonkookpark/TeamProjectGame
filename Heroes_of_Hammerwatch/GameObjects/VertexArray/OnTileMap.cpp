@@ -13,6 +13,13 @@ OnTileMap::~OnTileMap()
 {
 }
 
+void OnTileMap::Draw(sf::RenderWindow& window)
+{
+    VertexArrayGo::Draw(window);
+    window.draw(ent);
+    window.draw(start);
+}
+
 bool OnTileMap::LoadDrawOnTile(TileMap* tileMap)
 {
     texture = RESOURCE_MGR.GetTexture(textureId);
@@ -70,7 +77,6 @@ bool OnTileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
     /*
     idx 0 ∫Æ
     idx 1 ~ 10 ≈∏¿œ
-
     */
     Wall wall[5] = { Wall::None };
 
@@ -158,6 +164,38 @@ bool OnTileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
             }
         }
     }
+    return false;
+}
+
+void OnTileMap::ChangeDoor(sf::Vector2i startPos, sf::Vector2i entPos)
+{
+    for (int i = entPos.x - 3; i < entPos.x + 3; i++)
+    {
+        for (int j = entPos.y + 1; j < entPos.y + 4; j++)
+        {
+            ChangeTile(i, j, 0);
+        }
+    }
+
+    for (int i = startPos.x - 3; i < startPos.x + 3; i++)
+    {
+        for (int j = startPos.y + 1; j < startPos.y + 4; j++)
+        {
+            ChangeTile(i, j, 0);
+        }
+    }
+
+    ent.setTexture(*texture);
+    ent.setTextureRect((sf::IntRect)tileInfoArray[22].bound);
+    ent.setPosition(tileSize.x * (entPos.x - 2), tileSize.y * (entPos.y));
+
+    start.setTexture(*texture);
+    start.setTextureRect((sf::IntRect)tileInfoArray[23].bound);
+    start.setPosition(tileSize.x * (startPos.x - 2), tileSize.y * (startPos.y));
+}
+
+bool OnTileMap::DrawTexture(int row, int col)
+{
     return false;
 }
 

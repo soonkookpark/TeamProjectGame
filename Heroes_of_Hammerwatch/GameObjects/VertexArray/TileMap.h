@@ -62,6 +62,7 @@ public:
 	void SetOnTileMap(OnTileMap* onTileMap) { this->onTileMap = onTileMap; }
 	void Divide();
 	void ConnectRoom();
-	void DrawRoom(sf::RenderWindow& window);
+	void SelectDoor();
+	void CreateDoor(sf::Vector2i start, sf::Vector2i ent);
 };
 

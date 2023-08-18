@@ -9,7 +9,8 @@ bool Tree::starting = false;
 Tree::Tree(sf::IntRect rect) 
 	: parent(nullptr), child_L(nullptr), child_R(nullptr), rect(rect) 
 {
-
+	Tree::entrance = false;
+	Tree::starting = false;
 }
 
 Tree::~Tree()
@@ -112,24 +113,32 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 		child_R->ConnectRoom(tileMapPtr);
 	}
 
-	if (parent == nullptr) return;
-
 	TileMap* tileMap = tileMapPtr;
+
+	if (parent == nullptr)
+	{
+		for (int i = 0; i < tileMap->TileIntSize().x; i++)
+		{
+			for (int j = 0; j < 5; j++)
+			{
+				tileMap->ChangeTile(i, j, 0);
+				tileMap->ChangeTile(i, tileMap->TileIntSize().y - 1 - j, 0);
+			}
+		}
+		for (int i = 0; i < tileMap->TileIntSize().y; i++)
+		{
+			for (int j = 0; j < 5; j++)
+			{
+				tileMap->ChangeTile(j, i, 0);
+				tileMap->ChangeTile(tileMap->TileIntSize().x - 1 - j, i, 0);
+			}
+		}
+		return;
+	}
 
 	sf::Vector2i center = this->GetCenter();
 	sf::Vector2i route = parent->GetCenter();
 	
-	for (int i = 0; i < tileMap->TileIntSize().x; i++)
-	{
-		tileMap->ChangeTile(i, 0, 0);
-		tileMap->ChangeTile(i, tileMap->TileIntSize().y - 1, 0);
-	}
-	for (int i = 0; i < tileMap->TileIntSize().y; i++)
-	{
-		tileMap->ChangeTile(0, i, 0);
-		tileMap->ChangeTile(tileMap->TileIntSize().x - 1, i, 0);
-	}
-
 	if (route.x == center.x)
 	{	
 		int rand = Utils::RandomRange(0, 4);
@@ -179,21 +188,111 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 	//tileMap->ChangeTile(0, 0, 8); //x좌표, y좌표, 타일 인덱스
 }
 
-void Tree::SettinRoom()
+void Tree::Room(TileMap* tileMapPtr)
 {
-	if (child_L != nullptr && child_R != nullptr)
+	std::vector<Tree*> room;
+	SettingRoom(tileMapPtr, room);
+}
+
+bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room)
+{
+	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
 	{
-		child_L->SettinRoom();
-		child_R->SettinRoom();
+		child_L->SettingRoom(tileMapPtr, room);
+		child_R->SettingRoom(tileMapPtr, room);
 	}
-	if (entrance || starting) return;
 
- 
+	TileMap* tileMap = tileMapPtr;
+
+	if (parent != nullptr) //부모가 있으면 자기랑 부모 위치 비교
+	{
+		sf::Vector2i center = this->GetCenter();
+		sf::Vector2i route = parent->GetCenter();
+
+		/*if (this->rect.top == 0 && this->rect.width > 3)
+		{
+			room.push_back(this);
+			return true;
+		}*/
+
+		if (level > 5 && center.y < route.y && child_L == nullptr)
+		{
+			room.push_back(this);
+		}
+		return true;
+	}
+
+	if (room.empty()) return true;
+
+	if (room.size() < 2)
+	{
+		std::cout << "사이즈가 작음" << std::endl;
+		return false;
+	}
+
+	int count = 0;
+
+	int forStart;
+	do
+	{
+		forStart = Utils::RandomRange(0, room.size());
+		count++;
+		if (count > 50)
+		{
+			std::cout << "에러" << std::endl;
+			return false;
+		}
+
+	} while (room[forStart]->GetCenter().y > rect.height * 0.3);
 
 
+	int forEnt;
+	do
+	{
+		count++;
+		if (count > 150) 
+		{
+			std::cout << "에러" << std::endl;
+			return false;
+		}
+		forEnt = Utils::RandomRange(0, room.size());
 
+	} while (room[forEnt]->GetCenter().y < rect.height * 0.4
+		|| room[forEnt]->GetCenter().x > rect.width * 0.35 && room[forEnt]->GetCenter().x < rect.width * 0.65
+		|| forStart == forEnt);
 
+	sf::IntRect start = room[forStart]->rect;
+	sf::IntRect ent = room[forEnt]->rect;
 
+	if (!entrance)
+	{
+		for (int i = ent.top; i < (ent.top + ent.height); i++)
+		{
+			for (int j = ent.left; j < (ent.left + ent.width); j++)
+			{
+				tileMap->ChangeTile(j, i, 0);
+			}
+		}
+		entrance = true;
+	}
+
+	if (!starting)
+	{
+		for (int i = start.top; i < (start.top + start.height); i++)
+		{
+			for (int j = start.left; j < (start.left + start.width); j++)
+			{
+				tileMap->ChangeTile(j, i, 0);
+			}
+		}
+		starting = true;
+	}
+
+	tileMap->CreateDoor(
+		sf::Vector2i{ (start.left + start.left + start.width) / 2, (start.top + start.top + start.height) / 2 },
+		sf::Vector2i{ (ent.left + ent.left + ent.width) / 2, (ent.top + ent.top + ent.height) / 2 });
+
+	return true;
 }
 
 sf::Vector2i Tree::GetCenter()

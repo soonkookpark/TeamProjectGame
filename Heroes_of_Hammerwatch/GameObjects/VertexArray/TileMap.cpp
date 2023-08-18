@@ -14,7 +14,7 @@ TileMap::TileMap(const std::string& textureId, const std::string& n)
 
 TileMap::~TileMap()
 {
-    if(route != nullptr)
+    if (route != nullptr)
         delete route;
 
     route = nullptr;
@@ -333,7 +333,7 @@ void TileMap::Divide()
 {
     if (route == nullptr)
     {
-        route = new Tree(sf::IntRect{ 3, 3, size.x - 6, size.y - 6});
+        route = new Tree(sf::IntRect{ 5, 5, size.x - 10, size.y - 10});
     }
     route->Divide(this);
 }
@@ -344,8 +344,13 @@ void TileMap::ConnectRoom()
     route->ConnectRoom(this);
 }
 
-void TileMap::DrawRoom(sf::RenderWindow& window)
+void TileMap::SelectDoor()
 {
     if (route == nullptr) return;
-    route->SettinRoom();
+    route->Room(this);
+}
+
+void TileMap::CreateDoor(sf::Vector2i start, sf::Vector2i ent)
+{
+    onTileMap->ChangeDoor(start, ent);
 }
