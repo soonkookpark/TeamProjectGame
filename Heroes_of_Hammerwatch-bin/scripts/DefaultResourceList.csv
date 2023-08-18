@@ -148,3 +148,5 @@
 3,animations/PaladinEffect/WhirlwindEffect.csv
 0,graphics/Player/LayOnHands.png
 3,animations/PaladinEffect/LayOnHands.csv
+0,graphics/Player/LevelUp.png
+3,animations/PlayerEffect/LevelUp.csv
