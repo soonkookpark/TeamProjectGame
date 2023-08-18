@@ -2,6 +2,7 @@
 #include "Creature.h"
 #include "Skill.h"
 #include "Buffs/Buff.h"
+#include "TileMap.h"
 
 Creature::Creature(const std::string& textureId, const std::string& n)
 	: SpriteGo(textureId, n)
@@ -11,6 +12,7 @@ Creature::Creature(const std::string& textureId, const std::string& n)
 
 void Creature::Update(float dt)
 {
+	tileIndex = { static_cast<int>(position.x / tileMap->TileSize().x), static_cast<int>(position.y / tileMap->TileSize().y) };
 	for (auto buff : buffs)
 	{
 		buff->Update(dt);

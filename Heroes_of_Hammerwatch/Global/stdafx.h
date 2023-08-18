@@ -12,6 +12,7 @@
 #include <random>
 #include <tuple>
 #include <functional>
+#include <stack>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>

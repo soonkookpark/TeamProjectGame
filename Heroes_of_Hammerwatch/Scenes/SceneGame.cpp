@@ -16,6 +16,7 @@
 #include "BossGolem.h"
 #include "Items/FieldItem.h"
 #include "DataTableMgr.h"
+#include "Tools/Astar.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -33,10 +34,10 @@ void SceneGame::Init() // 안바뀔거면 여기
 	button->sortLayer = 100;
 	button->SetPosition(windowSize.x,0.f);*/
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
-	tileMap->LoadDrawTexture("graphics/mine/tilemap.csv");
+	tileMap->LoadDrawTexture("graphics/mine/new.csv");
 
 	player = (Paladin*)AddGo(new Paladin());
-	player->SetPosition(100, 100);
+	player->SetPosition(24, 24);
 	player->SetActive(true);
 	player->SetTile(tileMap);
 
@@ -60,6 +61,8 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	
 	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
 
+	finder = new Astar();
+
 	auto size = FRAMEWORK.GetWindowSize();
 
 	worldView.setSize(size);
@@ -68,14 +71,24 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
+	finder->SetTileArray(tileMap->GetTileArray());
+
+
 	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
-	monster->SetPosition(300,300);
+	monster->SetPosition(73,63);
+	monster->SetTileMap(tileMap);
+	monster->ControlCreatureInfos()->speed = 0;
+
 	
+	/*
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
+	monster->SetTileMap(tileMap);
 
 	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
 	ET->SetPosition(400, 400);
+	ET->SetTileMap(tileMap);
+
 	/*
 	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
 	BG->SetPosition(300, 100);
@@ -101,6 +114,7 @@ void SceneGame::Exit()
 			RemoveGo(GO);
 		}
 	}
+	delete(finder);
 	Scene::Exit();
 }
 
@@ -109,6 +123,15 @@ void SceneGame::Update(float dt)
 
 	Scene::Update(dt);
 
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Z))
+	{
+		std::stack<sf::Vector2i>path = *(finder->FindPath((Creature*)FindGo("player"), (Creature*)FindGo("Tick")));
+		while (!path.empty()) {
+			sf::Vector2i value = path.top(); // 스택의 맨 위 원소 가져오기
+			std::cout << value.x << " , "<< value.y << std::endl; // 원소 출력
+			path.pop();
+		}
+	}
 	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<
 	//	tileMap->vertexArray.getBounds().width << tileMap->vertexArray.getBounds().height << std::endl;
 	

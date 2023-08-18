@@ -12,9 +12,7 @@ Monster::Monster(const std::string& type, const std::string& name)
 	:Creature("",name)
 {
 	origin = Origins::MC;
-	SetData(type);
-
-	
+	SetData(type);	
 }
 
 void Monster::Init()
@@ -46,8 +44,8 @@ void Monster::Update(float dt)
 	}
 
 	MonsterSight(findAngle);
-	std::cout << lookat << std::endl;
-	std::cout << findAngle << std::endl;
+	//std::cout << lookat << std::endl;
+	//std::cout << findAngle << std::endl;
 	
 	if (state == State::DIE)
 	{
@@ -133,7 +131,7 @@ void Monster::Chase(float dt)
 	dir = Utils::Normalize(destination - position);
 	SetPosition(position + (dir * dt * creatureInfo.speed));
 	MoveAnimationPrint(lookat);
-	std::cout << lookat << std::endl;
+	//std::cout << lookat << std::endl;
 	if (!DetectTarget())
 	{
 		state = State::DEFAULT;
@@ -325,5 +323,3 @@ void Monster::AttackAnimationPrint(SightDegree lookat)
 		break;
 	}
 }
-
-

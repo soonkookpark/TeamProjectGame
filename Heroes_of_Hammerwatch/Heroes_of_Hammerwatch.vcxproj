@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Tools\Astar.cpp" />
     <ClCompile Include="GameObjects\Skills\BuffToOther.cpp" />
     <ClCompile Include="GameObjects\Buffs\BloodLust.cpp" />
     <ClCompile Include="GameObjects\Buffs\Buff.cpp" />
@@ -212,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="Tools\Astar.h" />
     <ClInclude Include="GameObjects\AllCreutures.hpp" />
     <ClInclude Include="GameObjects\Skills\BuffToOther.h" />
     <ClInclude Include="GameObjects\Buffs\AllBuffs.hpp" />

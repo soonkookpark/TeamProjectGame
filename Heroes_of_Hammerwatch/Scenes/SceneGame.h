@@ -7,6 +7,7 @@ class Paladin;
 class TileMap;
 class GridMap;
 class UIButton;
+class Astar;
 
 class Monster;
 class SceneGame : public Scene
@@ -16,6 +17,8 @@ protected:
 	Player* player;
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
+	Astar* finder = nullptr;
+
 public:
 	SceneGame();
 	virtual ~SceneGame() override = default;

@@ -17,8 +17,8 @@ void Player::Init()
 {
 	SetOrigin(Origins::MC);
 	sprite.setScale(1.0, 1.0);
-	tileSize = tilemap->tiles.size();
-	tileIntSize = tilemap->TileIntSize();
+	tileSize = tileMap->tiles.size();
+	tileIntSize = tileMap->TileIntSize();
 	box.setFillColor(sf::Color::Transparent);
 	box.setOutlineColor(sf::Color::Transparent);
 	box.setOutlineThickness(1);
@@ -53,6 +53,11 @@ void Player::Reset()
 
 void Player::Update(float dt)
 {
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Space))
+	{
+		std::cout << tileIndex.x << " , " << tileIndex.y << std::endl;
+		std::cout << position.x << " , " << position.y << std::endl;
+	}
 	
 	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 	creatureAnimation.Update(dt);
@@ -92,9 +97,7 @@ void Player::Update(float dt)
 	{
 		attackNow = false;
 	}
-
-	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
-
+	
 	PlayerMove(dt);
 	box.setPosition(sprite.getPosition());
 	float magnitude = Utils::Magnitude(direction);
@@ -153,7 +156,7 @@ void Player::PlayerMove(float dt)
 	//std::cout << box.getGlobalBounds().left << ", " << box.getGlobalBounds().top << std::endl;
 
 
-	Collider(playerTileIndex.x, playerTileIndex.y);
+	Collider(tileIndex.x, tileIndex.y);
 	
 }
 
@@ -323,7 +326,7 @@ int Player::CharacterSight(float angle)
 
 void Player::SetTile(TileMap* tile)
 {
-	this->tilemap = tile;
+	this->tileMap = tile;
 }
 
 void Player::SetDead()
@@ -356,11 +359,11 @@ void Player::Collider(int x, int y)
 	};
 	// L, R, T, P, LT, RT, LB, RB
 
-	std::vector<std::vector<int>> tileArr = tilemap->GetTileArray();
+	std::vector<std::vector<int>> tileArr = tileMap->GetTileArray();
 
 	for (int i = 0; i < 8; i++)
 	{
-		sf::Vector2i arrSize = tilemap->TileIntSize();
+		sf::Vector2i arrSize = tileMap->TileIntSize();
 		//이게 맞음 버그 수정한거임
 		if (LRTP[i].y < 0 || LRTP[i].x < 0 || LRTP[i].y >= arrSize.y || LRTP[i].x >= arrSize.x)
 		{
