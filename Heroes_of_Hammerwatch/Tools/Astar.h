@@ -33,13 +33,13 @@ private:
 
 	Node* MakeNode(Node* node);
 	void MakePath(Node* node, std::stack<sf::Vector2i>* path);
-	bool CheckClosedNodes(Node* node);
+	bool CheckClosedNodes(sf::Vector2i position);
 	Node* TempFuctionName();
 public:
 	Astar();
 	virtual ~Astar();
 
-	//»ç¿ëÇÒ ¾À ¾È¿¡¼­ Å¸ÀÏ »ı¼º µÈ ÀÌÈÄ Àû¿ë
+	//ì‚¬ìš©í•  ì”¬ ì•ˆì—ì„œ íƒ€ì¼ ìƒì„± ëœ ì´í›„ ì ìš©
 	void SetTileArray(std::vector<std::vector<int>> tileArray) { this->tileArray = tileArray; }
 
 	std::stack<sf::Vector2i>* FindPath(Creature* stalker, Creature* target);
