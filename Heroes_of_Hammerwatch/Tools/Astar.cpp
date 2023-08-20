@@ -93,11 +93,11 @@ void Astar::MakePath(Node* node, std::stack<sf::Vector2i>* path)
 	}
 }
 
-bool Astar::CheckClosedNodes(Node* node)
+bool Astar::CheckClosedNodes(sf::Vector2i position)
 {
 	for (Node* closedNode : closedNodes)
 	{
-		if (node->pos == closedNode->pos)
+		if (position == closedNode->pos)
 			return true;
 	}
 	return false;
@@ -136,7 +136,7 @@ Astar::Node* Astar::MakeNode(Node* node)
 	{		
 		if (positions[i].x < 0 || positions[i].y < 0)
 			continue;
-		if (tileArray[positions[i].y][positions[i].x] == 0 || CheckClosedNodes(node))
+		if (tileArray[positions[i].y][positions[i].x] == 0 || CheckClosedNodes(positions[i]))
 			continue;
 		
 		float distance = abs(node->pos.x) + abs(node->pos.y) == 2 ? 1.4f : 1.f;
