@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "SliceSpriteGo.h"
 #include "ResourceMgr.h"
-
+#include "InputMgr.h"
+#include "SceneMgr.h"
+#include "SpriteGo.h"
 SliceSpriteGo::SliceSpriteGo(const std::string& textureID, sf::Rect<float> centerRect, sf::Rect<float> size, const std::string& name)
 	:VertexArrayGo(textureID, name), centerRect(centerRect), spriteSize(size)
 {
@@ -116,5 +118,32 @@ void SliceSpriteGo::Reset()
 
 void SliceSpriteGo::Update(float dt)
 {
+	
+	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
+	sf::Vector2f uiMousePos = SCENE_MGR.GetCurrScene()->ScreenToUiPos(mousePos);
+
+	bool prevHover = isHover;
+	isHover = vertexArray.getBounds().contains(uiMousePos);
+	if (!prevHover && isHover)
+	{
+		if (OnEnter != nullptr)
+		{
+			OnEnter();
+			std::cout << "요 있다 나" << std::endl;
+		}
+
+	}
+
+	if (prevHover && !isHover)
+	{
+		if (OnExit != nullptr)
+			OnExit();
+	}
+
+	if (isHover && INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
+	{
+		if (OnClick != nullptr)
+			OnClick();
+	}
 	VertexArrayGo::Update(dt);
 }

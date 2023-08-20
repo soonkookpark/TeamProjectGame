@@ -5,6 +5,8 @@ class SliceSpriteGo : public VertexArrayGo
 protected:
 	sf::Rect<float> centerRect; //늘려야할 부분
 	sf::Rect<float> spriteSize; //기존의 스프라이트 사이즈
+	bool isHover = false;
+	bool isClick = false;
 public:
 	SliceSpriteGo(const std::string& textureID, sf::Rect<float> centerRect, sf::Rect<float> size, const std::string& name = "");
 
