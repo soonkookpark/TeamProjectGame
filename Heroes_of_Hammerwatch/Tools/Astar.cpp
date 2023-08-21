@@ -119,10 +119,12 @@ Astar::Node* Astar::MakeNode(Node* node, sf::Vector2i start, sf::Vector2i end)
 		{node->pos.x + 1, node->pos.y},
 		{node->pos.x , node->pos.y - 1},
 		{node->pos.x - 1, node->pos.y},
+		/*
 		{node->pos.x + 1, node->pos.y + 1},
 		{node->pos.x + 1, node->pos.y - 1},
 		{node->pos.x - 1, node->pos.y + 1},
 		{node->pos.x - 1, node->pos.y - 1},
+		*/
 	};
 	if (node->value > MaxFindValue)
 	{

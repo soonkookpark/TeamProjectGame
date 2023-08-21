@@ -50,6 +50,10 @@ void Framework::Run()
         sf::Time deltaTime = clock.restart();
         float dt = deltaTime.asSeconds();
 
+        if (dt > 0.33f)
+        {
+            continue;
+        }
         INPUT_MGR.Update(dt);
 
         sf::Event event;

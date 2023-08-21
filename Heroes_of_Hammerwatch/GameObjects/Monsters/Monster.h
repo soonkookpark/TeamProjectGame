@@ -47,9 +47,11 @@ protected:
     std::vector<std::string> strArr;
     Player* player = nullptr;
     sf::Vector2f destination;
+    sf::Vector2f surround;
     float findAngle = 0.f;
     bool isBuffed;
-    float timer;
+    float timer = 0.f;
+    float convertRange = 175.f;
     bool inAction;
 
     Astar* pathFinder;
@@ -73,7 +75,10 @@ public:
     virtual void Die(float dt);
 
     virtual void SetDead() override;
-    //virtual void Damaged(float physicalDmg, float magicalDmg, Creature* attacker);
+
+    virtual bool JudgeMoveStraight();
+    virtual void FindDestination();
+    virtual void Move(float dt, sf::Vector2f pos);
         
     bool DetectTarget();
     bool GetIsBuffed() { return isBuffed; };

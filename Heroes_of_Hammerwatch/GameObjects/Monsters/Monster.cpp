@@ -8,6 +8,7 @@
 #include "ResourceMgr.h"
 #include "InputMgr.h"
 #include "Tools/Astar.h"
+#include "TileMap.h"
 
 Monster::Monster(const std::string& type, const std::string& name, sf::Vector2f pos)
 	:Creature("",name)
@@ -33,7 +34,7 @@ void Monster::Reset()
 	curHealth = creatureInfo.maxHealth;
 	if (!monsterParameter.isFlying)
 	{
-
+		pathFinder = tileMap->GetAstar();
 	}
 }
 
@@ -42,8 +43,7 @@ void Monster::Update(float dt)
 	Creature::Update(dt);
 	creatureAnimation.Update(dt);
 
-	destination = GetPosition();
-	findAngle = Utils::Angle(player->GetPosition()-destination);
+	findAngle = Utils::Angle(player->GetPosition()- GetPosition());
 
 	if (findAngle < 0)
 	{
@@ -73,6 +73,9 @@ void Monster::Update(float dt)
 	case Monster::State::ATTACK:
 		Attack(dt);
 		break;
+	case Monster::State::KITING:
+		Kiting(dt);
+		break;
 	}
 }
 
@@ -89,10 +92,10 @@ void Monster::SetData(const std::string& name)
 	}
 	creatureAnimation.SetTarget(&sprite);
 	//std::cout << "allbareuge choollyukdoem" << std::endl;
-	if (name == "Bat")
-		std::cout << "Bat 持失" << std::endl;
-	else if (name == "Tick")
-		std::cout << "Tick 持失" << std::endl;
+	//if (name == "Bat")
+	//	std::cout << "Bat 持失" << std::endl;
+	//else if (name == "Tick")
+	//	std::cout << "Tick 持失" << std::endl;
 
 	if (monsterParameter.isFlying)
 	{
@@ -128,43 +131,50 @@ void Monster::Attack(float dt)
 		isAttacking = isAttacking || activeSkill->GetIsSkillActive();	
 		AttackAnimationPrint(lookat);
 	}
-	if(!isAttacking)
+	if (!isAttacking)
+	{
 		state = State::KITING;
+	}
 }
 
 void Monster::Chase(float dt)
 {
-	if (monsterParameter.isFlying)
+	timer += dt;
+	if (timer > 0.5f)
 	{
-		destination = player->GetPosition();	
+		FindDestination();
 	}
-	else
-	{
-		
-	}
-	dir = Utils::Normalize(destination - position);
-	SetPosition(position + (dir * dt * creatureInfo.speed));
-	MoveAnimationPrint(lookat);
+	Move(dt, destination);	
 	//std::cout << lookat << std::endl;
 	if (!DetectTarget())
 	{
 		state = State::DEFAULT;
 	}
-	if (Utils::CircleToRect(position, monsterParameter.attackRange, player->sprite.getGlobalBounds()))
+	if (Utils::CircleToRect(position, convertRange, player->sprite.getGlobalBounds()))
 	{
 		state = State::KITING;
-		//std::cout << "atk" << std::endl;
+		surround = Utils::RandomOnCircle(monsterParameter.attackRange);
 	}
 }
 
 void Monster::Kiting(float dt)
 {
+	timer += dt;
+	if (timer > 0.5f)
+	{
+		FindDestination();
+	}
+	Move(dt, destination + surround);
 	if (monsterParameter.attackRange < Utils::Distance(position, player->GetPosition()))
 	{
 		state = State::CHASE;
 	}
-
-	skills["atk"]->Active();
+	if (Utils::CircleToRect(position, monsterParameter.attackRange, player->sprite.getGlobalBounds()))
+	{
+		timer = 0.f;
+		skills["atk"]->Active();
+		state = State::ATTACK;
+	}
 }
 
 void Monster::Default(float dt)
@@ -180,6 +190,7 @@ void Monster::Default(float dt)
 	}
 	if (DetectTarget())
 	{
+		timer = 0;
 		state = State::CHASE;
 	}
 }
@@ -194,6 +205,21 @@ void Monster::Die(float dt)
 void Monster::SetDead()
 {
 	state = State::DIE;
+}
+bool Monster::JudgeMoveStraight()
+{ 
+	for (int i = tileIndex.x; i < player->GetTileIndex().x; i++)
+	{
+		for (int j = tileIndex.y; j < player->GetTileIndex().y; j++)
+		{
+			if (i / static_cast<int>(tileMap->TileSize().x) == 0 || j / static_cast<int>(tileMap->TileSize().y) == 0)
+			{
+				if (tileMap->GetTileArray()[j][i] == 0)
+					return false;
+			}
+		}
+	}
+	return true;
 }
 /*
 void Monster::Damaged(float physicalDmg, float magicalDmg, Creature* attacker)
@@ -344,4 +370,37 @@ void Monster::AttackAnimationPrint(SightDegree lookat)
 		creatureAnimation.Play("AttackUR");
 		break;
 	}
+}
+
+void Monster::FindDestination()
+{
+	if (monsterParameter.isFlying)
+		destination = player->GetPosition();
+	else
+	{
+		/*
+		if (chasePath != nullptr)
+			delete(chasePath);
+		*/
+		if (!JudgeMoveStraight())
+			destination = player->GetPosition();
+		else
+		{
+			chasePath = pathFinder->FindPath(this, player);
+			if (chasePath != nullptr || chasePath->size() != 0)
+				destination = tileMap->GetFloatPosition(chasePath->top());
+			else
+				destination = position;
+		}
+	}
+}
+
+void Monster::Move(float dt, sf::Vector2f pos)
+{
+	dir = Utils::Normalize(destination - position);
+	SetPosition(position + (dir * dt * creatureInfo.speed));
+	if (position == destination)
+		IdleAnimationPrint(lookat);
+	else
+		MoveAnimationPrint(lookat);
 }

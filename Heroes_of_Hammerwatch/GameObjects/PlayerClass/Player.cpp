@@ -46,7 +46,7 @@ void Player::Reset()
 	creatureAnimation.Play("IdleD");
 	SetOrigin(origin);
 	SetFlipX(false);
-	box.setSize({16,16});
+	box.setSize({10,14});
 	box.setOrigin(box.getSize() * 0.5f);
 	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 }

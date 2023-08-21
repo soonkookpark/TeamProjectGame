@@ -58,7 +58,7 @@ void SceneGame::Release()
 
 void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 {
-	
+
 	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
 
 	finder = new Astar();
@@ -74,17 +74,26 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	finder->SetTileArray(tileMap->GetTileArray());
 
 
-	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
-	monster->SetPosition(73,63);
+	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
 	monster->SetTileMap(tileMap);
-	monster->ControlCreatureInfos()->speed = 0;
 
-	
 	/*
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
 	monster->SetTileMap(tileMap);
 
+	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
+	monster->SetPosition(220, 200);
+	monster->SetTileMap(tileMap);
+
+	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
+	monster->SetPosition(200, 220);
+	monster->SetTileMap(tileMap);
+
+	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
+	monster->SetPosition(220, 220);
+	monster->SetTileMap(tileMap);
+	/*
 	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
 	ET->SetPosition(400, 400);
 	ET->SetTileMap(tileMap);

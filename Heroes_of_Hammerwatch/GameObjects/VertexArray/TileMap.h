@@ -70,5 +70,8 @@ public:
 	void CreateDoor(sf::Vector2i start, sf::Vector2i ent);
 	void Debug();
 	int ReturnTile(int x, int y) { return tileArray[y][x]; }
+	sf::Vector2f GetFloatPosition(sf::Vector2i intPos);
+
+	Astar* GetAstar();
 };
 
