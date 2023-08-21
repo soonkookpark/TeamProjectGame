@@ -125,7 +125,11 @@ void SceneGame::Update(float dt)
 
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Z))
 	{
-		std::stack<sf::Vector2i>path = *(finder->FindPath((Creature*)FindGo("player"), (Creature*)FindGo("Tick")));
+		Creature* player = (Creature*)FindGo("player");
+		Creature* tick = (Creature*)FindGo("Tick");
+		std::cout << "Player`s positoin = " << player->GetTileIndex().x << " , " << player->GetTileIndex().y << std::endl;
+		std::cout << "Tick`s positoin = " << tick->GetTileIndex().x << " , " << tick->GetTileIndex().y << std::endl;
+		std::stack<sf::Vector2i>path = *(finder->FindPath(player, tick));
 		while (!path.empty()) {
 			sf::Vector2i value = path.top(); // 스택의 맨 위 원소 가져오기
 			std::cout << value.x << " , "<< value.y << std::endl; // 원소 출력

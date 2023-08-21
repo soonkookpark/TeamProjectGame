@@ -20,6 +20,11 @@ Astar::Node* Astar::Get()
 	return rtn;
 }
 
+void Astar::SetBack(Node* node)
+{
+	nodePool.push_back(node);
+}
+
 void Astar::Clear()
 {
 	for (auto obj : openNodes)
@@ -71,7 +76,7 @@ std::stack<sf::Vector2i>* Astar::FindPath(Creature* stalker, Creature* target)
 
 	while (!(finalNode != nullptr || openNodes.empty()))
 	{
-		finalNode = MakeNode(TempFuctionName());
+		finalNode = MakeNode(SelectNextNode());
 	}	
 
 	std::stack<sf::Vector2i>* path = new std::stack<sf::Vector2i>();
@@ -82,14 +87,26 @@ std::stack<sf::Vector2i>* Astar::FindPath(Creature* stalker, Creature* target)
 void Astar::MakePath(Node* node, std::stack<sf::Vector2i>* path)
 {
 	if (node == nullptr)
-		return;
-	std::cout << "Start" << std::endl;
+		return;	
 	if (node->prevNode == nullptr)
 		return;
 	else
 	{
 		path->push(node->pos);
 		MakePath(node->prevNode, path);
+	}
+}
+
+void Astar::RefineNode(Node* node)
+{
+	for (auto openNode : openNodes)
+	{
+		if (openNode->pos == node->pos)
+		{
+			openNodes.remove(openNode);
+			SetBack(openNode);
+			return;
+		}
 	}
 }
 
@@ -103,7 +120,7 @@ bool Astar::CheckClosedNodes(sf::Vector2i position)
 	return false;
 }
 
-Astar::Node* Astar::TempFuctionName()
+Astar::Node* Astar::SelectNextNode()
 {
 	Node* rtn = openNodes.front();
 	for (auto openNode : openNodes)
@@ -118,7 +135,7 @@ Astar::Node* Astar::MakeNode(Node* node)
 	std::vector<sf::Vector2i> positions =
 	{
 		{node->pos.x , node->pos.y + 1},
-		{node->pos.x , node->pos.y},
+		{node->pos.x + 1, node->pos.y},
 		{node->pos.x , node->pos.y - 1},
 		{node->pos.x - 1, node->pos.y},
 		{node->pos.x + 1, node->pos.y + 1},
@@ -139,8 +156,8 @@ Astar::Node* Astar::MakeNode(Node* node)
 		if (tileArray[positions[i].y][positions[i].x] == 0 || CheckClosedNodes(positions[i]))
 			continue;
 		
-		float distance = abs(node->pos.x) + abs(node->pos.y) == 2 ? 1.4f : 1.f;
-		float heuristic = Utils::Distance(target->GetTileIndex(), node->pos);
+		float distance = abs(positions[i].x) + abs(positions[i].y) == 2 ? 1.4f : 1.f;
+		float heuristic = Utils::Distance(target->GetTileIndex(), positions[i]);
 				 
 		Node* newNode = Get();
 		newNode->pos = positions[i];
@@ -149,6 +166,7 @@ Astar::Node* Astar::MakeNode(Node* node)
 		newNode->heuristic = heuristic;
 		newNode->value = distance + heuristic;
 
+		RefineNode(newNode);
 		openNodes.push_back(newNode);
 		if (positions[i] == target->GetTileIndex())
 			return newNode;

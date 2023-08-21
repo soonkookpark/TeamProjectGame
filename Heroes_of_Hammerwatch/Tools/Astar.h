@@ -29,12 +29,14 @@ private:
 
 	void CreatePool(int amount);
 	Node* Get();
+	void SetBack(Node* node);
 	void Clear();
 
 	Node* MakeNode(Node* node);
 	void MakePath(Node* node, std::stack<sf::Vector2i>* path);
 	bool CheckClosedNodes(sf::Vector2i position);
-	Node* TempFuctionName();
+	void RefineNode(Node* node);
+	Node* SelectNextNode();
 public:
 	Astar();
 	virtual ~Astar();
