@@ -34,6 +34,7 @@ private:
 	void Clear();
 
 	Node* MakeNode(Node* node);
+
 	void MakePath(Node* node, std::stack<sf::Vector2i>* path);
 	bool CheckClosedNodes(sf::Vector2i position);
 	void RefineNode(Node* node);
@@ -47,5 +48,7 @@ public:
 	void SetMaxFindValueRate(float rate) { MaxFindValueRate = rate; }
 
 	std::stack<sf::Vector2i>* FindPath(Creature* stalker, Creature* target);
+	bool FindPath(sf::Vector2i start, sf::Vector2i end);
+	Node* MakeNode(Node* node, sf::Vector2i start, sf::Vector2i end);
 };
 

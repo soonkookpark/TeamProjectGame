@@ -91,4 +91,5 @@ public:
 	std::unordered_map<int, TileInfo> tileInfo;
 
 	void SetEntrance();
+	std::vector<std::vector<int>> GetTileArray() { return tileArray; }
 };

@@ -4,12 +4,16 @@
 #include <vector>
 #include "Tree.h"
 #include "OnTileMap.h"
+#include "Astar.h"
 
 TileMap::TileMap(const std::string& textureId, const std::string& n)
     : VertexArrayGo(textureId, n)
 {
     sortLayer = SortLayer::TILE;
     route = nullptr;
+    finder = new Astar();
+    finder->SetTileArray(tileArray);
+    finder->SetMaxFindValueRate(100000);
 }
 
 TileMap::~TileMap()
@@ -17,7 +21,11 @@ TileMap::~TileMap()
     if (route != nullptr)
         delete route;
 
+    if (finder != nullptr)
+        delete finder;
+
     route = nullptr;
+    finder = nullptr;
 }
 
 void TileMap::Draw(sf::RenderWindow& window)
@@ -354,13 +362,17 @@ void TileMap::ConnectRoom()
 
 void TileMap::SelectDoor()
 {
+    finder->SetTileArray(tileArray);
+    finder->SetMaxFindValueRate(100000);
+
     if (route == nullptr) return;
-    route->Room(this);
+    route->Room(this, finder);
 }
 
 void TileMap::CreateDoor(sf::Vector2i start, sf::Vector2i ent)
 {
     onTileMap->ChangeDoor(start, ent);
+    tileArray = onTileMap->GetTileArray();
 }
 
 void TileMap::Debug()

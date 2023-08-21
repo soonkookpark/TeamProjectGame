@@ -5,6 +5,7 @@
 
 class Tree;
 class OnTileMap;
+class Astar;
 
 class TileMap : public VertexArrayGo
 {
@@ -31,6 +32,7 @@ protected:
 	std::vector<std::vector<int>> tileArray;
 
 	Tree* route;
+	Astar* finder;
 
 public:
 	TileMap(const std::string& textureId = "", const std::string& n = "");

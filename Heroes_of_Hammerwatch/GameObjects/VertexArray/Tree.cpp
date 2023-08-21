@@ -2,6 +2,7 @@
 #include "Tree.h"
 #include "Utils.h"
 #include "TileMap.h"
+#include "Astar.h"
 
 bool Tree::entrance = false;
 bool Tree::starting = false;
@@ -188,18 +189,18 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 	//tileMap->ChangeTile(0, 0, 8); //x좌표, y좌표, 타일 인덱스
 }
 
-void Tree::Room(TileMap* tileMapPtr)
+void Tree::Room(TileMap* tileMapPtr, Astar* finder)
 {
 	std::vector<Tree*> room;
-	SettingRoom(tileMapPtr, room);
+	SettingRoom(tileMapPtr, room, finder);
 }
 
-bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room)
+bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* finder)
 {
 	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
 	{
-		child_L->SettingRoom(tileMapPtr, room);
-		child_R->SettingRoom(tileMapPtr, room);
+		child_L->SettingRoom(tileMapPtr, room, finder);
+		child_R->SettingRoom(tileMapPtr, room, finder);
 	}
 
 	TileMap* tileMap = tileMapPtr;
@@ -222,8 +223,9 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room)
 		return true;
 	}
 
-	if (room.empty()) return true;
 
+
+	if (room.empty()) return true;
 	if (room.size() < 2)
 	{
 		std::cout << "사이즈가 작음" << std::endl;
@@ -292,6 +294,17 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room)
 	tileMap->CreateDoor(
 		sf::Vector2i{ (start.left + start.left + start.width) / 2, start.top-4},
 		sf::Vector2i{ (ent.left + ent.left + ent.width) / 2, ent.top-3});
+
+	if (!finder->FindPath(room[forStart]->GetCenter(), room[forEnt]->GetCenter()))
+	{
+		starting = false;
+		entrance = false;
+		room.clear();
+		SettingRoom(tileMapPtr, room, finder);
+		return true;
+	}
+
+
 
 	return true;
 }

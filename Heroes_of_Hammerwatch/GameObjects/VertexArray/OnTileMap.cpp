@@ -174,6 +174,7 @@ void OnTileMap::ChangeDoor(sf::Vector2i startPos, sf::Vector2i entPos)
         for (int j = entPos.y + 1; j < entPos.y + 4; j++)
         {
             ChangeTile(i, j, 0);
+            tileArray[j][i] = 0;
         }
     }
 
@@ -182,6 +183,7 @@ void OnTileMap::ChangeDoor(sf::Vector2i startPos, sf::Vector2i entPos)
         for (int j = startPos.y + 1; j < startPos.y + 4; j++)
         {
             ChangeTile(i, j, 0);
+            tileArray[j][i] = 0;
         }
     }
 
