@@ -7,7 +7,7 @@
 SliceSpriteGo::SliceSpriteGo(const std::string& textureID, sf::Rect<float> centerRect, sf::Rect<float> size, const std::string& name)
 	:VertexArrayGo(textureID, name), centerRect(centerRect), spriteSize(size)
 {
-	
+	sortLayer = 101;
 }
 
 void SliceSpriteGo::SetTexture(sf::Texture& texture, sf::Rect<float> centerRect, sf::Rect<float> size)

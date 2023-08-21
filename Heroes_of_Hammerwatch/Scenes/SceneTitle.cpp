@@ -29,7 +29,7 @@ void SceneTitle::Init()
 	SpriteGo* titleName = (SpriteGo*)AddGo(new SpriteGo("graphics/Title/TitleText.png", "TitleText"));
 	titleName->sortLayer = 0;
 	
-	
+	UIButtonMaker();
 
 	for (auto go : gameObjects)
 	{
@@ -49,7 +49,6 @@ void SceneTitle::Release()
 void SceneTitle::Enter()
 {
 	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
-	UIButtonMaker();
 	Scene::Enter();
 	SpriteGo* backGround = (SpriteGo*)FindGo("BackGround");
 	backGround->SetOrigin(Origins::MC);
@@ -60,8 +59,8 @@ void SceneTitle::Enter()
 	titleName->SetPosition(windowSize.x * 0.5f,windowSize.y*0.2);
 	titleName->sprite.setScale(3.f, 3.f);
 	
-	SliceSpriteGo* startButton1 = (SliceSpriteGo*)FindGo("startButton1");
-	startButton1->SetSize({ 66*2,36*2 });
+	//SliceSpriteGo* startButton1 = (SliceSpriteGo*)FindGo("startButton1");
+	//startButton1->SetSize({ 66*2,36*2 });
 	//startButton1->SetPosition(400, 810);
 }
 
@@ -73,14 +72,12 @@ void SceneTitle::Exit()
 
 void SceneTitle::Update(float dt)
 {
+	Scene::Update(dt);
 	
 	//view 미루기
 	// 
 	//test
-	SliceSpriteGo* startButton1 = (SliceSpriteGo*)AddGo(new SliceSpriteGo("graphics/Title/Button.png", { 4, 4,27,11 }, { 0,0, 33,18 }, "startButton1"));
-	startButton1->SetPosition(400, 810);
 	TestCode(dt);
-	Scene::Update(dt);
 }
 
 void SceneTitle::Draw(sf::RenderWindow& window)
@@ -99,18 +96,7 @@ void SceneTitle::TestCode(float dt)
 		if(backGround->GetActive())
 			std::cout << "잘 나오고 있음" << std::endl;
 	}
-	UIButton* startButton = (UIButton*)AddGo(new UIButton("graphics/Title/Button.png"));
-	SliceSpriteGo* startButton1 = (SliceSpriteGo*)AddGo(new SliceSpriteGo("graphics/Title/Button.png", { 4, 4,27,11 }, { 0,0, 33,18 }, "startButton1"));
-	startButton->OnEnter = [startButton1]() {
-		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/ButtonOn.png");
-		startButton1->SetTexture(*tex, { 4,4,27,11 }, { 0,0,33,18 });
-		startButton1->SetSize({ 66 * 2,36 * 2 });
-		//startButton1->SetPosition(startButton->GetPosition());
-		startButton1->SetPosition(400, 810);
-		std::cout << startButton1->GetPosition().x << startButton1->GetPosition().y << std::endl;
-
-		std::cout << "Enter" << std::endl;
-	};
+	
 }
 
 void SceneTitle::UIButtonMaker()
@@ -126,11 +112,11 @@ void SceneTitle::UIButtonMaker()
 
 	// 버튼을 3개 만들고 버튼 이미지를 변경하는 식 일단 이건 버튼임.
 	//맨 왼쪽 버튼
-	SliceSpriteGo* startButton1 = (SliceSpriteGo*)AddGo(new SliceSpriteGo("graphics/Title/Button.png", { 4, 4,27,11 }, { 0,0, 33,18 },"startButton1"));
+	//SliceSpriteGo* startButton1 = (SliceSpriteGo*)AddGo(new SliceSpriteGo("graphics/Title/Button.png", { 4, 4,27,11 }, { 0,0, 33,18 },"startButton1"));
 	//두번째 버튼
-	SliceSpriteGo* startButton2 = (SliceSpriteGo*)AddGo(new SliceSpriteGo("graphics/Title/Button.png", { 4, 4,27,11 }, { 0,0, 33,18 }, "startButton2"));
+	//SliceSpriteGo* startButton2 = (SliceSpriteGo*)AddGo(new SliceSpriteGo("graphics/Title/Button.png", { 4, 4,27,11 }, { 0,0, 33,18 }, "startButton2"));
 	//세번째 버튼
-	SliceSpriteGo* startButton3 = (SliceSpriteGo*)AddGo(new SliceSpriteGo("graphics/Title/Button.png", { 4, 4,27,11 }, { 0,0, 33,18 }, "startButton3"));
+	//SliceSpriteGo* startButton3 = (SliceSpriteGo*)AddGo(new SliceSpriteGo("graphics/Title/Button.png", { 4, 4,27,11 }, { 0,0, 33,18 }, "startButton3"));
 	UIButton* startButton = (UIButton*)AddGo(new UIButton("graphics/Title/Button.png"));
 	UIButton* settingButton = (UIButton*)AddGo(new UIButton("graphics/Title/Button.png"));
 	UIButton* exitButton = (UIButton*)AddGo(new UIButton("graphics/Title/Button.png"));
@@ -140,47 +126,34 @@ void SceneTitle::UIButtonMaker()
 	//startButton1->OnEnter = startButton->OnEnter;
 	//캐릭터 설정버튼
 	startButton->SetOrigin(Origins::TC);
-	startButton->sortLayer = 100;
-	startButton->SetPosition(windowSize.x*0.25, windowSize.y * 0.9f);
-	startButton->sprite.setScale(7.5f, 2.5f);
-	startButton1->SetOrigin(Origins::TC);
-	//startButton1->SetPosition(windowSize.x * 0.25, windowSize.y * 0.9f);
-	startButton1->sortLayer = 101;
-	std::cout << startButton1->GetPosition().x << startButton1->GetPosition().y << std::endl;
-	//
-	startButton->OnEnter = [startButton1]() {
+	startButton->SetPosition(windowSize.x*0.25, windowSize.y * 0.75f);
+	startButton->sprite.setScale(7.0f, 3.5f);
+	settingButton->SetOrigin(Origins::TC);
+	settingButton->SetPosition(windowSize.x * 0.5f, windowSize.y * 0.75f);
+	settingButton->sprite.setScale(7.0f, 3.5f);
+	exitButton->SetOrigin(Origins::TC);
+	exitButton->SetPosition(windowSize.x * 0.75f, windowSize.y * 0.75f);
+	exitButton->sprite.setScale(7.0f, 3.5f);
+	//시작 버튼
+	startButton->OnEnter = [startButton]() {
 		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/ButtonOn.png");
-		startButton1->SetTexture(*tex, { 4,4,27,11 },{0,0,33,18});
-		startButton1->SetSize({ 66 * 2,36 * 2 });
-		//startButton1->SetPosition(startButton->GetPosition());
-		startButton1->SetPosition(400,810);
-		std::cout << startButton1->GetPosition().x << startButton1->GetPosition().y << std::endl;
-		
+		startButton->sprite.setTexture(*tex);
 		std::cout << "Enter" << std::endl;
 	};
-
 	
-	
-	startButton->OnExit = [startButton1]() {
-		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/Button.png");
-		startButton1->SetTexture(*tex, { 4,4,27,11 }, { 0,0,33,18 });
-		startButton1->SetSize({ 66 * 2,36 * 2 });
-		startButton1->SetPosition(400, 810);
-		std::cout << startButton1->GetPosition().x << startButton1->GetPosition().y << std::endl;
+	startButton->OnExit = [startButton]() {
+		sf::Texture* tex = RESOURCE_MGR.GetTexture(startButton->textureId);
+		startButton->sprite.setTexture(*tex);
 		std::cout << "Exit" << std::endl;
 	};
-	startButton->OnClick = [startButton1]() {
+	
+	startButton->OnClick = [startButton]() {
 		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/ButtonDown.png");
-		startButton1->SetTexture(*tex, { 4,4,27,11 }, { 0,0,33,18 });
-		startButton1->SetSize({ 66 * 2,36 * 2 });
-		startButton1->SetPosition(400, 810);
-		std::cout << startButton1->GetPosition().x << startButton1->GetPosition().y << std::endl;
+		startButton->sprite.setTexture(*tex);
 		std::cout << "Click" << std::endl;
 	};
-	settingButton->SetOrigin(Origins::TC);
-	settingButton->sortLayer = 100;
-	settingButton->SetPosition(windowSize.x*0.5f, windowSize.y * 0.9f);
-	settingButton->sprite.setScale(7.5f, 2.5f);
+
+	//설정 버튼
 	settingButton->OnEnter = [settingButton]() {
 		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/ButtonOn.png");
 		settingButton->sprite.setTexture(*tex);
@@ -196,10 +169,7 @@ void SceneTitle::UIButtonMaker()
 		settingButton->sprite.setTexture(*tex);
 		std::cout << "Click" << std::endl;
 	};
-	exitButton->SetOrigin(Origins::TC);
-	exitButton->sortLayer = 100;
-	exitButton->SetPosition(windowSize.x * 0.75f, windowSize.y * 0.9f);
-	exitButton->sprite.setScale(7.5f, 2.5f);
+
 	exitButton->OnEnter = [exitButton]() {
 		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/ButtonOn.png");
 		exitButton->sprite.setTexture(*tex);
