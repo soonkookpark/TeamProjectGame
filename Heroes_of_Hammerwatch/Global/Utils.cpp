@@ -113,12 +113,22 @@ float Utils::Magnitude(const sf::Vector2f& vector)
 	return sqrt(vector.x * vector.x + vector.y * vector.y);
 }
 
+float Utils::Magnitude(const sf::Vector2i& vector)
+{
+	return sqrt((float)vector.x * (float)vector.x + (float)vector.y * (float)vector.y);
+}
+
 float Utils::SqrMagnitude(const sf::Vector2f& vector)
 {
 	return vector.x * vector.x + vector.y * vector.y;
 }
 
 float Utils::Distance(const sf::Vector2f& p1, const sf::Vector2f& p2)
+{
+	return Magnitude(p2 - p1);
+}
+
+float Utils::Distance(const sf::Vector2i& p1, const sf::Vector2i& p2)
 {
 	return Magnitude(p2 - p1);
 }

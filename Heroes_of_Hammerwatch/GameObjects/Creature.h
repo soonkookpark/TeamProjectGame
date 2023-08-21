@@ -5,6 +5,7 @@
 class Skill;
 class Buff;
 class BuffToOther;
+class TileMap;
 
 class Creature :
     public SpriteGo
@@ -29,6 +30,9 @@ protected:
     std::list <Buff*> hadBuffs;
     SightDegree lookat = SightDegree::R;
 
+    sf::Vector2i tileIndex = {0,0};
+    TileMap* tileMap;
+
     friend class Shield;
 public:
     sf::Vector2f look;
@@ -46,6 +50,9 @@ public:
     virtual void MoveAnimationPrint(SightDegree lookat);
     virtual void AttackAnimationPrint(SightDegree lookat);
     int MonsterSight(float angle);
+
+    void SetTileMap(TileMap* tileMap) { this->tileMap = tileMap; }
+    sf::Vector2i GetTileIndex() { return tileIndex; };
 
     void HealHP(int value);
 

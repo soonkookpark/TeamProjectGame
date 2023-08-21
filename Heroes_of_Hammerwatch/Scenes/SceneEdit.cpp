@@ -112,7 +112,7 @@ void SceneEdit::Init()
 	colUp->sprite.setScale(3.0, 3.0);
 	colUp->OnClick = [this]()
 	{
-		this->col += 10;
+		this->col += 1;
 		colNum->text.setString("Col : " + std::to_string(col));
 	};
 	colUpUp->sprite.setTextureRect({ 223, 0, 9, 11 });

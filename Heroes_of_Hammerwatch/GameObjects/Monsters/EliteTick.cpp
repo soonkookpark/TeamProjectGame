@@ -52,18 +52,22 @@ void EliteTick::SummonTicks()
 	Monster* mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Tick"));
 	mob->SetPosition(position.x + spawnRange, position.y + spawnRange);
 	mob->Reset();
+	mob->SetTileMap(tileMap);
 
 	mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Tick"));
 	mob->SetPosition(position.x - spawnRange, position.y + spawnRange);
 	mob->Reset();
+	mob->SetTileMap(tileMap);
 
 	mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Tick"));
 	mob->SetPosition(position.x + spawnRange, position.y - spawnRange);
 	mob->Reset();
+	mob->SetTileMap(tileMap);
 
 	mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Tick"));
 	mob->SetPosition(position.x - spawnRange, position.y - spawnRange);
 	mob->Reset();
+	mob->SetTileMap(tileMap);
 }
 /*
 void EliteTick::Buff()

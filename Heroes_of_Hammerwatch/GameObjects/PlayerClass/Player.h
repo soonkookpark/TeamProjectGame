@@ -17,9 +17,7 @@ public:
 	};
 	struct PlayerInfo
 	{
-		//CreatureInfo creatureInfo;
 		std::string ClassName;
-		//int healthPower = 0;
 		int manaPoint = 0;
 		int healthPowerPerLevel = 0;
 		int manaPointPerLevel = 0;
@@ -27,19 +25,14 @@ public:
 		float ManaHeal = 0.f;
 		float HealthHealPerLevel = 0.f;
 		float ManaHealPerLevel = 0.f;
-		//float Defence;
 		float DefencePerLevel = 0.f;
-		//float Resistance;
 		float ResistancePerLevel = 0.f;
-		//int MoveSpeed;
 		float AttackPower = 0.f;
 		float SkillPower = 0.f;
 		float CriticalRate = 0.f;
 		float CriticalDamage = 0.f;
 		float SkillCriticalRate = 0.f;
 		float SkillCriticalDamage = 0.f;
-		//float EvadeRate;
-		//float Exp;
 		float ExpPerLevel = 0.f;
 	};
 
@@ -56,10 +49,10 @@ protected:
 	bool attackNow = false;
 	
 	PlayerInfo pTable;
-	sf::Vector2i playerTileIndex;
+	//sf::Vector2i playerTileIndex;
 	std::vector<ClipInfo> clipInfos;
 	ClipInfo currentClipInfo;
-	TileMap* tilemap;
+	//TileMap* tilemap;
 	int tileSize = 0;
 	int tilePixelSize = 16;
 	sf::RectangleShape box;

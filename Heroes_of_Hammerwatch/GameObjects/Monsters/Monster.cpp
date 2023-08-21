@@ -12,9 +12,7 @@ Monster::Monster(const std::string& type, const std::string& name)
 	:Creature("",name)
 {
 	origin = Origins::MC;
-	SetData(type);
-
-	
+	SetData(type);	
 }
 
 void Monster::Init()
@@ -34,8 +32,8 @@ void Monster::Reset()
 
 void Monster::Update(float dt)
 {
-	creatureAnimation.Update(dt);
 	Creature::Update(dt);
+	creatureAnimation.Update(dt);
 
 	destination = GetPosition();
 	findAngle = Utils::Angle(player->GetPosition()-destination);
@@ -46,8 +44,8 @@ void Monster::Update(float dt)
 	}
 
 	MonsterSight(findAngle);
-	std::cout << lookat << std::endl;
-	std::cout << findAngle << std::endl;
+	//std::cout << lookat << std::endl;
+	//std::cout << findAngle << std::endl;
 	
 	if (state == State::DIE)
 	{
@@ -133,7 +131,7 @@ void Monster::Chase(float dt)
 	dir = Utils::Normalize(destination - position);
 	SetPosition(position + (dir * dt * creatureInfo.speed));
 	MoveAnimationPrint(lookat);
-	std::cout << lookat << std::endl;
+	//std::cout << lookat << std::endl;
 	if (!DetectTarget())
 	{
 		state = State::DEFAULT;
@@ -237,22 +235,22 @@ void Monster::MoveAnimationPrint(SightDegree lookat)
 	switch (lookat)
 	{
 	case 0:
-		//if (creatureAnimation.GetCurrentClipId() != "MoveR")
+		//if (creatureAnimation.GetCurrentClipId() == "MoveR")
 		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveR");
 		break;
 	case 1:
-		//if (creatureAnimation.GetCurrentClipId() != "MoveDR")
+		//if (creatureAnimation.GetCurrentClipId() == "MoveDR")
 		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveDR");
 		break;
 	case 2:
-		//if (creatureAnimation.GetCurrentClipId() != "MoveD")
+		//if (creatureAnimation.GetCurrentClipId() == "MoveD")
 		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveD");
 		break;
 	case 3:
-		//if (creatureAnimation.GetCurrentClipId() != "MoveDL")
+		//if (creatureAnimation.GetCurrentClipId() == "MoveDL")
 		//if (creatureAnimation.GetCurrFrame() <= 1) break;
 		creatureAnimation.Play("MoveDL");
 		break;
@@ -325,5 +323,3 @@ void Monster::AttackAnimationPrint(SightDegree lookat)
 		break;
 	}
 }
-
-
