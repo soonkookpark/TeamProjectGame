@@ -57,6 +57,12 @@ void UIButton::Update(float dt)
 		if (OnClick != nullptr)
 			OnClick();
 	}
+
+	if (isHover && INPUT_MGR.GetMouseButtonUp(sf::Mouse::Left))
+	{
+		if (OnActive != nullptr)
+			OnActive();
+	}
 }
 
 void UIButton::Draw(sf::RenderWindow& window)

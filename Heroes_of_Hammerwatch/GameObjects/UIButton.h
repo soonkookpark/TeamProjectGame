@@ -23,6 +23,7 @@ public:
 	sf::Text text;
 
 	std::function<void()> OnClick;
+	std::function<void()> OnActive;
 	std::function<void()> OnEnter;
 	std::function<void()> OnExit;
 

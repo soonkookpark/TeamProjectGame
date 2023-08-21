@@ -150,7 +150,14 @@ void SceneTitle::UIButtonMaker()
 	startButton->OnClick = [startButton]() {
 		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/ButtonDown.png");
 		startButton->sprite.setTexture(*tex);
+
 		std::cout << "Click" << std::endl;
+	};
+
+	startButton->OnActive = [startButton]() {
+
+		SCENE_MGR.ChangeScene(SceneId::Game);
+
 	};
 
 	//설정 버튼
@@ -163,11 +170,15 @@ void SceneTitle::UIButtonMaker()
 		sf::Texture* tex = RESOURCE_MGR.GetTexture(settingButton->textureId);
 		settingButton->sprite.setTexture(*tex);
 		std::cout << "Exit" << std::endl;
+		
 	};
 	settingButton->OnClick = [settingButton]() {
 		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/ButtonDown.png");
 		settingButton->sprite.setTexture(*tex);
 		std::cout << "Click" << std::endl;
+	};
+	settingButton->OnActive = [settingButton]() {
+		std::cout << sf::Keyboard::A << std::endl;
 	};
 
 	exitButton->OnEnter = [exitButton]() {
@@ -184,5 +195,8 @@ void SceneTitle::UIButtonMaker()
 		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/ButtonDown.png");
 		exitButton->sprite.setTexture(*tex);
 		std::cout << "Click" << std::endl;
+	};
+	exitButton->OnActive = [exitButton]() {
+		exit(3);
 	};
 }
