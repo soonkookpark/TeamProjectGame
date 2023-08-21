@@ -7,6 +7,7 @@
 #include "MeleeAttack.h"
 #include "ResourceMgr.h"
 #include "InputMgr.h"
+#include "Tools/Astar.h"
 
 Monster::Monster(const std::string& type, const std::string& name)
 	:Creature("",name)
@@ -28,6 +29,10 @@ void Monster::Reset()
 	//std::cout << "default" << std::endl;
 	timer = 0;
 	curHealth = creatureInfo.maxHealth;
+	if (!monsterParameter.isFlying)
+	{
+
+	}
 }
 
 void Monster::Update(float dt)
@@ -72,7 +77,7 @@ void Monster::Update(float dt)
 void Monster::SetData(const std::string& name)
 {	
 	this->name = name;
-	param = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).MI;
+	monsterParameter = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).MI;
 	creatureInfo = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).CI;
 	
 	strArr = Utils::LoadAnimationString(name);
@@ -87,7 +92,7 @@ void Monster::SetData(const std::string& name)
 	else if (name == "Tick")
 		std::cout << "Tick »ý¼º" << std::endl;
 
-	if (param.isFlying)
+	if (monsterParameter.isFlying)
 	{
 		sortLayer = SortLayer::A_MONSTER;
 	}
@@ -122,12 +127,19 @@ void Monster::Attack(float dt)
 		AttackAnimationPrint(lookat);
 	}
 	if(!isAttacking)
-		state = State::CHASE;
+		state = State::KITING;
 }
 
 void Monster::Chase(float dt)
 {
-	destination = player->GetPosition();	
+	if (monsterParameter.isFlying)
+	{
+		destination = player->GetPosition();	
+	}
+	else
+	{
+		
+	}
 	dir = Utils::Normalize(destination - position);
 	SetPosition(position + (dir * dt * creatureInfo.speed));
 	MoveAnimationPrint(lookat);
@@ -136,22 +148,30 @@ void Monster::Chase(float dt)
 	{
 		state = State::DEFAULT;
 	}
-	//if (Utils::Distance(player->GetPosition(), position) < param.attackRange)
-	if (Utils::CircleToRect(position, param.attackRange, player->sprite.getGlobalBounds()))
+	if (Utils::CircleToRect(position, monsterParameter.attackRange, player->sprite.getGlobalBounds()))
 	{
-		state = State::ATTACK;
-		skills["atk"]->Active();
+		state = State::KITING;
 		//std::cout << "atk" << std::endl;
 	}
+}
+
+void Monster::Kiting(float dt)
+{
+	if (monsterParameter.attackRange < Utils::Distance(position, player->GetPosition()))
+	{
+		state = State::CHASE;
+	}
+
+	skills["atk"]->Active();
 }
 
 void Monster::Default(float dt)
 {	
 	timer += dt;
-	if (Utils::RandomRange(static_cast<float>(0), timer) > param.moveFrequency)
+	if (Utils::RandomRange(static_cast<float>(0), timer) > monsterParameter.moveFrequency)
 	{
 		timer = 0;
-		destination = originalPos + Utils::RandomInCircle(param.moveRange);
+		destination = originalPos + Utils::RandomInCircle(monsterParameter.moveRange);
 		//idle
 		state = State::WANDER;
 		//std::cout << "wander" << std::endl;
@@ -195,8 +215,8 @@ bool Monster::DetectTarget()
 {
 	if (player == nullptr)
 		return false;
-	return Utils::Distance(player->GetPosition(), position) < param.searchRange;
-	//return Utils::CircleToRect(position, param.searchRange, player->sprite.getGlobalBounds());
+	return Utils::Distance(player->GetPosition(), position) < monsterParameter.searchRange;
+	//return Utils::CircleToRect(position, monsterParameter.searchRange, player->sprite.getGlobalBounds());
 }
 
 void Monster::IdleAnimationPrint(SightDegree lookat)

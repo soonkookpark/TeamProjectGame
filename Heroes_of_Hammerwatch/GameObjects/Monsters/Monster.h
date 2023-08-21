@@ -2,6 +2,7 @@
 #include "Creature.h"
 #include "Player.h"
 
+class Astar;
 
 class Monster :
     public Creature
@@ -22,6 +23,7 @@ public:
         WANDER,
         CHASE,
         ATTACK,
+        KITING,
         DIE,
         COUNT,
     };
@@ -37,7 +39,7 @@ public:
         Monster::MonsterType monsterType;
     };
 protected:
-    MonsterParameters param;
+    MonsterParameters monsterParameter;
 
     State state = State::DEFAULT;
     sf::Vector2f originalPos;
@@ -50,7 +52,8 @@ protected:
     float timer;
     bool inAction;
 
-    std::stack<sf::Vector2i> chasePath;
+    Astar* pathFinder;
+    std::stack<sf::Vector2i>* chasePath;
 public:
     Monster(const std::string& type, const std::string& name = "mob");
     virtual ~Monster() = default;
@@ -65,6 +68,7 @@ public:
     virtual void Wander(float dt);
     virtual void Attack(float dt);
     virtual void Chase(float dt);
+    virtual void Kiting(float dt);
     virtual void Default(float dt);
     virtual void Die(float dt);
 
