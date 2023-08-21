@@ -27,6 +27,6 @@ public:
 	virtual void Reset() override;
 
 	virtual void Update(float dt) override;
-	
+	std::string getString();
 };
 

@@ -96,7 +96,7 @@ void Player::Update(float dt)
 	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
 
 	PlayerMove(dt);
-	//box.setPosition(sprite.getPosition());
+	box.setPosition(sprite.getPosition());
 	float magnitude = Utils::Magnitude(direction);
 	if (magnitude > 1.f)
 	{

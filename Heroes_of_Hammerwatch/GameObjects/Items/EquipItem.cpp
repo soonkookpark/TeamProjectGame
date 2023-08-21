@@ -7,6 +7,7 @@ EquipItem::EquipItem(int key)
 	:SpriteGo("", "EquipItem")
 {
 	SetData(key);
+	
 }
 
 void EquipItem::SetData(int key)
@@ -22,3 +23,9 @@ void EquipItem::Reset()
 void EquipItem::Update(float dt)
 {
 }
+
+std::string EquipItem::getString()
+{
+	return equipment.itemName;
+}
+
