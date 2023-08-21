@@ -6,7 +6,7 @@
 OnTileMap::OnTileMap(const std::string& textureId, const std::string& n)
 	: VertexArrayGo(textureId, n)
 {
-	sortLayer = SortLayer::TILE;
+	sortLayer = SortLayer::WALL;
 }
 
 OnTileMap::~OnTileMap()

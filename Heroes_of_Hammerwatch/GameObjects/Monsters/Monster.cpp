@@ -37,8 +37,8 @@ void Monster::Update(float dt)
 	Creature::Update(dt);
 	creatureAnimation.Update(dt);
 
-	destination = GetPosition();
-	findAngle = Utils::Angle(player->GetPosition()-destination);
+	//destination = GetPosition();
+	findAngle = Utils::Angle(player->GetPosition()-position);
 
 	if (findAngle < 0)
 	{
@@ -84,10 +84,10 @@ void Monster::SetData(const std::string& name)
 	}
 	creatureAnimation.SetTarget(&sprite);
 	//std::cout << "allbareuge choollyukdoem" << std::endl;
-	if (name == "Bat")
-		std::cout << "Bat 持失" << std::endl;
-	else if (name == "Tick")
-		std::cout << "Tick 持失" << std::endl;
+	//if (name == "Bat")
+		//std::cout << "Bat 持失" << std::endl;
+	//else if (name == "Tick")
+		//std::cout << "Tick 持失" << std::endl;
 
 	if (param.isFlying)
 	{

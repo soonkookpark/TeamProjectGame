@@ -92,4 +92,6 @@ public:
 
 	void SetEntrance();
 	std::vector<std::vector<int>> GetTileArray() { return tileArray; }
+
+	sf::Vector2f GetStartPos() { return start.getPosition(); }
 };

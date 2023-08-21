@@ -66,7 +66,7 @@ public:
 	void SetOnTileMap(OnTileMap* onTileMap) { this->onTileMap = onTileMap; }
 	void Divide();
 	void ConnectRoom();
-	void SelectDoor();
+	bool SelectDoor();
 	void CreateDoor(sf::Vector2i start, sf::Vector2i ent);
 	void Debug();
 	int ReturnTile(int x, int y) { return tileArray[y][x]; }

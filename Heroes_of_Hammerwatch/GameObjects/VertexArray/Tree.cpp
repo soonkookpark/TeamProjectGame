@@ -189,10 +189,10 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 	//tileMap->ChangeTile(0, 0, 8); //xÁÂÇ¥, yÁÂÇ¥, Å¸ÀÏ ÀÎµ¦½º
 }
 
-void Tree::Room(TileMap* tileMapPtr, Astar* finder)
+bool Tree::Room(TileMap* tileMapPtr, Astar* finder)
 {
 	std::vector<Tree*> room;
-	SettingRoom(tileMapPtr, room, finder);
+	return SettingRoom(tileMapPtr, room, finder);
 }
 
 bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* finder)

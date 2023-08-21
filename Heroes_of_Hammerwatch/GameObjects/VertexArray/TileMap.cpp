@@ -360,13 +360,13 @@ void TileMap::ConnectRoom()
     route->ConnectRoom(this);
 }
 
-void TileMap::SelectDoor()
+bool TileMap::SelectDoor()
 {
     finder->SetTileArray(tileArray);
     finder->SetMaxFindValueRate(100000);
 
-    if (route == nullptr) return;
-    route->Room(this, finder);
+    if (route == nullptr) return false;
+    return route->Room(this, finder);
 }
 
 void TileMap::CreateDoor(sf::Vector2i start, sf::Vector2i ent)

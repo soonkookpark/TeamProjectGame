@@ -5,7 +5,8 @@
 #include "ResourceMgr.h"
 #include "FieldItemTable.h"
 #include "DataTableMgr.h"
-
+#include "InputMgr.h"
+#include "EquipItem.h"
 FieldItem::FieldItem(const std::string& key)
 	:SpriteGo("","FieldItem")
 {
@@ -17,7 +18,9 @@ void FieldItem::SetData(const std::string& key)
 	FieldItemTable* table = DATATABLE_MGR.Get<FieldItemTable>(DataTable::Ids::FieldItem);
 	itemType = static_cast<ItemType>(table->Get(key)[0]);
 	value = table->Get(key)[1];
-	sprite.setTexture(*RESOURCE_MGR.GetTexture(key));	
+	// 이 스프라이트를 넘겨야함.
+	sprite.setTexture(*RESOURCE_MGR.GetTexture(key));
+	
 	sortLayer = SortLayer::FIELD_ITEMS;
 }
 
@@ -33,6 +36,7 @@ void FieldItem::Update(float dt)
 	{
 		IntersectsWithItem();
 	}
+	
 }
 
 void FieldItem::IntersectsWithItem()
@@ -65,7 +69,8 @@ void FieldItem::IntersectsWithItem()
 		player->AcquireKey(value);
 		break;
 	case FieldItem::ItemType::ITEM:
-		player->AcquireItem(value);
+		equipment->SetData(value);
+		//player->AcquireItem(value);
 		break;
 	}
 	SCENE_MGR.GetCurrScene()->RemoveGo(this);

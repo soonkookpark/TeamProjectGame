@@ -12,6 +12,7 @@ public:
 		FieldItem,
 		PlayerClass,
 		SkillData,
+		EquipItem,
 	};
 
 	DataTable(const DataTable& other) = delete;

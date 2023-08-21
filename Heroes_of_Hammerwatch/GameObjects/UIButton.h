@@ -5,6 +5,7 @@ class UIButton : public SpriteGo
 {
 protected:
 	bool isHover = false;
+	bool isClick = false;
 public:
 	UIButton(const std::string& textureId = "", const std::string& n = "");
 	virtual ~UIButton() override;
@@ -22,8 +23,8 @@ public:
 	sf::Text text;
 
 	std::function<void()> OnClick;
+	std::function<void()> OnActive;
 	std::function<void()> OnEnter;
 	std::function<void()> OnExit;
 
 };
-

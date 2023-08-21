@@ -26,7 +26,7 @@ struct Tree
 	void Divide(TileMap* tileMapPtr);
 	void ConnectRoom(TileMap* tileMapPtr);
 
-	void Room(TileMap* tileMapPtr, Astar* finder);
+	bool Room(TileMap* tileMapPtr, Astar* finder);
 	bool SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* finder);
 	void Debug();
 	void Draw(sf::RenderWindow& window);
