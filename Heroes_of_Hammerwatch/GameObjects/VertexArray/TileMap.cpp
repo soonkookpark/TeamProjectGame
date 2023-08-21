@@ -4,20 +4,36 @@
 #include <vector>
 #include "Tree.h"
 #include "OnTileMap.h"
+#include "Astar.h"
 
 TileMap::TileMap(const std::string& textureId, const std::string& n)
     : VertexArrayGo(textureId, n)
 {
     sortLayer = SortLayer::TILE;
     route = nullptr;
+    finder = new Astar();
+    finder->SetTileArray(tileArray);
+    finder->SetMaxFindValueRate(100000);
 }
 
 TileMap::~TileMap()
 {
-    if(route != nullptr)
+    if (route != nullptr)
         delete route;
 
+    if (finder != nullptr)
+        delete finder;
+
     route = nullptr;
+    finder = nullptr;
+}
+
+void TileMap::Draw(sf::RenderWindow& window)
+{
+    VertexArrayGo::Draw(window);
+    if (route == nullptr) return;
+
+    route->Draw(window);
 }
 
 bool TileMap::LoadDrawTexture(const std::string& filePath)
@@ -333,7 +349,7 @@ void TileMap::Divide()
 {
     if (route == nullptr)
     {
-        route = new Tree(sf::FloatRect{ 0, 0, static_cast<float>(size.x), static_cast<float>(size.y) });
+        route = new Tree(sf::IntRect{ 5, 5, size.x - 10, size.y - 10});
     }
     route->Divide(this);
 }
@@ -344,8 +360,22 @@ void TileMap::ConnectRoom()
     route->ConnectRoom(this);
 }
 
-void TileMap::DrawRoom(sf::RenderWindow& window)
+void TileMap::SelectDoor()
 {
+    finder->SetTileArray(tileArray);
+    finder->SetMaxFindValueRate(100000);
+
     if (route == nullptr) return;
-    route->DrawRoom(window);
+    route->Room(this, finder);
+}
+
+void TileMap::CreateDoor(sf::Vector2i start, sf::Vector2i ent)
+{
+    onTileMap->ChangeDoor(start, ent);
+    tileArray = onTileMap->GetTileArray();
+}
+
+void TileMap::Debug()
+{
+    route->Debug();
 }

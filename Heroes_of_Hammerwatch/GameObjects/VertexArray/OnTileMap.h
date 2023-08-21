@@ -36,6 +36,9 @@ class OnTileMap : public VertexArrayGo
 protected:
 	bool checkLoad = false;
 
+	sf::Sprite ent;
+	sf::Sprite start;
+
 	sf::Vector2f tileSize = { 16.f, 16.f };
 	sf::Vector2f texSize = { 16.f, 16.f };
 	sf::Vector2i size;
@@ -66,17 +69,17 @@ public:
 	OnTileMap(const std::string& textureId = "", const std::string& n = "");
 	virtual ~OnTileMap() override;
 
+	virtual void Draw(sf::RenderWindow& window) override;
+
 	bool LoadDrawOnTile(TileMap* tileMap);
-
-
-
 
 	bool DrawTexture(int row, int col);
 	bool ChangeTile(int tilePosX, int tilePosY, int idx);
+	void ChangeDoor(sf::Vector2i ent, sf::Vector2i start);
 
 	bool LoadInfo(const std::string& filePath);
-	void SaveTexture(const std::string& filePath);
-	void LoadTexture(const std::string& filePath);
+	//void SaveTexture(const std::string& filePath);
+	//void LoadTexture(const std::string& filePath);
 
 	void LoadTileDataArray(rapidcsv::Document& map);
 
@@ -84,16 +87,9 @@ public:
 	bool CheckWall(int x, int y);
 	Wall SelectWall(bool left, bool right, bool top, bool down);
 
-
-	void ResetDataArray();
-
-	sf::IntRect GetTileBound(int index);
-
 	std::vector<Tile> tiles;
 	std::unordered_map<int, TileInfo> tileInfo;
 
-	sf::Vector2f TileSize();
-	sf::Vector2i TileIntSize();
-	sf::Vector2f TilePixelSize();
-	Tile& GetTile(int x, int y);
+	void SetEntrance();
+	std::vector<std::vector<int>> GetTileArray() { return tileArray; }
 };

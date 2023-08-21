@@ -84,6 +84,80 @@ std::stack<sf::Vector2i>* Astar::FindPath(Creature* stalker, Creature* target)
 	return path;
 }
 
+bool Astar::FindPath(sf::Vector2i start, sf::Vector2i end)
+{
+	Clear();
+	MaxFindValue = Utils::Distance(start, end) * MaxFindValueRate;
+
+	Node* newNode = Get();
+	newNode->pos = start;
+	newNode->prevNode = nullptr;
+	newNode->distance = 0.f;
+	newNode->heuristic = 0.f;
+	newNode->value = 0.f;
+	Node* finalNode(nullptr);
+	MakeNode(newNode, start, end);
+
+	while (!(finalNode != nullptr || openNodes.empty()))
+	{
+		finalNode = MakeNode(SelectNextNode(), start, end);
+	}
+
+	std::stack<sf::Vector2i>* path = new std::stack<sf::Vector2i>();
+	MakePath(finalNode, path);
+
+	if (path == nullptr) return false;
+
+	return true;
+}
+
+Astar::Node* Astar::MakeNode(Node* node, sf::Vector2i start, sf::Vector2i end)
+{
+	std::vector<sf::Vector2i> positions =
+	{
+		{node->pos.x , node->pos.y + 1},
+		{node->pos.x + 1, node->pos.y},
+		{node->pos.x , node->pos.y - 1},
+		{node->pos.x - 1, node->pos.y},
+		{node->pos.x + 1, node->pos.y + 1},
+		{node->pos.x + 1, node->pos.y - 1},
+		{node->pos.x - 1, node->pos.y + 1},
+		{node->pos.x - 1, node->pos.y - 1},
+	};
+	if (node->value > MaxFindValue)
+	{
+		closedNodes.push_back(node);
+		openNodes.remove(node);
+		return nullptr;
+	}
+	for (int i = 0; i < positions.size(); i++)
+	{
+		if (positions[i].x < 0 || positions[i].y < 0)
+			continue;
+		if (tileArray[positions[i].y][positions[i].x] == 0 || CheckClosedNodes(positions[i]))
+			continue;
+
+		float distance = abs(positions[i].x) + abs(positions[i].y) == 2 ? 1.4f : 1.f;
+		float heuristic = Utils::Distance(end, positions[i]);
+
+		Node* newNode = Get();
+		newNode->pos = positions[i];
+		newNode->prevNode = node;
+		newNode->distance = distance;
+		newNode->heuristic = heuristic;
+		newNode->value = distance + heuristic;
+
+		RefineNode(newNode);
+		openNodes.push_back(newNode);
+		if (positions[i] == end)
+			return newNode;
+	}
+	closedNodes.push_back(node);
+	if (node->prevNode != nullptr)
+		openNodes.remove(node);
+	return nullptr;
+}
+
 void Astar::MakePath(Node* node, std::stack<sf::Vector2i>* path)
 {
 	if (node == nullptr)

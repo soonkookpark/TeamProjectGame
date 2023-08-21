@@ -1,23 +1,35 @@
 #pragma once
+#include "VertexArrayGo.h"
 
 class TileMap;
+class Astar;
 
 struct Tree
 {
 	sf::IntRect rect;
+	VertexArrayGo rectangle;
+	
+
 	int level = 0;
-	sf::RectangleShape room;
+
+	bool isActive = true;
+	static bool entrance;
+	static bool starting;
 
 	Tree* parent;
 	Tree* child_L;
 	Tree* child_R;
-
-	Tree(sf::FloatRect rect = {}) : parent(nullptr), child_L(nullptr), child_R(nullptr), rect(rect) {}
+	
+	Tree(sf::IntRect rect = {0, 0, 0, 0});
 	~Tree();
 
 	void Divide(TileMap* tileMapPtr);
 	void ConnectRoom(TileMap* tileMapPtr);
-	void DrawRoom(sf::RenderWindow& window);
+
+	void Room(TileMap* tileMapPtr, Astar* finder);
+	bool SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* finder);
+	void Debug();
+	void Draw(sf::RenderWindow& window);
 
 	sf::Vector2i GetCenter();
 };

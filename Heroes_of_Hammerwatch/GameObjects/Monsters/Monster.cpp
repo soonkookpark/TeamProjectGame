@@ -9,11 +9,13 @@
 #include "InputMgr.h"
 #include "Tools/Astar.h"
 
-Monster::Monster(const std::string& type, const std::string& name)
+Monster::Monster(const std::string& type, const std::string& name, sf::Vector2f pos)
 	:Creature("",name)
 {
 	origin = Origins::MC;
-	SetData(type);	
+	SetData(type);
+	SetPosition(pos);
+	originalPos = pos;
 }
 
 void Monster::Init()

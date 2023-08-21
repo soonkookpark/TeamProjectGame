@@ -21,3 +21,6 @@ graphics/mine/mine_wall.png,32,112,16,48,wall_LTB,18
 graphics/mine/mine_wall.png,0,128,16,48,wall_LRT,19
 graphics/mine/mine_wall.png,16,128,16,48,wall_LR,20
 graphics/mine/mine_wall.png,32,128,16,48,wall_None,21
+graphics/mine/mine_wall.png,128,0,64,72,entrance_next,22
+graphics/mine/mine_wall.png,128,72,64,72,entrance_town,23
+graphics/mine/mine_wall.png,192,72,64,72,entrance_prison,24

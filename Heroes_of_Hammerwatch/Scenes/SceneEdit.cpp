@@ -219,10 +219,10 @@ void SceneEdit::Init()
 		OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
 		tempOnTileMap->LoadDrawOnTile(tempTileMap);
 
-		col = tempTileMap->TileIntSize().x;
+		col = tempTileMap->TileIntSize().y;
 		colNum->text.setString("Col : " + std::to_string(col));
 
-		row = tempTileMap->TileIntSize().y;
+		row = tempTileMap->TileIntSize().x;
 		rowNum->text.setString("Row : " + std::to_string(row));
 
 		if (tileMap != nullptr)
@@ -394,8 +394,14 @@ void SceneEdit::Update(float dt)
 		}
 		tileMap->ConnectRoom();
 	}
-	
-
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F7))
+	{
+		tileMap->SelectDoor();
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F8))	
+	{
+		tileMap->Debug();
+	}
 }
 
 void SceneEdit::Draw(sf::RenderWindow& window)

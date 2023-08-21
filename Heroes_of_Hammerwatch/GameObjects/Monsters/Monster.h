@@ -55,7 +55,7 @@ protected:
     Astar* pathFinder;
     std::stack<sf::Vector2i>* chasePath;
 public:
-    Monster(const std::string& type, const std::string& name = "mob");
+    Monster(const std::string& type, const std::string& name = "mob", sf::Vector2f pos = {});
     virtual ~Monster() = default;
 
     virtual void Init();
