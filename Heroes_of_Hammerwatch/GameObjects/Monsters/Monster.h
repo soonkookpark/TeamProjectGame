@@ -76,7 +76,7 @@ public:
 
     virtual void SetDead() override;
 
-    virtual bool JudgeMoveStraight();
+    virtual bool CheckStraight();
     virtual void FindDestination();
     virtual void Move(float dt, sf::Vector2f pos);
         

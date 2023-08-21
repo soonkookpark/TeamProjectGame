@@ -110,9 +110,7 @@ void Monster::SetData(const std::string& name)
 
 void Monster::Wander(float dt)
 {
-	dir = Utils::Normalize(destination - position);	
-	SetPosition(position + (dir * dt * creatureInfo.speed));
-	IdleAnimationPrint(lookat);
+	Move(dt, destination);
 	if (Utils::Distance(position, destination) < 0.1)
 	{
 		state = State::DEFAULT;
@@ -140,7 +138,7 @@ void Monster::Attack(float dt)
 void Monster::Chase(float dt)
 {
 	timer += dt;
-	if (timer > 0.5f)
+	if (Utils::Distance(destination, position) < 0.1f || timer > 1.f)
 	{
 		FindDestination();
 	}
@@ -160,7 +158,7 @@ void Monster::Chase(float dt)
 void Monster::Kiting(float dt)
 {
 	timer += dt;
-	if (timer > 0.5f)
+	if (Utils::Distance(destination, position) < 0.1f || timer > 1.f)
 	{
 		FindDestination();
 	}
@@ -206,39 +204,20 @@ void Monster::SetDead()
 {
 	state = State::DIE;
 }
-bool Monster::JudgeMoveStraight()
-{ 
-	for (int i = tileIndex.x; i < player->GetTileIndex().x; i++)
-	{
-		for (int j = tileIndex.y; j < player->GetTileIndex().y; j++)
-		{
-			if (i / static_cast<int>(tileMap->TileSize().x) == 0 || j / static_cast<int>(tileMap->TileSize().y) == 0)
-			{
-				if (tileMap->GetTileArray()[j][i] == 0)
-					return false;
-			}
-		}
-	}
-	return true;
-}
-/*
-void Monster::Damaged(float physicalDmg, float magicalDmg, Creature* attacker)
-{
-	//std::cout << "damaged" << std::endl;
-	physicalDmg = 1 / (1+ creatureInfo.armor/ 50) * physicalDmg;
-	magicalDmg = 1 / (1+ creatureInfo.resistance/ 50) * magicalDmg;
+bool Monster::CheckStraight()
+{ 	
+	//auto tmpe = tileMap->GetTileArray();
+	float inclination = tan(Utils::Angle(player->GetPosition() - position));
+	std::vector<sf::Vector2i> listOfPoint;
+	
+	if (tileMap->GetTileArray()[j][i] == 0)
+		return false;
+	else
+		std::cout << tileMap->GetTileArray()[j][i] << std::endl;
 
-	//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
-	std::cout << physicalDmg + magicalDmg << "데미지 받음" << std::endl;
-	curHealth -= (physicalDmg + magicalDmg);
-	std::cout << curHealth << "잔여 피" << std::endl;
-	if (curHealth < 0)
-	{
-		//std::cout << "죽음!" << std::endl;
-		state = State::DIE;
-	}
+	return true;	
 }
-*/
+
 bool Monster::DetectTarget()
 {
 	if (player == nullptr)
@@ -382,13 +361,21 @@ void Monster::FindDestination()
 		if (chasePath != nullptr)
 			delete(chasePath);
 		*/
-		if (!JudgeMoveStraight())
+		if (CheckStraight())
 			destination = player->GetPosition();
 		else
 		{
-			chasePath = pathFinder->FindPath(this, player);
-			if (chasePath != nullptr || chasePath->size() != 0)
+			std::stack<sf::Vector2i>* temp = pathFinder->FindPath(this, player);
+			if (temp != nullptr)
+			{
+				delete(chasePath);
+				chasePath = temp;
+			}
+			if (chasePath->size() != 0 || Utils::Distance(destination, position) < 0.1f)
+			{
 				destination = tileMap->GetFloatPosition(chasePath->top());
+				chasePath->pop();
+			}
 			else
 				destination = position;
 		}

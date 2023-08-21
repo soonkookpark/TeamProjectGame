@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3rd\Beam.cpp" />
+    <ClCompile Include="3rd\Line.cpp" />
     <ClCompile Include="Tools\Astar.cpp" />
     <ClCompile Include="GameObjects\Skills\BuffToOther.cpp" />
     <ClCompile Include="GameObjects\Buffs\BloodLust.cpp" />
@@ -212,6 +214,8 @@
     <ClCompile Include="GameObjects\Buffs\Shield.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3rd\Beam.h" />
+    <ClInclude Include="3rd\Line.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
     <ClInclude Include="Tools\Astar.h" />
     <ClInclude Include="GameObjects\AllCreutures.hpp" />

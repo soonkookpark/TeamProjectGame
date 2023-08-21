@@ -76,6 +76,7 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
 	monster->SetTileMap(tileMap);
+	monster->ControlCreatureInfos()->speed = 0.5f;
 
 	/*
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
