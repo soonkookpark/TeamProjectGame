@@ -27,8 +27,12 @@ public:
 	virtual void Reset() override;
 
 	virtual void Update(float dt) override;
+<<<<<<< HEAD
 	
 	sf::Sprite LoadSpriteImage() { return sprite; }
 
+=======
+	std::string getString();
+>>>>>>> f04772722ce356dddd2946b04c76968c9aadd923
 };
 

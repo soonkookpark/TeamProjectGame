@@ -24,3 +24,11 @@ void EquipItem::Update(float dt)
 {
 }
 
+<<<<<<< HEAD
+=======
+std::string EquipItem::getString()
+{
+	return equipment.itemName;
+}
+
+>>>>>>> f04772722ce356dddd2946b04c76968c9aadd923
