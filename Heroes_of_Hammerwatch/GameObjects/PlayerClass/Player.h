@@ -54,7 +54,8 @@ protected:
 	bool isGround = true;
 	bool isAnimationPlay = false;
 	bool attackNow = false;
-	
+	bool inventoryUI = false;
+
 	PlayerInfo pTable;
 	sf::Vector2i playerTileIndex;
 	std::vector<ClipInfo> clipInfos;
@@ -78,7 +79,8 @@ protected:
 	
 	sf::RectangleShape testTiles[8];
 	sf::RectangleShape testIntersect;
-
+	//sf::Sprite spriteImage;
+	//std::vector<sf::Sprite, > inventoryImage;
 	//RectangleGo* testRect;
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")
@@ -108,9 +110,12 @@ public:
 	void AcquireOre(int value) { ore += value; };
 	void AcquireMoney(int value) { money += value; };
 	void AcquireKey(int value) {};
-	void AcquireItem(int key) {};//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
+	void AcquireItem(int key);//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
+	//고마워 다훈아
 
 	void Collider(int x, int y);
 	void TestCode();
+	void InventoryItemImageSet(int num);
+	void Inventory(int itemNum);
 };
 

@@ -1,0 +1,14 @@
+ITEM_NAME,ITEM_VALUE,SET_TYPE,DESCRIPTION,HP,POWER,SPEED,DEFENSE,RESISTANCE,TEXTURE_PATH,LEFT,TOP,WIDTH,HEIGHT
+LeftBoot,1,1,1,0,0,5,0,0,graphics/Item/Items.png,96,24,12,12
+RightBoot,2,1,2,0,0,15,0,0,graphics/Item/Items.png,48,180,12,12
+ChainMail,3,2,3,0,0,0,3,0,graphics/Item/Items.png,108,0,12,12
+HeavyGauntlets,4,2,4,0,0,0,0,3,graphics/Item/Items.png,12,60,12,12
+SteadyGreaves,5,2,5,0,0,0,1,1,graphics/Item/Items.png,24,60,12,12
+SturdyBelt,6,2,6,10,0,0,0,0,graphics/Item/Items.png,84,12,12,12
+AmuletOfResistance,7,3,7,0,0,0,0,15,graphics/Item/Items.png,24,0,12,12
+BroadSword,8,4,8,0,10,0,0,0,graphics/Item/Items.png,12,120,12,12
+WaningCrescent,9,5,9,0,15,0,0,0,graphics/Item/Items.png,144,12,12,12
+WaxingCrescent,10,6,10,0,13,0,0,0,graphics/Item/Items.png,156,12,12,12
+Curio'sBox,11,7,11,5,0,0,0,0,graphics/Item/Items.png,24,192,12,12
+Curio'sCase,12,7,12,10,0,0,0,0,graphics/Item/Items.png,36,192,12,12
+Curio'sCoffer,13,7,13,20,0,0,0,0,graphics/Item/Items.png,48,192,12,12
