@@ -179,6 +179,7 @@ void SceneTitle::UIButtonMaker()
 	};
 	settingButton->OnActive = [settingButton]() {
 		std::cout << sf::Keyboard::A << std::endl;
+		
 	};
 
 	exitButton->OnEnter = [exitButton]() {

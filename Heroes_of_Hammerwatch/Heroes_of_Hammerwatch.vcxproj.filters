@@ -59,6 +59,8 @@
     <ClCompile Include="GameObjects\Buffs\Shield.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\SliceSpriteGo.cpp" />
+    <ClCompile Include="GameObjects\Items\EquipItem.cpp" />
+    <ClCompile Include="DataTables\EquipItemTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -127,5 +129,7 @@
     <ClInclude Include="GameObjects\Buffs\Shield.h" />
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="GameObjects\SliceSpriteGo.h" />
+    <ClInclude Include="GameObjects\Items\EquipItem.h" />
+    <ClInclude Include="DataTables\EquipItemTable.h" />
   </ItemGroup>
 </Project>
