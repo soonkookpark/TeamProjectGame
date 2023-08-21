@@ -223,14 +223,14 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* fin
 		return true;
 	}
 
-
-
 	if (room.empty()) return true;
 	if (room.size() < 2)
 	{
 		std::cout << "사이즈가 작음" << std::endl;
 		return false;
 	}
+
+	
 
 	int count = 0;
 
@@ -259,10 +259,10 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* fin
 		}
 		forEnt = Utils::RandomRange(0, room.size());
 
-	} while (room[forEnt]->GetCenter().y < rect.height * 0.4
+	} while (room[forEnt]->GetCenter().y < rect.height * 0.6
 		|| room[forEnt]->GetCenter().x > rect.width * 0.25 && room[forEnt]->GetCenter().x < rect.width * 0.25
-		|| forStart == forEnt &&
-		tileMapPtr->ReturnTile(room[forStart]->GetCenter().x + 1, rect.top - 2) == 8);
+		|| forStart == forEnt ||
+		tileMapPtr->ReturnTile(room[forStart]->GetCenter().x + 1, rect.top - 2) == 8 || room[forEnt]->rect.height < 4);
 
 	sf::IntRect start = room[forStart]->rect;
 	sf::IntRect ent = room[forEnt]->rect;
@@ -290,21 +290,28 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* fin
 		}
 		starting = true;
 	}
+	ConnectRoom(tileMapPtr);
 
 	tileMap->CreateDoor(
 		sf::Vector2i{ (start.left + start.left + start.width) / 2, start.top-4},
-		sf::Vector2i{ (ent.left + ent.left + ent.width) / 2, ent.top-3});
+		sf::Vector2i{ (ent.left + ent.left + ent.width) / 2, ent.top-2});
 
-	if (!finder->FindPath(room[forStart]->GetCenter(), room[forEnt]->GetCenter()))
+	sf::Vector2i startPos = room[forStart]->GetCenter();
+	sf::Vector2i endPos = room[forEnt]->GetCenter();
+	startPos += {1, 1};
+	endPos += {1, 1};
+
+
+	bool check = finder->FindPath(startPos, endPos);
+	 
+	if (!check)
 	{
+		std::cout << check << std::endl;
 		starting = false;
 		entrance = false;
 		room.clear();
 		SettingRoom(tileMapPtr, room, finder);
-		return true;
 	}
-
-
 
 	return true;
 }

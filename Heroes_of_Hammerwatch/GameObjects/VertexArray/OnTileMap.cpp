@@ -167,23 +167,57 @@ bool OnTileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
     return false;
 }
 
-void OnTileMap::ChangeDoor(sf::Vector2i startPos, sf::Vector2i entPos)
+void OnTileMap::ChangeDoor(sf::Vector2i startPos, sf::Vector2i entPos, TileMap* tileMap)
 {
     for (int i = entPos.x - 3; i < entPos.x + 3; i++)
     {
         for (int j = entPos.y + 1; j < entPos.y + 4; j++)
         {
+            if (j == startPos.y + 4)
+            {
+                ChangeTile(i, j, 0);
+                tileMap->ChangeTile(i, j, 0);
+
+                if (i == startPos.x - 1 || i == startPos.x)
+                {
+                    //ChangeTile(i, j, 8);
+                    tileMap->ChangeTile(i, j, 8);
+                }
+                continue;
+            }
             ChangeTile(i, j, 0);
-            tileArray[j][i] = 0;
+            tileMap->ChangeTile(i, j, 0);
         }
     }
 
     for (int i = startPos.x - 3; i < startPos.x + 3; i++)
     {
-        for (int j = startPos.y + 1; j < startPos.y + 4; j++)
+        for (int j = startPos.y + 1; j < startPos.y + 6; j++)
         {
+            if (j == startPos.y + 4)
+            {
+
+                ChangeTile(i, j, 0);
+                tileMap->ChangeTile(i, j, 0);
+
+                if (i == startPos.x - 1 || i == startPos.x)
+                {
+                    ChangeTile(i, j, 8);
+                    tileMap->ChangeTile(i, j, 8);
+                }
+                continue;
+            }
+            else if (j == startPos.y + 5)
+            {
+                if (i == startPos.x - 1 || i == startPos.x)
+                {
+                    ChangeTile(i, j, 8);
+                    tileMap->ChangeTile(i, j, 8);
+                }
+                continue;
+            }
             ChangeTile(i, j, 0);
-            tileArray[j][i] = 0;
+            tileMap->ChangeTile(i, j, 0);
         }
     }
 

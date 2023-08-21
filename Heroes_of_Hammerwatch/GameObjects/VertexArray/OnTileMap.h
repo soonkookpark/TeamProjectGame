@@ -75,7 +75,7 @@ public:
 
 	bool DrawTexture(int row, int col);
 	bool ChangeTile(int tilePosX, int tilePosY, int idx);
-	void ChangeDoor(sf::Vector2i ent, sf::Vector2i start);
+	void ChangeDoor(sf::Vector2i ent, sf::Vector2i start, TileMap* tileMap);
 
 	bool LoadInfo(const std::string& filePath);
 	//void SaveTexture(const std::string& filePath);
