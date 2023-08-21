@@ -63,7 +63,7 @@ std::stack<sf::Vector2i>* Astar::FindPath(Creature* stalker, Creature* target)
 	{
 		return nullptr;
 	}
-	MaxFindValue = Utils::Distance(stalker->GetTileIndex(), target->GetTileIndex()) * 1.5f;
+	MaxFindValue = Utils::Distance(stalker->GetTileIndex(), target->GetTileIndex()) * MaxFindValueRate;
 
 	Node* newNode = Get();
 	newNode->pos = stalker->GetTileIndex();

@@ -8,15 +8,16 @@ public:
 	{
 		sf::Vector2i pos;
 		Node* prevNode;
-		float distance;
-		float heuristic;
-		float value;
+		float distance = 0.f;
+		float heuristic = 0.f;
+		float value = 0.f;
 	};
 private:
 	Creature* target;
 	Creature* stalker;
 
-	float MaxFindValue;
+	float MaxFindValue = 0.f;
+	float MaxFindValueRate = 1.5f;
 
 	std::vector<std::vector<int>> tileArray;
 
@@ -43,6 +44,7 @@ public:
 
 	//사용할 씬 안에서 타일 생성 된 이후 적용
 	void SetTileArray(std::vector<std::vector<int>> tileArray) { this->tileArray = tileArray; }
+	void SetMaxFindValueRate(float rate) { MaxFindValueRate = rate; }
 
 	std::stack<sf::Vector2i>* FindPath(Creature* stalker, Creature* target);
 };
