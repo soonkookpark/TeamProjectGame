@@ -215,7 +215,7 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room)
 			return true;
 		}*/
 
-		if (level > 5 && center.y < route.y && child_L == nullptr)
+		if (level > 5 && route.x == center.x && center.y - 2 < route.y && child_L == nullptr)
 		{
 			room.push_back(this);
 		}
@@ -243,7 +243,7 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room)
 			return false;
 		}
 
-	} while (room[forStart]->GetCenter().y > rect.height * 0.3);
+	} while (room[forStart]->GetCenter().y > rect.height * 0.25);
 
 
 	int forEnt;
@@ -258,8 +258,9 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room)
 		forEnt = Utils::RandomRange(0, room.size());
 
 	} while (room[forEnt]->GetCenter().y < rect.height * 0.4
-		|| room[forEnt]->GetCenter().x > rect.width * 0.35 && room[forEnt]->GetCenter().x < rect.width * 0.65
-		|| forStart == forEnt);
+		|| room[forEnt]->GetCenter().x > rect.width * 0.25 && room[forEnt]->GetCenter().x < rect.width * 0.25
+		|| forStart == forEnt &&
+		tileMapPtr->ReturnTile(room[forStart]->GetCenter().x + 1, rect.top - 2) == 8);
 
 	sf::IntRect start = room[forStart]->rect;
 	sf::IntRect ent = room[forEnt]->rect;
@@ -270,7 +271,7 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room)
 		{
 			for (int j = ent.left; j < (ent.left + ent.width); j++)
 			{
-				tileMap->ChangeTile(j, i, 0);
+				//tileMap->ChangeTile(j, i, 0);
 			}
 		}
 		entrance = true;
@@ -282,22 +283,59 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room)
 		{
 			for (int j = start.left; j < (start.left + start.width); j++)
 			{
-				tileMap->ChangeTile(j, i, 0);
+				//tileMap->ChangeTile(j, i, 0);
 			}
 		}
 		starting = true;
 	}
 
 	tileMap->CreateDoor(
-		sf::Vector2i{ (start.left + start.left + start.width) / 2, (start.top + start.top + start.height) / 2 },
-		sf::Vector2i{ (ent.left + ent.left + ent.width) / 2, (ent.top + ent.top + ent.height) / 2 });
+		sf::Vector2i{ (start.left + start.left + start.width) / 2, start.top-4},
+		sf::Vector2i{ (ent.left + ent.left + ent.width) / 2, ent.top-3});
 
 	return true;
 }
 
+void Tree::Debug()
+{
+	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
+	{
+		child_L->Debug();
+		child_R->Debug();
+	}
+
+	if (child_L == nullptr)
+	{
+		rectangle.vertexArray.setPrimitiveType(sf::LinesStrip);
+		rectangle.vertexArray.resize(5);
+		rectangle.vertexArray[0].position = { (float)rect.left * 16.f, (float)rect.top * 16.f };
+		rectangle.vertexArray[1].position = { ((float)rect.left + rect.width) * 16.f, (float)rect.top * 16.f };
+		rectangle.vertexArray[2].position = { ((float)rect.left + rect.width) * 16.f, ((float)rect.top+rect.height) * 16.f };
+		rectangle.vertexArray[3].position = { (float)rect.left * 16.f, ((float)rect.top + rect.height) * 16.f };
+		rectangle.vertexArray[4].position = { (float)rect.left * 16.f, (float)rect.top * 16.f };
+
+		rectangle.vertexArray[0].color = sf::Color::Blue;
+		rectangle.vertexArray[1].color = sf::Color::Blue;
+		rectangle.vertexArray[2].color = sf::Color::Blue;
+		rectangle.vertexArray[3].color = sf::Color::Blue;
+		rectangle.vertexArray[4].color = sf::Color::Blue;
+	}
+}
+
+void Tree::Draw(sf::RenderWindow& window)
+{
+	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
+	{
+		child_L->Draw(window);
+		child_R->Draw(window);
+	}
+
+	window.draw(rectangle.vertexArray);
+}
+
 sf::Vector2i Tree::GetCenter()
 {
-	return sf::Vector2i{ 
-		(int)((rect.left + rect.left + rect.width) * 0.5f), 
-		(int)((rect.top + rect.top + rect.height) * 0.5f) };
+	return sf::Vector2i{
+		(int)((rect.left) + (rect.width * 0.5f)),
+		(int)((rect.top) + (rect.height * 0.5f)) };
 }

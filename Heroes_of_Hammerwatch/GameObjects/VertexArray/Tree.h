@@ -1,10 +1,14 @@
 #pragma once
+#include "VertexArrayGo.h"
 
 class TileMap;
 
 struct Tree
 {
 	sf::IntRect rect;
+	VertexArrayGo rectangle;
+	
+
 	int level = 0;
 
 	bool isActive = true;
@@ -23,6 +27,9 @@ struct Tree
 
 	void Room(TileMap* tileMapPtr);
 	bool SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room);
+	void Debug();
+	void Draw(sf::RenderWindow& window);
+	int CheckTile(TileMap* tileMapPtr);
 
 	sf::Vector2i GetCenter();
 };

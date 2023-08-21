@@ -20,6 +20,14 @@ TileMap::~TileMap()
     route = nullptr;
 }
 
+void TileMap::Draw(sf::RenderWindow& window)
+{
+    VertexArrayGo::Draw(window);
+    if (route == nullptr) return;
+
+    route->Draw(window);
+}
+
 bool TileMap::LoadDrawTexture(const std::string& filePath)
 {
     texture = RESOURCE_MGR.GetTexture(textureId);
@@ -353,4 +361,9 @@ void TileMap::SelectDoor()
 void TileMap::CreateDoor(sf::Vector2i start, sf::Vector2i ent)
 {
     onTileMap->ChangeDoor(start, ent);
+}
+
+void TileMap::Debug()
+{
+    route->Debug();
 }

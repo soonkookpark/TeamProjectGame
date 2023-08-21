@@ -5,6 +5,7 @@
 VertexArrayGo::VertexArrayGo(const std::string& textureId, const std::string& n)
 	: GameObject(n), textureId(textureId), texture(nullptr)
 {
+	sortLayer = 30;
 }
 
 VertexArrayGo::~VertexArrayGo()

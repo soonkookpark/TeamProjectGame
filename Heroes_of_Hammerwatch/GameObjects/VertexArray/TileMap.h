@@ -36,6 +36,8 @@ public:
 	TileMap(const std::string& textureId = "", const std::string& n = "");
 	virtual ~TileMap() override;
 
+	virtual void Draw(sf::RenderWindow& window) override;
+
 	bool LoadDrawTexture(const std::string& filePath);
 	bool DrawTexture(int row, int col);
 	bool ChangeTile(int tilePosX, int tilePosy, int idx);
@@ -64,5 +66,7 @@ public:
 	void ConnectRoom();
 	void SelectDoor();
 	void CreateDoor(sf::Vector2i start, sf::Vector2i ent);
+	void Debug();
+	int ReturnTile(int x, int y) { return tileArray[y][x]; }
 };
 

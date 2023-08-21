@@ -398,7 +398,10 @@ void SceneEdit::Update(float dt)
 	{
 		tileMap->SelectDoor();
 	}
-
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F8))	
+	{
+		tileMap->Debug();
+	}
 }
 
 void SceneEdit::Draw(sf::RenderWindow& window)
