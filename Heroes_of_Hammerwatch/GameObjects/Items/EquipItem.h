@@ -28,5 +28,7 @@ public:
 
 	virtual void Update(float dt) override;
 	
+	sf::Sprite LoadSpriteImage() { return sprite; }
+
 };
 

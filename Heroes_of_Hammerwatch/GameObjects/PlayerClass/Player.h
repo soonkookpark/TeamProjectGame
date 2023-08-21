@@ -80,7 +80,7 @@ protected:
 	sf::RectangleShape testTiles[8];
 	sf::RectangleShape testIntersect;
 	//sf::Sprite spriteImage;
-	//std::vector<sf::Sprite, > inventoryImage;
+	std::vector<sf::Texture*,std::vector<std::string,std::string>> inventoryImage;
 	//RectangleGo* testRect;
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")

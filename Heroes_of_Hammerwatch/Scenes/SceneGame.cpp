@@ -107,12 +107,12 @@ void SceneGame::Exit()
 void SceneGame::Update(float dt)
 {
 
+	worldView.setCenter(player->GetPosition());
 	Scene::Update(dt);
 
 	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<
 	//	tileMap->vertexArray.getBounds().width << tileMap->vertexArray.getBounds().height << std::endl;
 	
-	worldView.setCenter(player->GetPosition());
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::PageUp))
 	{

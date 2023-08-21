@@ -96,7 +96,7 @@ void Player::Update(float dt)
 	playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
 
 	PlayerMove(dt);
-	//box.setPosition(sprite.getPosition());
+	box.setPosition(sprite.getPosition());
 	float magnitude = Utils::Magnitude(direction);
 	if (magnitude > 1.f)
 	{
@@ -354,54 +354,7 @@ void Player::HealMP(int value)
 		curMana = pTable.manaPoint;
 }
 
-void Player::AcquireItem(int key)
-{
-	switch (key)
-	{
-	case 1:
-		creatureInfo.speed += 5;
-		break;
-	case 2:
-		creatureInfo.speed += 15;
-		break;
-	case 3:
-		creatureInfo.armor += 3;
-		break;
-	case 4:
-		creatureInfo.resistance += 3;
-		break;
-	case 5:
-		creatureInfo.armor += 1;
-		creatureInfo.resistance += 1;
-		break;
-	case 6:
-		creatureInfo.maxHealth += 10;
-		break;
-	case 7:
-		creatureInfo.resistance += 15;
-		break;
-	case 8:
-		pTable.AttackPower += 10;
-		break;
-	case 9:
-		pTable.AttackPower += 15;
-		break;
-	case 10:
-		pTable.AttackPower += 13;
-		break;
-	case 11:
-		creatureInfo.maxHealth += 5;
-		break;
-	case 12:
-		creatureInfo.maxHealth += 10;
-		break;
-	case 13:
-		creatureInfo.maxHealth += 20;
-		break;
 
-	}
-	Inventory(key);
-}
 
 void Player::Collider(int x, int y)
 {
@@ -498,6 +451,18 @@ void Player::TestCode()
 		}
 	}
 }
+
+void Player::AcquireItem(int key)
+{
+	Inventory(key);
+
+
+}
+void Player::InventoryItemImageSet(int num)
+{
+
+}
+
 
 void Player::Inventory(int itemNum)
 {
