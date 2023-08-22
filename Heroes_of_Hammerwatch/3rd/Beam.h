@@ -29,6 +29,7 @@ public:
     void SetTileMap(TileMap* tileMap) { this->tileMap = tileMap; }
 
     bool CheckShortestPath(const sf::Vector2f start, const sf::Vector2f goal);
+    bool checkCollision(Player* player);
 
     const sf::Vector2i PosToIndex(sf::Vector2f pos);
 };

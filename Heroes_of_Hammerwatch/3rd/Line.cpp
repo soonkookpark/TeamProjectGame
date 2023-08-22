@@ -5,8 +5,8 @@
 #define PI 3.14159265
 #define RAD 3.14159265 / 180.0
 
-#define SX 1280
-#define SY 720
+#define SX 1600
+#define SY 900
 
 Line::Line(int x1, int y1, int x2, int y2, int thickness)
     : m_x1(x1), m_y1(y1), m_x2(x2), m_y2(y2), m_thickness(thickness), m_rect(sf::Vector2f(sqrt(pow(float(m_x2 - m_x1), 2) + pow(float(m_y2 - m_y1), 2)), m_thickness))
@@ -38,7 +38,7 @@ void Line::setEndPoint(int x, int y)
 
 float Line::GetLength()
 {
-    return Utils::Distance({ m_x1, m_y1 }, { m_x2, m_y2 });
+    return Utils::Distance(sf::Vector2f(m_x1, m_y1), sf::Vector2f(m_x2, m_y2));
 }
 
 void Line::calculateEndPoints()

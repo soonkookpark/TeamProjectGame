@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "AnimationController.h"
 #include "ResourceMgr.h"
+#include "Utils.h"
 
 void AnimationController::AddClip(const AnimationClip& newClip)
 {

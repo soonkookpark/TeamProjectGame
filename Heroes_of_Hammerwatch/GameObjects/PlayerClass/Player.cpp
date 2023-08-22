@@ -61,6 +61,7 @@ void Player::Update(float dt)
 	
 	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 	creatureAnimation.Update(dt);
+	SetOrigin(origin);
 	look = Utils::Normalize(INPUT_MGR.GetMousePos() - SCENE_MGR.GetCurrScene()->WorldPosToScreen(position));
 	angle = Utils::Angle(look);
 
