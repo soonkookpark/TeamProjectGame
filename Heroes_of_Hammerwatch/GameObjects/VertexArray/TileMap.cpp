@@ -379,3 +379,8 @@ void TileMap::Debug()
 {
     route->Debug();
 }
+
+void TileMap::Summon()
+{
+    route->SummonMonster(onTileMap->GetStartPos(), this);
+}

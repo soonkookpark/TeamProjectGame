@@ -86,9 +86,10 @@ void SceneGame::Init() // 안바뀔거면 여기
 			tileMap->ConnectRoom();
 			check = tileMap->SelectDoor();
 		}
-		player->SetPosition(onTileMap->GetStartPos().x+32, onTileMap->GetStartPos().y + 120);
+		player->SetPosition(onTileMap->GetStartPos().x+32, onTileMap->GetStartPos().y + 96);
+		tileMap->Summon();
 		//player->SetPosition(-100, -100);
-		
+		//player->SetTile(tileMap);
 	};
 
 	player = (Paladin*)AddGo(new Paladin());
@@ -206,7 +207,6 @@ void SceneGame::Update(float dt)
 	}
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F1))
 	{
-		tileMap->SetActive(!tileMap->GetActive());
 		player->SetTile(tileMap);
 	}
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F2))
@@ -228,4 +228,15 @@ void SceneGame::Update(float dt)
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+void SceneGame::DieMonster(Monster* mob)
+{
+	RemoveGo(mob);
+	
+	if (mob != nullptr)
+	{
+		delete mob;
+		mob = nullptr;
+	}
 }

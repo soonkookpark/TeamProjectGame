@@ -7,14 +7,16 @@
 #include "MeleeAttack.h"
 #include "ResourceMgr.h"
 #include "InputMgr.h"
+#include "SceneGame.h"
 
 Monster::Monster(const std::string& type, const std::string& name, sf::Vector2f pos)
 	:Creature("",name)
 {
-	origin = Origins::MC;
+	SetOrigin(Origins::MC);
 	SetData(type);
 	SetPosition(pos);
 	originalPos = pos;
+	sortLayer = SortLayer::A_MONSTER;
 }
 
 void Monster::Init()
@@ -36,6 +38,7 @@ void Monster::Update(float dt)
 {
 	Creature::Update(dt);
 	creatureAnimation.Update(dt);
+	SetOrigin(origin);
 
 	//destination = GetPosition();
 	findAngle = Utils::Angle(player->GetPosition()-position);
@@ -131,7 +134,7 @@ void Monster::Chase(float dt)
 {
 	destination = player->GetPosition();	
 	dir = Utils::Normalize(destination - position);
-	SetPosition(position + (dir * dt * creatureInfo.speed));
+	//SetPosition(position + (dir * dt * creatureInfo.speed));
 	MoveAnimationPrint(lookat);
 	//std::cout << lookat << std::endl;
 	if (!DetectTarget())
@@ -149,6 +152,7 @@ void Monster::Chase(float dt)
 
 void Monster::Default(float dt)
 {	
+	IdleAnimationPrint(lookat);
 	timer += dt;
 	if (Utils::RandomRange(static_cast<float>(0), timer) > param.moveFrequency)
 	{
@@ -168,7 +172,7 @@ void Monster::Die(float dt)
 {
 	//std::cout << "주거써!" << std::endl;
 	//죽는 애니메이션
-	SCENE_MGR.GetCurrScene()->RemoveGo(this);
+	dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene())->DieMonster(this);
 }
 
 void Monster::SetDead()

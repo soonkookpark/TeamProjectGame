@@ -192,9 +192,9 @@ void OnTileMap::ChangeDoor(sf::Vector2i startPos, sf::Vector2i entPos, TileMap* 
 
     for (int i = startPos.x - 3; i < startPos.x + 3; i++)
     {
-        for (int j = startPos.y + 1; j < startPos.y + 6; j++)
+        for (int j = startPos.y + 1; j < startPos.y + 8; j++)
         {
-            if (j == startPos.y + 4)
+            if (j >= startPos.y + 4)
             {
 
                 ChangeTile(i, j, 0);

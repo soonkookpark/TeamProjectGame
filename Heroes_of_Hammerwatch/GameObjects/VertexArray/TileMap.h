@@ -70,5 +70,6 @@ public:
 	void CreateDoor(sf::Vector2i start, sf::Vector2i ent);
 	void Debug();
 	int ReturnTile(int x, int y) { return tileArray[y][x]; }
+	void Summon();
 };
 

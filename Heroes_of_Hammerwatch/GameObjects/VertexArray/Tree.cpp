@@ -3,6 +3,10 @@
 #include "Utils.h"
 #include "TileMap.h"
 #include "Astar.h"
+#include "Monster.h"
+#include "Scene.h"
+#include "SceneGame.h"
+#include "SceneMgr.h"
 
 bool Tree::entrance = false;
 bool Tree::starting = false;
@@ -351,6 +355,58 @@ void Tree::Draw(sf::RenderWindow& window)
 	}
 
 	window.draw(rectangle.vertexArray);
+}
+
+void Tree::SummonMonster(sf::Vector2f start, TileMap* tileMap)
+{
+	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
+	{
+		child_L->SummonMonster(start, tileMap);
+		child_R->SummonMonster(start, tileMap);
+	}
+
+	float tilePixel = tileMap->TilePixelSize().x;
+
+	sf::Vector2f center = (sf::Vector2f)this->GetCenter() * tilePixel;
+	float distance = Utils::Distance(start, center);
+
+	if (child_L != nullptr) return;
+	if (distance < 270) return;
+	if (rect.width < 7 || rect.height < 7) return;
+
+	Scene* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
+
+	float rad = (this->rect.width < this->rect.height-1 ? this->rect.width-1 : this->rect.height) * tilePixel * 0.5f;
+	int num = (this->rect.width * this->rect.height) / 3;
+	
+	for (int i = 0; i < num; i++)
+	{
+		sf::Vector2f randPos;
+		int index;
+		do {
+			randPos = Utils::RandomInCircle(rad);
+			sf::Vector2i arr = (sf::Vector2i)((randPos + center) / 16.f);
+			index = tileMap->GetTileArray()[arr.y][arr.x];
+		} while (index == 0);
+
+
+		int type = Utils::RandomRange(0, 2);
+
+		Monster* monster = nullptr;
+
+		switch (type)
+		{
+		case 0:
+			monster = new Monster("Bat", "mob", randPos + center); //타입, 이름, 좌표
+		case 1:
+			monster = new Monster("Tick", "mob", randPos + center); //타입, 이름, 좌표
+		}
+
+		monster->SetTileMap(tileMap);
+		monster->Reset();
+
+		scene->AddGo(monster);
+	}
 }
 
 sf::Vector2i Tree::GetCenter()

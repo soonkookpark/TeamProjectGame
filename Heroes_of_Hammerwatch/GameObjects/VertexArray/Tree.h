@@ -30,6 +30,7 @@ struct Tree
 	bool SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* finder);
 	void Debug();
 	void Draw(sf::RenderWindow& window);
+	void SummonMonster(sf::Vector2f start, TileMap* tileMap);
 
 	sf::Vector2i GetCenter();
 };
