@@ -1,0 +1,9 @@
+ID,FPS,LOOPTYPE,,
+EffectDL,4,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/Maggot_Attack.png,0,16,8,8
+graphics/Monster/Maggot_Attack.png,24,16,8,8
+graphics/Monster/Maggot_Attack.png,0,40,8,8
+graphics/Monster/Maggot_Attack.png,24,40,8,8
+graphics/Monster/Maggot_Attack.png,24,40,8,8

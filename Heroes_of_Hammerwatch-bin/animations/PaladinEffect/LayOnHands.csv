@@ -1,0 +1,11 @@
+ID,FPS,LOOPTYPE,,
+LayOnHandsEffect,4,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Player/LayOnHands.png,0,256,96,96
+graphics/Player/LayOnHands.png,96,256,96,96
+graphics/Player/LayOnHands.png,192,256,96,96
+graphics/Player/LayOnHands.png,288,256,96,96
+graphics/Player/LayOnHands.png,384,256,96,96
+graphics/Player/LayOnHands.png,480,256,96,96
+graphics/Player/LayOnHands.png,576,256,96,96
