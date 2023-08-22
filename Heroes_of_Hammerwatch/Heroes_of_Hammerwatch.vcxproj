@@ -156,6 +156,8 @@
     <ClCompile Include="3rd\Beam.cpp" />
     <ClCompile Include="3rd\Line.cpp" />
     <ClCompile Include="GameObjects\Projectiles\Projectiles.cpp" />
+    <ClCompile Include="DataTables\EquipItemTable.cpp" />
+    <ClCompile Include="GameObjects\Items\EquipItem.cpp" />
     <ClCompile Include="Tools\Astar.cpp" />
     <ClCompile Include="GameObjects\Skills\BuffToOther.cpp" />
     <ClCompile Include="GameObjects\Buffs\BloodLust.cpp" />
@@ -213,12 +215,16 @@
     <ClCompile Include="DataTables\SkillDataTable.cpp" />
     <ClCompile Include="GameObjects\VertexArray\Tree.cpp" />
     <ClCompile Include="GameObjects\Buffs\Shield.cpp" />
+    <ClCompile Include="Scenes\SceneTitle.cpp" />
+    <ClCompile Include="GameObjects\SliceSpriteGo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\Beam.h" />
     <ClInclude Include="3rd\Line.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
     <ClInclude Include="GameObjects\Projectiles\Projectiles.h" />
+    <ClInclude Include="DataTables\EquipItemTable.h" />
+    <ClInclude Include="GameObjects\Items\EquipItem.h" />
     <ClInclude Include="Tools\Astar.h" />
     <ClInclude Include="GameObjects\AllCreutures.hpp" />
     <ClInclude Include="GameObjects\Skills\BuffToOther.h" />
@@ -276,6 +282,8 @@
     <ClInclude Include="DataTables\SkillDataTable.h" />
     <ClInclude Include="GameObjects\VertexArray\Tree.h" />
     <ClInclude Include="GameObjects\Buffs\Shield.h" />
+    <ClInclude Include="Scenes\SceneTitle.h" />
+    <ClInclude Include="GameObjects\SliceSpriteGo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

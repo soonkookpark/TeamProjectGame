@@ -57,6 +57,10 @@
     <ClCompile Include="GameObjects\Skills\PassiveToMe.cpp" />
     <ClCompile Include="GameObjects\VertexArray\Tree.cpp" />
     <ClCompile Include="GameObjects\Buffs\Shield.cpp" />
+    <ClCompile Include="Scenes\SceneTitle.cpp" />
+    <ClCompile Include="GameObjects\SliceSpriteGo.cpp" />
+    <ClCompile Include="GameObjects\Items\EquipItem.cpp" />
+    <ClCompile Include="DataTables\EquipItemTable.cpp" />
     <ClCompile Include="Tools\Astar.cpp" />
     <ClCompile Include="3rd\Beam.cpp" />
     <ClCompile Include="3rd\Line.cpp" />
@@ -127,6 +131,10 @@
     <ClInclude Include="GameObjects\Skills\PassiveToMe.h" />
     <ClInclude Include="GameObjects\VertexArray\Tree.h" />
     <ClInclude Include="GameObjects\Buffs\Shield.h" />
+    <ClInclude Include="Scenes\SceneTitle.h" />
+    <ClInclude Include="GameObjects\SliceSpriteGo.h" />
+    <ClInclude Include="GameObjects\Items\EquipItem.h" />
+    <ClInclude Include="DataTables\EquipItemTable.h" />
     <ClInclude Include="Tools\Astar.h" />
     <ClInclude Include="3rd\Beam.h" />
     <ClInclude Include="3rd\Line.h" />

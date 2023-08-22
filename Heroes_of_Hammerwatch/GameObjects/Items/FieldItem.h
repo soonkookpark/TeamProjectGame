@@ -2,6 +2,7 @@
 #include "SpriteGo.h"
 
 class Player;
+class EquipItem;
 class FieldItem :
     public SpriteGo
 {
@@ -19,6 +20,7 @@ public:
     };
 protected:
     Player* player;
+    EquipItem* equipment;
     ItemType itemType = ItemType::NONE;
     int value;
     
@@ -33,5 +35,6 @@ public:
     void Update(float dt);
 
     void IntersectsWithItem();   
+    std::string& EquipItemImage(const std::string& key);
 };
 

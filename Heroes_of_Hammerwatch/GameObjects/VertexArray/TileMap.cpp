@@ -13,7 +13,7 @@ TileMap::TileMap(const std::string& textureId, const std::string& n)
     route = nullptr;
     finder = new Astar();
     finder->SetTileArray(tileArray);
-    finder->SetMaxFindValueRate(100000);
+    finder->SetMaxFindValueRate(10000);
 }
 
 TileMap::~TileMap()
@@ -360,24 +360,30 @@ void TileMap::ConnectRoom()
     route->ConnectRoom(this);
 }
 
-void TileMap::SelectDoor()
+bool TileMap::SelectDoor()
 {
     finder->SetTileArray(tileArray);
     finder->SetMaxFindValueRate(100000);
 
-    if (route == nullptr) return;
-    route->Room(this, finder);
+    if (route == nullptr) return false;
+    return route->Room(this, finder);
 }
 
 void TileMap::CreateDoor(sf::Vector2i start, sf::Vector2i ent)
 {
-    onTileMap->ChangeDoor(start, ent);
-    tileArray = onTileMap->GetTileArray();
+    onTileMap->ChangeDoor(start, ent, this);
+    finder->SetTileArray(tileArray);
 }
 
 void TileMap::Debug()
 {
     route->Debug();
+}
+
+void TileMap::Summon()
+{
+    route->SummonMonster(onTileMap->GetStartPos(), this);
+}
 }
 
 sf::Vector2f TileMap::GetFloatPosition(sf::Vector2i intPos)

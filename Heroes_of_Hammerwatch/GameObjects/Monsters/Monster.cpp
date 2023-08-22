@@ -9,14 +9,16 @@
 #include "InputMgr.h"
 #include "Tools/Astar.h"
 #include "TileMap.h"
+#include "SceneGame.h"
 
 Monster::Monster(const std::string& type, const std::string& name, sf::Vector2f pos)
 	:Creature("",name)
 {
-	origin = Origins::MC;
+	SetOrigin(Origins::MC);
 	SetData(type);
 	SetPosition(pos);
 	originalPos = pos;
+	sortLayer = SortLayer::A_MONSTER;
 }
 
 void Monster::Init()
@@ -203,6 +205,7 @@ void Monster::Kiting(float dt)
 
 void Monster::Default(float dt)
 {	
+	IdleAnimationPrint(lookat);
 	timer += dt;
 	IdleAnimationPrint(lookat);
 	if (Utils::RandomRange(static_cast<float>(0), timer) > monsterParameter.moveFrequency)
@@ -226,7 +229,7 @@ void Monster::Die(float dt)
 {
 	//std::cout << "주거써!" << std::endl;
 	//죽는 애니메이션
-	SCENE_MGR.GetCurrScene()->RemoveGo(this);
+	dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene())->DieMonster(this);
 }
 
 void Monster::SetDead()

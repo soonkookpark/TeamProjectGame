@@ -7,6 +7,13 @@ enum class Axis
 	Vertical,
 };
 
+enum class CustomKey
+{
+	CustomKeyHorizontal,
+	CustomKeyVertical,
+	CustomButton,
+};
+
 struct AxisInfo
 {
 	Axis axis;
@@ -15,6 +22,12 @@ struct AxisInfo
 	
 	float sensi = 3.f;
 	float value = 0.f;
+};
+
+struct CustomInfo
+{
+
+
 };
 
 
@@ -33,7 +46,7 @@ protected:
 	sf::Vector2f mousePos;
 
 	std::map<Axis, AxisInfo> axisInfoMap;
-
+	std::map<CustomKey, CustomInfo> customInfoMap;
 public:
 	void Update(float dt);
 	void Update(const sf::Event& ev);
