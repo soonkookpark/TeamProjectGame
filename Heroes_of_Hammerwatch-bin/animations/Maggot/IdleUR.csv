@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+IdleUR,4,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/Maggot.png,64,0,32,32
+graphics/Monster/Maggot.png,160,0,32,32
+graphics/Monster/Maggot.png,256,0,32,32
+graphics/Monster/Maggot.png,256,0,32,32

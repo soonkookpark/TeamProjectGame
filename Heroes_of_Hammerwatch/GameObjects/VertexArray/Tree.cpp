@@ -3,6 +3,10 @@
 #include "Utils.h"
 #include "TileMap.h"
 #include "Astar.h"
+#include "Monster.h"
+#include "Scene.h"
+#include "SceneGame.h"
+#include "SceneMgr.h"
 
 bool Tree::entrance = false;
 bool Tree::starting = false;
@@ -189,10 +193,10 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 	//tileMap->ChangeTile(0, 0, 8); //x좌표, y좌표, 타일 인덱스
 }
 
-void Tree::Room(TileMap* tileMapPtr, Astar* finder)
+bool Tree::Room(TileMap* tileMapPtr, Astar* finder)
 {
 	std::vector<Tree*> room;
-	SettingRoom(tileMapPtr, room, finder);
+	return SettingRoom(tileMapPtr, room, finder);
 }
 
 bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* finder)
@@ -223,14 +227,14 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* fin
 		return true;
 	}
 
-
-
 	if (room.empty()) return true;
 	if (room.size() < 2)
 	{
 		std::cout << "사이즈가 작음" << std::endl;
 		return false;
 	}
+
+	
 
 	int count = 0;
 
@@ -259,10 +263,10 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* fin
 		}
 		forEnt = Utils::RandomRange(0, room.size());
 
-	} while (room[forEnt]->GetCenter().y < rect.height * 0.4
+	} while (room[forEnt]->GetCenter().y < rect.height * 0.6
 		|| room[forEnt]->GetCenter().x > rect.width * 0.25 && room[forEnt]->GetCenter().x < rect.width * 0.25
-		|| forStart == forEnt &&
-		tileMapPtr->ReturnTile(room[forStart]->GetCenter().x + 1, rect.top - 2) == 8);
+		|| forStart == forEnt ||
+		tileMapPtr->ReturnTile(room[forStart]->GetCenter().x + 1, rect.top - 2) == 8 || room[forEnt]->rect.height < 4);
 
 	sf::IntRect start = room[forStart]->rect;
 	sf::IntRect ent = room[forEnt]->rect;
@@ -290,21 +294,28 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* fin
 		}
 		starting = true;
 	}
+	ConnectRoom(tileMapPtr);
 
 	tileMap->CreateDoor(
 		sf::Vector2i{ (start.left + start.left + start.width) / 2, start.top-4},
-		sf::Vector2i{ (ent.left + ent.left + ent.width) / 2, ent.top-3});
+		sf::Vector2i{ (ent.left + ent.left + ent.width) / 2, ent.top-2});
 
-	if (!finder->FindPath(room[forStart]->GetCenter(), room[forEnt]->GetCenter()))
+	sf::Vector2i startPos = room[forStart]->GetCenter();
+	sf::Vector2i endPos = room[forEnt]->GetCenter();
+	startPos += {1, 1};
+	endPos += {1, 1};
+
+
+	bool check = finder->FindPath(startPos, endPos);
+	 
+	if (!check)
 	{
+		std::cout << check << std::endl;
 		starting = false;
 		entrance = false;
 		room.clear();
 		SettingRoom(tileMapPtr, room, finder);
-		return true;
 	}
-
-
 
 	return true;
 }
@@ -344,6 +355,58 @@ void Tree::Draw(sf::RenderWindow& window)
 	}
 
 	window.draw(rectangle.vertexArray);
+}
+
+void Tree::SummonMonster(sf::Vector2f start, TileMap* tileMap)
+{
+	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
+	{
+		child_L->SummonMonster(start, tileMap);
+		child_R->SummonMonster(start, tileMap);
+	}
+
+	float tilePixel = tileMap->TilePixelSize().x;
+
+	sf::Vector2f center = (sf::Vector2f)this->GetCenter() * tilePixel;
+	float distance = Utils::Distance(start, center);
+
+	if (child_L != nullptr) return;
+	if (distance < 270) return;
+	if (rect.width < 7 || rect.height < 7) return;
+
+	Scene* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
+
+	float rad = (this->rect.width < this->rect.height-1 ? this->rect.width-1 : this->rect.height) * tilePixel * 0.5f;
+	int num = (this->rect.width * this->rect.height) / 3;
+	
+	for (int i = 0; i < num; i++)
+	{
+		sf::Vector2f randPos;
+		int index;
+		do {
+			randPos = Utils::RandomInCircle(rad);
+			sf::Vector2i arr = (sf::Vector2i)((randPos + center) / 16.f);
+			index = tileMap->GetTileArray()[arr.y][arr.x];
+		} while (index == 0);
+
+
+		int type = Utils::RandomRange(0, 2);
+
+		Monster* monster = nullptr;
+
+		switch (type)
+		{
+		case 0:
+			monster = new Monster("Bat", "mob", randPos + center); //타입, 이름, 좌표
+		case 1:
+			monster = new Monster("Tick", "mob", randPos + center); //타입, 이름, 좌표
+		}
+
+		monster->SetTileMap(tileMap);
+		monster->Reset();
+
+		scene->AddGo(monster);
+	}
 }
 
 sf::Vector2i Tree::GetCenter()

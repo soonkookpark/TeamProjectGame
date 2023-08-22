@@ -23,7 +23,7 @@ graphics/miscellaneous/icons.png
 
 */
 
-SceneEdit::SceneEdit() : Scene(SceneId::Title)
+SceneEdit::SceneEdit() : Scene(SceneId::Edit)
 {
 	resourceListPath = "scripts/SceneEditResourceList.csv";
 }
