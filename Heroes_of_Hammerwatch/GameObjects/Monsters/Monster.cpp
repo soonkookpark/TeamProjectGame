@@ -51,7 +51,7 @@ void Monster::Update(float dt)
 	creatureAnimation.Update(dt);
 	SetOrigin(origin);
 
-	findAngle = Utils::Angle(player->GetPosition()- GetPosition());
+	//findAngle = Utils::Angle(player->GetPosition()- GetPosition());
 	//destination = GetPosition();
 	findAngle = Utils::Angle(player->GetPosition()-position);
 

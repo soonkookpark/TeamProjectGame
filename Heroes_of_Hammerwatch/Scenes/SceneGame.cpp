@@ -53,7 +53,6 @@ void SceneGame::Init() // 안바뀔거면 여기
 			OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
 			tempOnTileMap->LoadDrawOnTile(tempTileMap);
 
-
 			if (tileMap != nullptr)
 			{
 				RemoveGo(tileMap);
@@ -87,13 +86,13 @@ void SceneGame::Init() // 안바뀔거면 여기
 			check = tileMap->SelectDoor();
 		}
 		player->SetPosition(onTileMap->GetStartPos().x+32, onTileMap->GetStartPos().y + 96);
-		tileMap->Summon();
+		//tileMap->Summon();
 		//player->SetPosition(-100, -100);
 		//player->SetTile(tileMap);
 	};
 
 	player = (Paladin*)AddGo(new Paladin());
-	player->SetPosition(24, 24);
+	player->SetPosition(200, 200);
 	player->SetActive(true);
 	player->SetTile(tileMap);
 
@@ -180,7 +179,7 @@ void SceneGame::Exit()
 			RemoveGo(GO);
 		}
 	}
-	delete(finder);
+	//delete(finder);
 	Scene::Exit();
 }
 
@@ -188,6 +187,14 @@ void SceneGame::Update(float dt)
 {
 
 	Scene::Update(dt);
+
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::X))
+	{
+		Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", { 100, 340 })));
+		monster->SetTileMap(tileMap);
+		monster->Reset();
+	}
+	
 
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Z))
 	{
