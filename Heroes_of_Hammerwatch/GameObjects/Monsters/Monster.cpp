@@ -7,12 +7,18 @@
 #include "MeleeAttack.h"
 #include "ResourceMgr.h"
 #include "InputMgr.h"
+#include "Tools/Astar.h"
+#include "TileMap.h"
+#include "SceneGame.h"
 
-Monster::Monster(const std::string& type, const std::string& name)
+Monster::Monster(const std::string& type, const std::string& name, sf::Vector2f pos)
 	:Creature("",name)
 {
-	origin = Origins::MC;
-	SetData(type);	
+	SetOrigin(Origins::MC);
+	SetData(type);
+	SetPosition(pos);
+	originalPos = pos;
+	sortLayer = SortLayer::A_MONSTER;
 }
 
 void Monster::Init()
@@ -28,6 +34,10 @@ void Monster::Reset()
 	//std::cout << "default" << std::endl;
 	timer = 0;
 	curHealth = creatureInfo.maxHealth;
+	if (!monsterParameter.isFlying)
+	{
+		pathFinder = tileMap->GetAstar();
+	}
 }
 
 void Monster::Update(float dt)
@@ -35,8 +45,7 @@ void Monster::Update(float dt)
 	Creature::Update(dt);
 	creatureAnimation.Update(dt);
 
-	destination = GetPosition();
-	findAngle = Utils::Angle(player->GetPosition()-destination);
+	findAngle = Utils::Angle(player->GetPosition()- GetPosition());
 
 	if (findAngle < 0)
 	{
@@ -66,13 +75,16 @@ void Monster::Update(float dt)
 	case Monster::State::ATTACK:
 		Attack(dt);
 		break;
+	case Monster::State::KITING:
+		Kiting(dt);
+		break;
 	}
 }
 
 void Monster::SetData(const std::string& name)
 {	
 	this->name = name;
-	param = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).MI;
+	monsterParameter = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).MI;
 	creatureInfo = DATATABLE_MGR.Get<MonsterTable>(DataTable::Ids::Monster)->Get(name).CI;
 	
 	strArr = Utils::LoadAnimationString(name);
@@ -82,12 +94,12 @@ void Monster::SetData(const std::string& name)
 	}
 	creatureAnimation.SetTarget(&sprite);
 	//std::cout << "allbareuge choollyukdoem" << std::endl;
-	if (name == "Bat")
-		std::cout << "Bat 생성" << std::endl;
-	else if (name == "Tick")
-		std::cout << "Tick 생성" << std::endl;
+	//if (name == "Bat")
+	//	std::cout << "Bat 생성" << std::endl;
+	//else if (name == "Tick")
+	//	std::cout << "Tick 생성" << std::endl;
 
-	if (param.isFlying)
+	if (monsterParameter.isFlying)
 	{
 		sortLayer = SortLayer::A_MONSTER;
 	}
@@ -100,9 +112,7 @@ void Monster::SetData(const std::string& name)
 
 void Monster::Wander(float dt)
 {
-	dir = Utils::Normalize(destination - position);	
-	SetPosition(position + (dir * dt * creatureInfo.speed));
-	IdleAnimationPrint(lookat);
+	Move(dt, destination);
 	if (Utils::Distance(position, destination) < 0.1)
 	{
 		state = State::DEFAULT;
@@ -121,43 +131,67 @@ void Monster::Attack(float dt)
 		isAttacking = isAttacking || activeSkill->GetIsSkillActive();	
 		AttackAnimationPrint(lookat);
 	}
-	if(!isAttacking)
-		state = State::CHASE;
+	if (!isAttacking)
+	{
+		state = State::KITING;
+	}
 }
 
 void Monster::Chase(float dt)
 {
-	destination = player->GetPosition();	
-	dir = Utils::Normalize(destination - position);
-	SetPosition(position + (dir * dt * creatureInfo.speed));
-	MoveAnimationPrint(lookat);
+	timer += dt;
+	if (Utils::Distance(destination, position) < 0.1f || timer > 1.f)
+	{
+		FindDestination();
+	}
+	Move(dt, destination);	
 	//std::cout << lookat << std::endl;
 	if (!DetectTarget())
 	{
 		state = State::DEFAULT;
 	}
-	//if (Utils::Distance(player->GetPosition(), position) < param.attackRange)
-	if (Utils::CircleToRect(position, param.attackRange, player->sprite.getGlobalBounds()))
+	if (Utils::CircleToRect(position, convertRange, player->sprite.getGlobalBounds()))
 	{
-		state = State::ATTACK;
+		state = State::KITING;
+		surround = Utils::RandomOnCircle(monsterParameter.attackRange);
+	}
+}
+
+void Monster::Kiting(float dt)
+{
+	timer += dt;
+	if (Utils::Distance(destination, position) < 0.1f || timer > 1.f)
+	{
+		FindDestination();
+	}
+	Move(dt, destination + surround);
+	if (monsterParameter.attackRange < Utils::Distance(position, player->GetPosition()))
+	{
+		state = State::CHASE;
+	}
+	if (Utils::CircleToRect(position, monsterParameter.attackRange, player->sprite.getGlobalBounds()))
+	{
+		timer = 0.f;
 		skills["atk"]->Active();
-		//std::cout << "atk" << std::endl;
+		state = State::ATTACK;
 	}
 }
 
 void Monster::Default(float dt)
 {	
+	IdleAnimationPrint(lookat);
 	timer += dt;
-	if (Utils::RandomRange(static_cast<float>(0), timer) > param.moveFrequency)
+	if (Utils::RandomRange(static_cast<float>(0), timer) > monsterParameter.moveFrequency)
 	{
 		timer = 0;
-		destination = originalPos + Utils::RandomInCircle(param.moveRange);
+		destination = originalPos + Utils::RandomInCircle(monsterParameter.moveRange);
 		//idle
 		state = State::WANDER;
 		//std::cout << "wander" << std::endl;
 	}
 	if (DetectTarget())
 	{
+		timer = 0;
 		state = State::CHASE;
 	}
 }
@@ -166,37 +200,33 @@ void Monster::Die(float dt)
 {
 	//std::cout << "주거써!" << std::endl;
 	//죽는 애니메이션
-	SCENE_MGR.GetCurrScene()->RemoveGo(this);
+	dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene())->DieMonster(this);
 }
 
 void Monster::SetDead()
 {
 	state = State::DIE;
 }
-/*
-void Monster::Damaged(float physicalDmg, float magicalDmg, Creature* attacker)
-{
-	//std::cout << "damaged" << std::endl;
-	physicalDmg = 1 / (1+ creatureInfo.armor/ 50) * physicalDmg;
-	magicalDmg = 1 / (1+ creatureInfo.resistance/ 50) * magicalDmg;
+bool Monster::CheckStraight()
+{ 	
+	//auto tmpe = tileMap->GetTileArray();
+	float inclination = tan(Utils::Angle(player->GetPosition() - position));
+	std::vector<sf::Vector2i> listOfPoint;
+	
+	if (tileMap->GetTileArray()[j][i] == 0)
+		return false;
+	else
+		std::cout << tileMap->GetTileArray()[j][i] << std::endl;
 
-	//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
-	std::cout << physicalDmg + magicalDmg << "데미지 받음" << std::endl;
-	curHealth -= (physicalDmg + magicalDmg);
-	std::cout << curHealth << "잔여 피" << std::endl;
-	if (curHealth < 0)
-	{
-		//std::cout << "죽음!" << std::endl;
-		state = State::DIE;
-	}
+	return true;	
 }
-*/
+
 bool Monster::DetectTarget()
 {
 	if (player == nullptr)
 		return false;
-	return Utils::Distance(player->GetPosition(), position) < param.searchRange;
-	//return Utils::CircleToRect(position, param.searchRange, player->sprite.getGlobalBounds());
+	return Utils::Distance(player->GetPosition(), position) < monsterParameter.searchRange;
+	//return Utils::CircleToRect(position, monsterParameter.searchRange, player->sprite.getGlobalBounds());
 }
 
 void Monster::IdleAnimationPrint(SightDegree lookat)
@@ -322,4 +352,45 @@ void Monster::AttackAnimationPrint(SightDegree lookat)
 		creatureAnimation.Play("AttackUR");
 		break;
 	}
+}
+
+void Monster::FindDestination()
+{
+	if (monsterParameter.isFlying)
+		destination = player->GetPosition();
+	else
+	{
+		/*
+		if (chasePath != nullptr)
+			delete(chasePath);
+		*/
+		if (CheckStraight())
+			destination = player->GetPosition();
+		else
+		{
+			std::stack<sf::Vector2i>* temp = pathFinder->FindPath(this, player);
+			if (temp != nullptr)
+			{
+				delete(chasePath);
+				chasePath = temp;
+			}
+			if (chasePath->size() != 0 || Utils::Distance(destination, position) < 0.1f)
+			{
+				destination = tileMap->GetFloatPosition(chasePath->top());
+				chasePath->pop();
+			}
+			else
+				destination = position;
+		}
+	}
+}
+
+void Monster::Move(float dt, sf::Vector2f pos)
+{
+	dir = Utils::Normalize(destination - position);
+	SetPosition(position + (dir * dt * creatureInfo.speed));
+	if (position == destination)
+		IdleAnimationPrint(lookat);
+	else
+		MoveAnimationPrint(lookat);
 }

@@ -1,0 +1,7 @@
+ID,FPS,LOOPTYPE,,
+WhirlwindEffect,6,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Player/Whirlwind.png,0,0,20,20
+graphics/Player/Whirlwind.png,20,0,20,20
+graphics/Player/Whirlwind.png,40,0,20,20

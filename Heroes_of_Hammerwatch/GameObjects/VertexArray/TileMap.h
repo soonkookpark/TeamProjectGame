@@ -5,6 +5,7 @@
 
 class Tree;
 class OnTileMap;
+class Astar;
 
 class TileMap : public VertexArrayGo
 {
@@ -31,6 +32,7 @@ protected:
 	std::vector<std::vector<int>> tileArray;
 
 	Tree* route;
+	Astar* finder;
 
 public:
 	TileMap(const std::string& textureId = "", const std::string& n = "");
@@ -64,9 +66,13 @@ public:
 	void SetOnTileMap(OnTileMap* onTileMap) { this->onTileMap = onTileMap; }
 	void Divide();
 	void ConnectRoom();
-	void SelectDoor();
+	bool SelectDoor();
 	void CreateDoor(sf::Vector2i start, sf::Vector2i ent);
 	void Debug();
 	int ReturnTile(int x, int y) { return tileArray[y][x]; }
+	sf::Vector2f GetFloatPosition(sf::Vector2i intPos);
+
+	Astar* GetAstar();
+	void Summon();
 };
 

@@ -4,12 +4,16 @@
 #include <vector>
 #include "Tree.h"
 #include "OnTileMap.h"
+#include "Astar.h"
 
 TileMap::TileMap(const std::string& textureId, const std::string& n)
     : VertexArrayGo(textureId, n)
 {
     sortLayer = SortLayer::TILE;
     route = nullptr;
+    finder = new Astar();
+    finder->SetTileArray(tileArray);
+    finder->SetMaxFindValueRate(10000);
 }
 
 TileMap::~TileMap()
@@ -17,7 +21,11 @@ TileMap::~TileMap()
     if (route != nullptr)
         delete route;
 
+    if (finder != nullptr)
+        delete finder;
+
     route = nullptr;
+    finder = nullptr;
 }
 
 void TileMap::Draw(sf::RenderWindow& window)
@@ -352,18 +360,40 @@ void TileMap::ConnectRoom()
     route->ConnectRoom(this);
 }
 
-void TileMap::SelectDoor()
+bool TileMap::SelectDoor()
 {
-    if (route == nullptr) return;
-    route->Room(this);
+    finder->SetTileArray(tileArray);
+    finder->SetMaxFindValueRate(100000);
+
+    if (route == nullptr) return false;
+    return route->Room(this, finder);
 }
 
 void TileMap::CreateDoor(sf::Vector2i start, sf::Vector2i ent)
 {
-    onTileMap->ChangeDoor(start, ent);
+    onTileMap->ChangeDoor(start, ent, this);
+    finder->SetTileArray(tileArray);
 }
 
 void TileMap::Debug()
 {
     route->Debug();
+}
+
+void TileMap::Summon()
+{
+    route->SummonMonster(onTileMap->GetStartPos(), this);
+}
+}
+
+sf::Vector2f TileMap::GetFloatPosition(sf::Vector2i intPos)
+{
+    return { (intPos.x * 16.f) ,(intPos.y * 16.f) };
+}
+
+Astar* TileMap::GetAstar()
+{
+    finder->SetTileArray(tileArray);
+    finder->SetMaxFindValueRate(2.f);
+    return finder;
 }

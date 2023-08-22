@@ -8,6 +8,7 @@
 #include "Framework.h"
 #include "TileMap.h"
 #include "GridMap.h"
+#include "OnTileMap.h"
 #include "RectangleGo.h"
 #include "UIButton.h"
 #include "Monster.h"
@@ -36,6 +37,61 @@ void SceneGame::Init() // 안바뀔거면 여기
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
 	tileMap->LoadDrawTexture("graphics/mine/new.csv");
 
+	startBT = (UIButton*)AddGo(new UIButton("graphics/button/button_load.png", "graphics/button/button_load.png"));
+	startBT->SetPosition(0.f, 0.f);
+	startBT->OnClick = [this]()
+	{
+		bool check = false;
+		while (!check)
+		{
+			TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
+			tempTileMap->DrawTexture(mapSize.x, mapSize.y);
+
+			GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
+			tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
+
+			OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+			tempOnTileMap->LoadDrawOnTile(tempTileMap);
+
+
+			if (tileMap != nullptr)
+			{
+				RemoveGo(tileMap);
+				delete tileMap;
+				tileMap = nullptr;
+			}
+			if (gridMap != nullptr)
+			{
+				RemoveGo(gridMap);
+				delete gridMap;
+				gridMap = nullptr;
+			}
+			if (onTileMap != nullptr)
+			{
+				RemoveGo(onTileMap);
+				delete onTileMap;
+				onTileMap = nullptr;
+			}
+
+			tileMap = tempTileMap;
+			gridMap = tempGridMap;
+			onTileMap = tempOnTileMap;
+
+			tileMap->SetOnTileMap(onTileMap);
+
+			for (int i = 0; i < 6; i++)
+			{
+				tileMap->Divide();
+			}
+			tileMap->ConnectRoom();
+			check = tileMap->SelectDoor();
+		}
+		player->SetPosition(onTileMap->GetStartPos().x+32, onTileMap->GetStartPos().y + 96);
+		tileMap->Summon();
+		//player->SetPosition(-100, -100);
+		//player->SetTile(tileMap);
+	};
+
 	player = (Paladin*)AddGo(new Paladin());
 	player->SetPosition(24, 24);
 	player->SetActive(true);
@@ -58,7 +114,7 @@ void SceneGame::Release()
 
 void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 {
-	
+
 	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
 
 	finder = new Astar();
@@ -70,21 +126,31 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	worldView.zoom(0.5f);
 
 	uiView.setSize(size);
-	uiView.setCenter(0.f, 0.f);
+	uiView.setCenter(size * 0.5f);
 	finder->SetTileArray(tileMap->GetTileArray());
 
 
-	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
-	monster->SetPosition(73,63);
+	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
 	monster->SetTileMap(tileMap);
-	monster->ControlCreatureInfos()->speed = 0;
+	monster->ControlCreatureInfos()->speed = 0.5f;
 
-	
 	/*
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
 	monster->SetTileMap(tileMap);
 
+	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
+	monster->SetPosition(220, 200);
+	monster->SetTileMap(tileMap);
+
+	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
+	monster->SetPosition(200, 220);
+	monster->SetTileMap(tileMap);
+
+	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
+	monster->SetPosition(220, 220);
+	monster->SetTileMap(tileMap);
+	/*
 	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
 	ET->SetPosition(400, 400);
 	ET->SetTileMap(tileMap);
@@ -149,6 +215,18 @@ void SceneGame::Update(float dt)
 	{
 		worldView.zoom(1.1f);
 	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F1))
+	{
+		player->SetTile(tileMap);
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F2))
+	{
+		gridMap->SetActive(!gridMap->GetActive());
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F3))
+	{
+		onTileMap->SetActive(!onTileMap->GetActive());
+	}
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 	{
@@ -160,4 +238,15 @@ void SceneGame::Update(float dt)
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+void SceneGame::DieMonster(Monster* mob)
+{
+	RemoveGo(mob);
+	
+	if (mob != nullptr)
+	{
+		delete mob;
+		mob = nullptr;
+	}
 }

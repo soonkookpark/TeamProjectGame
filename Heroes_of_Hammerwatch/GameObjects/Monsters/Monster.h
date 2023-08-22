@@ -2,6 +2,7 @@
 #include "Creature.h"
 #include "Player.h"
 
+class Astar;
 
 class Monster :
     public Creature
@@ -22,6 +23,7 @@ public:
         WANDER,
         CHASE,
         ATTACK,
+        KITING,
         DIE,
         COUNT,
     };
@@ -37,7 +39,7 @@ public:
         Monster::MonsterType monsterType;
     };
 protected:
-    MonsterParameters param;
+    MonsterParameters monsterParameter;
 
     State state = State::DEFAULT;
     sf::Vector2f originalPos;
@@ -45,14 +47,17 @@ protected:
     std::vector<std::string> strArr;
     Player* player = nullptr;
     sf::Vector2f destination;
+    sf::Vector2f surround;
     float findAngle = 0.f;
     bool isBuffed;
-    float timer;
+    float timer = 0.f;
+    float convertRange = 175.f;
     bool inAction;
 
-    std::stack<sf::Vector2i> chasePath;
+    Astar* pathFinder;
+    std::stack<sf::Vector2i>* chasePath;
 public:
-    Monster(const std::string& type, const std::string& name = "mob");
+    Monster(const std::string& type, const std::string& name = "mob", sf::Vector2f pos = {});
     virtual ~Monster() = default;
 
     virtual void Init();
@@ -65,11 +70,15 @@ public:
     virtual void Wander(float dt);
     virtual void Attack(float dt);
     virtual void Chase(float dt);
+    virtual void Kiting(float dt);
     virtual void Default(float dt);
     virtual void Die(float dt);
 
     virtual void SetDead() override;
-    //virtual void Damaged(float physicalDmg, float magicalDmg, Creature* attacker);
+
+    virtual bool CheckStraight();
+    virtual void FindDestination();
+    virtual void Move(float dt, sf::Vector2f pos);
         
     bool DetectTarget();
     bool GetIsBuffed() { return isBuffed; };

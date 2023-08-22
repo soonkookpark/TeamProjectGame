@@ -2,6 +2,7 @@
 #include "VertexArrayGo.h"
 
 class TileMap;
+class Astar;
 
 struct Tree
 {
@@ -25,11 +26,11 @@ struct Tree
 	void Divide(TileMap* tileMapPtr);
 	void ConnectRoom(TileMap* tileMapPtr);
 
-	void Room(TileMap* tileMapPtr);
-	bool SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room);
+	bool Room(TileMap* tileMapPtr, Astar* finder);
+	bool SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* finder);
 	void Debug();
 	void Draw(sf::RenderWindow& window);
-	int CheckTile(TileMap* tileMapPtr);
+	void SummonMonster(sf::Vector2f start, TileMap* tileMap);
 
 	sf::Vector2i GetCenter();
 };

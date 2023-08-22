@@ -2,12 +2,14 @@
 #include "Scene.h"
 #include "Creature.h"
 
+
 class Player;
 class Paladin;
 class TileMap;
 class GridMap;
 class UIButton;
 class Astar;
+class OnTileMap;
 
 class Monster;
 class SceneGame : public Scene
@@ -18,6 +20,10 @@ protected:
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
 	Astar* finder = nullptr;
+
+	UIButton* startBT;
+	OnTileMap* onTileMap = nullptr;
+	sf::Vector2i mapSize = { 90, 90 };
 
 public:
 	SceneGame();
@@ -31,4 +37,6 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;		
+
+	void DieMonster(Monster* mob);
 };

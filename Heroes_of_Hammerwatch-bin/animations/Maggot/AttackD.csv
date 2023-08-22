@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+AttackD,4,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/Maggot.png,32,160,32,32
+graphics/Monster/Maggot.png,128,160,32,32
+graphics/Monster/Maggot.png,224,160,32,32
+graphics/Monster/Maggot.png,224,160,32,32
