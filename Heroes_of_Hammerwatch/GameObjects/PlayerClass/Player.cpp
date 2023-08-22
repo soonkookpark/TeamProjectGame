@@ -454,9 +454,21 @@ void Player::TestCode()
 
 void Player::AcquireItem(int key)
 {
-	Inventory(key);
+	EquipItem::ItemInfo equipInfo = equipItem.SetData(key);
+	InventoryItem inventoryItem;
+	inventoryItem.ItemImage = RESOURCE_MGR.GetTexture(equipInfo.itemName);
+	inventoryItem.itemInfo = equipInfo;
+	inventoryItem.itemName = equipInfo.itemName;
+	inventoryItem.itemDescription = equipInfo.description;
+
+	inventoryInfo.push_back(inventoryItem);
+
+	//인벤토리 내용물을 만들었고
+	// 내용이 잘 나오는지 파악할 필 요가 있다.
+	//이젠 인벤토리 실물을 만들고
 
 
+	
 }
 void Player::InventoryItemImageSet(int num)
 {

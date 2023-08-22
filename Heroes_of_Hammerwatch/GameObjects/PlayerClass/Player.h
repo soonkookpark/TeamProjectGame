@@ -1,7 +1,7 @@
 #pragma once
 #include "Creature.h"
 #include "AnimationController.h"
-
+#include "EquipItem.h"
 class TileMap;
 class RectangleGo;
 
@@ -43,6 +43,14 @@ public:
 		float ExpPerLevel = 0.f;
 	};
 
+	struct InventoryItem
+	{
+		EquipItem::ItemInfo itemInfo;
+		sf::Texture* ItemImage;
+		std::string itemName;
+		std::string itemDescription;
+	};
+
 protected:
 	//AnimationController animation; //애니메이터 컨ㄹ트롤러를 만들어 스프라이트를 하나집어 현재 재생하고싶은 애니메이션의 프레임에 맞춰 좌표를 변경하는 기능을 넣었다. 사용을 어떻게하나 애니메이션 개체마다 초기화해야함. 애니메이션 클립들. 클립들을 추가해줘야겟지? 애드클립이 그걸하는거야
 	// 가보면 인서트 하잕ㅎ아 init랑 쌍으로  animation클립에 잇는것들 확인
@@ -80,8 +88,14 @@ protected:
 	sf::RectangleShape testTiles[8];
 	sf::RectangleShape testIntersect;
 	//sf::Sprite spriteImage;
-	std::vector<sf::Texture*,std::vector<std::string,std::string>> inventoryImage;
+	//이미지 받는 방식
 	//RectangleGo* testRect;
+	std::vector<InventoryItem> inventoryInfo;
+	EquipItem equipItem;
+
+
+
+
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")
 		: Creature(textureId, n) {}
