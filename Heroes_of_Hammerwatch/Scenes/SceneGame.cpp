@@ -180,7 +180,6 @@ void SceneGame::Exit()
 			RemoveGo(GO);
 		}
 	}
-	delete(finder);
 	Scene::Exit();
 }
 
