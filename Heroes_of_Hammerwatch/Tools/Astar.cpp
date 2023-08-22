@@ -87,6 +87,7 @@ std::stack<sf::Vector2i>* Astar::FindPath(Creature* stalker, Creature* target)
 bool Astar::FindPath(sf::Vector2i start, sf::Vector2i end)
 {
 	Clear();
+
 	MaxFindValue = Utils::Distance(start, end) * MaxFindValueRate;
 
 	Node* newNode = Get();
@@ -103,11 +104,10 @@ bool Astar::FindPath(sf::Vector2i start, sf::Vector2i end)
 		finalNode = MakeNode(SelectNextNode(), start, end);
 	}
 
-	std::stack<sf::Vector2i>* path = new std::stack<sf::Vector2i>();
-	MakePath(finalNode, path);
-
-	if (path == nullptr) return false;
-
+	if (finalNode == nullptr && openNodes.empty())
+	{
+		return false;
+	}
 	return true;
 }
 

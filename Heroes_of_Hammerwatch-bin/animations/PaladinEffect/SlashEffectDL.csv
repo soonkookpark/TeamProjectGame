@@ -1,0 +1,16 @@
+ID,FPS,LOOPTYPE,,
+SlashEffectDL,4,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Player/Slash.png,120,0,24,24
+graphics/Player/Slash.png,120,24,24,24
+graphics/Player/Slash.png,120,48,24,24
+graphics/Player/Slash.png,120,72,24,24
+graphics/Player/Slash.png,120,96,24,24
+graphics/Player/Slash.png,120,120,24,24
+graphics/Player/Slash.png,120,144,24,24
+graphics/Player/Slash.png,120,168,24,24
+graphics/Player/Slash.png,120,192,24,24
+graphics/Player/Slash.png,120,216,24,24
+graphics/Player/Slash.png,120,240,24,24
+graphics/Player/Slash.png,120,264,24,24

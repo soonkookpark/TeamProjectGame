@@ -1,0 +1,11 @@
+ID,FPS,LOOPTYPE,,
+LevelUp,4,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Player/LevelUp.png,0,0,35,35
+graphics/Player/LevelUp.png,35,0,35,35
+graphics/Player/LevelUp.png,75,0,35,35
+graphics/Player/LevelUp.png,105,0,35,35
+graphics/Player/LevelUp.png,140,0,35,35
+graphics/Player/LevelUp.png,175,0,35,35
+graphics/Player/LevelUp.png,210,0,35,35
