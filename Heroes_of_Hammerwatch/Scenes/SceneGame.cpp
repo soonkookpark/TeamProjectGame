@@ -61,7 +61,7 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
 
-	finder = tileMap->GetAstar();
+	finder = new Astar();
 
 	auto size = FRAMEWORK.GetWindowSize();
 
@@ -71,11 +71,12 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
+	finder->SetTileArray(tileMap->GetTileArray());
 
 
 	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
 	monster->SetTileMap(tileMap);
-	//monster->ControlCreatureInfos()->speed /= 5.f;
+	monster->ControlCreatureInfos()->speed = 0.5f;
 
 	/*
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
@@ -134,7 +135,6 @@ void SceneGame::Update(float dt)
 
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Z))
 	{
-		int i = 1;
 		Creature* player = (Creature*)FindGo("player");
 		Creature* tick = (Creature*)FindGo("Tick");
 		std::cout << "Player`s positoin = " << player->GetTileIndex().x << " , " << player->GetTileIndex().y << std::endl;
@@ -142,9 +142,8 @@ void SceneGame::Update(float dt)
 		std::stack<sf::Vector2i>path = *(finder->FindPath(player, tick));
 		while (!path.empty()) {
 			sf::Vector2i value = path.top(); // 스택의 맨 위 원소 가져오기
-			std::cout <<i<<" : \t"<< value.x << " , " << value.y << std::endl; // 원소 출력
+			std::cout << value.x << " , "<< value.y << std::endl; // 원소 출력
 			path.pop();
-			i++;
 		}
 	}
 	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<

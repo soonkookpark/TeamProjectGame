@@ -53,11 +53,6 @@ protected:
     float timer = 0.f;
     float convertRange = 175.f;
     bool inAction;
-    sf::RectangleShape nextTile;
-    sf::RectangleShape box;
-    
-    sf::RectangleShape testTiles[8];
-    sf::RectangleShape testIntersect;
 
     Astar* pathFinder;
     std::stack<sf::Vector2i>* chasePath;
@@ -69,7 +64,6 @@ public:
     virtual void Release() {};
     virtual void Reset();	// √ ±‚»≠
     virtual void Update(float dt);
-    virtual void Draw(sf::RenderWindow& window) override;
 
     virtual void SetData(const std::string& name);
 
@@ -82,10 +76,9 @@ public:
 
     virtual void SetDead() override;
 
-    //virtual bool CheckStraight();
+    virtual bool CheckStraight();
     virtual void FindDestination();
     virtual void Move(float dt, sf::Vector2f pos);
-    void Collider(int x, int y);
         
     bool DetectTarget();
     bool GetIsBuffed() { return isBuffed; };

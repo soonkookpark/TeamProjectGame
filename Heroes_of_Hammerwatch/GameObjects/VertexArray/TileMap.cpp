@@ -382,12 +382,12 @@ void TileMap::Debug()
 
 sf::Vector2f TileMap::GetFloatPosition(sf::Vector2i intPos)
 {
-    return { (intPos.x * 16.f + 8.f) ,(intPos.y * 16.f + 8.f) };
+    return { (intPos.x * 16.f) ,(intPos.y * 16.f) };
 }
 
 Astar* TileMap::GetAstar()
 {
     finder->SetTileArray(tileArray);
-    finder->SetMaxFindValueRate(2000.f);
+    finder->SetMaxFindValueRate(2.f);
     return finder;
 }
