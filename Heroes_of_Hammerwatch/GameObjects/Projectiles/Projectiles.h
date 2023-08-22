@@ -5,7 +5,7 @@ class Projectiles :
 {
 public:
     Projectiles(const std::string key);
-    ~Projectiles();
+    //~Projectiles();
 
 };
 
