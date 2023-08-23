@@ -16,9 +16,9 @@ public:
     virtual void SetData(const std::string& key);
 
     virtual void Update(float dt) override;
-    virtual void Draw(sf::RenderWindow window);
+    virtual void Draw(sf::RenderWindow& window) override;
 
-    // ProjectileÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+    // ProjectileÃ€Â»(Â¸Â¦) Ã…Ã«Ã‡Ã˜ Â»Ã³Â¼Ã“ÂµÃŠ
     virtual bool CheckIsCollided(Creature* target) override;
     virtual void End() override;
 };
