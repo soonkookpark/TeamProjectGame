@@ -16,6 +16,7 @@ public:
 		int resistance;
 	};
 protected:
+
 	ItemInfo equipment;
 	
 public:

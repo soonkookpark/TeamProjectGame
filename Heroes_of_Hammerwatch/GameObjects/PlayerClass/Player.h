@@ -1,9 +1,10 @@
 #pragma once
 #include "Creature.h"
 #include "AnimationController.h"
-#include "EquipItem.h"
+
 class TileMap;
 class RectangleGo;
+class EquipItem;
 
 class Player : public Creature
 {
@@ -45,8 +46,8 @@ public:
 
 	struct InventoryItem
 	{
-		EquipItem::ItemInfo itemInfo;
-		sf::Texture* ItemImage;
+		//EquipItem::ItemInfo itemInfo;
+		sf::Sprite ItemImage;
 		std::string itemName;
 		std::string itemDescription;
 	};
@@ -90,9 +91,9 @@ protected:
 	//sf::Sprite spriteImage;
 	//이미지 받는 방식
 	//RectangleGo* testRect;
-	//std::vector<InventoryItem> inventoryInfo;
+	
+	std::vector<InventoryItem> inventoryInfo;
 	//EquipItem equipItem;
-	EquipItem* equipment;
 
 
 
@@ -129,7 +130,7 @@ public:
 
 	void Collider(int x, int y);
 	void TestCode();
-	void InventoryItemImageSet(int num);
+	void InventoryItemImageSet();
 	void Inventory(int itemNum);
 };
 

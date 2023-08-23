@@ -7,7 +7,9 @@ EquipItem::EquipItem(int key)
 	:SpriteGo("", "EquipItem")
 {
 	SetData(key);
-	
+
+	//수정 필요
+	sortLayer = 200;
 }
 
 void EquipItem::SetData(int key)

@@ -12,7 +12,7 @@
 #include "AllSkills.hpp"
 #include "Buffs/AllBuffs.hpp"
 #include "Creature.h"
-
+#include"EquipItem.h"
 
 void Player::Init()
 {
@@ -140,10 +140,16 @@ void Player::Draw(sf::RenderWindow& window)
 	SpriteGo::Draw(window);
 	window.draw(box);
 
+	for (const auto& item : inventoryInfo)
+	{
+		//itemSprite.setPosition(0,0);
+		window.draw(item.ItemImage);
+	}
+	
 	for (auto& tile : testTiles)
 	{
 		window.draw(tile);
-}
+	}
 }
 
 bool Player::GetFlipX() const
@@ -455,29 +461,51 @@ void Player::TestCode()
 
 void Player::AcquireItem(int key)
 {
-	equipment = new EquipItem(key);
+	EquipItem* equipment = new EquipItem(key);
 	
 	if (equipment != nullptr)
 	{
-		std::cout << creatureInfo.maxHealth<<std::endl;
-		std::cout << pTable.AttackPower << std::endl;
-		std::cout << creatureInfo.speed << std::endl;
-		std::cout << creatureInfo.armor << std::endl;
-		std::cout << creatureInfo.resistance << std::endl;
+		InventoryItem* tempItem = new InventoryItem();
+		EquipItem::ItemInfo equipInfo = equipment->PullEquipInfo();
 
-		creatureInfo.maxHealth += equipment->PullEquipInfo().hp;
-		pTable.AttackPower += equipment->PullEquipInfo().attackPower;
-		creatureInfo.speed += equipment->PullEquipInfo().speed;
-		creatureInfo.armor += equipment->PullEquipInfo().defense;
-		creatureInfo.resistance += equipment->PullEquipInfo().resistance;
+		//테스트코드 캐릭터의 기존 스텟
+		/* {
+			std::cout << creatureInfo.maxHealth << std::endl;
+			std::cout << pTable.AttackPower << std::endl;
+			std::cout << creatureInfo.speed << std::endl;
+			std::cout << creatureInfo.armor << std::endl;
+			std::cout << creatureInfo.resistance << std::endl;
+		}*/
 
-		std::cout << creatureInfo.maxHealth << std::endl;
-		std::cout << pTable.AttackPower << std::endl;
-		std::cout << creatureInfo.speed << std::endl;
-		std::cout << creatureInfo.armor << std::endl;
-		std::cout << creatureInfo.resistance << std::endl;
+		creatureInfo.maxHealth += equipInfo.hp;
+		pTable.AttackPower += equipInfo.attackPower;
+		creatureInfo.speed += equipInfo.speed;
+		creatureInfo.armor += equipInfo.defense;
+		creatureInfo.resistance += equipInfo.resistance;
+		
+		//item 이미지가 스프라이트일경우
+		tempItem->ItemImage.setTexture(*RESOURCE_MGR.GetTexture(equipInfo.itemName));
+		tempItem->itemName = equipInfo.itemName;
+		tempItem->itemDescription = equipInfo.description;
+		tempItem->ItemImage.setPosition(0, 0);
+		
+
+		inventoryInfo.push_back(*tempItem);
+
+		//테스트코드 캐릭터의 변화된 스텟
+		/* {
+			std::cout << creatureInfo.maxHealth << std::endl;
+			std::cout << pTable.AttackPower << std::endl;
+			std::cout << creatureInfo.speed << std::endl;
+			std::cout << creatureInfo.armor << std::endl;
+			std::cout << creatureInfo.resistance << std::endl;
+		} */
+		//InventoryItemImageSet();
+
+		delete equipment;
+		delete tempItem;
 	}
-
+}
 
 
 
@@ -497,10 +525,9 @@ void Player::AcquireItem(int key)
 
 
 	
-}
-void Player::InventoryItemImageSet(int num)
+void Player::InventoryItemImageSet()
 {
-
+	
 }
 
 
