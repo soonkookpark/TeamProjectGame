@@ -76,7 +76,8 @@ bool OnTileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
 {
     /*
     idx 0 벽
-    idx 1 ~ 10 타일
+    idx 1 ~ 9 타일
+    idx 10 절벽
     */
     Wall wall[5] = { Wall::None };
 
@@ -85,26 +86,38 @@ bool OnTileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
 
     tileArray[tilePosY][tilePosX] = idx;
 
-    if (idx == 0)
+    if (idx == 0 || idx == 10)
     {
         wall[0] = CheckAdjacent(tilePosX, tilePosY);
     }
-    else if (idx >= 1 && idx <= 10)
+    else if (idx >= 1 && idx < 10)
     {
         wall[0] = Wall::None;
     }
 
     if (tilePosX - 1 < 0) wall[1] = Wall::None;
-    else wall[1] = tileArray[tilePosY][tilePosX - 1] == 0 ? CheckAdjacent(tilePosX - 1, tilePosY) : Wall::None;
-    
+    else if (tileArray[tilePosY][tilePosX - 1] == 0 || tileArray[tilePosY][tilePosX - 1] == 10)
+    {
+        wall[1] = CheckAdjacent(tilePosX - 1, tilePosY);
+    }
+
     if (tilePosX + 1 >= size.x) wall[2] = Wall::None;
-    else wall[2] = tileArray[tilePosY][tilePosX + 1] == 0 ? CheckAdjacent(tilePosX + 1, tilePosY) : Wall::None;
+    else if (tileArray[tilePosY][tilePosX + 1] == 0 || tileArray[tilePosY][tilePosX + 1] == 10)
+    {
+        wall[2] = CheckAdjacent(tilePosX + 1, tilePosY);
+    }
 
     if (tilePosY - 1 < 0) wall[3] = Wall::None;
-    else wall[3] = tileArray[tilePosY - 1][tilePosX] == 0 ? CheckAdjacent(tilePosX, tilePosY - 1) : Wall::None;
+    else if (tileArray[tilePosY - 1][tilePosX] == 0 || tileArray[tilePosY - 1][tilePosX] == 10)
+    {
+        wall[3] = CheckAdjacent(tilePosX, tilePosY - 1);
+    }
     
     if (tilePosY + 1 >= size.y) wall[4] = Wall::None;
-    else wall[4] = tileArray[tilePosY + 1][tilePosX] == 0 ? CheckAdjacent(tilePosX, tilePosY + 1) : Wall::None;
+    else if (tileArray[tilePosY + 1][tilePosX] == 0 || tileArray[tilePosY + 1][tilePosX] == 10)
+    {
+        wall[4] = CheckAdjacent(tilePosX, tilePosY + 1);
+    }
 
     sf::Vector2f currPos[5] = {
         {tilePosX * tileSize.x, tilePosY * tileSize.y},
@@ -328,6 +341,37 @@ Wall OnTileMap::CheckAdjacent(int i, int j)
 
         return SelectWall(left, right, top, behind);
     }
+    else if (index == 10)
+    {
+        bool left = CheckHole(j, i - 1);
+        bool right = CheckHole(j, i + 1);
+        bool top = CheckHole(j - 1, i);
+        bool behind = CheckHole(j + 1, i);
+        //벽이 있으면 true 없으면 false
+        
+        if (SelectHole(left, right, top, behind) == Wall::Hole_None)
+        {
+            if (CheckHole(j - 1, i - 1))
+            {
+                return Wall::Hole_X1;
+            }
+            else if (CheckHole(j - 1, i + 1))
+            {
+                return Wall::Hole_X2;
+            }
+            else if (CheckHole(j + 1, i + 1))
+            {
+                return Wall::Hole_X4;
+            }
+            else if (CheckHole(j + 1, i - 1))
+            {
+                return Wall::Hole_X3;
+            }
+        }
+
+        return SelectHole(left, right, top, behind);
+    }
+
     return Wall::None;
 }
 
@@ -336,12 +380,23 @@ bool OnTileMap::CheckWall(int x, int y)
     if (x < 0 || x >= size.y) return false;
     if (y < 0 || y >= size.x) return false;
 
-
     int index = tileArray[x][y];
 
     if (index == 0) 
         return true;
     return false;
+}
+
+bool OnTileMap::CheckHole(int x, int y)
+{
+    if (x < 0 || x >= size.y) return false;
+    if (y < 0 || y >= size.x) return false;
+
+    int index = tileArray[x][y];
+
+    if (index == 10)
+        return false;
+    return true;
 }
 
 Wall OnTileMap::SelectWall(bool left, bool right, bool up, bool down)
@@ -385,6 +440,55 @@ Wall OnTileMap::SelectWall(bool left, bool right, bool up, bool down)
     }
 
     return Wall::None;
+}
+
+Wall OnTileMap::SelectHole(bool left, bool right, bool top, bool down)
+{
+    switch ((left << 3) | (right << 2) | (top << 1) | down) {
+    case 0b0000:
+        return Wall::Hole_None;
+    case 0b0001:
+        return Wall::Hole_B;
+    case 0b0010:
+        return Wall::Hole_T;
+    case 0b0011:
+        //return Wall::Hole_TB;
+        return Wall::Hole_None;
+    case 0b0100:
+        return Wall::Hole_R;
+    case 0b0101:
+        return Wall::Hole_RB;
+    case 0b0110:
+        return Wall::Hole_RT;
+    case 0b0111:
+        //return Wall::Wall_RTB;
+        return Wall::Hole_None;
+    case 0b1000:
+        return Wall::Hole_L;
+    case 0b1001:
+        return Wall::Hole_LB;
+    case 0b1010:
+        return Wall::Hole_LT;
+    case 0b1011:
+        //return Wall::Wall_LTB;
+        return Wall::Hole_None;
+    case 0b1100:
+        //return Wall::Wall_LR;
+        return Wall::Hole_None;
+    case 0b1101:
+        //return Wall::Wall_LRB;
+        return Wall::Hole_None;
+    case 0b1110:
+        //return Wall::Wall_LRT;
+        return Wall::Hole_None;
+    case 0b1111:
+        return Wall::Hole_None;
+    default:
+        std::cout << "Invalid combination of variables." << std::endl;
+        break;
+    }
+    
+    return Wall::Hole_None;
 }
 
 void OnTileMap::SetEntrance()

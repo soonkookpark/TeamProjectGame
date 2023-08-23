@@ -30,7 +30,7 @@ protected:
 	UIButton* save;
 	UIButton* load;
 
-	UIButton* tileSelector[10];
+	UIButton* tileSelector[11];
 	UIButton* uiBackground;
 
 	TextGo* colNum;

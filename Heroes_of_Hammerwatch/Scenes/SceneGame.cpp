@@ -242,7 +242,7 @@ void SceneGame::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 	{
-		SCENE_MGR.ChangeScene(SceneId::Title);
+		SCENE_MGR.ChangeScene(SceneId::Edit);
 	}
 	//std::cout << INPUT_MGR.GetMousePos().x << ", " << INPUT_MGR.GetMousePos().y << std::endl;
 }

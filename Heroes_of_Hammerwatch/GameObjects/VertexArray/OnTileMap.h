@@ -27,6 +27,20 @@ enum Wall
 	Wall_LRT,
 	Wall_LR,
 	Wall_None,
+
+	Hole_X4 = 25,
+	Hole_X3,
+	Hole_X2,
+	Hole_X1,
+	Hole_RB,
+	Hole_LB,
+	Hole_RT,
+	Hole_LT,
+	Hole_R,
+	Hole_L,
+	Hole_B,
+	Hole_T,
+	Hole_None,
 };
 
 class TileMap;
@@ -84,8 +98,12 @@ public:
 	void LoadTileDataArray(rapidcsv::Document& map);
 
 	Wall CheckAdjacent(int i, int j);
+
 	bool CheckWall(int x, int y);
+	bool CheckHole(int x, int y);
+
 	Wall SelectWall(bool left, bool right, bool top, bool down);
+	Wall SelectHole(bool left, bool right, bool top, bool down);
 
 	std::vector<Tile> tiles;
 	std::unordered_map<int, TileInfo> tileInfo;

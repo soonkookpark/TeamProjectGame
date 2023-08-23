@@ -24,3 +24,16 @@ graphics/mine/mine_wall.png,32,128,16,48,wall_None,21
 graphics/mine/mine_wall.png,128,0,64,72,entrance_next,22
 graphics/mine/mine_wall.png,128,72,64,72,entrance_town,23
 graphics/mine/mine_wall.png,192,72,64,72,entrance_prison,24
+graphics/mine/mine_wall.png,0,344,16,16,hole_X4,25
+graphics/mine/mine_wall.png,16,344,16,16,hole_X3,26
+graphics/mine/mine_wall.png,32,344,16,16,hole_X2,27
+graphics/mine/mine_wall.png,48,344,16,16,hole_X1,28
+graphics/mine/mine_wall.png,0,360,16,16,hole_RB,29
+graphics/mine/mine_wall.png,16,360,16,16,hole_LB,30
+graphics/mine/mine_wall.png,32,360,16,16,hole_RT,31
+graphics/mine/mine_wall.png,48,360,16,16,hole_LT,32
+graphics/mine/mine_wall.png,0,376,16,16,hole_R,33
+graphics/mine/mine_wall.png,16,376,16,16,hole_L,34
+graphics/mine/mine_wall.png,32,376,16,16,hole_B,35
+graphics/mine/mine_wall.png,48,376,16,16,hole_T,36
+graphics/mine/mine_wall.png,0,392,16,16,hole_None,37
