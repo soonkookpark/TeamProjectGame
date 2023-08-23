@@ -49,7 +49,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 
 			GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
 			tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
-
+			
 			OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
 			tempOnTileMap->LoadDrawOnTile(tempTileMap);
 
@@ -84,11 +84,14 @@ void SceneGame::Init() // 안바뀔거면 여기
 			}
 			tileMap->ConnectRoom();
 			check = tileMap->SelectDoor();
+			check = true;
 		}
 		player->SetPosition(onTileMap->GetStartPos().x+32, onTileMap->GetStartPos().y + 96);
-		//tileMap->Summon();
 		//player->SetPosition(-100, -100);
 		//player->SetTile(tileMap);
+
+		player->SetTile(tileMap);
+		tileMap->Summon();
 	};
 
 	player = (Paladin*)AddGo(new Paladin());

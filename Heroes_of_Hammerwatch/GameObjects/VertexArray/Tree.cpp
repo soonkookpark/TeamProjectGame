@@ -379,7 +379,7 @@ void Tree::SummonMonster(sf::Vector2f start, TileMap* tileMap)
 	float rad = (this->rect.width < this->rect.height-1 ? this->rect.width-1 : this->rect.height) * tilePixel * 0.5f;
 	int num = (this->rect.width * this->rect.height) / 3;
 	
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		sf::Vector2f randPos;
 		int index;

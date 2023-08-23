@@ -11,7 +11,7 @@ class TileMap : public VertexArrayGo
 {
 protected:
 	bool checkLoad = false;
-	OnTileMap* onTileMap;
+	OnTileMap* onTileMap = nullptr;
 
 	sf::Vector2f tileSize = { 16.f, 16.f };
 	sf::Vector2f texSize = { 32.f, 32.f };

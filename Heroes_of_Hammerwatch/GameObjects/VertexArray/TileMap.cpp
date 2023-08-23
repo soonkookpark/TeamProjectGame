@@ -13,7 +13,7 @@ TileMap::TileMap(const std::string& textureId, const std::string& n)
     route = nullptr;
     finder = new Astar();
     finder->SetTileArray(tileArray);
-    finder->SetMaxFindValueRate(10000);
+    finder->SetMaxFindValueRate(2);
 }
 
 TileMap::~TileMap()
@@ -157,7 +157,10 @@ bool TileMap::ChangeTile(int tilePosX, int tilePosY, int idx)
         vertexArray[vertexIndex].texCoords = texOffsets[k];
     }
 
-    onTileMap->ChangeTile(tilePosX, tilePosY, idx);
+    if (onTileMap != nullptr)
+    {
+        onTileMap->ChangeTile(tilePosX, tilePosY, idx);
+    }
 
     return false;
 }
@@ -388,7 +391,7 @@ sf::Vector2f TileMap::GetFloatPosition(sf::Vector2i intPos)
 Astar* TileMap::GetAstar()
 {
     finder->SetTileArray(tileArray);
-    finder->SetMaxFindValueRate(2000.f);
+    finder->SetMaxFindValueRate(2);
     return finder;
 }
 
