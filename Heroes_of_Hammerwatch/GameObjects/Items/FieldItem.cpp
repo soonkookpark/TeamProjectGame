@@ -69,8 +69,10 @@ void FieldItem::IntersectsWithItem()
 		player->AcquireKey(value);
 		break;
 	case FieldItem::ItemType::ITEM:
-		equipment->SetData(value);
-		//player->AcquireItem(value);
+		//std::cout<<
+		player->AcquireItem(value);
+		//equipment = new EquipItem(value);
+		//equipment = new EquipItem::ItemInfo;
 		break;
 	}
 	SCENE_MGR.GetCurrScene()->RemoveGo(this);

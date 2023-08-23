@@ -10,12 +10,19 @@ EquipItem::EquipItem(int key)
 	
 }
 
-EquipItem::ItemInfo EquipItem::SetData(int key)
+void EquipItem::SetData(int key)
 {
-	equipment = DATATABLE_MGR.Get<EquipItemTable>(DataTable::Ids::EquipItem)->Get(key);
-	sprite.setTexture(*RESOURCE_MGR.GetTexture(equipment.itemName));
+	
+	EquipItemTable* table = DATATABLE_MGR.Get<EquipItemTable>(DataTable::Ids::EquipItem);
+	equipment = table->Get(key);
+	//sprite.setTexture(*RESOURCE_MGR.GetTexture(equipment.itemName));
+	std::cout << "equipment.attackPower: " << equipment.attackPower << std::endl;
+	std::cout << "equipment.defense: " << equipment.defense << std::endl;
+	std::cout << "equipment.itemName: " << equipment.itemName << std::endl;
+	std::cout << "equipment.speed: " << equipment.speed << std::endl;
 
-	return equipment;
+
+	//return equipment;
 }
 
 void EquipItem::Reset()
@@ -24,4 +31,9 @@ void EquipItem::Reset()
 
 void EquipItem::Update(float dt)
 {
+}
+
+EquipItem::ItemInfo EquipItem::PullEquipInfo()
+{
+	return equipment;
 }

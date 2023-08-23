@@ -80,8 +80,6 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
 	BG->SetPosition(300, 100);
 
-	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Apple")));
-	item->SetPosition(150, 100);
 
 	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("GoldKey")));
 	item->SetPosition(100, 150);
@@ -89,6 +87,8 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("SmallManaStone")));
 	item->SetPosition(150, 150);
 	*/
+	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item1")));
+	item->SetPosition(150, 100);
 	Scene::Enter();
 }
 

@@ -90,9 +90,9 @@ protected:
 	//sf::Sprite spriteImage;
 	//이미지 받는 방식
 	//RectangleGo* testRect;
-	std::vector<InventoryItem> inventoryInfo;
-	EquipItem equipItem;
-
+	//std::vector<InventoryItem> inventoryInfo;
+	//EquipItem equipItem;
+	EquipItem* equipment;
 
 
 

@@ -13,6 +13,7 @@
 #include "Buffs/AllBuffs.hpp"
 #include "Creature.h"
 
+
 void Player::Init()
 {
 	SetOrigin(Origins::MC);
@@ -454,14 +455,41 @@ void Player::TestCode()
 
 void Player::AcquireItem(int key)
 {
-	EquipItem::ItemInfo equipInfo = equipItem.SetData(key);
+	equipment = new EquipItem(key);
+	
+	if (equipment != nullptr)
+	{
+		std::cout << creatureInfo.maxHealth<<std::endl;
+		std::cout << pTable.AttackPower << std::endl;
+		std::cout << creatureInfo.speed << std::endl;
+		std::cout << creatureInfo.armor << std::endl;
+		std::cout << creatureInfo.resistance << std::endl;
+
+		creatureInfo.maxHealth += equipment->PullEquipInfo().hp;
+		pTable.AttackPower += equipment->PullEquipInfo().attackPower;
+		creatureInfo.speed += equipment->PullEquipInfo().speed;
+		creatureInfo.armor += equipment->PullEquipInfo().defense;
+		creatureInfo.resistance += equipment->PullEquipInfo().resistance;
+
+		std::cout << creatureInfo.maxHealth << std::endl;
+		std::cout << pTable.AttackPower << std::endl;
+		std::cout << creatureInfo.speed << std::endl;
+		std::cout << creatureInfo.armor << std::endl;
+		std::cout << creatureInfo.resistance << std::endl;
+	}
+
+
+
+
+
+	/*EquipItem::ItemInfo equipInfo = equipItem.SetData(key);
 	InventoryItem inventoryItem;
 	inventoryItem.ItemImage = RESOURCE_MGR.GetTexture(equipInfo.itemName);
 	inventoryItem.itemInfo = equipInfo;
 	inventoryItem.itemName = equipInfo.itemName;
 	inventoryItem.itemDescription = equipInfo.description;
 
-	inventoryInfo.push_back(inventoryItem);
+	inventoryInfo.push_back(inventoryItem);*/
 
 	//인벤토리 내용물을 만들었고
 	// 내용이 잘 나오는지 파악할 필 요가 있다.
