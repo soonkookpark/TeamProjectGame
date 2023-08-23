@@ -12,7 +12,8 @@
 #include "AllSkills.hpp"
 #include "Buffs/AllBuffs.hpp"
 #include "Creature.h"
-#include"EquipItem.h"
+#include "EquipItem.h"
+#include "SpriteGo.h"
 
 void Player::Init()
 {
@@ -28,6 +29,9 @@ void Player::Init()
 	{
 		tile.setFillColor(sf::Color::Transparent);
 	}
+	charInventory.setTexture(*RESOURCE_MGR.GetTexture("graphics/Player/ItemSlot.png"));
+	//charInventory1 = (new SpriteGo("graphics/Player/ItemSlot.png", "inven"));
+	//charInventory1->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/Player/ItemSlot.png"));
 }
 
 void Player::SetData(const std::string& name)
@@ -123,8 +127,13 @@ void Player::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::C)&&!inventoryUI)
 	{
-		//Inventory();
-		inventoryUI = true;
+		Inventory();
+		
+	}
+	else if (INPUT_MGR.GetKeyDown(sf::Keyboard::C) && inventoryUI)
+	{
+		inventoryUI = false;
+		std::cout << "ÀÎº¥Åä¸® ²¨Áü." << std::endl;
 	}
 
 
@@ -139,6 +148,8 @@ void Player::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
 	window.draw(box);
+	window.draw(charInventory);
+	
 
 	for (const auto& item : inventoryInfo)
 	{
@@ -219,131 +230,7 @@ int Player::CharacterSight(float angle)
 
 }
 
-//void Player::IdleAnimationPrint(SightDegree lookat)
-//{
-//	switch (lookat)
-//	{
-//	case 0 :
-//		animation.Play("IdleR");
-//		break;
-//	case 1:
-//		animation.Play("IdleDR");
-//		break;
-//	case 2:
-//		animation.Play("IdleD");
-//		break;
-//	case 3:
-//		animation.Play("IdleDL");
-//		break;
-//	case 4 :
-//		animation.Play("IdleL");
-//		break;
-//	case 5 :
-//		animation.Play("IdleUL");
-//		break;
-//	case 6 :
-//		animation.Play("IdleU");
-//		break;
-//	case 7:
-//		animation.Play("IdleUR");
-//		break;
-//	}
-//}
-//
-//void Player::MoveAnimationPrint(SightDegree lookat)
-//{
-//	switch (lookat)
-//	{
-//	case 0:
-//		if (animation.GetCurrentClipId() == "MoveR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveR");
-//		break;
-//	case 1:
-//		if (animation.GetCurrentClipId() == "MoveDR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveDR");
-//		break;
-//	case 2:
-//		if (animation.GetCurrentClipId() == "MoveD")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveD");
-//		break;
-//	case 3:
-//		if (animation.GetCurrentClipId() == "MoveDL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveDL");
-//		break;
-//	case 4:
-//		if (animation.GetCurrentClipId() == "MoveL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveL");
-//		break;
-//	case 5:
-//		if (animation.GetCurrentClipId() == "MoveUL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveUL");
-//		break;
-//	case 6:
-//		if (animation.GetCurrentClipId() == "MoveU")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveU");
-//		break;
-//	case 7:
-//		if (animation.GetCurrentClipId() == "MoveUR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveUR");
-//		break;
-//	}
-//}
-//
-//void Player::AttackAnimationPrint(SightDegree lookat)
-//{
-//
-//	switch (lookat)
-//	{
-//	case 0:
-//		if (animation.GetCurrentClipId() == "AttackR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackR");
-//		break;
-//	case 1:
-//		if (animation.GetCurrentClipId() == "AttackDR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackDR");
-//		break;
-//	case 2:
-//		if (animation.GetCurrentClipId() == "AttackD")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackD");
-//		break;
-//	case 3:
-//		if (animation.GetCurrentClipId() == "AttackDL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackDL");
-//		break;
-//	case 4:
-//		if (animation.GetCurrentClipId() == "AttackL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackL");
-//		break;
-//	case 5:
-//		if (animation.GetCurrentClipId() == "AttackUL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackUL");
-//		break;
-//	case 6:
-//		if (animation.GetCurrentClipId() == "AttackU")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackU");
-//		break;
-//	case 7:
-//		if (animation.GetCurrentClipId() == "AttackUR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackUR");
-//		break;
-//	}
-//}
+
 
 void Player::SetTile(TileMap* tile)
 {
@@ -531,7 +418,24 @@ void Player::InventoryItemImageSet()
 }
 
 
-void Player::Inventory(int itemNum)
+void Player::Inventory()
 {
-	
+
+	std::cout << "inventory ÄÑÁü" << std::endl;
+
+	charInventory1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+	inventoryUI = true;
 }

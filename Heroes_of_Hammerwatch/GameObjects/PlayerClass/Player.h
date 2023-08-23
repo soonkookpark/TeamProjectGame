@@ -5,6 +5,7 @@
 class TileMap;
 class RectangleGo;
 class EquipItem;
+class SpriteGo;
 
 class Player : public Creature
 {
@@ -94,8 +95,8 @@ protected:
 	
 	std::vector<InventoryItem> inventoryInfo;
 	//EquipItem equipItem;
-
-
+	sf::Sprite charInventory;
+	SpriteGo* charInventory1;
 
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")
@@ -131,6 +132,6 @@ public:
 	void Collider(int x, int y);
 	void TestCode();
 	void InventoryItemImageSet();
-	void Inventory(int itemNum);
+	void Inventory();
 };
 
