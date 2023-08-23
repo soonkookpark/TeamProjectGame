@@ -6,11 +6,11 @@ class Arrow :
     public Projectile
 {
 protected:
-    TileMap* tileMap;
     int penetrateNum = 1;
     float speed;
-
     sf::Vector2f dir;
+    TileMap* tileMap;
+
 
     sf::Vector2f hitPos;
     SightDegree forwardAt;

@@ -3,5 +3,8 @@
 class RangeAttack :
     public ActiveSkill
 {
+public:
+    RangeAttack();
+    virtual ~RangeAttack() = default;
 };
 

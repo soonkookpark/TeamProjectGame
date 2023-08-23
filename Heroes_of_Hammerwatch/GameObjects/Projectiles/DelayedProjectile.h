@@ -5,15 +5,15 @@ class DelayedProjectile :
 {
 protected:
     float delayTime =0.f;
-    sf::Sprite fallingObject;
     float fallDistance =  0.f;
     float animationTime = 0.f;
+    sf::Sprite fallingObject;
 
 public:
     DelayedProjectile(const std::string& key, Creature* owner, std::list<Creature*> targets, sf::Vector2f pos);
     virtual ~DelayedProjectile() = default;
 
-    virtual void SetData(const std::string& key);
+    virtual void SetData(const std::string& key) override;
 
     virtual void Update(float dt) override;
     virtual void Draw(sf::RenderWindow& window) override;

@@ -2,6 +2,7 @@
 #include "Lurker.h"
 #include "Creature.h"
 #include "InputMgr.h"
+#include "ResourceMgr.h"
 
 Lurker::Lurker(const std::string& key, Creature* owner, std::list<Creature*> targets, sf::Vector2f pos, sf::Vector2f dir)
     :Projectile(key, owner,targets,pos), dir(dir)
@@ -20,7 +21,8 @@ void Lurker::Update(float dt)
     if (movedDistance > sprite.getLocalBounds().width)
     {
         movedDistance = 0;
-        followingSprite[counter % followingSprite.size()]->setPosition(position);
+        followingSprite[counter % followingSprite.size()].setPosition(position);
+        //애니메이션 플레이 부분
         counter++;
     }
 }
@@ -29,13 +31,27 @@ void Lurker::Draw(sf::RenderWindow& window)
 {
     for (auto obj : followingSprite)
     {
-        window.draw(*obj);
+        window.draw(obj);
     }
 }
 
 void Lurker::SetData(const std::string& key)
 {
-    Utils::Distance(dir * speed, { 0.f,0.f });// 그 갯수 설정 하는거 함수 만들엉야함 집이라서 딴짓할거 너무 많음
+    speed = 100.f;
+    animationTime = 1.f;
+
+    sprite.setTexture(*ResourceMgr::Instance().GetTexture("graphics/Test/testProjectile.png"));
+    const sf::Texture tex = *(sprite.getTexture());
+    
+    //사이즈 정하는거 괜찮은거 있는지 사람들에게 물어보기
+    int size = static_cast<int>(Utils::Distance(dir * speed, { 0.f,0.f }) / sprite.getLocalBounds().width * animationTime + 1);
+    followingSprite.resize(size);
+    for (int i = 0; i < followingSprite.size(); i++)
+    {
+        followingSprite[i].setTexture(tex);
+        Utils::SetOrigin(followingSprite[i], origin);
+        followingSprite[i].setPosition(position);
+    }
 }
 
 bool Lurker::CheckIsCollided(Creature* target)
@@ -43,7 +59,7 @@ bool Lurker::CheckIsCollided(Creature* target)
     bool rtn = false;
     for (auto obj : followingSprite)
     {
-        rtn = rtn || target->sprite.getGlobalBounds().intersects(obj->getGlobalBounds());
+        rtn = rtn || target->sprite.getGlobalBounds().intersects(obj.getGlobalBounds());
     }
     return rtn;
 }

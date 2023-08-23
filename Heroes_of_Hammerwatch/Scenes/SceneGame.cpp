@@ -193,6 +193,13 @@ void SceneGame::Update(float dt)
 
 	Scene::Update(dt);
 
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::R))
+	{
+		std::list<Creature*> test;
+		test.push_back(dynamic_cast<Creature*>(FindGo("player")));
+		Lurker* arrowTest = dynamic_cast<Lurker*>(AddGo(new Lurker("test", dynamic_cast<Creature*>(FindGo("Tick")), test, ScreenToWorldPos(InputMgr::Instance().GetMousePos()),{1.f,0.f})));
+
+	}
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::T))
 	{
 		std::list<Creature*> test;

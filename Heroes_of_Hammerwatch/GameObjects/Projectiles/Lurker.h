@@ -8,7 +8,7 @@ protected:
     float speed;
     float animationTime;
 
-    std::vector<sf::Sprite*> followingSprite;
+    std::vector<sf::Sprite> followingSprite;
     float movedDistance = 0.f;
     int counter = 0;
 public:
@@ -18,8 +18,8 @@ public:
     virtual void Update(float dt) override;
     virtual void Draw(sf::RenderWindow& window)override;
 
+    virtual void SetData(const std::string& key) override;
 
-    virtual void SetData(const std::string& key);
     // Projectile을(를) 통해 상속됨
     bool CheckIsCollided(Creature* target) override;
     void End() override;
