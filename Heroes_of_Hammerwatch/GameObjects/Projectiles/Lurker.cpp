@@ -12,16 +12,21 @@ Lurker::Lurker(const std::string& key, Creature* owner, std::list<Creature*> tar
 }
 
 void Lurker::Update(float dt)
-{    
-    for (int i = 1; i < numOfFollower; i++)
+{
+    Projectile::Update(dt);
+    sf::Vector2f movement = dir * speed * dt;
+    movedDistance += Utils::Distance(movement, {0.f,0.f});
+    SetPosition(position + movement);
+    if (movedDistance > sprite.getLocalBounds().width)
     {
-
+        movedDistance = 0;
+        followingSprite[counter % followingSprite.size()]->setPosition(position);
+        counter++;
     }
 }
 
-void Lurker::Draw(sf::RenderWindow window)
+void Lurker::Draw(sf::RenderWindow& window)
 {
-    SpriteGo::Draw(window);
     for (auto obj : followingSprite)
     {
         window.draw(*obj);
@@ -30,12 +35,17 @@ void Lurker::Draw(sf::RenderWindow window)
 
 void Lurker::SetData(const std::string& key)
 {
-
+    Utils::Distance(dir * speed, { 0.f,0.f });// 그 갯수 설정 하는거 함수 만들엉야함 집이라서 딴짓할거 너무 많음
 }
 
 bool Lurker::CheckIsCollided(Creature* target)
 {
-    return false;
+    bool rtn = false;
+    for (auto obj : followingSprite)
+    {
+        rtn = rtn || target->sprite.getGlobalBounds().intersects(obj->getGlobalBounds());
+    }
+    return rtn;
 }
 
 void Lurker::End()

@@ -13,9 +13,10 @@ DelayedProjectile::DelayedProjectile(const std::string& key, Creature* owner, st
 void DelayedProjectile::SetData(const std::string& key)
 {
     fallingObject.setTexture(*ResourceMgr::Instance().GetTexture("graphics/Test/testProjectile.png"));
-    animationTime = 1.f;
+    Utils::SetOrigin(fallingObject, Origins::BC);
     fallDistance = 20.f;
-    delayTime = 1.f;
+    delayTime = 2.f;
+    animationTime = 1.f;
 }
 
 void DelayedProjectile::Update(float dt)
@@ -36,16 +37,16 @@ void DelayedProjectile::Update(float dt)
             }
         }
     }
-    //if (timer > delayTime - animationTime)
+    if (timer > delayTime - animationTime)
     {
-        fallingObject.setPosition(Utils::Lerp({ position.x , position.y + fallDistance }, position, delayTime - animationTime - timer));
+        fallingObject.setPosition(Utils::Lerp({ position.x , position.y - fallDistance }, position,timer - (delayTime - animationTime)));
     }
 }
 
 void DelayedProjectile::Draw(sf::RenderWindow& window)
 {
     SpriteGo::Draw(window);
-    //if (timer > delayTime - animationTime)
+    if (timer > delayTime - animationTime)
     {
         window.draw(fallingObject);
     }
