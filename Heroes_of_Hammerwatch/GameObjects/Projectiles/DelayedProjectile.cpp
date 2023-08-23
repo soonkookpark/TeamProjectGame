@@ -42,7 +42,7 @@ void DelayedProjectile::Update(float dt)
     }
 }
 
-void DelayedProjectile::Draw(sf::RenderWindow window)
+void DelayedProjectile::Draw(sf::RenderWindow& window)
 {
     SpriteGo::Draw(window);
     //if (timer > delayTime - animationTime)
@@ -58,5 +58,5 @@ bool DelayedProjectile::CheckIsCollided(Creature* target)
 
 void DelayedProjectile::End()
 {
-    //»ç¶óÁö´Â ¾Ö´Ï¸ŞÀÌ¼Ç ¤¡¤¡
+    //ì‚¬ë¼ì§€ëŠ” ì• ë‹ˆë©”ì´ì…˜ ã„±ã„±
 }
