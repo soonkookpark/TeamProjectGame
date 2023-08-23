@@ -14,7 +14,7 @@
 #include "Creature.h"
 #include "EquipItem.h"
 #include "SpriteGo.h"
-
+#include "Inventory.h"
 void Player::Init()
 {
 	SetOrigin(Origins::MC);
@@ -29,7 +29,7 @@ void Player::Init()
 	{
 		tile.setFillColor(sf::Color::Transparent);
 	}
-	charInventory.setTexture(*RESOURCE_MGR.GetTexture("graphics/Player/ItemSlot.png"));
+	//charInventory.setTexture(*RESOURCE_MGR.GetTexture("graphics/Player/ItemSlot.png"));
 	//charInventory1 = (new SpriteGo("graphics/Player/ItemSlot.png", "inven"));
 	//charInventory1->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/Player/ItemSlot.png"));
 }
@@ -54,6 +54,7 @@ void Player::Reset()
 	box.setSize({8,16});
 	box.setOrigin(box.getSize() * 0.5f);
 	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
+	
 }
 
 void Player::Update(float dt)
@@ -125,9 +126,9 @@ void Player::Update(float dt)
 		skills["heal"]->Active();
 	}
 
-	if (INPUT_MGR.GetKeyDown(sf::Keyboard::C)&&!inventoryUI)
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::C))
 	{
-		Inventory();
+		InventoryOnOff();
 		
 	}
 	else if (INPUT_MGR.GetKeyDown(sf::Keyboard::C) && inventoryUI)
@@ -418,24 +419,15 @@ void Player::InventoryItemImageSet()
 }
 
 
-void Player::Inventory()
+void Player::InventoryOnOff()
 {
 
 	std::cout << "inventory ÄÑÁü" << std::endl;
 
-	charInventory1;
+	Inventory* inventory = (Inventory*)SCENE_MGR.GetCurrScene()->FindGo("inventory");
+	inventory->InventoryDisplay();
+	//inventory->SetPosition(GetPosition().x, GetPosition().y);
+	//inventoryUI = true;
 
 
-
-
-
-
-
-
-
-
-
-
-
-	inventoryUI = true;
 }

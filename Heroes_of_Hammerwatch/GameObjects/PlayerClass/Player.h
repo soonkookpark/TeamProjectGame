@@ -132,6 +132,6 @@ public:
 	void Collider(int x, int y);
 	void TestCode();
 	void InventoryItemImageSet();
-	void Inventory();
+	void InventoryOnOff();
 };
 

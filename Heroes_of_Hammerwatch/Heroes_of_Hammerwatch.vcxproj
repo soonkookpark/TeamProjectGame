@@ -182,6 +182,7 @@
     <ClCompile Include="Global\Utils.cpp" />
     <ClCompile Include="GameObjects\VertexArray\GridMap.cpp" />
     <ClCompile Include="GameObjects\Buffs\LayOnHands.cpp" />
+    <ClCompile Include="GameObjects\Items\Inventory.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -259,6 +260,7 @@
     <ClInclude Include="GameObjects\Buffs\LayOnHands.h" />
     <ClInclude Include="GameObjects\Skills\PassiveToMe.h" />
     <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
+    <ClInclude Include="GameObjects\Items\Inventory.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Framework\SceneMgr.h" />

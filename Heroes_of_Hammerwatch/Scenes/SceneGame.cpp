@@ -16,6 +16,7 @@
 #include "BossGolem.h"
 #include "Items/FieldItem.h"
 #include "DataTableMgr.h"
+#include "Inventory.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -32,6 +33,8 @@ void SceneGame::Init() // 안바뀔거면 여기
 	button->SetOrigin(Origins::TR);
 	button->sortLayer = 100;
 	button->SetPosition(windowSize.x,0.f);*/
+	Inventory* inventory = (Inventory*)AddGo(new Inventory("inventory"));
+	//inventory->InventoryDisplay();
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
 	tileMap->LoadDrawTexture("graphics/mine/tilemap.csv");
 
@@ -39,6 +42,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	player->SetPosition(100, 100);
 	player->SetActive(true);
 	player->SetTile(tileMap);
+	inventory->SetPlayer(player);
 
 	for (auto go : gameObjects)
 	{
@@ -87,6 +91,7 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("SmallManaStone")));
 	item->SetPosition(150, 150);
 	*/
+	
 	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item1")));
 	item->SetPosition(150, 100);
 	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item1")));
