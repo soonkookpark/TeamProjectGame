@@ -18,6 +18,7 @@
 #include "Items/FieldItem.h"
 #include "DataTableMgr.h"
 #include "Tools/Astar.h"
+#include "Projectiles/AllProjectiles.hpp"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -47,11 +48,11 @@ void SceneGame::Init() // 안바뀔거면 여기
 			TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
 			tempTileMap->DrawTexture(mapSize.x, mapSize.y);
 
-			GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
-			tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
+			//GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
+			//tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
 
-			OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
-			tempOnTileMap->LoadDrawOnTile(tempTileMap);
+			//OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+			//tempOnTileMap->LoadDrawOnTile(tempTileMap);
 
 
 			if (tileMap != nullptr)
@@ -74,22 +75,26 @@ void SceneGame::Init() // 안바뀔거면 여기
 			}
 
 			tileMap = tempTileMap;
-			gridMap = tempGridMap;
-			onTileMap = tempOnTileMap;
+			//gridMap = tempGridMap;
+			//onTileMap = tempOnTileMap;
 
-			tileMap->SetOnTileMap(onTileMap);
+			//tileMap->SetOnTileMap(onTileMap);
 
-			for (int i = 0; i < 6; i++)
+			/*for (int i = 0; i < 6; i++)
 			{
 				tileMap->Divide();
-			}
-			tileMap->ConnectRoom();
-			check = tileMap->SelectDoor();
+			}*/
+			//tileMap->ConnectRoom();
+			//check = tileMap->SelectDoor();
+			check = true;
 		}
-		player->SetPosition(onTileMap->GetStartPos().x+32, onTileMap->GetStartPos().y + 96);
-		tileMap->Summon();
+		//player->SetPosition(onTileMap->GetStartPos().x+32, onTileMap->GetStartPos().y + 96);
+		//tileMap->Summon();
+		 
+		
 		//player->SetPosition(-100, -100);
 		//player->SetTile(tileMap);
+		player->SetTile(tileMap);
 	};
 
 	player = (Paladin*)AddGo(new Paladin());
@@ -130,11 +135,11 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	finder->SetTileArray(tileMap->GetTileArray());
 
 
+	/*
 	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
 	monster->SetTileMap(tileMap);
 	//monster->ControlCreatureInfos()->speed /= 5.f;
 
-	/*
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
 	monster->SetTileMap(tileMap);
@@ -188,6 +193,24 @@ void SceneGame::Update(float dt)
 
 	Scene::Update(dt);
 
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::T))
+	{
+		std::list<Creature*> test;
+		test.push_back(dynamic_cast<Creature*>(FindGo("player")));
+		DelayedProjectile* arrowTest = dynamic_cast<DelayedProjectile*>(AddGo(new DelayedProjectile("test", dynamic_cast<Creature*>(FindGo("Tick")), test, ScreenToWorldPos(InputMgr::Instance().GetMousePos()))));
+	}
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::C))
+	{
+		std::list<Creature*> test;
+		test.push_back(dynamic_cast<Creature*>(FindGo("player")));
+		Arrow* arrowTest = dynamic_cast<Arrow*>(AddGo(new Arrow("test",dynamic_cast<Creature*>( FindGo("Tick")),test , {1,1},{1,1})));
+	}
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::X))
+	{
+		Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", { 100, 340 })));
+		monster->SetTileMap(tileMap);
+		monster->Reset();
+	}
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Z))
 	{
 		int i = 1;

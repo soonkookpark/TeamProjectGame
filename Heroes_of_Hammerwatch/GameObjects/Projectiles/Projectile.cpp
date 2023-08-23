@@ -1,26 +1,38 @@
 #include "stdafx.h"
 #include "Projectile.h"
 #include "Creature.h"
+#include "SceneMgr.h"
 
-Projectile::Projectile(const std::string key)
-	:SpriteGo("","projectile")
+Projectile::Projectile(const std::string& key, Creature* owner, std::list<Creature*> targets, sf::Vector2f pos)
+	:SpriteGo("","projectile"), owner(owner), targets(targets)
 {
+	SetPosition(pos);
 	SetData(key);
 }
 
-void Projectile::SetData(const std::string key)
+void Projectile::SetData(const std::string& key)
 {
 
 }
+
 
 void Projectile::Update(float dt)
 {
-	Creature* target = nullptr;
-	if (CheckIsCollied(target))
+	for (auto target : targets)
 	{
-		DamagedCreature.push_back(target);
-		Effect(target);
+		if (CheckIsCollided(target))
+		{
+			auto it = std::find(EffectedCreature.begin(), EffectedCreature.end(), target);
+			if (it == EffectedCreature.end())
+			{
+				EffectedCreature.push_back(target);
+				Effect(target);
+			}
+		}
 	}
-	SetPosition(position + (dir * speed * dt));
 }
 
+void Projectile::Effect(Creature* target)
+{
+	target->Damaged(physicalDamage, magicalDamage, this);
+}

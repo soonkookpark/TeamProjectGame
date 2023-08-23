@@ -50,8 +50,6 @@ void Monster::Update(float dt)
 	Creature::Update(dt);
 	creatureAnimation.Update(dt);
 	SetOrigin(origin);
-
-	findAngle = Utils::Angle(player->GetPosition()- GetPosition());
 	//destination = GetPosition();
 	findAngle = Utils::Angle(player->GetPosition()-position);
 
@@ -149,9 +147,16 @@ void Monster::Attack(float dt)
 	if (!isAttacking)
 	{
 		timer = 999.f;
+		state = State::CHASE;
+		std::cout << "chase" << std::endl;
+	}
+	/*
+	if (!isAttacking)
+	{
+		timer = 999.f;
 		std::cout << "kiting" << std::endl;
 		state = State::KITING;
-	}
+	}*/
 }
 
 void Monster::Chase(float dt)
@@ -163,7 +168,6 @@ void Monster::Chase(float dt)
 		FindDestination();
 	}
 	Move(dt, destination);	
-	destination = player->GetPosition();	
 	dir = Utils::Normalize(destination - position);
 	//SetPosition(position + (dir * dt * creatureInfo.speed));
 	MoveAnimationPrint(lookat);
@@ -173,13 +177,20 @@ void Monster::Chase(float dt)
 		std::cout << "default" << std::endl;
 		state = State::DEFAULT;
 	}
+	if (Utils::CircleToRect(position, monsterParameter.attackRange, player->sprite.getGlobalBounds()))
+	{
+		timer = 0.f;
+		skills["atk"]->Active();
+		state = State::ATTACK;
+	}
+	/*
 	if (Utils::CircleToRect(position, convertRange, player->sprite.getGlobalBounds()))
 	{
 		timer = 999.f;
 		std::cout << "kiting" << std::endl;
 		state = State::KITING;
 		surround = Utils::RandomOnCircle(monsterParameter.attackRange);
-	}
+	}*/
 }
 
 void Monster::Kiting(float dt)
@@ -225,7 +236,7 @@ void Monster::Default(float dt)
 	}
 	if (DetectTarget())
 	{
-		timer = 0;
+		timer = 999.f;
 		state = State::CHASE;
 		std::cout << "chase" << std::endl;
 	}

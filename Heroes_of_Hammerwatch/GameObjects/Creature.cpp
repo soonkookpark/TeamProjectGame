@@ -31,7 +31,7 @@ void Creature::Update(float dt)
 
 void Creature::SetData()
 {
-	Damaged = [this](float physicalDmg, float magicalDmg, Creature* attacker)
+	Damaged = [this](float physicalDmg, float magicalDmg, GameObject* attacker)
 	{
 		physicalDmg = 1 / (1 + creatureInfo.armor / 50) * physicalDmg;
 		magicalDmg = 1 / (1 + creatureInfo.resistance / 50) * magicalDmg;

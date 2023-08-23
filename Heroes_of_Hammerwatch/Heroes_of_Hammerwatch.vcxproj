@@ -154,9 +154,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameObjects\Projectiles\Arrow.cpp" />
+    <ClCompile Include="GameObjects\Projectiles\DelayedProjectile.cpp" />
     <ClCompile Include="DataTables\EquipItemTable.cpp" />
     <ClCompile Include="GameObjects\Items\EquipItem.cpp" />
     <ClCompile Include="GameObjects\Projectiles\Projectile.cpp" />
+    <ClCompile Include="GameObjects\Projectiles\Lurker.cpp" />
     <ClCompile Include="Tools\Astar.cpp" />
     <ClCompile Include="GameObjects\Skills\BuffToOther.cpp" />
     <ClCompile Include="GameObjects\Buffs\BloodLust.cpp" />
@@ -219,10 +221,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="GameObjects\Projectiles\AllProjectiles.hpp" />
     <ClInclude Include="GameObjects\Projectiles\Arrow.h" />
+    <ClInclude Include="GameObjects\Projectiles\DelayedProjectile.h" />
     <ClInclude Include="DataTables\EquipItemTable.h" />
     <ClInclude Include="GameObjects\Items\EquipItem.h" />
     <ClInclude Include="GameObjects\Projectiles\Projectile.h" />
+    <ClInclude Include="GameObjects\Projectiles\Lurker.h" />
     <ClInclude Include="Tools\Astar.h" />
     <ClInclude Include="GameObjects\AllCreutures.hpp" />
     <ClInclude Include="GameObjects\Skills\BuffToOther.h" />

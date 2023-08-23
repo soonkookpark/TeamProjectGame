@@ -15,7 +15,7 @@ void Shield::SetData(const std::string& key)
 
 void Shield::GetBuff()
 {
-	owner->Damaged = [this](float physicalDmg, float magicalDmg, Creature* attacker)
+	owner->Damaged = [this](float physicalDmg, float magicalDmg, GameObject* attacker)
 	{
 		bool isBlocked = false;
 		if (rate > Utils::RandomRange(0.f, 1.f))
@@ -54,7 +54,7 @@ void Shield::GetBuff()
 
 void Shield::LoseBuff()
 {
-	owner->Damaged = [this](float physicalDmg, float magicalDmg, Creature* attacker)
+	owner->Damaged = [this](float physicalDmg, float magicalDmg, GameObject* attacker)
 	{
 		physicalDmg = 1 / (1 + this->owner->creatureInfo.armor / 50) * physicalDmg;
 		magicalDmg = 1 / (1 + this->owner->creatureInfo.resistance / 50) * magicalDmg;

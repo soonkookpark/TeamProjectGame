@@ -54,23 +54,14 @@ public:
     int MonsterSight(float angle);
 
     void SetTileMap(TileMap* tileMap) { this->tileMap = tileMap; }
+    TileMap* GetTileMap() { return tileMap; }
     sf::Vector2i GetTileIndex() { return tileIndex; };
 
     void HealHP(int value);
 
-
-
-
-
-
-
-
-
-
-
     CreatureInfo* ControlCreatureInfos() { return &creatureInfo; }
     //BuffToOther* AccessSkill(const std::string& key) { return dynamic_cast<BuffToOther*>(skills[key]); }
-    std::function<void(float physicalDmg, float magicalDmg, Creature* attacker)> Damaged;
+    std::function<void(float physicalDmg, float magicalDmg, GameObject* attacker)> Damaged;
     
 
 

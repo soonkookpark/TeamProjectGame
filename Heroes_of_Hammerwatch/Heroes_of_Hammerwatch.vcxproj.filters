@@ -63,7 +63,9 @@
     <ClCompile Include="DataTables\EquipItemTable.cpp" />
     <ClCompile Include="Tools\Astar.cpp" />
     <ClCompile Include="GameObjects\Projectiles\Projectile.cpp" />
+    <ClCompile Include="GameObjects\Projectiles\DelayedProjectile.cpp" />
     <ClCompile Include="GameObjects\Projectiles\Arrow.cpp" />
+    <ClCompile Include="GameObjects\Projectiles\Lurker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -136,6 +138,9 @@
     <ClInclude Include="DataTables\EquipItemTable.h" />
     <ClInclude Include="Tools\Astar.h" />
     <ClInclude Include="GameObjects\Projectiles\Projectile.h" />
+    <ClInclude Include="GameObjects\Projectiles\DelayedProjectile.h" />
     <ClInclude Include="GameObjects\Projectiles\Arrow.h" />
+    <ClInclude Include="GameObjects\Projectiles\Lurker.h" />
+    <ClInclude Include="GameObjects\Projectiles\AllProjectiles.hpp" />
   </ItemGroup>
 </Project>

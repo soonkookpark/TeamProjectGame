@@ -131,12 +131,6 @@ void Player::Update(float dt)
 		//Inventory();
 		inventoryUI = true;
 	}
-
-
-
-
-
-
 	TestCode();
 }
 
