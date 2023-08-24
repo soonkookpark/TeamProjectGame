@@ -183,11 +183,10 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
-	SettingStage();
-	
 	Scene::Update(dt);
 
-	
+	SettingStage();
+
 
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::X))
 	{
@@ -258,15 +257,9 @@ void SceneGame::DieMonster(Monster* mob)
 	//RemoveGo(mob);
 	//SummonedMonster.remove(mob); 
 
-	auto it = std::find(SummonedMonster.begin(), SummonedMonster.end(), mob);
+	/*auto it = std::find(SummonedMonster.begin(), SummonedMonster.end(), mob);
 	if (it != SummonedMonster.end())
-		SummonedMonster.erase(it);
-
-	if (mob != nullptr)
-	{
-		//delete mob;
-		//mob = nullptr;
-	}
+		SummonedMonster.erase(it);*/
 }
 
 void SceneGame::SettingStage()
@@ -282,14 +275,11 @@ void SceneGame::SettingStage()
 	{
 		for (Monster* mob : SummonedMonster)
 		{
-			mobsToRemove.push_back(mob);
+			RemoveGo(mob);
 		}
+		SummonedMonster.clear();
 	}
-	for (Monster* mob : mobsToRemove)
-	{
-		DieMonster(mob);
-	}
-	mobsToRemove.clear();
+	
 
 	stage++;
 
@@ -306,6 +296,9 @@ void SceneGame::SettingStage()
 			tempTileMap->DrawTexture(mapSize.x, mapSize.y);
 			tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
 			tempOnTileMap->LoadDrawOnTile(tempTileMap);
+
+			finder = tempTileMap->GetAstar();
+			finder->SetTileArray(tempTileMap->GetTileArray());
 
 			if (tileMap != nullptr)
 			{
@@ -330,9 +323,6 @@ void SceneGame::SettingStage()
 			gridMap = tempGridMap;
 			onTileMap = tempOnTileMap;
 
-			finder = tileMap->GetAstar();
-			finder->SetTileArray(tileMap->GetTileArray());
-
 			for (int i = 0; i < 6; i++)
 			{
 				tileMap->Divide();
@@ -344,6 +334,9 @@ void SceneGame::SettingStage()
 		player->SetPosition((onTileMap->GetStartIndex().x) * 16 + 32, (onTileMap->GetStartIndex().y * 16) + 96);
 		player->SetTile(tileMap);
 		tileMap->Summon();
+
+		checkClear = false;
+		return;
 	}
 	else if (stage == 3)
 	{
@@ -382,9 +375,10 @@ void SceneGame::SettingStage()
 		//Æ÷Áö¼Ç ¹Ù²ã¾ßµÊ
 		player->SetPosition(onTileMap->GetStartIndex().x + 32, onTileMap->GetStartIndex().y + 96);
 		player->SetTile(tileMap);
-	}
 
-	checkClear = false;
+		checkClear = false;
+		return;
+	}
 }
 
 void SceneGame::Summon(Monster* monster)
