@@ -135,5 +135,6 @@ public:
 	void TestCode();
 	//std::vector<Player::InventoryItem> GetInventoryInfo();
 	void InventoryOnOff();
+	PlayerInfo* ControlPlayerInfos() { return &pTable; }
 };
 

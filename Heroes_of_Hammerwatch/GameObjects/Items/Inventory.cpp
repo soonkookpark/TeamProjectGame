@@ -46,6 +46,7 @@ void Inventory::InventoryDisplay()
 	inventoryMenu.SetActive(!inventoryMenu.GetActive());
 	if (inventoryMenu.GetActive())
 	{
+		
 		sf::Vector2f displayPosition(274, -194); // 
 		//inventoryBox.
 		inventoryBox.setOutlineThickness(0.f);
@@ -61,41 +62,50 @@ void Inventory::InventoryDisplay()
 		
 		std::cout << equipItemImageInMyInventory.size() << std::endl;
 		
-		for (int row = 0; row < rowCount; ++row)
+		//1. 아이템 먹은 부분
 		{
-			for (int col = 0; col < itemsPerRow; ++col)
+			for (int row = 0; row < rowCount; ++row)
 			{
-				int index = row * itemsPerRow + col;
-
-				// 벡터 배열의 인덱스가 유효한지 확인
-				if (index < equipItemImageInMyInventory.size())
+				for (int col = 0; col < itemsPerRow; ++col)
 				{
-					Inventory::MyItemInfo* item = equipItemImageInMyInventory[index];
-					//std::cout << equipItemImageInMyInventory.size() << std::endl;
-					//item->iconImage.
-					// 아이템 아이콘 이미지를 특정 위치에 그림
-					item->iconImage.setScale(3.f, 3.f);
-					//가로크기
-					//float iconXSize = item->iconImage.getGlobalBounds().width*0.5;
-					//세로크기
-					//float iconYSize = item->iconImage.getGlobalBounds().height*0.5f;
-					//std::cout << iconXSize << "," << iconYSize << std::endl;
-					//item->iconImage.setOrigin(iconXSize, iconYSize);
-					std::cout << "이것은 오리진" << std::endl;
-					//std::cout << item->iconImage.getOrigin().x << ", " << item->iconImage.getOrigin().y << std::endl;
-					item->iconImage.setPosition(displayPosition.x + col * (iconSize + 12.0f), displayPosition.y + row * (iconSize + 12.0f));
-					std::cout << item->iconImage.getPosition().x << ", " << item->iconImage.getPosition().y << std::endl;
-					//std::cout << item->itemDescription << std::endl;
-					//item->iconImage.setScale(iconSize / item->iconImage.getLocalBounds().width, iconSize / item->iconImage.getLocalBounds().height);
+					int index = row * itemsPerRow + col;
 
-				
+					// 벡터 배열의 인덱스가 유효한지 확인
+					if (index < equipItemImageInMyInventory.size())
+					{
+						Inventory::MyItemInfo* item = equipItemImageInMyInventory[index];
+						//std::cout << equipItemImageInMyInventory.size() << std::endl;
+						//item->iconImage.
+						// 아이템 아이콘 이미지를 특정 위치에 그림
+						item->iconImage.setScale(3.f, 3.f);
+						//가로크기
+						//float iconXSize = item->iconImage.getGlobalBounds().width*0.5;
+						//세로크기
+						//float iconYSize = item->iconImage.getGlobalBounds().height*0.5f;
+						//std::cout << iconXSize << "," << iconYSize << std::endl;
+						//item->iconImage.setOrigin(iconXSize, iconYSize);
+						std::cout << "이것은 오리진" << std::endl;
+						//std::cout << item->iconImage.getOrigin().x << ", " << item->iconImage.getOrigin().y << std::endl;
+						item->iconImage.setPosition(displayPosition.x + col * (iconSize + 12.0f), displayPosition.y + row * (iconSize + 12.0f));
+						std::cout << item->iconImage.getPosition().x << ", " << item->iconImage.getPosition().y << std::endl;
+						//std::cout << item->itemDescription << std::endl;
+						//item->iconImage.setScale(iconSize / item->iconImage.getLocalBounds().width, iconSize / item->iconImage.getLocalBounds().height);
+
+
+					}
 				}
 			}
+		}
+
+		//2. 능력치 출력
+		{
+			Collocate(player);
 		}
 	}
 	else 
 	{
 		inventoryBox.setOutlineColor({ 0,0,0,0 });
+		//player->SetActive(true);
 	}
 }
 
@@ -157,4 +167,28 @@ void Inventory::AddItemToInventory(MyItemInfo* itemInfo)
 const std::vector<Inventory::MyItemInfo*> Inventory::GetInventoryItems() const 
 {
 	return equipItemImageInMyInventory;
+}
+
+void Inventory::Collocate(Player* player)
+{
+	player->ControlCreatureInfos();
+	std::cout <<"maxHealth: " << player->ControlCreatureInfos()->maxHealth << std::endl;
+	std::cout <<"armor:" << player->ControlCreatureInfos()->armor << std::endl;
+	std::cout <<"exp: " << player->ControlCreatureInfos()->exp << std::endl;
+	std::cout <<"speed: " << player->ControlCreatureInfos()->speed << std::endl;
+	std::cout <<"ClassName: " << player->ControlPlayerInfos()->ClassName << std::endl;
+	myInventoryStatusInfo.playerMaxHp = player->ControlCreatureInfos()->maxHealth;
+
+	int playerMaxHp;
+	int playerMaxMp;
+	float playerHealHp;
+	float playerHealMp;
+	int playerSpeed;
+	int playerExp;
+	int playerAtkPower;
+	int playerMagicPower;
+	int skillPower;
+	int criticalChance;
+	int armor;
+	int resistance;
 }

@@ -19,6 +19,8 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 
+	sf::Vector2f GetSize();
+
 	std::function<void()> OnClick;
 	std::function<void()> OnEnter;
 	std::function<void()> OnExit;

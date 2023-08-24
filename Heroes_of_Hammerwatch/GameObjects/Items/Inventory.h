@@ -13,12 +13,26 @@ public:
 		std::string itemName;
 		std::string itemDescription;
 	};
+	struct MyStatusInfo {
+		int playerMaxHp;
+		int playerMaxMp;
+		float playerHealHp;
+		float playerHealMp;
+		int playerSpeed;
+		int playerExp;
+		int playerAtkPower;
+		int playerMagicPower;
+		int skillPower;
+		int criticalChance;
+		int armor;
+		int resistance;
+	};
 protected:
 	SpriteGo inventoryMenu;
 	std::vector<Inventory::MyItemInfo*> equipItemImageInMyInventory;
 	std::list<GameObject*> inventoryImageUI;
 	Player* player;
-
+	MyStatusInfo myInventoryStatusInfo;
 	sf::RectangleShape inventoryBox;
 
 public:
@@ -39,6 +53,7 @@ public:
 
 	void AddItemToInventory(MyItemInfo* itemInfo);
 	const std::vector<Inventory::MyItemInfo*> GetInventoryItems() const;
+	void Collocate(Player* player);
 
 };
 
