@@ -61,6 +61,8 @@
     <ClCompile Include="GameObjects\SliceSpriteGo.cpp" />
     <ClCompile Include="GameObjects\Items\EquipItem.cpp" />
     <ClCompile Include="DataTables\EquipItemTable.cpp" />
+    <ClCompile Include="GameObjects\Items\Inventory.cpp" />
+    <ClCompile Include="GameObjects\ItemSlot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -131,5 +133,7 @@
     <ClInclude Include="GameObjects\SliceSpriteGo.h" />
     <ClInclude Include="GameObjects\Items\EquipItem.h" />
     <ClInclude Include="DataTables\EquipItemTable.h" />
+    <ClInclude Include="GameObjects\Items\Inventory.h" />
+    <ClInclude Include="GameObjects\ItemSlot.h" />
   </ItemGroup>
 </Project>

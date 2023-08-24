@@ -25,6 +25,7 @@ void Player::Init()
 	box.setOutlineColor(sf::Color::Transparent);
 	box.setOutlineThickness(1);
 	sortLayer = SortLayer::PLAYER;
+	inventory = new Inventory();
 	for (auto& tile : testTiles)
 	{
 		tile.setFillColor(sf::Color::Transparent);
@@ -376,10 +377,10 @@ void Player::AcquireItem(int key)
 		//tempItem->itemDescription = equipInfo.description;
 	
 		Inventory::MyItemInfo* sendItemInfo = new Inventory::MyItemInfo;
-		//sendItemInfo->iconImage.setTexture(*RESOURCE_MGR.GetTexture(equipInfo.itemName));
+		sendItemInfo->iconImage.setTexture(*RESOURCE_MGR.GetTexture(equipInfo.itemName));
 		sendItemInfo->itemName = equipInfo.itemName;
 		sendItemInfo->itemDescription = equipInfo.description;
-		inventory = new Inventory();
+		Inventory* inventory = (Inventory*)SCENE_MGR.GetCurrScene()->FindGo("inventory");
 		inventory->AddItemToInventory(sendItemInfo);
 		//inventoryInfo.push_back(*tempItem);
 
@@ -392,10 +393,10 @@ void Player::AcquireItem(int key)
 			std::cout << creatureInfo.resistance << std::endl;
 		} */
 		//InventoryItemImageSet();
-		if(equipment!=nullptr)
+		/*if(equipment!=nullptr)
 			delete equipment;
 		if (sendItemInfo != nullptr)
-			delete sendItemInfo;
+			delete sendItemInfo;*/
 		//delete tempItem;
 	}
 }

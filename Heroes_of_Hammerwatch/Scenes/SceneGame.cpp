@@ -94,13 +94,18 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	
 	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item1")));
 	item->SetPosition(150, 100);
-	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item1")));
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item2")));
 	item->SetPosition(250, 100);
-	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item1")));
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item3")));
 	item->SetPosition(350, 100);
-	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item1")));
-	item->SetPosition(450, 100);
-
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item4")));
+	item->SetPosition(150, 400);
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item5")));
+	item->SetPosition(250, 400);
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item6")));
+	item->SetPosition(350, 400);
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item7")));
+	item->SetPosition(150, 400);
 	Scene::Enter();
 }
 
@@ -120,6 +125,13 @@ void SceneGame::Update(float dt)
 {
 
 	worldView.setCenter(player->GetPosition());
+
+	sf::Vector2f mousePos = INPUT_MGR.GetMousePos(); //마우스 위치
+	sf::Vector2f mouseUiPos = SCENE_MGR.GetCurrScene()->ScreenToUiPos(mousePos);
+	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
+	{
+		std::cout << mouseUiPos.x << "," << mouseUiPos.y << std::endl;
+	}
 	Scene::Update(dt);
 
 	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<

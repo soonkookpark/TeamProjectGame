@@ -9,7 +9,7 @@ class Inventory : public GameObject
 {
 public:
 	struct MyItemInfo {
-		//sf::Sprite iconImage;
+		sf::Sprite iconImage;
 		std::string itemName;
 		std::string itemDescription;
 	};
@@ -18,6 +18,8 @@ protected:
 	std::vector<Inventory::MyItemInfo*> equipItemImageInMyInventory;
 	std::list<GameObject*> inventoryImageUI;
 	Player* player;
+
+	sf::RectangleShape inventoryBox;
 
 public:
 	Inventory(const std::string& n = "Inventory");
@@ -28,13 +30,11 @@ public:
 	GameObject* AddInventory(GameObject* go);
 	void SetPlayer(Player* player1);
 	
-
-
 	virtual void Init();
 	virtual void Reset();	// √ ±‚»≠
 	virtual void Release();
 	virtual void Update(float dt);
-	virtual void Draw(sf::RenderWindow& window);
+	virtual void Draw(sf::RenderWindow& window)override;
 
 
 	void AddItemToInventory(MyItemInfo* itemInfo);
