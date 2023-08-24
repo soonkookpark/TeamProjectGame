@@ -200,6 +200,7 @@
     <ClCompile Include="GameObjects\Skills\MeleeAttack.cpp" />
     <ClCompile Include="GameObjects\Skills\PassiveToMe.cpp" />
     <ClCompile Include="GameObjects\VertexArray\OnTileMap.cpp" />
+    <ClCompile Include="Framework\SaveLoadLogic.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
     <ClInclude Include="GameObjects\Items\Inventory.h" />
     <ClInclude Include="GameObjects\ItemSlot.h" />
+    <ClInclude Include="Framework\SaveLoadLogic.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Framework\SceneMgr.h" />

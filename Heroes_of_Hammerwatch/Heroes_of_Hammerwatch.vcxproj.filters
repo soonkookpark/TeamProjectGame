@@ -63,6 +63,7 @@
     <ClCompile Include="DataTables\EquipItemTable.cpp" />
     <ClCompile Include="GameObjects\Items\Inventory.cpp" />
     <ClCompile Include="GameObjects\ItemSlot.cpp" />
+    <ClCompile Include="Framework\SaveLoadLogic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -135,5 +136,6 @@
     <ClInclude Include="DataTables\EquipItemTable.h" />
     <ClInclude Include="GameObjects\Items\Inventory.h" />
     <ClInclude Include="GameObjects\ItemSlot.h" />
+    <ClInclude Include="Framework\SaveLoadLogic.h" />
   </ItemGroup>
 </Project>
