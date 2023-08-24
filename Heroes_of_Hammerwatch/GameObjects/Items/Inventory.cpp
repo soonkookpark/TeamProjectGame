@@ -8,9 +8,10 @@ Inventory::Inventory(const std::string& n)
 	:GameObject(n), inventoryMenu("graphics/Inventory/Inventory.png","InventoryMenuImage")
 {
 	AddInventory(&inventoryMenu);
-	//inventoryMenu.SetActive(false);
-	inventoryMenu.sprite.setScale(0.5f, 0.5f);
-	sortOrder = UI;
+	inventoryMenu.SetActive(false);
+	//inventoryMenu.sprite.setScale(0.5f, 0.5f);
+	//sortOrder = UI;
+	sortLayer = UI;
 }
 
 Inventory::~Inventory()
@@ -39,8 +40,12 @@ void Inventory::SetPlayer(Player* player1)
 
 void Inventory::InventoryDisplay()
 {
-	inventoryMenu.SetPosition(player->GetPosition().x, player->GetPosition().y);
+	//inventoryMenu.SetPosition(player->GetPosition().x, player->GetPosition().y);
 	inventoryMenu.SetActive(!inventoryMenu.GetActive());
+	if (inventoryMenu.GetActive())
+	{
+
+	}
 }
 
 void Inventory::AddItem()
@@ -84,4 +89,13 @@ void Inventory::Draw(sf::RenderWindow& window)
 		}
 	}
 
+}
+void Inventory::AddItemToInventory(MyItemInfo* itemInfo)
+{
+	equipItemImageInMyInventory.push_back(itemInfo);
+}
+
+const std::vector<Inventory::MyItemInfo*> Inventory::GetInventoryItems() const 
+{
+	return equipItemImageInMyInventory;
 }

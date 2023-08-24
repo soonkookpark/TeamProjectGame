@@ -9,13 +9,13 @@ class Inventory : public GameObject
 {
 public:
 	struct MyItemInfo {
-		sf::Sprite iconImage;
+		//sf::Sprite iconImage;
 		std::string itemName;
 		std::string itemDescription;
 	};
 protected:
 	SpriteGo inventoryMenu;
-	std::vector<MyItemInfo> equipItemImageInMyInventory;
+	std::vector<Inventory::MyItemInfo*> equipItemImageInMyInventory;
 	std::list<GameObject*> inventoryImageUI;
 	Player* player;
 
@@ -37,6 +37,8 @@ public:
 	virtual void Draw(sf::RenderWindow& window);
 
 
+	void AddItemToInventory(MyItemInfo* itemInfo);
+	const std::vector<Inventory::MyItemInfo*> GetInventoryItems() const;
 
 };
 

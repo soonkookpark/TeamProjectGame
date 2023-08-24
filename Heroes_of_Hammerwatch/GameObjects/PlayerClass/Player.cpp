@@ -231,8 +231,6 @@ int Player::CharacterSight(float angle)
 
 }
 
-
-
 void Player::SetTile(TileMap* tile)
 {
 	this->tilemap = tile;
@@ -248,8 +246,6 @@ void Player::HealMP(int value)
 	if (curMana > pTable.manaPoint)
 		curMana = pTable.manaPoint;
 }
-
-
 
 void Player::Collider(int x, int y)
 {
@@ -326,6 +322,7 @@ void Player::Collider(int x, int y)
 
 void Player::TestCode()
 {
+	//GetInventoryInfo();
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Hyphen))
 	{
 		box.setOutlineColor(sf::Color::Transparent);
@@ -347,13 +344,15 @@ void Player::TestCode()
 	}
 }
 
+
+
 void Player::AcquireItem(int key)
 {
 	EquipItem* equipment = new EquipItem(key);
 	
 	if (equipment != nullptr)
 	{
-		InventoryItem* tempItem = new InventoryItem();
+		//InventoryItem* tempItem = new InventoryItem();
 		EquipItem::ItemInfo equipInfo = equipment->PullEquipInfo();
 
 		//테스트코드 캐릭터의 기존 스텟
@@ -372,13 +371,17 @@ void Player::AcquireItem(int key)
 		creatureInfo.resistance += equipInfo.resistance;
 		
 		//item 이미지가 스프라이트일경우
-		tempItem->ItemImage.setTexture(*RESOURCE_MGR.GetTexture(equipInfo.itemName));
-		tempItem->itemName = equipInfo.itemName;
-		tempItem->itemDescription = equipInfo.description;
-		tempItem->ItemImage.setPosition(0, 0);
-		
-
-		inventoryInfo.push_back(*tempItem);
+		//tempItem->ItemImage.setTexture(*RESOURCE_MGR.GetTexture(equipInfo.itemName));
+		//tempItem->itemName = equipInfo.itemName;
+		//tempItem->itemDescription = equipInfo.description;
+	
+		Inventory::MyItemInfo* sendItemInfo = new Inventory::MyItemInfo;
+		//sendItemInfo->iconImage.setTexture(*RESOURCE_MGR.GetTexture(equipInfo.itemName));
+		sendItemInfo->itemName = equipInfo.itemName;
+		sendItemInfo->itemDescription = equipInfo.description;
+		inventory = new Inventory();
+		inventory->AddItemToInventory(sendItemInfo);
+		//inventoryInfo.push_back(*tempItem);
 
 		//테스트코드 캐릭터의 변화된 스텟
 		/* {
@@ -389,9 +392,11 @@ void Player::AcquireItem(int key)
 			std::cout << creatureInfo.resistance << std::endl;
 		} */
 		//InventoryItemImageSet();
-
-		delete equipment;
-		delete tempItem;
+		if(equipment!=nullptr)
+			delete equipment;
+		if (sendItemInfo != nullptr)
+			delete sendItemInfo;
+		//delete tempItem;
 	}
 }
 
@@ -411,12 +416,7 @@ void Player::AcquireItem(int key)
 	// 내용이 잘 나오는지 파악할 필 요가 있다.
 	//이젠 인벤토리 실물을 만들고
 
-
 	
-void Player::InventoryItemImageSet()
-{
-	
-}
 
 
 void Player::InventoryOnOff()

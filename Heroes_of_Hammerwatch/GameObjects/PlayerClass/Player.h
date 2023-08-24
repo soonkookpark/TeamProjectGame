@@ -6,7 +6,7 @@ class TileMap;
 class RectangleGo;
 class EquipItem;
 class SpriteGo;
-
+class Inventory;
 class Player : public Creature
 {
 public:
@@ -98,6 +98,8 @@ protected:
 	sf::Sprite charInventory;
 	SpriteGo* charInventory1;
 
+	Inventory* inventory = nullptr;
+
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")
 		: Creature(textureId, n) {}
@@ -131,7 +133,7 @@ public:
 
 	void Collider(int x, int y);
 	void TestCode();
-	void InventoryItemImageSet();
+	//std::vector<Player::InventoryItem> GetInventoryInfo();
 	void InventoryOnOff();
 };
 
