@@ -12,7 +12,7 @@ Creature::Creature(const std::string& textureId, const std::string& n)
 
 void Creature::Update(float dt)
 {
-	tileIndex = { static_cast<int>(position.x / tileMap->TileSize().x), static_cast<int>(position.y / tileMap->TileSize().y) };
+	tileIndex = { static_cast<int>(position.x / 16), static_cast<int>(position.y / 16) };
 	for (auto buff : buffs)
 	{
 		buff->Update(dt);

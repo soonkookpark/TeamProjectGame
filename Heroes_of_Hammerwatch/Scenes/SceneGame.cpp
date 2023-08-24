@@ -30,74 +30,73 @@ void SceneGame::Init() // 안바뀔거면 여기
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
 
-	/*UIButton* button = (UIButton*)AddGo(new UIButton("graphics/button.png"));
-	button->SetOrigin(Origins::TR);
-	button->sortLayer = 100;
-	button->SetPosition(windowSize.x,0.f);*/
-	tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
-	tileMap->LoadDrawTexture("graphics/mine/new.csv");
+	/*tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
+	onTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+
+	tileMap->SetOnTileMap(onTileMap);
+	tileMap->LoadDrawTexture("graphics/mine/boss.csv");
+	onTileMap->LoadDrawOnTile(tileMap);*/
 
 	startBT = (UIButton*)AddGo(new UIButton("graphics/button/button_load.png", "graphics/button/button_load.png"));
 	startBT->SetPosition(0.f, 0.f);
 	startBT->OnClick = [this]()
 	{
-		bool check = false;
-		while (!check)
-		{
-			TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
-			tempTileMap->DrawTexture(mapSize.x, mapSize.y);
+		checkClear = true;
+		//bool check = false;
+		//while (!check)
+		//{
+		//	TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
+		//	GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
+		//	OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
 
-			GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
-			tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
-			
-			OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
-			tempOnTileMap->LoadDrawOnTile(tempTileMap);
+		//	tempTileMap->SetOnTileMap(tempOnTileMap);
+		//	tempTileMap->DrawTexture(mapSize.x, mapSize.y);
+		//	tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
+		//	tempOnTileMap->LoadDrawOnTile(tempTileMap);
 
-			if (tileMap != nullptr)
-			{
-				RemoveGo(tileMap);
-				delete tileMap;
-				tileMap = nullptr;
-			}
-			if (gridMap != nullptr)
-			{
-				RemoveGo(gridMap);
-				delete gridMap;
-				gridMap = nullptr;
-			}
-			if (onTileMap != nullptr)
-			{
-				RemoveGo(onTileMap);
-				delete onTileMap;
-				onTileMap = nullptr;
-			}
+		//	if (tileMap != nullptr)
+		//	{
+		//		RemoveGo(tileMap);
+		//		delete tileMap;
+		//		tileMap = nullptr;
+		//	}
+		//	if (gridMap != nullptr)
+		//	{
+		//		RemoveGo(gridMap);
+		//		delete gridMap;
+		//		gridMap = nullptr;
+		//	}
+		//	if (onTileMap != nullptr)
+		//	{
+		//		RemoveGo(onTileMap);
+		//		delete onTileMap;
+		//		onTileMap = nullptr;
+		//	}
 
-			tileMap = tempTileMap;
-			gridMap = tempGridMap;
-			onTileMap = tempOnTileMap;
+		//	tileMap = tempTileMap;
+		//	gridMap = tempGridMap;
+		//	onTileMap = tempOnTileMap;
 
-			tileMap->SetOnTileMap(onTileMap);
 
-			for (int i = 0; i < 6; i++)
-			{
-				tileMap->Divide();
-			}
-			tileMap->ConnectRoom();
-			check = tileMap->SelectDoor();
-			check = true;
-		}
-		player->SetPosition(onTileMap->GetStartPos().x+32, onTileMap->GetStartPos().y + 96);
-		//player->SetPosition(-100, -100);
+		//	for (int i = 0; i < 6; i++)
+		//	{
+		//		tileMap->Divide();
+		//	}
+		//	tileMap->ConnectRoom();
+		//	check = tileMap->SelectDoor();
+		//}
+		//player->SetPosition(onTileMap->GetStartIndex().x+32, onTileMap->GetStartIndex().y + 96);
+		////player->SetPosition(-100, -100);
+		////player->SetTile(tileMap);
+
 		//player->SetTile(tileMap);
-
-		player->SetTile(tileMap);
-		tileMap->Summon();
+		//tileMap->Summon();
 	};
 
-	player = (Paladin*)AddGo(new Paladin());
-	player->SetPosition(200, 200);
+	/*player = (Paladin*)AddGo(new Paladin());
+	player->SetPosition(600, 500);
 	player->SetActive(true);
-	player->SetTile(tileMap);
+	player->SetTile(tileMap);*/
 
 	for (auto go : gameObjects)
 	{
@@ -118,9 +117,6 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 {
 
 	RESOURCE_MGR.LoadFromCsv(resourceListPath, false);
-
-	finder = tileMap->GetAstar();
-
 	auto size = FRAMEWORK.GetWindowSize();
 
 	worldView.setSize(size);
@@ -129,15 +125,14 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(size * 0.5f);
-	finder->SetTileArray(tileMap->GetTileArray());
 
 
-	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
-	monster->SetTileMap(tileMap);
+	//Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
+	//monster->SetTileMap(tileMap);
 	//monster->ControlCreatureInfos()->speed /= 5.f;
 
 	/*
-	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
+	//monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
 	monster->SetTileMap(tileMap);
 
@@ -188,8 +183,11 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
-
+	SettingStage();
+	
 	Scene::Update(dt);
+
+	
 
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::X))
 	{
@@ -217,7 +215,10 @@ void SceneGame::Update(float dt)
 	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<
 	//	tileMap->vertexArray.getBounds().width << tileMap->vertexArray.getBounds().height << std::endl;
 	
-	worldView.setCenter(player->GetPosition());
+	if (player != nullptr)
+	{
+		worldView.setCenter(player->GetPosition());
+	}
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::PageUp))
 	{
@@ -244,7 +245,7 @@ void SceneGame::Update(float dt)
 	{
 		SCENE_MGR.ChangeScene(SceneId::Edit);
 	}
-	//std::cout << INPUT_MGR.GetMousePos().x << ", " << INPUT_MGR.GetMousePos().y << std::endl;
+	std::cout << ScreenToWorldPos(INPUT_MGR.GetMousePos()).x << ", " << ScreenToWorldPos(INPUT_MGR.GetMousePos()).y << std::endl;
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
@@ -254,11 +255,139 @@ void SceneGame::Draw(sf::RenderWindow& window)
 
 void SceneGame::DieMonster(Monster* mob)
 {
-	RemoveGo(mob);
-	
+	//RemoveGo(mob);
+	//SummonedMonster.remove(mob); 
+
+	auto it = std::find(SummonedMonster.begin(), SummonedMonster.end(), mob);
+	if (it != SummonedMonster.end())
+		SummonedMonster.erase(it);
+
 	if (mob != nullptr)
 	{
-		delete mob;
-		mob = nullptr;
+		//delete mob;
+		//mob = nullptr;
 	}
+}
+
+void SceneGame::SettingStage()
+{
+	if (!checkClear) return;
+
+	if (player == nullptr)
+	{
+		player = (Paladin*)AddGo(new Paladin());
+	}
+	 
+	if (!SummonedMonster.empty())
+	{
+		for (Monster* mob : SummonedMonster)
+		{
+			mobsToRemove.push_back(mob);
+		}
+	}
+	for (Monster* mob : mobsToRemove)
+	{
+		DieMonster(mob);
+	}
+	mobsToRemove.clear();
+
+	stage++;
+
+	if (stage < 3)
+	{
+		bool check = false;
+		while (!check)
+		{
+			TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
+			GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
+			OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+
+			tempTileMap->SetOnTileMap(tempOnTileMap);
+			tempTileMap->DrawTexture(mapSize.x, mapSize.y);
+			tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
+			tempOnTileMap->LoadDrawOnTile(tempTileMap);
+
+			if (tileMap != nullptr)
+			{
+				RemoveGo(tileMap);
+				delete tileMap;
+				tileMap = nullptr;
+			}
+			if (gridMap != nullptr)
+			{
+				RemoveGo(gridMap);
+				delete gridMap;
+				gridMap = nullptr;
+			}
+			if (onTileMap != nullptr)
+			{
+				RemoveGo(onTileMap);
+				delete onTileMap;
+				onTileMap = nullptr;
+			}
+
+			tileMap = tempTileMap;
+			gridMap = tempGridMap;
+			onTileMap = tempOnTileMap;
+
+			finder = tileMap->GetAstar();
+			finder->SetTileArray(tileMap->GetTileArray());
+
+			for (int i = 0; i < 6; i++)
+			{
+				tileMap->Divide();
+			}
+			tileMap->ConnectRoom();
+			check = tileMap->SelectDoor();
+		}
+	
+		player->SetPosition((onTileMap->GetStartIndex().x) * 16 + 32, (onTileMap->GetStartIndex().y * 16) + 96);
+		player->SetTile(tileMap);
+		tileMap->Summon();
+	}
+	else if (stage == 3)
+	{
+		TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
+		GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
+		OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+
+		tempTileMap->SetOnTileMap(onTileMap);
+		tempTileMap->LoadDrawTexture("graphics/mine/boss.csv");
+		tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
+		tempOnTileMap->LoadDrawOnTile(tileMap);
+
+		if (tileMap != nullptr)
+		{
+			RemoveGo(tileMap);
+			delete tileMap;
+			tileMap = nullptr;
+		}
+		if (gridMap != nullptr)
+		{
+			RemoveGo(gridMap);
+			delete gridMap;
+			gridMap = nullptr;
+		}
+		if (onTileMap != nullptr)
+		{
+			RemoveGo(onTileMap);
+			delete onTileMap;
+			onTileMap = nullptr;
+		}
+
+		tileMap = tempTileMap;
+		gridMap = tempGridMap;
+		onTileMap = tempOnTileMap;
+
+		//포지션 바꿔야됨
+		player->SetPosition(onTileMap->GetStartIndex().x + 32, onTileMap->GetStartIndex().y + 96);
+		player->SetTile(tileMap);
+	}
+
+	checkClear = false;
+}
+
+void SceneGame::Summon(Monster* monster)
+{
+	SummonedMonster.push_back(monster);
 }

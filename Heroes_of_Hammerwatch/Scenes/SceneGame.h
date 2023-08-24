@@ -21,9 +21,17 @@ protected:
 	GridMap* gridMap = nullptr;
 	Astar* finder = nullptr;
 
+
 	UIButton* startBT;
 	OnTileMap* onTileMap = nullptr;
 	sf::Vector2i mapSize = { 90, 90 };
+
+	std::list<Monster*> SummonedMonster;
+	std::list<Monster*> mobsToRemove;
+
+	bool checkClear = false;
+	int stage = 0;
+
 
 public:
 	SceneGame();
@@ -37,6 +45,9 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;		
+
+	void SettingStage();
+	void Summon(Monster* monster);
 
 	void DieMonster(Monster* mob);
 };

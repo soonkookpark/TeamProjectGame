@@ -54,7 +54,7 @@ protected:
 	std::vector<ClipInfo> clipInfos;
 	ClipInfo currentClipInfo;
 	//TileMap* tilemap;
-	int tileSize = 0;
+	int tileSize = 16;
 	int tilePixelSize = 16;
 	sf::RectangleShape box;
 	sf::Vector2i tileIntSize;
@@ -76,8 +76,7 @@ protected:
 	//std::vector<sf::Sprite, > inventoryImage;
 	//RectangleGo* testRect;
 public:
-	Player(const std::string& textureId = "", const std::string& n = "player")
-		: Creature(textureId, n) {}
+	Player(const std::string& textureId = "", const std::string& n = "player");
 	virtual ~Player() override { Release(); }
 
 	virtual void Init() override;

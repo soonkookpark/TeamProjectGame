@@ -40,9 +40,9 @@ bool TileMap::LoadDrawTexture(const std::string& filePath)
 {
     texture = RESOURCE_MGR.GetTexture(textureId);
 
-    rapidcsv::Document map(filePath, rapidcsv::LabelParams(0, -1));
+    rapidcsv::Document map(filePath, rapidcsv::LabelParams(-1, -1));
     //std::cout << (int)map.GetRowCount();
-    size = { (int)map.GetColumnCount(), (int)map.GetRowCount() };
+    size = { (int)map.GetColumnCount(), (int)map.GetRowCount()-1 };
 
     LoadDataArray(map);
     LoadInfo("graphics/mine/mine_tile.csv");
@@ -73,17 +73,7 @@ bool TileMap::LoadDrawTexture(const std::string& filePath)
         currPos.y += tileSize.y;
     }
 
-    //Divide();
-
-    /*for (int i = 0; i < size.y; i++)
-    {
-        for (int j = 0; j < size.x; j++)
-        {
-            std::cout << tileArray[i][j];
-        }
-        std::cout << std::endl;
-    }*/
-   
+    //onTileMap->ChangeDoor((sf::Vector2i)start, (sf::Vector2i)ent, this);
 
     return true;
 }
@@ -228,8 +218,12 @@ void TileMap::SaveTexture(const std::string& filePath)
     std::ofstream outputFile(filePath);
     if (outputFile.is_open())
     {
-        outputFile << textureId;
-        for (size_t i = 0; i < tileArray[0].size() - 1; i++)
+        outputFile << textureId << ",";
+        outputFile << onTileMap->GetStartIndex().x << "," << onTileMap->GetStartIndex().y << ",";
+        outputFile << onTileMap->GetStartIndex().x << "," << onTileMap->GetStartIndex().y << ",";
+        
+
+        for (size_t i = 0; i < tileArray[0].size() - 6; i++)
         {
             outputFile << ",";
         }
@@ -256,7 +250,7 @@ void TileMap::SaveTexture(const std::string& filePath)
 
 void TileMap::LoadTexture(const std::string& filePath)
 {
-    rapidcsv::Document map(filePath, rapidcsv::LabelParams(0, -1));
+    rapidcsv::Document map(filePath, rapidcsv::LabelParams(-1, -1));
     size = { (int)map.GetColumnCount(), (int)map.GetRowCount() };
 
     LoadDataArray(map);
@@ -291,11 +285,16 @@ void TileMap::LoadDataArray(rapidcsv::Document& map)
 {
     tileArray.resize(size.y, std::vector<int>(size.x));
 
-    for (size_t i = 0; i < size.y; i++)
+    start = { map.GetCell<float>(1, 0), map.GetCell<float>(2, 0) };
+    ent = { map.GetCell<float>(3, 0), map.GetCell<float>(4, 0) };
+    onTileMap->SetStartPos(start);
+    onTileMap->SetEntPos(ent);
+
+    for (size_t i = 1; i < size.y+1; i++)
     {
         for (size_t j = 0; j < size.x; j++)
         {
-            tileArray[i][j] = map.GetCell<int>(j, i);
+            tileArray[i - 1][j] = map.GetCell<int>(j, i);
         }
     }
 
@@ -375,6 +374,9 @@ bool TileMap::SelectDoor()
 void TileMap::CreateDoor(sf::Vector2i start, sf::Vector2i ent)
 {
     onTileMap->ChangeDoor(start, ent, this);
+    this->start = (sf::Vector2f)start;
+    this->ent = (sf::Vector2f)ent;
+
     finder->SetTileArray(tileArray);
 }
 
@@ -398,4 +400,10 @@ Astar* TileMap::GetAstar()
 void TileMap::Summon()
 {
     route->SummonMonster(onTileMap->GetStartPos(), this);
+}
+
+bool TileMap::CheckEnt(sf::FloatRect bound)
+{
+    return onTileMap->CheckEnt(bound);
+    //return true;
 }

@@ -405,7 +405,9 @@ void Tree::SummonMonster(sf::Vector2f start, TileMap* tileMap)
 		monster->SetTileMap(tileMap);
 		monster->Reset();
 
-		scene->AddGo(monster);
+		
+		dynamic_cast<SceneGame*>(scene)->AddGo(monster);
+		dynamic_cast<SceneGame*>(scene)->Summon(monster);
 	}
 }
 

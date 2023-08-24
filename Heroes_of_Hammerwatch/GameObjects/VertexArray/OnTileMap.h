@@ -112,4 +112,10 @@ public:
 	std::vector<std::vector<int>> GetTileArray() { return tileArray; }
 
 	sf::Vector2f GetStartPos() { return start.getPosition(); }
+	sf::Vector2i GetStartIndex() { return (sf::Vector2i)start.getPosition() / 16; }
+	sf::Vector2i GetEntIndex() { return (sf::Vector2i)ent.getPosition() / 16; }
+	void SetStartPos(sf::Vector2f pos) { start.setPosition(pos); }
+	void SetEntPos(sf::Vector2f pos) { ent.setPosition(pos); }
+
+	bool CheckEnt(sf::FloatRect bound);
 };

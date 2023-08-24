@@ -6,6 +6,7 @@
 class Tree;
 class OnTileMap;
 class Astar;
+class Monster;
 
 class TileMap : public VertexArrayGo
 {
@@ -30,6 +31,9 @@ protected:
 
 	std::vector<TileInfo> tileInfoArray;
 	std::vector<std::vector<int>> tileArray;
+
+	sf::Vector2f start;
+	sf::Vector2f ent;
 
 	Tree* route;
 	Astar* finder;
@@ -74,5 +78,9 @@ public:
 
 	Astar* GetAstar();
 	void Summon();
+	bool CheckEnt(sf::FloatRect bound);
+
+	void SetStart(sf::Vector2f pos) { start = pos; }
+	void SetEnt(sf::Vector2f pos) { ent = pos; }
 };
 

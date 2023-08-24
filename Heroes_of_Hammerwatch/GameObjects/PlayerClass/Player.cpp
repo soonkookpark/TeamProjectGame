@@ -13,16 +13,40 @@
 #include "Buffs/AllBuffs.hpp"
 #include "Creature.h"
 
+Player::Player(const std::string& textureId, const std::string& n)
+	: Creature(textureId, n)
+{
+	SetOrigin(Origins::MC);
+	sprite.setScale(1.0, 1.0);
+	//tileSize = tileMap->tiles.size();
+	//tileIntSize = tileMap->TileIntSize();
+	box.setFillColor(sf::Color::Transparent);
+	box.setOutlineColor(sf::Color::Transparent);
+	box.setOutlineThickness(1);
+
+	for (auto& tile : testTiles)
+	{
+		tile.setFillColor(sf::Color::Transparent);
+	}
+	sortLayer = SortLayer::PLAYER;
+
+	creatureAnimation.Play("IdleD");
+	SetOrigin(origin);
+	SetFlipX(false);
+	box.setSize({ 10,14 });
+	box.setOrigin(box.getSize() * 0.5f);
+}
+
 void Player::Init()
 {
 	SetOrigin(Origins::MC);
 	sprite.setScale(1.0, 1.0);
-	tileSize = tileMap->tiles.size();
-	tileIntSize = tileMap->TileIntSize();
+	//tileSize = tileMap->tiles.size();
+	//tileIntSize = tileMap->TileIntSize();
 	box.setFillColor(sf::Color::Transparent);
 	box.setOutlineColor(sf::Color::Transparent);
 	box.setOutlineThickness(1);
-	sortLayer = SortLayer::PLAYER;
+	
 	for (auto& tile : testTiles)
 	{
 		tile.setFillColor(sf::Color::Transparent);
@@ -48,7 +72,6 @@ void Player::Reset()
 	SetFlipX(false);
 	box.setSize({10,14});
 	box.setOrigin(box.getSize() * 0.5f);
-	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 }
 
 void Player::Update(float dt)
@@ -134,7 +157,13 @@ void Player::Update(float dt)
 
 
 
-
+	if (tileMap != nullptr)
+	{
+		if (tileMap->CheckEnt(box.getGlobalBounds()))
+		{
+			std::cout << "Ãâ±¸ µµÂø" << std::endl;
+		}
+	}
 
 
 	TestCode();
@@ -428,6 +457,7 @@ void Player::Collider(int x, int y)
 	};
 	// L, R, T, P, LT, RT, LB, RB
 
+	if (tileMap == nullptr) return;
 	std::vector<std::vector<int>> tileArr = tileMap->GetTileArray();
 
 	for (int i = 0; i < 8; i++)
@@ -443,7 +473,7 @@ void Player::Collider(int x, int y)
 		testTiles[i].setPosition((float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize);
 		testTiles[i].setSize({ (float)tilePixelSize, (float)tilePixelSize });
 
-		if (tileArr[LRTP[i].y][LRTP[i].x] != 0) 
+		if (tileArr[LRTP[i].y][LRTP[i].x] != 0 && tileArr[LRTP[i].y][LRTP[i].x] != 10)
 			continue;
 
 		sf::FloatRect tileRect = { (float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize};

@@ -7,6 +7,7 @@ OnTileMap::OnTileMap(const std::string& textureId, const std::string& n)
 	: VertexArrayGo(textureId, n)
 {
 	sortLayer = SortLayer::WALL;
+    texture = RESOURCE_MGR.GetTexture(textureId);
 }
 
 OnTileMap::~OnTileMap()
@@ -22,7 +23,6 @@ void OnTileMap::Draw(sf::RenderWindow& window)
 
 bool OnTileMap::LoadDrawOnTile(TileMap* tileMap)
 {
-    texture = RESOURCE_MGR.GetTexture(textureId);
 
     size = tileMap->TileIntSize();
     float tileSizeX = tileMap->TilePixelSize().x;
@@ -68,6 +68,12 @@ bool OnTileMap::LoadDrawOnTile(TileMap* tileMap)
         currPos.x = startPos.x;
         currPos.y += tileSize.y;
     }
+
+   // ent.setTexture(*texture);
+    //ent.setTextureRect((sf::IntRect)tileInfoArray[22].bound);
+
+   // start.setTexture(*texture);
+   // start.setTextureRect((sf::IntRect)tileInfoArray[23].bound);
 
     return true;
 }
@@ -494,4 +500,11 @@ Wall OnTileMap::SelectHole(bool left, bool right, bool top, bool down)
 void OnTileMap::SetEntrance()
 {
 
+}
+
+bool OnTileMap::CheckEnt(sf::FloatRect bound)
+{
+    if (ent.getGlobalBounds().intersects(bound))
+        return true;
+    return false;
 }

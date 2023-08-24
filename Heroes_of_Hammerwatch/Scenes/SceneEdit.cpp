@@ -161,12 +161,12 @@ void SceneEdit::Init()
 	edit->OnClick = [this]()
 	{
 		TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
-		tempTileMap->DrawTexture(col, row);
-
 		GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
-		tempGridMap->DrawGrid(col, row, 16);
-
 		OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+
+		tempTileMap->SetOnTileMap(tempOnTileMap);
+		tempTileMap->DrawTexture(col, row);
+		tempGridMap->DrawGrid(col, row, 16);
 		tempOnTileMap->LoadDrawOnTile(tempTileMap);
 
 
@@ -194,7 +194,7 @@ void SceneEdit::Init()
 		gridMap = tempGridMap;
 		onTileMap = tempOnTileMap;
 
-		tileMap->SetOnTileMap(onTileMap);
+		
 	};
 
 	save->sortLayer = SortLayer::UI;
@@ -211,12 +211,13 @@ void SceneEdit::Init()
 	{
 
 		TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
-		tempTileMap->LoadDrawTexture("save/new.csv");
-
 		GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
+		OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+
+		tempTileMap->SetOnTileMap(tempOnTileMap);
+		tempTileMap->LoadDrawTexture("save/new.csv");
 		tempGridMap->DrawGrid(tempTileMap);
 
-		OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
 		tempOnTileMap->LoadDrawOnTile(tempTileMap);
 
 		col = tempTileMap->TileIntSize().y;
@@ -247,7 +248,6 @@ void SceneEdit::Init()
 		tileMap = tempTileMap;
 		gridMap = tempGridMap;
 		onTileMap = tempOnTileMap;
-		tileMap->SetOnTileMap(onTileMap);
 	};
 
 	for (auto go : gameObjects)
