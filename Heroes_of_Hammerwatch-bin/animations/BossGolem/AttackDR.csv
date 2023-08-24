@@ -1,0 +1,12 @@
+ID,FPS,LOOPTYPE,,
+AttackDR,4,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/Bat.png,1,2,11,7
+graphics/Monster/Bat.png,13,3,13,7
+graphics/Monster/Bat.png,26,3,13,7
+graphics/Monster/Bat.png,13,3,13,7
+graphics/Monster/Bat.png,1,2,11,7
+graphics/Monster/Bat.png,13,3,13,7
+graphics/Monster/Bat.png,26,3,13,7
+graphics/Monster/Bat.png,13,3,13,7

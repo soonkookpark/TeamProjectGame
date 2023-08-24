@@ -17,11 +17,19 @@ void DelayedProjectile::SetData(const std::string& key)
     fallDistance = 20.f;
     delayTime = 2.f;
     animationTime = 1.f;
+
+    if (Utils::Distance(owner->GetPosition(), position) > attackRange)
+        SetPosition(owner->GetPosition() + Utils::Normalize(owner->GetPosition() - position) * attackRange);
 }
 
 void DelayedProjectile::Update(float dt)
 {
+    Projectile::Update(dt);
     timer += dt;
+    if (timer > delayTime - animationTime)
+    {
+        fallingObject.setPosition(Utils::Lerp({ position.x , position.y - fallDistance }, position, timer - (delayTime - animationTime)));
+    }
     if (timer > delayTime)
     {
         for (auto target : targets)
@@ -36,10 +44,7 @@ void DelayedProjectile::Update(float dt)
                 }
             }
         }
-    }
-    if (timer > delayTime - animationTime)
-    {
-        fallingObject.setPosition(Utils::Lerp({ position.x , position.y - fallDistance }, position,timer - (delayTime - animationTime)));
+        End();
     }
 }
 
@@ -60,4 +65,5 @@ bool DelayedProjectile::CheckIsCollided(Creature* target)
 void DelayedProjectile::End()
 {
     //사라지는 애니메이션 ㄱㄱ
+    
 }

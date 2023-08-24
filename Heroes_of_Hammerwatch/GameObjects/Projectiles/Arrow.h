@@ -12,6 +12,7 @@ protected:
     TileMap* tileMap;
 
 
+    float movedDistance = 0.f;
     sf::Vector2f hitPos;
     SightDegree forwardAt;
 public:

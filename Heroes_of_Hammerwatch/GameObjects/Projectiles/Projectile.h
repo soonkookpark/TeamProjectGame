@@ -1,5 +1,6 @@
 #pragma once
 #include "SpriteGo.h"
+#include "AnimationController.h"
 
 class Creature;
 class Projectile :
@@ -18,7 +19,9 @@ protected:
     float magicalDamage = 0.f;
     Creature* owner;
     float radius;
-
+    float attackRange;
+    AnimationController animation;
+        
     std::list<Creature*> EffectedCreature;
     float timer = 0.f;
 public:
@@ -27,7 +30,7 @@ public:
 
     virtual void SetData(const std::string& key);
 
-    virtual void Update(float dt);
+    virtual void Update(float dt) override;
     virtual bool CheckIsCollided(Creature* target) = 0;
     virtual void Effect(Creature* target);
     virtual void End() = 0;

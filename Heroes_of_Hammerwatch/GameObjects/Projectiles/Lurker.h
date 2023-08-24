@@ -9,6 +9,7 @@ protected:
     float animationTime;
 
     std::vector<sf::Sprite> followingSprite;
+    float moveCounter = 0.f;
     float movedDistance = 0.f;
     int counter = 0;
 public:

@@ -9,6 +9,7 @@ Lurker::Lurker(const std::string& key, Creature* owner, std::list<Creature*> tar
 {
     if (dir == sf::Vector2f(999.f, 999.f))
         dir = Utils::Normalize(owner->GetPosition() - InputMgr::Instance().GetMousePos());
+    dir = Utils::Normalize(dir);
     SetData(key);
 }
 
@@ -16,15 +17,18 @@ void Lurker::Update(float dt)
 {
     Projectile::Update(dt);
     sf::Vector2f movement = dir * speed * dt;
+    moveCounter += Utils::Distance(movement, {0.f,0.f});
     movedDistance += Utils::Distance(movement, {0.f,0.f});
     SetPosition(position + movement);
-    if (movedDistance > sprite.getLocalBounds().width)
+    if (moveCounter > sprite.getLocalBounds().width)
     {
-        movedDistance = 0;
+        moveCounter = 0;
         followingSprite[counter % followingSprite.size()].setPosition(position);
         //애니메이션 플레이 부분
         counter++;
     }
+    if (attackRange > movedDistance)
+        End();
 }
 
 void Lurker::Draw(sf::RenderWindow& window)
@@ -39,12 +43,12 @@ void Lurker::SetData(const std::string& key)
 {
     speed = 100.f;
     animationTime = 1.f;
+    attackRange = 1000.f;
 
     sprite.setTexture(*ResourceMgr::Instance().GetTexture("graphics/Test/testProjectile.png"));
     const sf::Texture tex = *(sprite.getTexture());
     
-    //사이즈 정하는거 괜찮은거 있는지 사람들에게 물어보기
-    int size = static_cast<int>(Utils::Distance(dir * speed, { 0.f,0.f }) / sprite.getLocalBounds().width * animationTime + 1);
+    int size = static_cast<int>(Utils::Distance(dir * speed) / sprite.getLocalBounds().width * animationTime);
     followingSprite.resize(size);
     for (int i = 0; i < followingSprite.size(); i++)
     {

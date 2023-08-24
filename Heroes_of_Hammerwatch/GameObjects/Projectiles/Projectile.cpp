@@ -18,7 +18,7 @@ void Projectile::SetData(const std::string& key)
 
 void Projectile::Update(float dt)
 {
-	for (auto target : targets)
+	for (auto& target : targets)
 	{
 		if (CheckIsCollided(target))
 		{

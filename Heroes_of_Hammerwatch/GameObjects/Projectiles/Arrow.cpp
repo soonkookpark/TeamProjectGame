@@ -9,21 +9,21 @@
 Arrow::Arrow(const std::string& key, Creature* owner, std::list<Creature*> targets, sf::Vector2f pos, sf::Vector2f dir)
     :Projectile(key, owner, targets, pos),dir(dir)
 {
-    if(dir == sf::Vector2f(999.f, 999.f))
-        dir = Utils::Normalize(owner->GetPosition() - InputMgr::Instance().GetMousePos());   
     SetData(key);
 	SetForwardAt();
 }
 
 void Arrow::Update(float dt)
 {
-    SetPosition(position + (dir * speed * dt));
     Projectile::Update(dt);
+	dir = Utils::Normalize(dir);
+	sf::Vector2f move = dir * speed * dt;
+	movedDistance = Utils::Distance(move);
 
-    if (penetrateNum <= EffectedCreature.size())
-        End();
+    SetPosition(position + move);	
+	hitPos += move;
 
-    if (CollidedWithWall())
+    if (penetrateNum <= EffectedCreature.size() || CollidedWithWall() || attackRange < movedDistance)
         End();
 }
 
@@ -32,29 +32,45 @@ void Arrow::SetData(const std::string& key)
 	sprite.setTexture(*ResourceMgr::Instance().GetTexture("graphics/Test/testProjectile.png"));
 	tileMap = owner->GetTileMap();
 	radius = 3.f;
-	speed = 1.f;
-	
+	speed = 100.f;	
+	physicalDamage = 100.f;
+	attackRange = 1000.f;
+	if (key == "Maggot") 
+	{		
+		physicalDamage = 12.f;
+		magicalDamage = 0.f;
+		speed = 75.f;
+		radius = 3.f;
+		attackRange = 1000.f;		
+	}
 }
 
 bool Arrow::CheckIsCollided(Creature* target)
 {	
+	/*
+	std::cout << "hitpos : \t" << hitPos.x << " , " << hitPos.y << std::endl;
+	std::cout << "radius : \t" << radius << std::endl;
+	std::cout << "playerPos : \t" << target->GetPosition().x << " , " << target->GetPosition().y << std::endl;
+	*/
 	return Utils::CircleToRect(hitPos, radius, target->sprite.getGlobalBounds());
 }
 
 void Arrow::End()
 {
     //사라지는 애니메이션
+	SceneMgr::Instance().GetCurrScene()->RemoveGo(this);
+	//delete(this);
 }
 
 bool Arrow::CollidedWithWall()
 {
-	return (tileMap->FindTileInfo(position) == 0);
+	return (tileMap->GetTileArray()[static_cast<int>(position.y / 16)][static_cast<int>(position.x / 16)] == 0);
 }
 
 void Arrow::SetForwardAt()
 {
 	sf::Vector2f size = { sprite.getGlobalBounds().width,sprite.getGlobalBounds().height };
-	sf::Vector2f pos = { sprite.getGlobalBounds().top,sprite.getGlobalBounds().left };
+	sf::Vector2f pos = { sprite.getGlobalBounds().left,sprite.getGlobalBounds().top };
 	float angle = Utils::Angle(dir);
 	if (angle < 0)
 		angle += 360;

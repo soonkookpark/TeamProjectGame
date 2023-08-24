@@ -316,6 +316,13 @@ sf::IntRect TileMap::GetTileBound(int index)
     return sf::IntRect(tileInfoArray[index].bound);
 }
 
+int TileMap::FindTileInfo(sf::Vector2f pos)
+{
+    if (pos.x > size.x || pos.y > size.y || pos.x < 0 || pos.y < 0)
+        return 0;
+    return tileArray[static_cast<int>(pos.y / 16)][static_cast<int>(pos.x / 16)];
+}
+
 sf::Vector2f TileMap::TileSize()
 {
     return tileSize;
