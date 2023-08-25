@@ -12,7 +12,9 @@
 #include "AllSkills.hpp"
 #include "Buffs/AllBuffs.hpp"
 #include "Creature.h"
-
+#include "EquipItem.h"
+#include "SpriteGo.h"
+#include "Inventory.h"
 void Player::Init()
 {
 	SetOrigin(Origins::MC);
@@ -23,10 +25,14 @@ void Player::Init()
 	box.setOutlineColor(sf::Color::Transparent);
 	box.setOutlineThickness(1);
 	sortLayer = SortLayer::PLAYER;
+	inventory = new Inventory();
 	for (auto& tile : testTiles)
 	{
 		tile.setFillColor(sf::Color::Transparent);
 	}
+	//charInventory.setTexture(*RESOURCE_MGR.GetTexture("graphics/Player/ItemSlot.png"));
+	//charInventory1 = (new SpriteGo("graphics/Player/ItemSlot.png", "inven"));
+	//charInventory1->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/Player/ItemSlot.png"));
 }
 
 void Player::SetData(const std::string& name)
@@ -49,6 +55,7 @@ void Player::Reset()
 	box.setSize({8,16});
 	box.setOrigin(box.getSize() * 0.5f);
 	SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
+	
 }
 
 void Player::Update(float dt)
@@ -119,6 +126,23 @@ void Player::Update(float dt)
 	{
 		skills["heal"]->Active();
 	}
+
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::C))
+	{
+		InventoryOnOff();
+		
+	}
+	else if (INPUT_MGR.GetKeyDown(sf::Keyboard::C) && inventoryUI)
+	{
+		inventoryUI = false;
+		std::cout << "인벤토리 꺼짐." << std::endl;
+	}
+
+
+
+
+
+
 	TestCode();
 }
 
@@ -126,11 +150,19 @@ void Player::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
 	window.draw(box);
+	window.draw(charInventory);
+	
 
+	for (const auto& item : inventoryInfo)
+	{
+		//itemSprite.setPosition(0,0);
+		window.draw(item.ItemImage);
+	}
+	
 	for (auto& tile : testTiles)
 	{
 		window.draw(tile);
-}
+	}
 }
 
 bool Player::GetFlipX() const
@@ -199,132 +231,6 @@ int Player::CharacterSight(float angle)
 	return lookat;
 
 }
-
-//void Player::IdleAnimationPrint(SightDegree lookat)
-//{
-//	switch (lookat)
-//	{
-//	case 0 :
-//		animation.Play("IdleR");
-//		break;
-//	case 1:
-//		animation.Play("IdleDR");
-//		break;
-//	case 2:
-//		animation.Play("IdleD");
-//		break;
-//	case 3:
-//		animation.Play("IdleDL");
-//		break;
-//	case 4 :
-//		animation.Play("IdleL");
-//		break;
-//	case 5 :
-//		animation.Play("IdleUL");
-//		break;
-//	case 6 :
-//		animation.Play("IdleU");
-//		break;
-//	case 7:
-//		animation.Play("IdleUR");
-//		break;
-//	}
-//}
-//
-//void Player::MoveAnimationPrint(SightDegree lookat)
-//{
-//	switch (lookat)
-//	{
-//	case 0:
-//		if (animation.GetCurrentClipId() == "MoveR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveR");
-//		break;
-//	case 1:
-//		if (animation.GetCurrentClipId() == "MoveDR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveDR");
-//		break;
-//	case 2:
-//		if (animation.GetCurrentClipId() == "MoveD")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveD");
-//		break;
-//	case 3:
-//		if (animation.GetCurrentClipId() == "MoveDL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveDL");
-//		break;
-//	case 4:
-//		if (animation.GetCurrentClipId() == "MoveL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveL");
-//		break;
-//	case 5:
-//		if (animation.GetCurrentClipId() == "MoveUL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveUL");
-//		break;
-//	case 6:
-//		if (animation.GetCurrentClipId() == "MoveU")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveU");
-//		break;
-//	case 7:
-//		if (animation.GetCurrentClipId() == "MoveUR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("MoveUR");
-//		break;
-//	}
-//}
-//
-//void Player::AttackAnimationPrint(SightDegree lookat)
-//{
-//
-//	switch (lookat)
-//	{
-//	case 0:
-//		if (animation.GetCurrentClipId() == "AttackR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackR");
-//		break;
-//	case 1:
-//		if (animation.GetCurrentClipId() == "AttackDR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackDR");
-//		break;
-//	case 2:
-//		if (animation.GetCurrentClipId() == "AttackD")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackD");
-//		break;
-//	case 3:
-//		if (animation.GetCurrentClipId() == "AttackDL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackDL");
-//		break;
-//	case 4:
-//		if (animation.GetCurrentClipId() == "AttackL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackL");
-//		break;
-//	case 5:
-//		if (animation.GetCurrentClipId() == "AttackUL")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackUL");
-//		break;
-//	case 6:
-//		if (animation.GetCurrentClipId() == "AttackU")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackU");
-//		break;
-//	case 7:
-//		if (animation.GetCurrentClipId() == "AttackUR")
-//			if (animation.GetCurrFrame() <= 1) break;
-//		animation.Play("AttackUR");
-//		break;
-//	}
-//}
 
 void Player::SetTile(TileMap* tile)
 {
@@ -417,6 +323,7 @@ void Player::Collider(int x, int y)
 
 void Player::TestCode()
 {
+	//GetInventoryInfo();
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Hyphen))
 	{
 		box.setOutlineColor(sf::Color::Transparent);
@@ -436,4 +343,92 @@ void Player::TestCode()
 			testTiles[i].setFillColor({255, 255, 255, 128});
 		}
 	}
+}
+
+
+
+void Player::AcquireItem(int key)
+{
+	EquipItem* equipment = new EquipItem(key);
+	
+	if (equipment != nullptr)
+	{
+		//InventoryItem* tempItem = new InventoryItem();
+		EquipItem::ItemInfo equipInfo = equipment->PullEquipInfo();
+
+		//테스트코드 캐릭터의 기존 스텟
+		/* {
+			std::cout << creatureInfo.maxHealth << std::endl;
+			std::cout << pTable.AttackPower << std::endl;
+			std::cout << creatureInfo.speed << std::endl;
+			std::cout << creatureInfo.armor << std::endl;
+			std::cout << creatureInfo.resistance << std::endl;
+		}*/
+
+		creatureInfo.maxHealth += equipInfo.hp;
+		pTable.AttackPower += equipInfo.attackPower;
+		creatureInfo.speed += equipInfo.speed;
+		creatureInfo.armor += equipInfo.defense;
+		creatureInfo.resistance += equipInfo.resistance;
+		
+		//item 이미지가 스프라이트일경우
+		//tempItem->ItemImage.setTexture(*RESOURCE_MGR.GetTexture(equipInfo.itemName));
+		//tempItem->itemName = equipInfo.itemName;
+		//tempItem->itemDescription = equipInfo.description;
+	
+		Inventory::MyItemInfo* sendItemInfo = new Inventory::MyItemInfo;
+		sendItemInfo->iconImage.setTexture(*RESOURCE_MGR.GetTexture(equipInfo.itemName));
+		sendItemInfo->itemName = equipInfo.itemName;
+		sendItemInfo->itemDescription = equipInfo.description;
+		Inventory* inventory = (Inventory*)SCENE_MGR.GetCurrScene()->FindGo("inventory");
+		inventory->AddItemToInventory(sendItemInfo);
+		//inventoryInfo.push_back(*tempItem);
+
+		//테스트코드 캐릭터의 변화된 스텟
+		/* {
+			std::cout << creatureInfo.maxHealth << std::endl;
+			std::cout << pTable.AttackPower << std::endl;
+			std::cout << creatureInfo.speed << std::endl;
+			std::cout << creatureInfo.armor << std::endl;
+			std::cout << creatureInfo.resistance << std::endl;
+		} */
+		//InventoryItemImageSet();
+		/*if(equipment!=nullptr)
+			delete equipment;
+		if (sendItemInfo != nullptr)
+			delete sendItemInfo;*/
+		//delete tempItem;
+	}
+}
+
+
+
+
+	/*EquipItem::ItemInfo equipInfo = equipItem.SetData(key);
+	InventoryItem inventoryItem;
+	inventoryItem.ItemImage = RESOURCE_MGR.GetTexture(equipInfo.itemName);
+	inventoryItem.itemInfo = equipInfo;
+	inventoryItem.itemName = equipInfo.itemName;
+	inventoryItem.itemDescription = equipInfo.description;
+
+	inventoryInfo.push_back(inventoryItem);*/
+
+	//인벤토리 내용물을 만들었고
+	// 내용이 잘 나오는지 파악할 필 요가 있다.
+	//이젠 인벤토리 실물을 만들고
+
+	
+
+
+void Player::InventoryOnOff()
+{
+
+	std::cout << "inventory 켜짐" << std::endl;
+
+	Inventory* inventory = (Inventory*)SCENE_MGR.GetCurrScene()->FindGo("inventory");
+	inventory->InventoryDisplay();
+	//inventory->SetPosition(GetPosition().x, GetPosition().y);
+	//inventoryUI = true;
+
+
 }

@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataTables\EquipItemTable.cpp" />
+    <ClCompile Include="GameObjects\Items\EquipItem.cpp" />
     <ClCompile Include="GameObjects\Skills\BuffToOther.cpp" />
     <ClCompile Include="GameObjects\Buffs\BloodLust.cpp" />
     <ClCompile Include="GameObjects\Buffs\Buff.cpp" />
@@ -180,6 +182,8 @@
     <ClCompile Include="Global\Utils.cpp" />
     <ClCompile Include="GameObjects\VertexArray\GridMap.cpp" />
     <ClCompile Include="GameObjects\Buffs\LayOnHands.cpp" />
+    <ClCompile Include="GameObjects\Items\Inventory.cpp" />
+    <ClCompile Include="GameObjects\ItemSlot.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -196,6 +200,7 @@
     <ClCompile Include="GameObjects\Skills\MeleeAttack.cpp" />
     <ClCompile Include="GameObjects\Skills\PassiveToMe.cpp" />
     <ClCompile Include="GameObjects\VertexArray\OnTileMap.cpp" />
+    <ClCompile Include="Framework\SaveLoadLogic.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
@@ -209,9 +214,13 @@
     <ClCompile Include="DataTables\SkillDataTable.cpp" />
     <ClCompile Include="GameObjects\VertexArray\Tree.cpp" />
     <ClCompile Include="GameObjects\Buffs\Shield.cpp" />
+    <ClCompile Include="Scenes\SceneTitle.cpp" />
+    <ClCompile Include="GameObjects\SliceSpriteGo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="DataTables\EquipItemTable.h" />
+    <ClInclude Include="GameObjects\Items\EquipItem.h" />
     <ClInclude Include="GameObjects\AllCreutures.hpp" />
     <ClInclude Include="GameObjects\Skills\BuffToOther.h" />
     <ClInclude Include="GameObjects\Buffs\AllBuffs.hpp" />
@@ -253,6 +262,9 @@
     <ClInclude Include="GameObjects\Buffs\LayOnHands.h" />
     <ClInclude Include="GameObjects\Skills\PassiveToMe.h" />
     <ClInclude Include="GameObjects\VertexArray\OnTileMap.h" />
+    <ClInclude Include="GameObjects\Items\Inventory.h" />
+    <ClInclude Include="GameObjects\ItemSlot.h" />
+    <ClInclude Include="Framework\SaveLoadLogic.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
@@ -268,6 +280,8 @@
     <ClInclude Include="DataTables\SkillDataTable.h" />
     <ClInclude Include="GameObjects\VertexArray\Tree.h" />
     <ClInclude Include="GameObjects\Buffs\Shield.h" />
+    <ClInclude Include="Scenes\SceneTitle.h" />
+    <ClInclude Include="GameObjects\SliceSpriteGo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

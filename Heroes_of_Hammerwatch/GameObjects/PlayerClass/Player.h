@@ -4,7 +4,9 @@
 
 class TileMap;
 class RectangleGo;
-
+class EquipItem;
+class SpriteGo;
+class Inventory;
 class Player : public Creature
 {
 public:
@@ -43,6 +45,14 @@ public:
 		float ExpPerLevel = 0.f;
 	};
 
+	struct InventoryItem
+	{
+		//EquipItem::ItemInfo itemInfo;
+		sf::Sprite ItemImage;
+		std::string itemName;
+		std::string itemDescription;
+	};
+
 protected:
 	//AnimationController animation; //애니메이터 컨ㄹ트롤러를 만들어 스프라이트를 하나집어 현재 재생하고싶은 애니메이션의 프레임에 맞춰 좌표를 변경하는 기능을 넣었다. 사용을 어떻게하나 애니메이션 개체마다 초기화해야함. 애니메이션 클립들. 클립들을 추가해줘야겟지? 애드클립이 그걸하는거야
 	// 가보면 인서트 하잕ㅎ아 init랑 쌍으로  animation클립에 잇는것들 확인
@@ -54,7 +64,8 @@ protected:
 	bool isGround = true;
 	bool isAnimationPlay = false;
 	bool attackNow = false;
-	
+	bool inventoryUI = false;
+
 	PlayerInfo pTable;
 	sf::Vector2i playerTileIndex;
 	std::vector<ClipInfo> clipInfos;
@@ -69,6 +80,7 @@ protected:
 	
 	float angle = 0.f;
 	float pastAngle = 0.f;
+	float currentExp = 0.f;
 
 	int money = 0;
 	int ore = 0;
@@ -78,8 +90,17 @@ protected:
 	
 	sf::RectangleShape testTiles[8];
 	sf::RectangleShape testIntersect;
-
+	//sf::Sprite spriteImage;
+	//이미지 받는 방식
 	//RectangleGo* testRect;
+	
+	std::vector<InventoryItem> inventoryInfo;
+	//EquipItem equipItem;
+	sf::Sprite charInventory;
+	SpriteGo* charInventory1;
+
+	Inventory* inventory = nullptr;
+
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player")
 		: Creature(textureId, n) {}
@@ -108,9 +129,14 @@ public:
 	void AcquireOre(int value) { ore += value; };
 	void AcquireMoney(int value) { money += value; };
 	void AcquireKey(int value) {};
-	void AcquireItem(int key) {};//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
+	void AcquireItem(int key);//아이템을 얻는다면 실행 할 함수 리턴 값이랑 그런거는 바꿔줘야되 순국이형!!
+	//고마워 다훈아
 
 	void Collider(int x, int y);
 	void TestCode();
+	//std::vector<Player::InventoryItem> GetInventoryInfo();
+	void InventoryOnOff();
+	PlayerInfo* ControlPlayerInfos() { return &pTable; }
+	float PlayerNowExp() { return currentExp; }
 };
 
