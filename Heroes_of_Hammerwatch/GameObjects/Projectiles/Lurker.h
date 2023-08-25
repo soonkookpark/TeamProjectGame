@@ -4,10 +4,10 @@ class Lurker :
     public Projectile
 {
 protected:
-    sf::Vector2f dir;
     float speed;
     float animationTime;
 
+    sf::Vector2f dir;
     std::vector<sf::Sprite> followingSprite;
     float moveCounter = 0.f;
     float movedDistance = 0.f;

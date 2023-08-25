@@ -23,6 +23,7 @@ public:
 protected:
     Creature* owner = nullptr;
     float range = 0.f;
+
     TargetType targetType = TargetType::NONE;
     std::list<Creature*> targets;
 public:

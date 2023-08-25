@@ -1,0 +1,9 @@
+ID,FPS,LOOPTYPE,,
+Special,8,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/boss/BossGolem.png,0,448,64,64
+graphics/boss/BossGolem.png,64,448,64,64
+graphics/boss/BossGolem.png,128,448,64,64
+graphics/boss/BossGolem.png,192,448,64,64
+graphics/boss/BossGolem.png,384,384,64,64

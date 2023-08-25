@@ -12,7 +12,6 @@ Projectile::Projectile(const std::string& key, Creature* owner, std::list<Creatu
 
 void Projectile::SetData(const std::string& key)
 {
-
 }
 
 

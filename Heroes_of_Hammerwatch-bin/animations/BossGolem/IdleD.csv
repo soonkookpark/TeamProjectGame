@@ -2,7 +2,6 @@ ID,FPS,LOOPTYPE,,
 IdleD,8,0,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/Monster/Bat.png,40,2,11,7
-graphics/Monster/Bat.png,52,3,13,7
-graphics/Monster/Bat.png,65,3,13,7
-graphics/Monster/Bat.png,52,3,13,7
+graphics/boss/BossGolem.png,384,0,64,64
+graphics/boss/BossGolem.png,384,64,64,64
+graphics/boss/BossGolem.png,384,128,64,64

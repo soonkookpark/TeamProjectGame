@@ -41,13 +41,16 @@ void Lurker::Draw(sf::RenderWindow& window)
 
 void Lurker::SetData(const std::string& key)
 {
-    speed = 100.f;
-    animationTime = 1.f;
-    attackRange = 1000.f;
-
     sprite.setTexture(*ResourceMgr::Instance().GetTexture("graphics/Test/testProjectile.png"));
-    const sf::Texture tex = *(sprite.getTexture());
     
+    if (key == "BossGolem")
+    {
+        speed = 100.f;
+        animationTime = 1.f;
+        attackRange = 1000.f;
+    }
+
+    const sf::Texture tex = *(sprite.getTexture());
     int size = static_cast<int>(Utils::Distance(dir * speed) / sprite.getLocalBounds().width * animationTime);
     followingSprite.resize(size);
     for (int i = 0; i < followingSprite.size(); i++)

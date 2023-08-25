@@ -59,7 +59,6 @@ void Arrow::End()
 {
     //사라지는 애니메이션
 	SceneMgr::Instance().GetCurrScene()->RemoveGo(this);
-	//delete(this);
 }
 
 bool Arrow::CollidedWithWall()

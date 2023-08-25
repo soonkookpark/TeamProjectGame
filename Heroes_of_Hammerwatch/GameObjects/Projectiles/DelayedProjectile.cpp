@@ -18,8 +18,8 @@ void DelayedProjectile::SetData(const std::string& key)
     delayTime = 2.f;
     animationTime = 1.f;
 
-    if (Utils::Distance(owner->GetPosition(), position) > attackRange)
-        SetPosition(owner->GetPosition() + Utils::Normalize(owner->GetPosition() - position) * attackRange);
+    //if (Utils::Distance(owner->GetPosition(), position) > attackRange)
+    //   SetPosition(owner->GetPosition() + Utils::Normalize(owner->GetPosition() - position) * attackRange);
 }
 
 void DelayedProjectile::Update(float dt)

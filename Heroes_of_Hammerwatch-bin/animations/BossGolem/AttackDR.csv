@@ -2,11 +2,8 @@ ID,FPS,LOOPTYPE,,
 AttackDR,4,0,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/Monster/Bat.png,1,2,11,7
-graphics/Monster/Bat.png,13,3,13,7
-graphics/Monster/Bat.png,26,3,13,7
-graphics/Monster/Bat.png,13,3,13,7
-graphics/Monster/Bat.png,1,2,11,7
-graphics/Monster/Bat.png,13,3,13,7
-graphics/Monster/Bat.png,26,3,13,7
-graphics/Monster/Bat.png,13,3,13,7
+graphics/boss/BossGolem.png,448,192,64,64
+graphics/boss/BossGolem.png,448,256,64,64
+graphics/boss/BossGolem.png,448,320,64,64
+graphics/boss/BossGolem.png,448,384,64,64
+graphics/boss/BossGolem.png,448,128,64,64
