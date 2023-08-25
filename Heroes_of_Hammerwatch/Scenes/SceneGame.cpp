@@ -42,55 +42,6 @@ void SceneGame::Init() // ¾È¹Ù²ð°Å¸é ¿©±â
 	startBT->OnClick = [this]()
 	{
 		checkClear = true;
-		//bool check = false;
-		//while (!check)
-		//{
-		//	TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
-		//	GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
-		//	OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
-
-		//	tempTileMap->SetOnTileMap(tempOnTileMap);
-		//	tempTileMap->DrawTexture(mapSize.x, mapSize.y);
-		//	tempGridMap->DrawGrid(mapSize.x, mapSize.y, 16);
-		//	tempOnTileMap->LoadDrawOnTile(tempTileMap);
-
-		//	if (tileMap != nullptr)
-		//	{
-		//		RemoveGo(tileMap);
-		//		delete tileMap;
-		//		tileMap = nullptr;
-		//	}
-		//	if (gridMap != nullptr)
-		//	{
-		//		RemoveGo(gridMap);
-		//		delete gridMap;
-		//		gridMap = nullptr;
-		//	}
-		//	if (onTileMap != nullptr)
-		//	{
-		//		RemoveGo(onTileMap);
-		//		delete onTileMap;
-		//		onTileMap = nullptr;
-		//	}
-
-		//	tileMap = tempTileMap;
-		//	gridMap = tempGridMap;
-		//	onTileMap = tempOnTileMap;
-
-
-		//	for (int i = 0; i < 6; i++)
-		//	{
-		//		tileMap->Divide();
-		//	}
-		//	tileMap->ConnectRoom();
-		//	check = tileMap->SelectDoor();
-		//}
-		//player->SetPosition(onTileMap->GetStartIndex().x+32, onTileMap->GetStartIndex().y + 96);
-		////player->SetPosition(-100, -100);
-		////player->SetTile(tileMap);
-
-		//player->SetTile(tileMap);
-		//tileMap->Summon();
 	};
 
 	/*player = (Paladin*)AddGo(new Paladin());
@@ -183,10 +134,18 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
+	CheckClearStage();
+	if (setting)
+	{
+		player->SetTile(tileMap);
+		player->SetOnTileMap(onTileMap);
+		setting = false;
+	}
 	SettingStage();
 
 	Scene::Update(dt);
 
+	
 
 
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::X))
@@ -243,9 +202,9 @@ void SceneGame::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 	{
-		SCENE_MGR.ChangeScene(SceneId::Edit);
+		SCENE_MGR.ChangeScene(SceneId::Title);
 	}
-	std::cout << ScreenToWorldPos(INPUT_MGR.GetMousePos()).x << ", " << ScreenToWorldPos(INPUT_MGR.GetMousePos()).y << std::endl;
+	//std::cout << ScreenToWorldPos(INPUT_MGR.GetMousePos()).x << ", " << ScreenToWorldPos(INPUT_MGR.GetMousePos()).y << std::endl;
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
@@ -292,6 +251,7 @@ void SceneGame::SettingStage()
 
 	if (stage < 3)
 	{
+		player->SetTile(nullptr);
 		bool check = false;
 		while (!check)
 		{
@@ -338,15 +298,18 @@ void SceneGame::SettingStage()
 			check = tileMap->SelectDoor();
 		}
 	
-		player->SetTile(tileMap);
+		
 		player->SetPosition((onTileMap->GetStartIndex().x) * 16 + 32, (onTileMap->GetStartIndex().y * 16) + 96);
+		//player->SetTile(tileMap);
 		tileMap->Summon();
-
 		checkClear = false;
+		setting = true;
 		return;
 	}
 	else if (stage == 3)
 	{
+		player->SetTile(nullptr);
+
 		TileMap* tempTileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png"));
 		GridMap* tempGridMap = (GridMap*)AddGo(new GridMap());
 		OnTileMap* tempOnTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
@@ -383,9 +346,11 @@ void SceneGame::SettingStage()
 
 		//Æ÷Áö¼Ç ¹Ù²ã¾ßµÊ
 		//player->SetPosition(onTileMap->GetStartIndex().x + 32, onTileMap->GetStartIndex().y + 96);
+		
 		player->SetPosition((onTileMap->GetStartIndex().x) * 16 + 32, (onTileMap->GetStartIndex().y * 16) + 96);
 		//player->SetTile(tileMap);
 		checkClear = false;
+		setting = true;
 		return;
 	}
 }
@@ -393,4 +358,15 @@ void SceneGame::SettingStage()
 void SceneGame::Summon(Monster* monster)
 {
 	SummonedMonster.push_back(monster);
+}
+
+void SceneGame::CheckClearStage()
+{
+	if (tileMap != nullptr)
+	{
+		if (tileMap->CheckEnt(player->GetPlayerBox().getGlobalBounds()))
+		{
+			checkClear = true;
+		}
+	}
 }

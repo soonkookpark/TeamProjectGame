@@ -349,7 +349,7 @@ void TileMap::Divide()
 {
     if (route == nullptr)
     {
-        route = new Tree(sf::IntRect{ 5, 5, size.x - 10, size.y - 10});
+        route = new Tree(sf::IntRect{ 20, 15, size.x - 40, size.y - 30});
     }
     route->Divide(this);
 }

@@ -3,6 +3,7 @@
 #include "Skill.h"
 #include "Buffs/Buff.h"
 #include "TileMap.h"
+#include "OnTileMap.h"
 
 Creature::Creature(const std::string& textureId, const std::string& n)
 	: SpriteGo(textureId, n)
@@ -240,7 +241,58 @@ void Creature::HealHP(int value)
 		curHealth = creatureInfo.maxHealth;
 }
 
-void Creature::TransParent()
+void Creature::TransParent(int x, int y)
 {
-	///123123
+	sf::Vector2i LRTP[9] =
+	{
+		{x - 1, y + 1},
+		{x, y + 1},
+		{x + 1, y + 1}, //y+1
+		{x - 1, y + 2},
+		{x, y + 2},
+		{x + 1, y + 2},	//y+2
+		{x - 1, y + 3},
+		{x, y + 3},
+		{x + 1, y + 3},	//y+3
+	};
+
+	if (onTileMap == nullptr) return;
+	std::vector<std::vector<int>> tileArr = onTileMap->GetTileArray();
+
+	for (int i = 0; i < 5; i++)
+	{
+		sf::Vector2i arrSize = onTileMap->TileIntSize();
+
+		if (LRTP[i].y < 0 || LRTP[i].x < 0 || LRTP[i].y >= arrSize.y || LRTP[i].x >= arrSize.x)
+		{
+			continue;
+		}
+
+		//벽이 None이면 Continue로 수정
+		//
+		if (tileArr[LRTP[i].y][LRTP[i].x] != Wall::None || tileArr[LRTP[i].y][LRTP[i].x] != 25)
+			continue;
+		//###########################
+
+		float tilePixelSize = 1;
+
+		//타일 인덱스 확인 후 타일 rect 세팅
+		sf::FloatRect tileRect = { (float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize };
+
+		sf::FloatRect wallRect = {};
+		//##############################
+
+
+		sf::FloatRect intersector;
+
+
+
+		if (tileRect.intersects(sprite.getGlobalBounds(), intersector))
+		{
+			//겹치면 투명하게
+		}
+	}
+	
 }
+
+

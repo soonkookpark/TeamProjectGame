@@ -24,12 +24,13 @@ protected:
 
 	UIButton* startBT;
 	OnTileMap* onTileMap = nullptr;
-	sf::Vector2i mapSize = { 90, 90 };
+	sf::Vector2i mapSize = { 120, 120 };
 
 	std::list<Monster*> SummonedMonster;
 	std::list<Monster*> mobsToRemove;
 
 	bool checkClear = false;
+	bool setting = false;
 	int stage = 0;
 
 
@@ -50,4 +51,5 @@ public:
 	void Summon(Monster* monster);
 
 	void DieMonster(Monster* mob);
+	void CheckClearStage();
 };
