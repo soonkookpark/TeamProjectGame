@@ -224,7 +224,8 @@ void Inventory::Collocate(Player* player)
 		//Inventory* inventory = (Inventory*)SCENE_MGR.GetCurrScene()->FindGo("inventory");
 
 
-
+		std::cout << std::endl;
+		std::cout << std::endl;
 
 
 
