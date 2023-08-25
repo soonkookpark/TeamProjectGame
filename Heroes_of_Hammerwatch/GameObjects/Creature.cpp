@@ -239,3 +239,8 @@ void Creature::HealHP(int value)
 	if (curHealth > creatureInfo.maxHealth)
 		curHealth = creatureInfo.maxHealth;
 }
+
+void Creature::TransParent()
+{
+	///123123
+}
