@@ -3,6 +3,7 @@
 #include "AnimationController.h"
 
 class TileMap;
+class OnTileMap;
 class RectangleGo;
 
 class Player : public Creature

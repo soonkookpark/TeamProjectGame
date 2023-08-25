@@ -73,8 +73,6 @@ bool TileMap::LoadDrawTexture(const std::string& filePath)
         currPos.y += tileSize.y;
     }
 
-    //onTileMap->ChangeDoor((sf::Vector2i)start, (sf::Vector2i)ent, this);
-
     return true;
 }
 
@@ -287,8 +285,8 @@ void TileMap::LoadDataArray(rapidcsv::Document& map)
 
     start = { map.GetCell<float>(1, 0), map.GetCell<float>(2, 0) };
     ent = { map.GetCell<float>(3, 0), map.GetCell<float>(4, 0) };
-    onTileMap->SetStartPos(start);
-    onTileMap->SetEntPos(ent);
+    onTileMap->SetStartPos(start * 16.f);
+    onTileMap->SetEntPos(ent * 16.f);
 
     for (size_t i = 1; i < size.y+1; i++)
     {

@@ -6,6 +6,7 @@ class Skill;
 class Buff;
 class BuffToOther;
 class TileMap;
+class OnTileMap;
 
 class Creature :
     public SpriteGo
@@ -32,6 +33,7 @@ protected:
 
     sf::Vector2i tileIndex = {0,0};
     TileMap* tileMap;
+    OnTileMap* onTileMap;
 
     friend class Shield;
 public:
@@ -54,6 +56,7 @@ public:
     int MonsterSight(float angle);
 
     void SetTileMap(TileMap* tileMap) { this->tileMap = tileMap; }
+    void SetTileMap(OnTileMap* onTileMap) { this->onTileMap = onTileMap; }
     sf::Vector2i GetTileIndex() { return tileIndex; };
 
     void HealHP(int value);

@@ -4,6 +4,7 @@
 #include "Framework.h"
 #include "ResourceMgr.h"
 #include "TileMap.h"
+#include "OnTileMap.h"
 #include "RectangleGo.h"
 #include "SceneMgr.h"
 #include "SceneGame.h"
@@ -28,7 +29,7 @@ Player::Player(const std::string& textureId, const std::string& n)
 	{
 		tile.setFillColor(sf::Color::Transparent);
 	}
-	sortLayer = SortLayer::PLAYER;
+	sortLayer = 5;
 
 	creatureAnimation.Play("IdleD");
 	SetOrigin(origin);

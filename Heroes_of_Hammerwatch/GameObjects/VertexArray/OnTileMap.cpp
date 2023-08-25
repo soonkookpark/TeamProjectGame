@@ -504,7 +504,7 @@ void OnTileMap::SetEntrance()
 
 bool OnTileMap::CheckEnt(sf::FloatRect bound)
 {
-    if (ent.getGlobalBounds().intersects(bound))
-        return true;
+    //if (ent.getGlobalBounds().intersects(bound))
+        //return true;
     return false;
 }
