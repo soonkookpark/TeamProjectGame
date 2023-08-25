@@ -16,6 +16,7 @@ public:
 		int resistance;
 	};
 protected:
+
 	ItemInfo equipment;
 	
 public:
@@ -27,6 +28,9 @@ public:
 	virtual void Reset() override;
 
 	virtual void Update(float dt) override;
-	
+
+	ItemInfo PullEquipInfo();
+	sf::Sprite LoadSpriteImage() { return sprite; }
+
 };
 

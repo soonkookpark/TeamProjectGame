@@ -66,6 +66,9 @@
     <ClCompile Include="GameObjects\Projectiles\DelayedProjectile.cpp" />
     <ClCompile Include="GameObjects\Projectiles\Arrow.cpp" />
     <ClCompile Include="GameObjects\Projectiles\Lurker.cpp" />
+    <ClCompile Include="GameObjects\Items\Inventory.cpp" />
+    <ClCompile Include="GameObjects\ItemSlot.cpp" />
+    <ClCompile Include="Framework\SaveLoadLogic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -142,5 +145,8 @@
     <ClInclude Include="GameObjects\Projectiles\Arrow.h" />
     <ClInclude Include="GameObjects\Projectiles\Lurker.h" />
     <ClInclude Include="GameObjects\Projectiles\AllProjectiles.hpp" />
+    <ClInclude Include="GameObjects\Items\Inventory.h" />
+    <ClInclude Include="GameObjects\ItemSlot.h" />
+    <ClInclude Include="Framework\SaveLoadLogic.h" />
   </ItemGroup>
 </Project>

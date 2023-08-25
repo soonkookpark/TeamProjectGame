@@ -19,6 +19,8 @@
 #include "DataTableMgr.h"
 #include "Tools/Astar.h"
 #include "Projectiles/AllProjectiles.hpp"
+#include "Inventory.h"
+#include"TextGo.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -31,24 +33,47 @@ void SceneGame::Init() // 안바뀔거면 여기
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
 
+	player = (Paladin*)AddGo(new Paladin());
+	inventory = (Inventory*)AddGo(new Inventory("inventory"));
+	inventory->SetPlayer(player);
+	//inventory->InventoryDisplay();
+
 	/*tileMap = (TileMap*)AddGo(new TileMap("graphics/mine/mine_tile.png", "graphics/mine/mine_tile.png"));
-	onTileMap = (OnTileMap*)AddGo(new OnTileMap("graphics/mine/mine_wall.png"));
+	tileMap->LoadDrawTexture("graphics/mine/tilemap.csv");
 
 	tileMap->SetOnTileMap(onTileMap);
 	tileMap->LoadDrawTexture("graphics/mine/boss.csv");
 	onTileMap->LoadDrawOnTile(tileMap);*/
 
 	startBT = (UIButton*)AddGo(new UIButton("graphics/button/button_load.png", "graphics/button/button_load.png"));
-	startBT->SetPosition(0.f, 0.f);
+	startBT->SetPosition(-(windowSize *0.5f));
 	startBT->OnClick = [this]()
 	{
 		checkClear = true;
 	};
+	
 
-	/*player = (Paladin*)AddGo(new Paladin());
-	player->SetPosition(600, 500);
-	player->SetActive(true);
-	player->SetTile(tileMap);*/
+	//inventoryText->sortLayer = UI_TEXT;
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf","JobName"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "HP"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "HealHP"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "MP"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "HealMP"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Speed"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Exp"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "AtkPower"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "SkillPower"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "CritRate"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "EvadeRate"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Defense"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Resistance"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Luck"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Gold"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "BronzeKey"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "SilverKey"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "GoldKey"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "RedKey"));
+	
 
 	for (auto go : gameObjects)
 	{
@@ -76,7 +101,7 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	worldView.zoom(0.5f);
 
 	uiView.setSize(size);
-	uiView.setCenter(size * 0.5f);
+	uiView.setCenter(0.f, 0.f);
 
 
 	//Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
@@ -108,8 +133,6 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
 	BG->SetPosition(300, 100);
 
-	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Apple")));
-	item->SetPosition(150, 100);
 
 	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("GoldKey")));
 	item->SetPosition(100, 150);
@@ -117,6 +140,21 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("SmallManaStone")));
 	item->SetPosition(150, 150);
 	*/
+	
+	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item1")));
+	item->SetPosition(150, 100);
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item2")));
+	item->SetPosition(250, 100);
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item3")));
+	item->SetPosition(350, 100);
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item4")));
+	item->SetPosition(150, 400);
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item5")));
+	item->SetPosition(250, 400);
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item6")));
+	item->SetPosition(350, 400);
+	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item7")));
+	item->SetPosition(150, 400);
 	Scene::Enter();
 }
 
@@ -144,6 +182,12 @@ void SceneGame::Update(float dt)
 	}
 	SettingStage();
 
+	sf::Vector2f mousePos = INPUT_MGR.GetMousePos(); //마우스 위치
+	sf::Vector2f mouseUiPos = SCENE_MGR.GetCurrScene()->ScreenToUiPos(mousePos);
+	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
+	{
+		std::cout << mouseUiPos.x << "," << mouseUiPos.y << std::endl;
+	}
 	Scene::Update(dt);
 
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::R))
@@ -159,12 +203,6 @@ void SceneGame::Update(float dt)
 		test.push_back(dynamic_cast<Creature*>(FindGo("player")));
 		DelayedProjectile* arrowTest = dynamic_cast<DelayedProjectile*>(AddGo(new DelayedProjectile("test", dynamic_cast<Creature*>(FindGo("Tick")), test, ScreenToWorldPos(InputMgr::Instance().GetMousePos()))));
 	}
-	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::C))
-	{
-		std::list<Creature*> test;
-		test.push_back(dynamic_cast<Creature*>(FindGo("player")));
-		Arrow* arrowTest = dynamic_cast<Arrow*>(AddGo(new Arrow("test",dynamic_cast<Creature*>( FindGo("Tick")),test , {1,1},{1,1})));
-	}
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::X))
 	{
 		Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", { 100, 340 })));
@@ -177,8 +215,6 @@ void SceneGame::Update(float dt)
 		monster->SetTileMap(tileMap);
 		monster->Reset();
 	}
-	//std::cout << tileMap->vertexArray.getBounds().left << tileMap->vertexArray.getBounds().top <<
-	//	tileMap->vertexArray.getBounds().width << tileMap->vertexArray.getBounds().height << std::endl;
 	
 	if (player != nullptr)
 	{
@@ -235,6 +271,7 @@ void SceneGame::SettingStage()
 	if (player == nullptr)
 	{
 		player = (Paladin*)AddGo(new Paladin());
+		inventory->SetPlayer(player);
 	}
 	 
 	if (!SummonedMonster.empty())

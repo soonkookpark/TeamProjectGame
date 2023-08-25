@@ -5,7 +5,9 @@
 class TileMap;
 class OnTileMap;
 class RectangleGo;
-
+class EquipItem;
+class SpriteGo;
+class Inventory;
 class Player : public Creature
 {
 public:
@@ -37,6 +39,14 @@ public:
 		float ExpPerLevel = 0.f;
 	};
 
+	struct InventoryItem
+	{
+		//EquipItem::ItemInfo itemInfo;
+		sf::Sprite ItemImage;
+		std::string itemName;
+		std::string itemDescription;
+	};
+
 protected:
 	//AnimationController animation; //애니메이터 컨ㄹ트롤러를 만들어 스프라이트를 하나집어 현재 재생하고싶은 애니메이션의 프레임에 맞춰 좌표를 변경하는 기능을 넣었다. 사용을 어떻게하나 애니메이션 개체마다 초기화해야함. 애니메이션 클립들. 클립들을 추가해줘야겟지? 애드클립이 그걸하는거야
 	// 가보면 인서트 하잕ㅎ아 init랑 쌍으로  animation클립에 잇는것들 확인
@@ -64,6 +74,7 @@ protected:
 	
 	float angle = 0.f;
 	float pastAngle = 0.f;
+	float currentExp = 0.f;
 
 	int money = 0;
 	int ore = 0;
@@ -74,8 +85,16 @@ protected:
 	sf::RectangleShape testTiles[8];
 	sf::RectangleShape testIntersect;
 	//sf::Sprite spriteImage;
-	//std::vector<sf::Sprite, > inventoryImage;
+	//이미지 받는 방식
 	//RectangleGo* testRect;
+	
+	std::vector<InventoryItem> inventoryInfo;
+	//EquipItem equipItem;
+	sf::Sprite charInventory;
+	SpriteGo* charInventory1;
+
+	Inventory* inventory = nullptr;
+
 public:
 	Player(const std::string& textureId = "", const std::string& n = "player");
 	virtual ~Player() override { Release(); }
@@ -109,7 +128,9 @@ public:
 	void Collider(int x, int y);
 	sf::RectangleShape GetPlayerBox() { return box; }
 	void TestCode();
-	void InventoryItemImageSet(int num);
-	void Inventory(int itemNum);
+	//std::vector<Player::InventoryItem> GetInventoryInfo();
+	void InventoryOnOff();
+	PlayerInfo* ControlPlayerInfos() { return &pTable; }
+	float PlayerNowExp() { return currentExp; }
 };
 

@@ -6,6 +6,7 @@
 #include "PlayerTable.h"
 #include "FieldItemTable.h"
 #include "SkillDataTable.h"
+#include "EquipItemTable.h"
 
 void DataTableMgr::LoadAll()
 {
@@ -15,7 +16,7 @@ void DataTableMgr::LoadAll()
 	tables.insert({ DataTable::Ids::PlayerClass, new PlayerTable() });
 	tables.insert({ DataTable::Ids::FieldItem, new FieldItemTable() });
 	tables.insert({ DataTable::Ids::SkillData, new SkillDataTable() });
-
+	tables.insert({ DataTable::Ids::EquipItem, new EquipItemTable() });
 	for (auto pair : tables)
 	{
 		if (!pair.second->Load())

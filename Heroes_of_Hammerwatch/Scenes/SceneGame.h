@@ -1,7 +1,5 @@
 #pragma once
 #include "Scene.h"
-#include "Creature.h"
-
 
 class Player;
 class Paladin;
@@ -10,7 +8,9 @@ class GridMap;
 class UIButton;
 class Astar;
 class OnTileMap;
+class Inventory;
 
+class TextGo;
 class Monster;
 class SceneGame : public Scene
 {
@@ -20,7 +20,7 @@ protected:
 	TileMap* tileMap = nullptr;
 	GridMap* gridMap = nullptr;
 	Astar* finder = nullptr;
-
+	Inventory* inventory = nullptr;
 
 	UIButton* startBT;
 	OnTileMap* onTileMap = nullptr;
@@ -34,6 +34,7 @@ protected:
 	int stage = 0;
 
 
+	TextGo* inventoryText = nullptr;
 public:
 	SceneGame();
 	virtual ~SceneGame() override = default;

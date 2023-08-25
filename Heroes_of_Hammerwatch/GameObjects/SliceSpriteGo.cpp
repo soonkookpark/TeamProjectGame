@@ -49,6 +49,9 @@ void SliceSpriteGo::SetTextureSize(sf::Rect<float> centerRect, sf::Rect<float> s
 			vertexArray[index + 3].texCoords = { Horizontal[j], Vertical[i + 1] };
 		}
 	}
+	origin = Origins::TL;
+	position = { 0, 0 };
+	originPosition = { 0, 0 };
 }
 
 void SliceSpriteGo::SetSize(sf::Vector2f size)
@@ -99,6 +102,9 @@ void SliceSpriteGo::SetSize(sf::Vector2f size)
 			vertexArray[index + 3].position = { positionX[j], positionY[i + 1] };
 		}
 	}
+	origin = Origins::TL;
+	position = { 0, 0 };
+	originPosition = { 0, 0 };
 }
 
 void SliceSpriteGo::Init()
@@ -146,4 +152,11 @@ void SliceSpriteGo::Update(float dt)
 			OnClick();
 	}
 	VertexArrayGo::Update(dt);
+}
+
+sf::Vector2f SliceSpriteGo::GetSize()
+{
+	float x = vertexArray[9].position.x - vertexArray[0].position.x;
+	float y = vertexArray[35].position.y - vertexArray[0].position.y;
+	return sf::Vector2f{ x, y };
 }

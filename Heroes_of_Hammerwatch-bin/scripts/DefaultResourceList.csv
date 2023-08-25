@@ -181,3 +181,6 @@
 0,graphics/boss/stalactite.png
 0,graphics/boss/warning.png
 3,animations/BossGolem/FallingObject.csv
+0,graphics/Player/ItemSlot.png
+0,graphics/Player/ItemsName.png
+0,graphics/Inventory/Inventory.png

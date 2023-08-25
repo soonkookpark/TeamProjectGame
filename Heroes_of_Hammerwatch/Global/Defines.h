@@ -59,6 +59,7 @@ enum SortLayer
 	WALL,
 	A_MONSTER,
 	UI = 101,
+	UI_TEXT,
 };
 
 enum SightDegree

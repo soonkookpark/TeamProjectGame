@@ -14,7 +14,7 @@ public:
 		SkillData,
 		EquipItem,
 	};
-
+	
 	DataTable(const DataTable& other) = delete;
 	bool operator==(const DataTable& other) const = delete;
 
