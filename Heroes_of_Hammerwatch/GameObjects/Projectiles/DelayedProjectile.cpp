@@ -12,9 +12,11 @@ DelayedProjectile::DelayedProjectile(const std::string& key, Creature* owner, st
 
 void DelayedProjectile::SetData(const std::string& key)
 {
-    fallingObject.setTexture(*ResourceMgr::Instance().GetTexture("graphics/Test/testProjectile.png"));
+    sprite.setTexture(*ResourceMgr::Instance().GetTexture("graphics/boss/warning.png"));
+    Utils::SetOrigin(sprite, Origins::MC);
+    fallingObject.setTexture(*ResourceMgr::Instance().GetTexture("graphics/boss/stalactite.png"));
     Utils::SetOrigin(fallingObject, Origins::BC);
-    fallDistance = 20.f;
+    fallDistance = 200.f;
     delayTime = 2.f;
     animationTime = 1.f;
 
@@ -25,6 +27,7 @@ void DelayedProjectile::SetData(const std::string& key)
 void DelayedProjectile::Update(float dt)
 {
     Projectile::Update(dt);
+    animation.Update(dt);
     timer += dt;
     if (timer > delayTime - animationTime)
     {

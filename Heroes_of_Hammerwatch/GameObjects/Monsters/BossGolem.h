@@ -6,15 +6,13 @@ class BossGolem :
 protected:
     float spawnRange = 750;
     int summonAmount = 8;
-    float rockRadius;
     float attackRange = 40;
-    float summonBatsDelay = 0.f;
-    float lurkerDelay = 0.f;
-    float rockSpawnDelay = 0.f;
 
-    float SBtimer = 0.f;
-    float Ltimer = 0.f;
-    float RStimer = 0.f;
+    float attackDelay = 0.f;
+    float summonDelay = 0.f;
+
+    float AtkTimer = 0.f;
+    float SmnTimer = 0.f;
 public:
     BossGolem();
     virtual ~BossGolem() = default;

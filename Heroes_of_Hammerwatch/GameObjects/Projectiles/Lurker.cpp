@@ -16,15 +16,17 @@ Lurker::Lurker(const std::string& key, Creature* owner, std::list<Creature*> tar
 void Lurker::Update(float dt)
 {
     Projectile::Update(dt);
+    for (auto& ctrl : controllers)
+        ctrl.Update(dt);
     sf::Vector2f movement = dir * speed * dt;
     moveCounter += Utils::Distance(movement, {0.f,0.f});
     movedDistance += Utils::Distance(movement, {0.f,0.f});
     SetPosition(position + movement);
-    if (moveCounter > sprite.getLocalBounds().width)
+    if (moveCounter > spriteSize)
     {
         moveCounter = 0;
         followingSprite[counter % followingSprite.size()].setPosition(position);
-        //애니메이션 플레이 부분
+        controllers[counter % followingSprite.size()].Play("Lurker");
         counter++;
     }
     if (attackRange > movedDistance)
@@ -40,22 +42,23 @@ void Lurker::Draw(sf::RenderWindow& window)
 }
 
 void Lurker::SetData(const std::string& key)
-{
-    sprite.setTexture(*ResourceMgr::Instance().GetTexture("graphics/Test/testProjectile.png"));
-    
-    if (key == "BossGolem")
-    {
+{    
+    //if (key == "BossGolem")
+    //{
+        animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/BossGolem/LurckerProjectile.csv"));
+        spriteSize = 14.f;
         speed = 100.f;
-        animationTime = 1.f;
+        animationTime = animation.GetTotalPlayTime("Lurker");
         attackRange = 1000.f;
-    }
+    //}
 
-    const sf::Texture tex = *(sprite.getTexture());
-    int size = static_cast<int>(Utils::Distance(dir * speed) / sprite.getLocalBounds().width * animationTime);
+    int size = static_cast<int>(Utils::Distance(dir * speed) / spriteSize * animationTime);
     followingSprite.resize(size);
+    controllers.resize(size);
     for (int i = 0; i < followingSprite.size(); i++)
     {
-        followingSprite[i].setTexture(tex);
+        controllers[i].AddClip(*RESOURCE_MGR.GetAnimationClip("animations/BossGolem/LurckerProjectile.csv"));
+        controllers[i].SetTarget(&followingSprite[i]);
         Utils::SetOrigin(followingSprite[i], origin);
         followingSprite[i].setPosition(position);
     }

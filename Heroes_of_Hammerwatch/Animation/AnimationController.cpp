@@ -99,6 +99,11 @@ void AnimationController::Stop()
 	isPlaying = false;
 }
 
+float AnimationController::GetTotalPlayTime(const std::string& clipId)
+{
+	return clips[clipId].frames.size() / clips[clipId].fps;
+}
+
 void AnimationController::SetFrame(const AnimationFrame& frame)
 {
 	sf::Texture* tex = RESOURCE_MGR.GetTexture(frame.textureId);

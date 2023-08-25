@@ -3,6 +3,7 @@
 #include "SceneMgr.h"
 #include "AllSkills.hpp"
 #include "Projectiles/AllProjectiles.hpp"
+#include "ResourceMgr.h"
 
 BossGolem::BossGolem()
 	:Monster("BossGolem", "BossGolem")
@@ -13,13 +14,12 @@ BossGolem::BossGolem()
 
 void BossGolem::Update(float dt)
 {
-	Ltimer += dt;
-	RStimer += dt;
-	SBtimer += dt;
-	if(Ltimer > lurkerDelay)
-
-	if(Ltimer > lurkerDelay)
-	if(Ltimer > lurkerDelay)
+	SmnTimer += dt;
+	if (SmnTimer > summonDelay)
+	{
+		SummonBats();
+	}
+	AtkTimer += dt;
 	Monster::Update(dt);
 }
 
@@ -27,7 +27,9 @@ void BossGolem::SetData(const std::string& key)
 {
 	Monster::SetData(key);
 	skills.insert({ "rockSpawn",new RangeAttack(key + "_RS",this)});
-	skills.insert({ "lurker",new RangeAttack(key + "_L",this) });
+	skills.insert({ "lurker",new RangeAttack(key + "_L",this) });	
+	creatureAnimation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/BossGolem/Special.csv"));
+	spawnRange = 500;
 }
 
 void BossGolem::SummonBats()
@@ -37,21 +39,19 @@ void BossGolem::SummonBats()
 		Monster* mob = (Monster*)SCENE_MGR.GetCurrScene()->AddGo(new Monster("Bat"));
 		mob->SetPosition(Utils::RandomOnCircle(spawnRange)+position);
 	}
+	SmnTimer = 0;
 }
 
 void BossGolem::Lurker(float dt)
 {	
 	if (!dynamic_cast<ActiveSkill*>(skills["lurker"])->GetIsSkillActive())
-	{
+	{		
+		AttackAnimationPrint(lookat);
 		skills["lurker"]->Active();
-	}
-	else
+	}		
+	if (creatureAnimation.GetTotalPlayTime("AttackR")  + attackDelay > AtkTimer)
 	{
-		//animation gogo
-		if (1)//애니메이션 끝나면
-		{
-
-		}
+		AtkTimer = 0;
 	}
 }
 
@@ -59,15 +59,12 @@ void BossGolem::RockSpawn(float dt)
 {
 	if (!dynamic_cast<ActiveSkill*>(skills["rockSpawn"])->GetIsSkillActive())
 	{
+		creatureAnimation.Play("special");
 		skills["rockSpawn"]->Active();
 	}
-	else
+	if (creatureAnimation.GetTotalPlayTime("special") + attackDelay > AtkTimer)
 	{
-		//animation gogo
-		if (1)//애니메이션 끝나면
-		{
-			
-		}
+		AtkTimer = 0;
 	}
 }
 
@@ -76,5 +73,10 @@ void BossGolem::MeleeAttack(float dt)
 	if (Utils::CircleToRect(position, attackRange, player->sprite.getGlobalBounds()))
 	{
 		skills["atk"]->Active();
+		AttackAnimationPrint(lookat);
+	}
+	if (creatureAnimation.GetTotalPlayTime("AttackR") + attackDelay > AtkTimer)
+	{
+		AtkTimer = 0;
 	}
 }

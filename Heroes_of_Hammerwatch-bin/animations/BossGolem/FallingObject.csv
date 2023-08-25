@@ -1,0 +1,14 @@
+ID,FPS,LOOPTYPE,,
+Special,8,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/boss/smoke_impact_golem.png,0,0,80,80
+graphics/boss/smoke_impact_golem.png,80,0,80,80
+graphics/boss/smoke_impact_golem.png,160,0,80,80
+graphics/boss/smoke_impact_golem.png,240,0,80,80
+graphics/boss/smoke_impact_golem.png,320,0,80,80
+graphics/boss/smoke_impact_golem.png,400,0,80,80
+graphics/boss/smoke_impact_golem.png,0,80,80,80
+graphics/boss/smoke_impact_golem.png,80,80,80,80
+graphics/boss/smoke_impact_golem.png,160,80,80,80
+graphics/boss/smoke_impact_golem.png,240,80,80,80

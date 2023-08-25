@@ -2,6 +2,14 @@ ID,FPS,LOOPTYPE,,
 Lurker,8,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/boss/BossGolemProjectile.png,112,0,14,16
+graphics/boss/BossGolemProjectile.png,98,0,14,16
+graphics/boss/BossGolemProjectile.png,84,0,14,16
+graphics/boss/BossGolemProjectile.png,70,0,14,16
+graphics/boss/BossGolemProjectile.png,56,0,14,16
+graphics/boss/BossGolemProjectile.png,42,0,14,16
+graphics/boss/BossGolemProjectile.png,28,0,14,16
+graphics/boss/BossGolemProjectile.png,14,0,14,16
 graphics/boss/BossGolemProjectile.png,0,0,14,16
 graphics/boss/BossGolemProjectile.png,14,0,14,16
 graphics/boss/BossGolemProjectile.png,28,0,14,16

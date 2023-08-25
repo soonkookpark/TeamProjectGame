@@ -121,7 +121,6 @@ void Monster::SetData(const std::string& name)
 		skills.insert({ "atk", new MeleeAttack(name,this) });
 	else if (name == "BossGolem")
 		skills.insert({ "atk", new MeleeAttack(name,this) });
-	
 }
 
 void Monster::Wander(float dt)

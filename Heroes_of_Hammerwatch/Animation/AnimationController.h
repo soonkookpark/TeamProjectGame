@@ -37,6 +37,8 @@ public:
 
 	void Stop();
 
+	float GetTotalPlayTime(const std::string& clipId);
+
 	void SetFrame(const AnimationFrame& frame);
 	void SetFrame(int frame) { currentFrame = frame; }
 	std::string GetCurrentClipId();
