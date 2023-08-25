@@ -28,10 +28,24 @@ void RangeAttack::SetData(const std::string& key)
 		type = Projectile::ProjetileType::ARROW;
 		coolDown = 1.f;
 		prevDelay = 0.3f;
-		physicalDamage = 12.f;
+		targetType = Skill::TargetType::ENEMY;
+		range = 100.f;
+	}
+	else if(key == "BossGolem_SR")
+	{
+		type = Projectile::ProjetileType::DELAYED;
+		coolDown = 0.f;
+		prevDelay = 0.3f;
+		targetType = Skill::TargetType::ENEMY;
+	}
+	else if (key == "BossGolem_L")
+	{
+		type = Projectile::ProjetileType::LURKER;
+		coolDown = 0.f;
+		prevDelay = 0.3f;
+		physicalDamage = 25.f;
 		magicalDamage = 0.f;
 		targetType = Skill::TargetType::ENEMY;
-		range = 100.f;		
 	}
 }
 

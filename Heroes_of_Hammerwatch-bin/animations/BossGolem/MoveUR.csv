@@ -2,7 +2,6 @@ ID,FPS,LOOPTYPE,,
 MoveUR,8,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/Monster/Bat.png,1,2,11,7
-graphics/Monster/Bat.png,13,3,13,7
-graphics/Monster/Bat.png,26,3,13,7
-graphics/Monster/Bat.png,13,3,13,7
+graphics/boss/BossGolem.png,64,0,64,64
+graphics/boss/BossGolem.png,64,64,64,64
+graphics/boss/BossGolem.png,64,128,64,64
