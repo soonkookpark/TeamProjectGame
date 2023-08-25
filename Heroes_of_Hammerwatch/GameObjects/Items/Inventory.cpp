@@ -237,8 +237,11 @@ void Inventory::Collocate(Player* player)
 	}
 	//return myInventoryStatusInfo;
 }
+
 void Inventory::FindGameText()
 {
+
+
 	inventoryText1 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("JobName");
 	inventoryText2 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("HP");
 	inventoryText3 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("HealHP");
