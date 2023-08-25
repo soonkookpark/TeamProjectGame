@@ -276,7 +276,7 @@ void Inventory::FindGameText()
 
 void Inventory::TextSetting()
 {
-	
+	//직업이름
 	{
 		inventoryText1->SetPosition(53, -311);
 		inventoryText1->text.setFillColor(sf::Color::Magenta);
@@ -284,51 +284,61 @@ void Inventory::TextSetting()
 		inventoryText1->SetOrigin(Origins::MC);
 		inventoryText1->text.setScale(2.f, 2.f);
 	}
+	//최대체력
 	{
 		inventoryText2->SetPosition(-413, -195);
 		inventoryText2->text.setFillColor(sf::Color::White);
 		inventoryText2->text.setString(std::to_string(myInventoryStatusInfo.playerMaxHp));
 	}
+	//최대마나
 	{
 		inventoryText3->SetPosition(-241, -195);
 		inventoryText3->text.setFillColor(sf::Color::White);
 		inventoryText3->text.setString(std::to_string(myInventoryStatusInfo.playerMaxMp));
 	}
+	//스피드
 	{
-		inventoryText4->SetPosition(-31, -166);
+		inventoryText4->SetPosition(-31, -170);
 		inventoryText4->text.setFillColor(sf::Color::White);
 		inventoryText4->text.setString(std::to_string(myInventoryStatusInfo.playerSpeed));
 	}
+	//플레이어 경험치
 	{
-		inventoryText5->SetPosition(117, -166);
+		inventoryText5->SetPosition(117, -170);
 		inventoryText5->text.setFillColor(sf::Color::White);
 		inventoryText5->text.setString(std::to_string(myInventoryStatusInfo.playerExp));
 	}
+	//공격력
 	{
 		inventoryText6->SetPosition(-407, -36);
 		inventoryText6->text.setFillColor(sf::Color::White);
 		inventoryText6->text.setString(std::to_string(myInventoryStatusInfo.playerAtkPower));
 	}
+	//스킬공격력
 	{
 		inventoryText7->SetPosition(-231, -36);
 		inventoryText7->text.setFillColor(sf::Color::White);
 		inventoryText7->text.setString(std::to_string(myInventoryStatusInfo.skillPower));
 	}
+	//크리티컬 확률
 	{
 		inventoryText8->SetPosition(-52, -36);
 		inventoryText8->text.setFillColor(sf::Color::White);
 		inventoryText8->text.setString(std::to_string(myInventoryStatusInfo.criticalChance));
 	}
+	//방어력
 	{
 		inventoryText9->SetPosition(-419, 10);
 		inventoryText9->text.setFillColor(sf::Color::White);
 		inventoryText9->text.setString(std::to_string(myInventoryStatusInfo.armor));
 	}
+	//마저
 	{
 		inventoryText10->SetPosition(-239, 10);
 		inventoryText10->text.setFillColor(sf::Color::White);
 		inventoryText10->text.setString(std::to_string(myInventoryStatusInfo.resistance));
 	}
+	//체력회복량
 	{
 		inventoryText11->SetPosition(-414, -150);
 		inventoryText11->text.setFillColor(sf::Color::White);
@@ -337,6 +347,7 @@ void Inventory::TextSetting()
 		healHp << std::fixed << std::setprecision(2) << myInventoryStatusInfo.playerHealHp;
 		inventoryText11->text.setString(healHp.str());
 	}
+	//마나회복량
 	{
 		inventoryText12->SetPosition(-241, -150);
 		inventoryText12->text.setFillColor(sf::Color::White);
@@ -345,42 +356,49 @@ void Inventory::TextSetting()
 		healMp << std::fixed << std::setprecision(2) << myInventoryStatusInfo.playerHealMp;
 		inventoryText12->text.setString(healMp.str());
 	}
+	//행운
 	{
 		int luckySeven = 7;
 		inventoryText13->SetPosition(129, 10);
 		inventoryText13->text.setFillColor(sf::Color::White);
 		inventoryText13->text.setString(std::to_string(luckySeven));
 	}
+	//플레이어 골드
 	{
 		int playerGold = 1004;
 		inventoryText14->SetPosition(-441,121);
 		inventoryText14->text.setFillColor(sf::Color::White);
 		inventoryText14->text.setString(std::to_string(playerGold));
 	}
+	//회피율
 	{
 		int evadeRate = 0;
 		inventoryText15->SetPosition(132, -36);
 		inventoryText15->text.setFillColor(sf::Color::White);
 		inventoryText15->text.setString(std::to_string(evadeRate));
 	}
+	//브론즈 키
 	{
 		int bronzeKey = 0;
 		inventoryText16->SetPosition(-80, 160);
 		inventoryText16->text.setFillColor(sf::Color::White);
 		inventoryText16->text.setString(std::to_string(bronzeKey));
 	}
+	//실버 키
 	{
 		int silverKey = 0;
 		inventoryText17->SetPosition(13, 160);
 		inventoryText17->text.setFillColor(sf::Color::White);
 		inventoryText17->text.setString(std::to_string(silverKey));
 	}
+	//골드키
 	{
 		int goldKey = 0;
 		inventoryText18->SetPosition(106, 160);
 		inventoryText18->text.setFillColor(sf::Color::White);
 		inventoryText18->text.setString(std::to_string(goldKey));
 	}
+	//빨간키
 	{
 		int redKey = 0;
 		inventoryText19->SetPosition(189, 160);
