@@ -58,6 +58,8 @@ public:
 
 	sf::IntRect GetTileBound(int index);
 	std::vector<std::vector<int>> GetTileArray() { return tileArray; }
+	int FindTileInfo(sf::Vector2f pos);
+	int FindTileInfo(float x, float y) { return FindTileInfo({ x,y }); }
 
 	std::vector<Tile> tiles;
 	std::unordered_map<int, TileInfo> tileInfo;

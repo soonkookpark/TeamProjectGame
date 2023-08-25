@@ -64,6 +64,7 @@ void Player::SetData(const std::string& name)
 	skills.insert({ "heal", new ActiveBuff("test",this) });
 	skills.insert({ "atk", new MeleeAttack("test",this) });
 	skills.insert({ "buff", new PassiveToMe("test",this) });
+	skills.insert({ "RA", new RangeAttack("test",this)});
 }
 
 void Player::Reset()
@@ -135,6 +136,15 @@ void Player::Update(float dt)
 	
 	Creature::Update(dt);
 
+	if (InputMgr::Instance().GetMouseButton(sf::Mouse::Right))
+	{
+		if (clock1.getElapsedTime().asSeconds() > 0.3f)
+		{
+			std::cout << clock1.getElapsedTime().asSeconds() << std::endl;
+			skills["RA"]->Effect();
+			clock1.restart();
+		}
+	}
 	if (InputMgr::Instance().GetMouseButton(sf::Mouse::Left))
 	{
 		if (clock1.getElapsedTime().asSeconds() > 0.3f)

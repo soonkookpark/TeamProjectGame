@@ -29,7 +29,7 @@ bool MonsterTable::Load()
                 doc.GetCell<float>(11,i),
                 //doc.GetCell<int>(15,i),
                 doc.GetCell<float>(16,i),
-                static_cast<Monster::MonsterType>(doc.GetCell<int>(17,i))
+                static_cast<Monster::MonsterType>(doc.GetCell<int>(17,i)),
                 }
             }
             });        

@@ -32,8 +32,8 @@ public:
 	static float Magnitude(const sf::Vector2f& vector2);
 	static float Magnitude(const sf::Vector2i& vector2);
 	static float SqrMagnitude(const sf::Vector2f& vector);
-	static float Distance(const sf::Vector2f& p1, const sf::Vector2f& p2);
-	static float Distance(const sf::Vector2i& p1, const sf::Vector2i& p2);
+	static float Distance(const sf::Vector2f& p1, const sf::Vector2f& p2 = { 0.f,0.f });
+	static float Distance(const sf::Vector2i& p1, const sf::Vector2i& p2 = { 0,0 });
 
 	static float Angle(const sf::Vector2f& start, const sf::Vector2f& end);
 	static float Angle(const sf::Vector2f& dir);

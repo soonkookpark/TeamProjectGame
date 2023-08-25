@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+IdleDL,8,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/Monster/Bat.png,40,2,11,7
+graphics/Monster/Bat.png,52,3,13,7
+graphics/Monster/Bat.png,65,3,13,7
+graphics/Monster/Bat.png,52,3,13,7

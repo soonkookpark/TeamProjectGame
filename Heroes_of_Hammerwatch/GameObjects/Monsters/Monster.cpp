@@ -4,7 +4,7 @@
 #include "AnimationController.h"
 #include "DataTableMgr.h"
 #include "MonsterTable.h"
-#include "MeleeAttack.h"
+#include "AllSkills.hpp"
 #include "ResourceMgr.h"
 #include "InputMgr.h"
 #include "Tools/Astar.h"
@@ -50,6 +50,8 @@ void Monster::Update(float dt)
 	Creature::Update(dt);
 	creatureAnimation.Update(dt);
 	SetOrigin(origin);
+	look = destination - position;
+	findAngle = Utils::Angle(look);
 
 	findAngle = Utils::Angle(player->GetPosition() - GetPosition());
 	//destination = GetPosition();
@@ -121,7 +123,18 @@ void Monster::SetData(const std::string& name)
 	{
 		sortLayer = SortLayer::G_MONSTER;
 	}
-	skills.insert({ "atk", new MeleeAttack("test",this) });
+
+	if(name == "Tick")
+		skills.insert({ "atk", new MeleeAttack(name,this) });
+	else if (name == "Maggot")
+		skills.insert({ "atk", new RangeAttack(name,this)});
+	else if (name == "Bat")
+		skills.insert({ "atk", new MeleeAttack(name,this) });
+	else if (name == "EliteTick")
+		skills.insert({ "atk", new MeleeAttack(name,this) });
+	else if (name == "BossGolem")
+		skills.insert({ "atk", new MeleeAttack(name,this) });
+	
 }
 
 void Monster::Wander(float dt)
@@ -130,14 +143,12 @@ void Monster::Wander(float dt)
 	if (Utils::Distance(position, destination) < 0.1)
 	{
 		state = State::DEFAULT;
-		//std::cout << "default" << std::endl;
 	}
 }
 
 void Monster::Attack(float dt)
 {
 	bool isAttacking = false;
-	destination = position;
 	for (auto skill : skills)
 	{
 		ActiveSkill* activeSkill = dynamic_cast<ActiveSkill*>(skill.second);
@@ -163,6 +174,8 @@ void Monster::Attack(float dt)
 
 void Monster::Chase(float dt)
 {
+	//if(checkWall(position, player->GetPosition()))
+		//state = State::DEFAULT;
 	timer += dt;
 	if (Utils::Distance(destination, position) < 0.1f || timer > 20.f)
 	{
@@ -176,10 +189,9 @@ void Monster::Chase(float dt)
 	//std::cout << lookat << std::endl;
 	if (!DetectTarget())
 	{
-		std::cout << "default" << std::endl;
 		state = State::DEFAULT;
 	}
-	if (Utils::CircleToRect(position, monsterParameter.attackRange, player->sprite.getGlobalBounds()))
+	if (CheckCanAttack())
 	{
 		timer = 0.f;
 		skills["atk"]->Active();
@@ -214,7 +226,7 @@ void Monster::Kiting(float dt)
 		state = State::CHASE;
 		std::cout << "chase" << std::endl;
 	}
-	if (Utils::CircleToRect(position, monsterParameter.attackRange, player->sprite.getGlobalBounds()))
+	if (CheckCanAttack())
 	{
 		timer = 0.f;
 		skills["atk"]->Active();
@@ -403,6 +415,11 @@ void Monster::AttackAnimationPrint(SightDegree lookat)
 	}
 }
 
+bool Monster::CheckCanAttack()
+{	
+	return Utils::CircleToRect(position, monsterParameter.attackRange, player->sprite.getGlobalBounds()) && !checkWall(position,player->GetPosition());
+}
+
 void Monster::FindDestination()
 {
 	if (chasePath != nullptr && chasePath->size() != 0 && Utils::Distance(destination, position) < 0.01f)
@@ -426,6 +443,84 @@ void Monster::FindDestination()
 		}
 	}
 	nextTile.setPosition(destination);
+}
+
+bool Monster::checkWall(sf::Vector2f start, sf::Vector2f end) 
+{
+	sf::Vector2i startI((int)start.x, (int)start.y);
+	sf::Vector2i endI((int)end.x, (int)end.y);
+	/* 1차 절도 시도 실패 추정
+	int dx = abs(endI.x - startI.x);
+	int dy = abs(endI.y - startI.y);
+	int sx = (startI.x < endI.x) ? 1 : -1;
+	int sy = (startI.y < endI.y) ? 1 : -1;
+	int err = dx - dy;
+
+	while (1) {
+		
+
+		if (startI.x == endI.x && start.y == endI.y)
+			break;
+
+		int e2 = 2 * err;
+		if (e2 > -dy) {
+			err -= dy;
+			startI.x += sx;
+		}
+		if (e2 < dx) {
+			err += dx;
+			startI.y += sy;
+		}
+	}
+	return false;
+	*/
+	/*2차 절도 시도 실패 추정
+	int dx, dy, p, x, y;
+
+	dx = endI.x - startI.x;
+	dy = endI.y - startI.y;
+
+	x = startI.x;
+	y = startI.y;
+
+	p = 2 * dy - dx;
+
+	while (x < endI.x)
+	{
+		if (p >= 0)
+		{
+			if (tileMap->GetTileArray()[y / 16][x / 16] == 0)
+				return true;
+			y = y + 1;
+			p = p + 2 * dy - 2 * dx;
+		}
+		else
+		{
+			if (tileMap->GetTileArray()[y / 16][x / 16] == 0)
+				return true;
+			p = p + 2 * dy;
+		}
+		x = x + 1;
+	}
+	return false;
+	*/
+	int m_new = 2 * (endI.y - startI.y);
+	int slope_error_new = m_new - (endI.x - startI.x);
+	for (int x = startI.x, y = startI.y; x <= endI.x; x++) {
+		if (tileMap->GetTileArray()[y / 16][x / 16] == 0)
+			return true;
+
+		// Add slope to increment angle formed
+		slope_error_new += m_new;
+
+		// Slope error reached limit, time to
+		// increment y and update slope error.
+		if (slope_error_new >= 0) {
+			y++;
+			slope_error_new -= 2 * (endI.x - startI.x);
+		}
+	}
+	return false;
 }
 
 void Monster::Move(float dt, sf::Vector2f pos)

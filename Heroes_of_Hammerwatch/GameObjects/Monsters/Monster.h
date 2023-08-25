@@ -89,10 +89,12 @@ public:
         
     bool DetectTarget();
     bool GetIsBuffed() { return isBuffed; };
+    Player* GetPlayer() { return player; }
 
     virtual void IdleAnimationPrint(SightDegree lookat) override;
     virtual void MoveAnimationPrint(SightDegree lookat) override;
     virtual void AttackAnimationPrint(SightDegree lookat) override;
-
+    virtual bool CheckCanAttack();
+    bool checkWall(sf::Vector2f start, sf::Vector2f end);
 };
 

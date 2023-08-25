@@ -9,13 +9,13 @@ protected:
     float physicalDamage;
     float magicalDamage;
 
-    float timer = 0.f;
     float prevDelay = 0.f;
     float coolDown = 0.f;
 
     int repeat = 1;
     int rptCounter = 0;
 
+    float timer = 0.f; 
     bool isSkillActive = false;
 public:
     ActiveSkill(const std::string& key, Creature* owner);
