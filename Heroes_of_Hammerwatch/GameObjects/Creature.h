@@ -56,7 +56,7 @@ public:
     int MonsterSight(float angle);
 
     void SetTileMap(TileMap* tileMap) { this->tileMap = tileMap; }
-    void SetTileMap(OnTileMap* onTileMap) { this->onTileMap = onTileMap; }
+    void SetOnTileMap(OnTileMap* onTileMap) { this->onTileMap = onTileMap; }
     TileMap* GetTileMap() { return tileMap; }
     sf::Vector2i GetTileIndex() { return tileIndex; };
 

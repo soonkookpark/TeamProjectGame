@@ -21,7 +21,6 @@ protected:
     float radius;
         
     float attackRange;
-    Creature* owner;
     AnimationController animation;
         
     std::list<Creature*> EffectedCreature;
