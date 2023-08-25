@@ -166,17 +166,6 @@ void Player::Update(float dt)
 		inventoryUI = true;
 	}
 
-
-
-	if (tileMap != nullptr)
-	{
-		if (tileMap->CheckEnt(box.getGlobalBounds()))
-		{
-			std::cout << "Ãâ±¸ µµÂø" << std::endl;
-		}
-	}
-
-
 	TestCode();
 }
 

@@ -338,7 +338,7 @@ void SceneEdit::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 	{
-		SCENE_MGR.ChangeScene(SceneId::Game);
+		SCENE_MGR.ChangeScene(SceneId::Title);
 	}
 	
 	if (INPUT_MGR.GetKey(sf::Keyboard::Up))

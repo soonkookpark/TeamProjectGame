@@ -6,6 +6,7 @@ class Lurker :
     public Projectile
 {
 protected:
+    sf::Vector2f dir;
     float speed;
     float animationTime;
 

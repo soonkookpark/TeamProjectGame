@@ -124,7 +124,7 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 	{
 		for (int i = 0; i < tileMap->TileIntSize().x; i++)
 		{
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < 15; j++)
 			{
 				tileMap->ChangeTile(i, j, 0);
 				tileMap->ChangeTile(i, tileMap->TileIntSize().y - 1 - j, 0);
@@ -132,7 +132,7 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 		}
 		for (int i = 0; i < tileMap->TileIntSize().y; i++)
 		{
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < 20; j++)
 			{
 				tileMap->ChangeTile(j, i, 0);
 				tileMap->ChangeTile(tileMap->TileIntSize().x - 1 - j, i, 0);

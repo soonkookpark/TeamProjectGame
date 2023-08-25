@@ -178,8 +178,7 @@ void SceneTitle::UIButtonMaker()
 		std::cout << "Click" << std::endl;
 	};
 	settingButton->OnActive = [settingButton]() {
-		std::cout << sf::Keyboard::A << std::endl;
-		
+		SCENE_MGR.ChangeScene(SceneId::Edit);
 	};
 
 	exitButton->OnEnter = [exitButton]() {

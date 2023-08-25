@@ -110,6 +110,7 @@ public:
 
 	void SetEntrance();
 	std::vector<std::vector<int>> GetTileArray() { return tileArray; }
+	sf::Vector2i TileIntSize() { return size; }
 
 	sf::Vector2f GetStartPos() { return start.getPosition(); }
 	sf::Vector2i GetStartIndex() { return (sf::Vector2i)start.getPosition() / 16; }

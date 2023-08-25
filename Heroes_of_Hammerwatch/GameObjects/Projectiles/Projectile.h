@@ -17,11 +17,13 @@ protected:
     std::list<Creature*> targets;
     float physicalDamage = 0.f;
     float magicalDamage = 0.f;
+    Creature* owner;
     float radius;
         
     float attackRange;
     Creature* owner;
     AnimationController animation;
+        
     std::list<Creature*> EffectedCreature;
     float timer = 0.f;
 public:

@@ -42,16 +42,16 @@ void Lurker::Draw(sf::RenderWindow& window)
 }
 
 void Lurker::SetData(const std::string& key)
-{    
+{
     //if (key == "BossGolem")
     //{
         animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/BossGolem/LurckerProjectile.csv"));
         spriteSize = 14.f;
-        speed = 100.f;
+    speed = 100.f;
         animationTime = animation.GetTotalPlayTime("Lurker");
-        attackRange = 1000.f;
+    attackRange = 1000.f;
     //}
-
+    
     int size = static_cast<int>(Utils::Distance(dir * speed) / spriteSize * animationTime);
     followingSprite.resize(size);
     controllers.resize(size);

@@ -66,6 +66,7 @@ public:
     //BuffToOther* AccessSkill(const std::string& key) { return dynamic_cast<BuffToOther*>(skills[key]); }
     std::function<void(float physicalDmg, float magicalDmg, GameObject* attacker)> Damaged;
     
+    void TransParent(int x, int y);
 
 
     virtual void SetDead() = 0;
