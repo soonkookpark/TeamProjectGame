@@ -3,6 +3,7 @@
 #include "ResourceMgr.h"
 #include "Player.h"
 #include "SceneMgr.h"
+#include "TextGo.h"
 
 Inventory::Inventory(const std::string& n)
 	:GameObject(n), inventoryMenu("graphics/Inventory/Inventory.png","InventoryMenuImage")
@@ -100,11 +101,15 @@ void Inventory::InventoryDisplay()
 		//2. 능력치 출력
 		{
 			Collocate(player);
+			
 		}
 	}
 	else 
 	{
 		inventoryBox.setOutlineColor({ 0,0,0,0 });
+		TextGo* inventoryText1 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("JobName");
+		inventoryText1->SetActive(false);
+		//std::cout << inventoryText->GetActive() << std::endl;
 		//player->SetActive(true);
 	}
 }
@@ -164,6 +169,8 @@ void Inventory::AddItemToInventory(MyItemInfo* itemInfo)
 	//std::cout << equipItemImageInMyInventory.size() << std::endl;
 }
 
+
+
 const std::vector<Inventory::MyItemInfo*> Inventory::GetInventoryItems() const 
 {
 	return equipItemImageInMyInventory;
@@ -171,24 +178,83 @@ const std::vector<Inventory::MyItemInfo*> Inventory::GetInventoryItems() const
 
 void Inventory::Collocate(Player* player)
 {
-	player->ControlCreatureInfos();
-	std::cout <<"maxHealth: " << player->ControlCreatureInfos()->maxHealth << std::endl;
-	std::cout <<"armor:" << player->ControlCreatureInfos()->armor << std::endl;
-	std::cout <<"exp: " << player->ControlCreatureInfos()->exp << std::endl;
-	std::cout <<"speed: " << player->ControlCreatureInfos()->speed << std::endl;
-	std::cout <<"ClassName: " << player->ControlPlayerInfos()->ClassName << std::endl;
-	myInventoryStatusInfo.playerMaxHp = player->ControlCreatureInfos()->maxHealth;
+	Player::CreatureInfo* creatureInfo = player->ControlCreatureInfos();
+	Player::PlayerInfo* playerInfo = player->ControlPlayerInfos();
+	//std::TestCode
+	{
+		std::cout << "maxHealth: " << creatureInfo->maxHealth << std::endl;
+		std::cout << "armor:" << creatureInfo->armor << std::endl;
+		std::cout << "exp: " << creatureInfo->exp << std::endl;
+		std::cout << "speed: " << creatureInfo->speed << std::endl;
+		std::cout << "ClassName: " << player->ControlPlayerInfos()->ClassName << std::endl;
+	}
+	//넘겨오는 인벤토리 정보
+	{
+		myInventoryStatusInfo.jobName = playerInfo->ClassName;
+		myInventoryStatusInfo.playerMaxHp = creatureInfo->maxHealth;
+		myInventoryStatusInfo.playerMaxMp = playerInfo->manaPoint;
+		myInventoryStatusInfo.playerHealHp = playerInfo->HealthHeal;
+		myInventoryStatusInfo.playerHealMp = playerInfo->ManaHeal;
+		myInventoryStatusInfo.playerSpeed = creatureInfo->speed;
+		myInventoryStatusInfo.playerExp = player->PlayerNowExp();
+		myInventoryStatusInfo.playerAtkPower = playerInfo->AttackPower;
+		myInventoryStatusInfo.skillPower = playerInfo->SkillPower;
+		myInventoryStatusInfo.criticalChance = playerInfo->CriticalRate;
+		myInventoryStatusInfo.armor = creatureInfo->armor;
+		myInventoryStatusInfo.resistance = creatureInfo->resistance;
+	}
 
-	int playerMaxHp;
-	int playerMaxMp;
-	float playerHealHp;
-	float playerHealMp;
-	int playerSpeed;
-	int playerExp;
-	int playerAtkPower;
-	int playerMagicPower;
-	int skillPower;
-	int criticalChance;
-	int armor;
-	int resistance;
+	//배치
+	//아이템 배치
+	FindGameText();
+	inventoryText1 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("JobName");
+	//inventoryText->SetActive(inventoryMenu.GetActive());
+	if (inventoryMenu.GetActive())
+	{
+		inventoryText1->SetActive(true);
+		inventoryText1->SetPosition(0, 0);
+		inventoryText1->text.setFillColor(sf::Color::Red);
+		inventoryText1->text.setString(myInventoryStatusInfo.jobName);
+		//inventoryText1 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("");
+		//inventoryText1 = (TextGo*)
+		//inventoryText->SetPosition(100, 100);
+		//inventoryText->text.setString("Bye");
+
+		//inventoryText->sortLayer = 101;
+		//Inventory* inventory = (Inventory*)SCENE_MGR.GetCurrScene()->FindGo("inventory");
+
+
+
+
+
+
+
+
+
+
+
+	}
+	//return myInventoryStatusInfo;
+}
+void Inventory::FindGameText()
+{
+	inventoryText1 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("JobName");
+	inventoryText2 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("HP");
+	inventoryText3 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("HealHP");
+	inventoryText4 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("MP");
+	inventoryText5 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("HealMP");
+	inventoryText6 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("Speed");
+	inventoryText7 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("Exp");
+	inventoryText8 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("AtkPower");
+	inventoryText9 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("SkillPower");
+	inventoryText10 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("CritRate");
+	inventoryText11 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("EvadeRate");
+	inventoryText12 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("Defense");
+	inventoryText13 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("Resistance");
+	inventoryText14 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("Luck");
+	inventoryText15 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("Gold");
+	inventoryText16 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("BronzeKey");
+	inventoryText17 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("SilverKey");
+	inventoryText18 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("GoldKey");
+	inventoryText19 = (TextGo*)SCENE_MGR.GetCurrScene()->FindGo("RedKey");
 }

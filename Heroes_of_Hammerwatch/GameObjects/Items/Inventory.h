@@ -5,6 +5,7 @@
 #include "SpriteGo.h"
 
 class Player;
+class TextGo;
 class Inventory : public GameObject
 {
 public:
@@ -14,6 +15,7 @@ public:
 		std::string itemDescription;
 	};
 	struct MyStatusInfo {
+		std::string jobName;
 		int playerMaxHp;
 		int playerMaxMp;
 		float playerHealHp;
@@ -26,6 +28,7 @@ public:
 		int criticalChance;
 		int armor;
 		int resistance;
+		int luck;
 	};
 protected:
 	SpriteGo inventoryMenu;
@@ -35,6 +38,27 @@ protected:
 	MyStatusInfo myInventoryStatusInfo;
 	sf::RectangleShape inventoryBox;
 
+	TextGo* inventoryText1 = nullptr;
+	TextGo* inventoryText2 = nullptr;
+	TextGo* inventoryText3 = nullptr;
+	TextGo* inventoryText4 = nullptr;
+	TextGo* inventoryText5 = nullptr;
+	TextGo* inventoryText6 = nullptr;
+	TextGo* inventoryText7 = nullptr;
+	TextGo* inventoryText8 = nullptr;
+	TextGo* inventoryText9 = nullptr;
+	TextGo* inventoryText10 = nullptr;
+	TextGo* inventoryText11 = nullptr;
+	TextGo* inventoryText12 = nullptr;
+	TextGo* inventoryText13 = nullptr;
+	TextGo* inventoryText14 = nullptr;
+	TextGo* inventoryText15 = nullptr;
+	TextGo* inventoryText16 = nullptr;
+	TextGo* inventoryText17 = nullptr;
+	TextGo* inventoryText18 = nullptr;
+	TextGo* inventoryText19 = nullptr;
+
+	
 public:
 	Inventory(const std::string& n = "Inventory");
 	virtual ~Inventory();
@@ -54,6 +78,6 @@ public:
 	void AddItemToInventory(MyItemInfo* itemInfo);
 	const std::vector<Inventory::MyItemInfo*> GetInventoryItems() const;
 	void Collocate(Player* player);
-
+	void FindGameText();
 };
 

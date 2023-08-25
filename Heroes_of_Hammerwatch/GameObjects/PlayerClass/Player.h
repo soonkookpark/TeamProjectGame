@@ -80,6 +80,7 @@ protected:
 	
 	float angle = 0.f;
 	float pastAngle = 0.f;
+	float currentExp = 0.f;
 
 	int money = 0;
 	int ore = 0;
@@ -136,5 +137,6 @@ public:
 	//std::vector<Player::InventoryItem> GetInventoryInfo();
 	void InventoryOnOff();
 	PlayerInfo* ControlPlayerInfos() { return &pTable; }
+	float PlayerNowExp() { return currentExp; }
 };
 

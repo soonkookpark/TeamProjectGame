@@ -17,6 +17,7 @@
 #include "Items/FieldItem.h"
 #include "DataTableMgr.h"
 #include "Inventory.h"
+#include"TextGo.h"
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -43,6 +44,28 @@ void SceneGame::Init() // 안바뀔거면 여기
 	player->SetActive(true);
 	player->SetTile(tileMap);
 	inventory->SetPlayer(player);
+
+	//inventoryText->sortLayer = UI_TEXT;
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf","JobName"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "HP"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "HealHP"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "MP"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "HealMP"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Speed"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Exp"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "AtkPower"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "SkillPower"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "CritRate"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "EvadeRate"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Defense"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Resistance"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Luck"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "Gold"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "BronzeKey"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "SilverKey"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "GoldKey"));
+	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "RedKey"));
+	
 
 	for (auto go : gameObjects)
 	{
@@ -72,14 +95,14 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
-	Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
+	/*Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick")));
 	monster->SetPosition(300,300);
 	
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
 
 	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
-	ET->SetPosition(400, 400);
+	ET->SetPosition(400, 400);*/
 	/*
 	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
 	BG->SetPosition(300, 100);
