@@ -79,5 +79,7 @@ public:
 	const std::vector<Inventory::MyItemInfo*> GetInventoryItems() const;
 	void Collocate(Player* player);
 	void FindGameText();
+	void TextSetting();
+	void TextOnOff(bool tf);
 };
 
