@@ -397,9 +397,11 @@ void Tree::SummonMonster(sf::Vector2f start, TileMap* tileMap)
 		switch (type)
 		{
 		case 0:
-			monster = new Monster("Bat", "mob", randPos + center); //타입, 이름, 좌표
+			monster = new Monster("Bat", randPos + center); //타입, 이름, 좌표
+			break;
 		case 1:
-			monster = new Monster("Tick", "mob", randPos + center); //타입, 이름, 좌표
+			monster = new Monster("Tick", randPos + center); //타입, 이름, 좌표
+			break;
 		}
 
 

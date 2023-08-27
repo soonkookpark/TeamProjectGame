@@ -52,6 +52,8 @@ public:
 	void SettingStage();
 	void Summon(Monster* monster);
 
+	std::list<Monster*> GetAllMonster() { return SummonedMonster; }
+
 	void DieMonster(Monster* mob);
 	void CheckClearStage();
 

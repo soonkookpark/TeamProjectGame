@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-AttackU,4,0,,
+AttackU,2,0,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
 graphics/boss/BossGolem.png,128,192,64,64

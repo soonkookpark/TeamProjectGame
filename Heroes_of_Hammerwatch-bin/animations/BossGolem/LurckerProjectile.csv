@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-Lurker,8,1,,
+Lurker,16,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
 graphics/boss/BossGolemProjectile.png,112,0,14,16

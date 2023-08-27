@@ -4,22 +4,24 @@
 #include "AllSkills.hpp"
 #include "Projectiles/AllProjectiles.hpp"
 #include "ResourceMgr.h"
+#include "InputMgr.h"
 
 BossGolem::BossGolem()
-	:Monster("BossGolem", "BossGolem")
+	:Monster("BossGolem")
 {
 	SetData("BossGolem");
-	textureId = "graphics/Test/testBoss.png";
 }
 
 void BossGolem::Update(float dt)
 {
-	SmnTimer += dt;
-	if (SmnTimer > summonDelay)
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::R))
 	{
-		SummonBats();
+		skills["lurker"]->Effect();
 	}
-	AtkTimer += dt;
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::T))
+	{
+		skills["rockSpawn"]->Effect();
+	}
 	Monster::Update(dt);
 }
 

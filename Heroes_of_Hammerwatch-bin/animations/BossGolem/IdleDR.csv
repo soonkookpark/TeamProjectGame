@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-IdleDR,8,1,,
+IdleDR,1,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
 graphics/boss/BossGolem.png,448,0,64,64

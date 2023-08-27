@@ -3,6 +3,9 @@
 #include "Creature.h"
 #include "InputMgr.h"
 #include "ResourceMgr.h"
+#include "SceneMgr.h"
+#include "SceneGame.h"
+#include "Monster.h"
 
 Lurker::Lurker(const std::string& key, Creature* owner, std::list<Creature*> targets, sf::Vector2f pos, sf::Vector2f dir)
     :Projectile(key, owner,targets,pos), dir(dir)
@@ -29,7 +32,7 @@ void Lurker::Update(float dt)
         controllers[counter % followingSprite.size()].Play("Lurker");
         counter++;
     }
-    if (attackRange > movedDistance)
+    if (attackRange < movedDistance)
         End();
 }
 
@@ -45,12 +48,22 @@ void Lurker::SetData(const std::string& key)
 {
     //if (key == "BossGolem")
     //{
-        animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/BossGolem/LurckerProjectile.csv"));
-        spriteSize = 14.f;
-    speed = 100.f;
-        animationTime = animation.GetTotalPlayTime("Lurker");
-    attackRange = 1000.f;
-    //}
+    animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/BossGolem/LurckerProjectile.csv"));
+    spriteSize = 14.f;
+    speed = 200.f;
+    animationTime = animation.GetTotalPlayTime("Lurker");
+    physicalDamage = 25;
+    magicalDamage = 0;
+    attackRange = 500.f;
+    if (key == "player")
+    {
+        std::list<Monster*>temp = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene())->GetAllMonster();
+        for (auto obj : temp)
+        {
+            targets.push_back(dynamic_cast<Creature*>(obj));
+    
+        }
+    }
     
     int size = static_cast<int>(Utils::Distance(dir * speed) / spriteSize * animationTime);
     followingSprite.resize(size);
@@ -76,4 +89,5 @@ bool Lurker::CheckIsCollided(Creature* target)
 
 void Lurker::End()
 {
+    SceneMgr::Instance().GetCurrScene()->RemoveGo(this);
 }

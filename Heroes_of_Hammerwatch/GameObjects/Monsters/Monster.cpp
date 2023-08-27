@@ -11,8 +11,8 @@
 #include "TileMap.h"
 #include "SceneGame.h"
 
-Monster::Monster(const std::string& type, const std::string& name, sf::Vector2f pos)
-	:Creature("", name)
+Monster::Monster(const std::string& type, sf::Vector2f pos)
+	:Creature("", type)
 {
 	SetOrigin(Origins::MC);
 	SetData(type);
@@ -176,7 +176,7 @@ void Monster::Chase(float dt)
 	//if(checkWall(position, player->GetPosition()))
 		//state = State::DEFAULT;
 	timer += dt;
-	if (Utils::Distance(destination, position) < 0.1f || timer > 20.f)
+	if (monsterParameter.isFlying || Utils::Distance(destination, position) < 0.1f || timer > 20.f)
 	{
 		timer = 0;
 		FindDestination();
@@ -422,6 +422,11 @@ bool Monster::CheckCanAttack()
 
 void Monster::FindDestination()
 {
+	if(monsterParameter.isFlying)
+	{
+		destination = player->GetPosition();
+		return;
+	}
 	if (chasePath != nullptr && chasePath->size() != 0 && Utils::Distance(destination, position) < 0.01f)
 	{
 		destination = tileMap->GetFloatPosition(chasePath->top());
