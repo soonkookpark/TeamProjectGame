@@ -70,7 +70,7 @@ void Player::SetData(const std::string& name)
 	skills.insert({ "heal", new ActiveBuff("test",this) });
 	skills.insert({ "atk", new MeleeAttack("test",this) });
 	skills.insert({ "buff", new PassiveToMe("test",this) });
-	skills.insert({ "RA", new RangeAttack("test",this)});
+	skills.insert({ "RA", new RangeAttack("Paladin",this)});
 }
 
 void Player::Reset()

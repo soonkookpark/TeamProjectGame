@@ -7,7 +7,7 @@
 #include "BuffToOther.h"
 
 EliteTick::EliteTick()
-	:Monster("EliteTick", "EliteTick")
+	:Monster("EliteTick")
 {	
 	SetData("EliteTick");
 }

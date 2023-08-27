@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-MoveU,8,1,,
+MoveU,2,1,,
 ,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
 graphics/boss/BossGolem.png,128,0,64,64

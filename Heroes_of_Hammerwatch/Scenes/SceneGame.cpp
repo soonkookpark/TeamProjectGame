@@ -125,9 +125,7 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	monster->SetPosition(220, 220);
 	monster->SetTileMap(tileMap);
 	/*
-	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
-	ET->SetPosition(400, 400);
-	ET->SetTileMap(tileMap);
+	
 
 	/*
 	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
@@ -190,29 +188,39 @@ void SceneGame::Update(float dt)
 	}
 	Scene::Update(dt);
 
-	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::R))
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::X))
 	{
-		std::list<Creature*> test;
-		test.push_back(dynamic_cast<Creature*>(FindGo("player")));
-		Lurker* arrowTest = dynamic_cast<Lurker*>(AddGo(new Lurker("test", dynamic_cast<Creature*>(FindGo("Tick")), test, ScreenToWorldPos(InputMgr::Instance().GetMousePos()),{1.f,0.f})));
-
+		Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", { 100, 340 })));
+		monster->SetTileMap(tileMap);
+		monster->Reset();
 	}
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::T))
 	{
 		std::list<Creature*> test;
 		test.push_back(dynamic_cast<Creature*>(FindGo("player")));
-		DelayedProjectile* arrowTest = dynamic_cast<DelayedProjectile*>(AddGo(new DelayedProjectile("test", dynamic_cast<Creature*>(FindGo("Tick")), test, ScreenToWorldPos(InputMgr::Instance().GetMousePos()))));
-	}
-	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::X))
-	{
-		Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", { 100, 340 })));
-		monster->SetTileMap(tileMap);
-		monster->Reset();
+		for (int i = 0; i < 8; i++)
+		{
+			DelayedProjectile* arrowTest = dynamic_cast<DelayedProjectile*>(AddGo(new DelayedProjectile("test", dynamic_cast<Creature*>(FindGo("Tick")), test, (sf::Vector2f(600.f, 400.f) + Utils::RandomInCircle(200.f)))));
+		}
 	}
 	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::Z))
 	{
-		Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Maggot", "mob", { 100, 340 })));
+		Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Maggot", { 600, 600 })));
 		monster->SetTileMap(tileMap);
+		monster->Reset();
+	}
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::F10))
+	{
+		EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
+		ET->SetPosition(400, 400);
+		ET->SetTileMap(tileMap);
+		ET->Reset();
+	}
+	if (InputMgr::Instance().GetKeyDown(sf::Keyboard::F9))
+	{
+		Monster* monster = dynamic_cast<Monster*>(AddGo(new BossGolem()));
+		monster->SetTileMap(tileMap);
+		monster->SetPosition(600, 400);
 		monster->Reset();
 	}
 	
@@ -240,6 +248,10 @@ void SceneGame::Update(float dt)
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F3))
 	{
 		onTileMap->SetActive(!onTileMap->GetActive());
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F8))
+	{
+		std::cout << ScreenToWorldPos(mousePos).x << " , " << ScreenToWorldPos(mousePos).y << std::endl;		
 	}
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))

@@ -16,6 +16,7 @@ Arrow::Arrow(const std::string& key, Creature* owner, std::list<Creature*> targe
 void Arrow::Update(float dt)
 {
     Projectile::Update(dt);
+	animation.Update(dt);
 	dir = Utils::Normalize(dir);
 	sf::Vector2f move = dir * speed * dt;
 	movedDistance = Utils::Distance(move);
@@ -25,23 +26,45 @@ void Arrow::Update(float dt)
 
     if (penetrateNum <= EffectedCreature.size() || CollidedWithWall() || attackRange < movedDistance)
         End();
+
 }
 
 void Arrow::SetData(const std::string& key)
 {
 	sprite.setTexture(*ResourceMgr::Instance().GetTexture("graphics/Test/testProjectile.png"));
 	tileMap = owner->GetTileMap();
-	radius = 3.f;
-	speed = 100.f;	
-	physicalDamage = 100.f;
-	attackRange = 1000.f;
 	if (key == "Maggot") 
-	{		
+	{				
+		
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/MaggotEffect/EffectDR.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/MaggotEffect/EffectDL.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/MaggotEffect/EffectR.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/MaggotEffect/EffectL.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/MaggotEffect/EffectUR.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/MaggotEffect/EffectUL.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/MaggotEffect/EffectU.csv"));
+		animation.SetTarget(&sprite);
 		physicalDamage = 12.f;
 		magicalDamage = 0.f;
 		speed = 75.f;
 		radius = 3.f;
-		attackRange = 1000.f;		
+		attackRange = 700.f;		
+	}
+	if (key == "player") 
+	{	
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/PaladinEffect/EffectDR.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/PaladinEffect/EffectDL.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/PaladinEffect/EffectR.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/PaladinEffect/EffectL.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/PaladinEffect/EffectUR.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/PaladinEffect/EffectUL.csv"));
+		animation.AddClip(*ResourceMgr::Instance().GetAnimationClip("animations/PaladinEffect/EffectU.csv"));
+		animation.SetTarget(&sprite);
+		physicalDamage = 15.f;
+		magicalDamage = 0.f;
+		speed = 75.f;
+		radius = 5.f;
+		attackRange = 700.f;		
 	}
 }
 
@@ -78,40 +101,48 @@ void Arrow::SetForwardAt()
 	{
 		forwardAt = DR;
 		hitPos = size + pos;
+		animation.Play("EffectDR");
 	}
 	else if (angle > 67.5 && angle <= 112.5)
 	{
 		forwardAt = D;
 		hitPos = { size.x / 2 + pos.x, size.y + pos.y };
+		animation.Play("EffectD");
 	}
 	else if (angle > 112.5 && angle <= 157.5)
 	{
 		forwardAt = DL;
 		hitPos = { pos.x, size.y + pos.y };
+		animation.Play("EffectDL");
 	}
 	else if (angle > 157.5 && angle <= 202.5)
 	{
 		forwardAt = L;
 		hitPos = { pos.x, size.y / 2 + pos.y };
+		animation.Play("EffectL");
 	}
 	else if (angle > 202.5 && angle <= 247.5)
 	{
 		forwardAt = UL;
 		hitPos = pos;
+		animation.Play("EffectUL");
 	}
 	else if (angle > 247.5 && angle <= 292.5)
 	{
 		forwardAt = U;
 		hitPos = { size.x / 2 + pos.x, pos.y };
+		animation.Play("EffectU");
 	}
 	else if (angle > 292.5 && angle <= 337.5)
 	{
 		forwardAt = UR;
 		hitPos = { size.x + pos.x, pos.y };
+		animation.Play("EffectUR");
 	}
 	else
 	{
 		forwardAt = R;
 		hitPos = { size.x + pos.x, size.y / 2 + pos.y };
+		animation.Play("EffectR");
 	}
 }

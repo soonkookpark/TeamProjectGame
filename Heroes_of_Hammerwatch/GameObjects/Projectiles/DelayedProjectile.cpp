@@ -2,6 +2,7 @@
 #include "DelayedProjectile.h"
 #include "Creature.h"
 #include "ResourceMgr.h"
+#include "SceneMgr.h"
 
 DelayedProjectile::DelayedProjectile(const std::string& key, Creature* owner, std::list<Creature*> targets, sf::Vector2f pos)
     :Projectile(key,owner,targets, pos)
@@ -48,6 +49,7 @@ void DelayedProjectile::Update(float dt)
             }
         }
         End();
+        return;
     }
 }
 
@@ -68,5 +70,5 @@ bool DelayedProjectile::CheckIsCollided(Creature* target)
 void DelayedProjectile::End()
 {
     //사라지는 애니메이션 ㄱㄱ
-    
+    SCENE_MGR.GetCurrScene()->RemoveGo(this);
 }
