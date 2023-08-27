@@ -28,6 +28,12 @@ void SceneTitle::Init()
 	backGround->sortLayer = -1;
 	SpriteGo* titleName = (SpriteGo*)AddGo(new SpriteGo("graphics/Title/TitleText.png", "TitleText"));
 	titleName->sortLayer = 0;
+	//endIcon = (SpriteGo*)AddGo(new SpriteGo("graphics/Title/End.png", "End"));
+	//endIcon->sortLayer = 101;
+	
+
+
+
 	
 	UIButtonMaker();
 
@@ -58,6 +64,8 @@ void SceneTitle::Enter()
 	titleName->SetOrigin(Origins::MC);
 	titleName->SetPosition(windowSize.x * 0.5f,windowSize.y*0.2);
 	titleName->sprite.setScale(3.f, 3.f);
+	
+	
 	
 	//SliceSpriteGo* startButton1 = (SliceSpriteGo*)FindGo("startButton1");
 	//startButton1->SetSize({ 66*2,36*2 });
@@ -120,20 +128,35 @@ void SceneTitle::UIButtonMaker()
 	UIButton* startButton = (UIButton*)AddGo(new UIButton("graphics/Title/Button.png"));
 	UIButton* settingButton = (UIButton*)AddGo(new UIButton("graphics/Title/Button.png"));
 	UIButton* exitButton = (UIButton*)AddGo(new UIButton("graphics/Title/Button.png"));
+	endIcon = (SpriteGo*)AddGo(new SpriteGo("graphics/Title/End.png", "End"));
+	endIcon->sortLayer = UI;
+	endIcon->sprite.setScale(2.f, 2.f);
+	mapTool = (SpriteGo*)AddGo(new SpriteGo("graphics/Title/MapTool.png", "Setting"));
+	mapTool->sortLayer = UI;
+	mapTool->sprite.setScale(2.f, 2.f);
+	playGame = (SpriteGo*)AddGo(new SpriteGo("graphics/Title/Play.png", "play"));
+	playGame->sortLayer = UI;
+	playGame->sprite.setScale(2.f, 2.f);
 	
-
 	//버튼에 올라갔을때
 	//startButton1->OnEnter = startButton->OnEnter;
 	//캐릭터 설정버튼
-	startButton->SetOrigin(Origins::TC);
+	startButton->SetOrigin(Origins::MC);
 	startButton->SetPosition(windowSize.x*0.25, windowSize.y * 0.75f);
 	startButton->sprite.setScale(7.0f, 3.5f);
-	settingButton->SetOrigin(Origins::TC);
+	settingButton->SetOrigin(Origins::MC);
 	settingButton->SetPosition(windowSize.x * 0.5f, windowSize.y * 0.75f);
 	settingButton->sprite.setScale(7.0f, 3.5f);
-	exitButton->SetOrigin(Origins::TC);
+	exitButton->SetOrigin(Origins::MC);
 	exitButton->SetPosition(windowSize.x * 0.75f, windowSize.y * 0.75f);
 	exitButton->sprite.setScale(7.0f, 3.5f);
+
+	endIcon->SetOrigin(Origins::MC);
+	endIcon->SetPosition(exitButton->GetPosition());
+	mapTool->SetOrigin(Origins::MC);
+	mapTool->SetPosition(settingButton->GetPosition());
+	playGame->SetOrigin(Origins::MC);
+	playGame->SetPosition(startButton->GetPosition());
 	//시작 버튼
 	startButton->OnEnter = [startButton]() {
 		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/Title/ButtonOn.png");

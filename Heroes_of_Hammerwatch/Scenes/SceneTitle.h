@@ -4,11 +4,15 @@
 #include "DataTableMgr.h"
 #include "Framework.h"
 
+class SpriteGo;
 class SceneTitle : public Scene
 {
 protected:
 	StringTable* stringTable = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
+	SpriteGo* endIcon;
+	SpriteGo* mapTool;
+	SpriteGo* playGame;
 public:
 
 	SceneTitle();

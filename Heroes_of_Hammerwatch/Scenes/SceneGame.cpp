@@ -101,10 +101,12 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	uiView.setCenter(0.f, 0.f);
 
 
-	//Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
-	//monster->SetTileMap(tileMap);
-	//monster->ControlCreatureInfos()->speed /= 5.f;
-
+	/*Monster* monster = dynamic_cast<Monster*>(AddGo(new Monster("Tick", "mob", {100, 340})));
+	monster->SetTileMap(tileMap);
+	monster->ControlCreatureInfos()->speed /= 5.f;
+	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
+	ET->SetPosition(400, 400);
+	ET->SetTileMap(tileMap);*/
 	/*
 	//monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(200,200);
@@ -121,12 +123,10 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	monster = dynamic_cast<Monster*>((AddGo(new Monster("Bat"))));
 	monster->SetPosition(220, 220);
 	monster->SetTileMap(tileMap);
-	/*
-	EliteTick* ET = dynamic_cast<EliteTick*>(AddGo(new EliteTick()));
-	ET->SetPosition(400, 400);
-	ET->SetTileMap(tileMap);
+	
 
-	/*
+
+	
 	BossGolem* BG = dynamic_cast<BossGolem*>(AddGo(new BossGolem()));
 	BG->SetPosition(300, 100);
 
@@ -274,6 +274,7 @@ void SceneGame::SettingStage()
 	{
 		player = (Paladin*)AddGo(new Paladin());
 		inventory->SetPlayer(player);
+		
 	}
 	 
 	if (!SummonedMonster.empty())
