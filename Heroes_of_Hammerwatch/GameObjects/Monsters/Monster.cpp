@@ -94,7 +94,7 @@ void Monster::Update(float dt)
 void Monster::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
-	window.draw(nextTile);
+	//window.draw(nextTile);
 }
 
 void Monster::SetData(const std::string& name)

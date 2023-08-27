@@ -132,13 +132,14 @@ void Player::Update(float dt)
 	//ekgnsdk dlrjf TJ
 	//playerTileIndex = { static_cast<int>(position.x / tilemap->TileSize().x), static_cast<int>(position.y / tilemap->TileSize().y) };
 
-	PlayerMove(dt);
-	box.setPosition(sprite.getPosition());
 	float magnitude = Utils::Magnitude(direction);
 	if (magnitude > 1.f)
 	{
 		direction /= magnitude;
 	}
+	
+	PlayerMove(dt);
+	
 	
 	Creature::Update(dt);
 
@@ -178,14 +179,15 @@ void Player::Update(float dt)
 	}
 
 	TestCode();
+
+	TransParent(tileIndex.x, tileIndex.y, box.getGlobalBounds());
 }
 
 void Player::Draw(sf::RenderWindow& window)
 {
-	SpriteGo::Draw(window);
+	Creature::Draw(window);
 	window.draw(box);
 	window.draw(charInventory);
-	
 
 	for (const auto& item : inventoryInfo)
 	{
@@ -220,12 +222,13 @@ void Player::PlayerMove(float dt)
 	
 	position += direction * creatureInfo.speed * dt;
 	SetPosition(position);
+	box.setPosition(position);
 
 	//std::cout << box.getGlobalBounds().left << ", " << box.getGlobalBounds().top << std::endl;
 
 
 	Collider(tileIndex.x, tileIndex.y);
-	
+	box.setPosition(position);
 }
 
 int Player::CharacterSight(float angle)

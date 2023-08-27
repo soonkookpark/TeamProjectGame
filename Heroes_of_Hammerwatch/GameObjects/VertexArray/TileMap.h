@@ -35,10 +35,12 @@ protected:
 	sf::Vector2f start;
 	sf::Vector2f ent;
 
-	Tree* route;
 	Astar* finder;
 
 public:
+	Tree* route;
+	bool check = true;
+
 	TileMap(const std::string& textureId = "", const std::string& n = "");
 	virtual ~TileMap() override;
 

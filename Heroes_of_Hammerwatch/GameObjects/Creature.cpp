@@ -49,6 +49,15 @@ void Creature::SetData()
 
 }
 
+void Creature::Draw(sf::RenderWindow& window)
+{
+	SpriteGo::Draw(window);
+	for (auto& tile : testTiles)
+	{
+		window.draw(tile);
+	}
+}
+
 void Creature::GainBuff(Buff* buff)
 {
 	buffs.push_back(buff);
@@ -241,7 +250,7 @@ void Creature::HealHP(int value)
 		curHealth = creatureInfo.maxHealth;
 }
 
-void Creature::TransParent(int x, int y)
+void Creature::TransParent(int x, int y, sf::FloatRect bound)
 {
 	sf::Vector2i LRTP[9] =
 	{
@@ -259,37 +268,36 @@ void Creature::TransParent(int x, int y)
 	if (onTileMap == nullptr) return;
 	std::vector<std::vector<int>> tileArr = onTileMap->GetTileArray();
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 9; i++)
 	{
+		float tilePixelSize = 16;
+		float longPixel = 48;
+
 		sf::Vector2i arrSize = onTileMap->TileIntSize();
+
+		testTiles[i].setPosition(LRTP[i].x * tilePixelSize, (LRTP[i].y - 2) * tilePixelSize);
+		testTiles[i].setSize({ 0, 0 });
+		testTiles[i].setFillColor({ 255, 255, 255, 128 });
 
 		if (LRTP[i].y < 0 || LRTP[i].x < 0 || LRTP[i].y >= arrSize.y || LRTP[i].x >= arrSize.x)
 		{
 			continue;
 		}
-
-		//벽이 None이면 Continue로 수정
-		//
-		if (tileArr[LRTP[i].y][LRTP[i].x] != Wall::None || tileArr[LRTP[i].y][LRTP[i].x] != 25)
+		if (tileArr[LRTP[i].y][LRTP[i].x] != Wall::None || tileArr[LRTP[i].y][LRTP[i].x] >= 25)
 			continue;
-		//###########################
-
-		float tilePixelSize = 1;
 
 		//타일 인덱스 확인 후 타일 rect 세팅
-		sf::FloatRect tileRect = { (float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize };
-
-		sf::FloatRect wallRect = {};
-		//##############################
-
+		sf::FloatRect tileRect
+			= { (float)LRTP[i].x * tilePixelSize, ((float)LRTP[i].y - 2) * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize };
 
 		sf::FloatRect intersector;
 
 
 
-		if (tileRect.intersects(sprite.getGlobalBounds(), intersector))
+		if (tileRect.intersects(bound, intersector))
 		{
-			//겹치면 투명하게
+			testTiles[i].setPosition(intersector.left, intersector.top);
+			testTiles[i].setSize({ intersector.width, intersector.height });
 		}
 	}
 	

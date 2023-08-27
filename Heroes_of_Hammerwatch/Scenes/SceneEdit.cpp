@@ -12,6 +12,7 @@
 #include "OnTileMap.h"
 #include "RectangleGo.h"
 #include <string>
+#include "Tree.h"
 
 /*
 Down æ∆¿Ãƒ‹ 214, 0, 9, 11

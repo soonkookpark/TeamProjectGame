@@ -33,7 +33,6 @@ void SceneGame::Init() // 안바뀔거면 여기
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::Vector2f groundSize = { windowSize.x,windowSize.y };
 
-	player = (Paladin*)AddGo(new Paladin());
 	inventory = (Inventory*)AddGo(new Inventory("inventory"));
 	inventory->SetPlayer(player);
 	//inventory->InventoryDisplay();
@@ -44,13 +43,6 @@ void SceneGame::Init() // 안바뀔거면 여기
 	tileMap->SetOnTileMap(onTileMap);
 	tileMap->LoadDrawTexture("graphics/mine/boss.csv");
 	onTileMap->LoadDrawOnTile(tileMap);*/
-
-	startBT = (UIButton*)AddGo(new UIButton("graphics/button/button_load.png", "graphics/button/button_load.png"));
-	startBT->SetPosition(-(windowSize *0.5f));
-	startBT->OnClick = [this]()
-	{
-		checkClear = true;
-	};
 	
 
 	//inventoryText->sortLayer = UI_TEXT;
@@ -74,6 +66,7 @@ void SceneGame::Init() // 안바뀔거면 여기
 	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "GoldKey"));
 	inventoryText = (TextGo*)AddGo(new TextGo("fonts/arialuni.ttf", "RedKey"));
 	
+	checkClear = true;
 
 	for (auto go : gameObjects)
 	{
@@ -141,20 +134,6 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 	item->SetPosition(150, 150);
 	*/
 	
-	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item1")));
-	item->SetPosition(150, 100);
-	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item2")));
-	item->SetPosition(250, 100);
-	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item3")));
-	item->SetPosition(350, 100);
-	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item4")));
-	item->SetPosition(150, 400);
-	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item5")));
-	item->SetPosition(250, 400);
-	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item6")));
-	item->SetPosition(350, 400);
-	item = dynamic_cast<FieldItem*>(AddGo(new FieldItem("Item7")));
-	item->SetPosition(150, 400);
 	Scene::Enter();
 }
 
@@ -231,7 +210,7 @@ void SceneGame::Update(float dt)
 	}
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F1))
 	{
-		player->SetTile(tileMap);
+		tileMap->SetActive(!tileMap->GetActive());
 	}
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F2))
 	{

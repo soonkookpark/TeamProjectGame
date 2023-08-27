@@ -33,7 +33,7 @@ void TileMap::Draw(sf::RenderWindow& window)
     VertexArrayGo::Draw(window);
     if (route == nullptr) return;
 
-    route->Draw(window);
+    //route->Draw(window);
 }
 
 bool TileMap::LoadDrawTexture(const std::string& filePath)
