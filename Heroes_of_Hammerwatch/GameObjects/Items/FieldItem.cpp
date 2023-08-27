@@ -7,6 +7,7 @@
 #include "DataTableMgr.h"
 #include "InputMgr.h"
 #include "EquipItem.h"
+#include "SceneGame.h"
 FieldItem::FieldItem(const std::string& key)
 	:SpriteGo("","FieldItem")
 {
@@ -37,7 +38,10 @@ void FieldItem::Update(float dt)
 	{
 		IntersectsWithItem();
 	}
-	
+	if (dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene())->GetCheckClear())
+	{
+		SCENE_MGR.GetCurrScene()->RemoveGo(this);
+	}
 }
 
 void FieldItem::IntersectsWithItem()

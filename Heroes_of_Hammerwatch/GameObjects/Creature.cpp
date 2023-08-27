@@ -4,6 +4,8 @@
 #include "Buffs/Buff.h"
 #include "TileMap.h"
 #include "OnTileMap.h"
+#include "EffectText.h"
+#include "SceneMgr.h"
 
 Creature::Creature(const std::string& textureId, const std::string& n)
 	: SpriteGo(textureId, n)
@@ -36,8 +38,9 @@ void Creature::SetData()
 	{
 		physicalDmg = 1 / (1 + creatureInfo.armor / 50) * physicalDmg;
 		magicalDmg = 1 / (1 + creatureInfo.resistance / 50) * magicalDmg;
+		
+		SCENE_MGR.GetCurrScene()->AddGo(new EffectText(std::to_string((int)(physicalDmg + magicalDmg)), this->GetPosition(), sf::Color::Red));
 
-		//대충 위에 받은 데미지 숫자 뜬다는 뜻 ㅎ
 		std::cout << physicalDmg + magicalDmg << "데미지 받음" << std::endl;
 		curHealth -= (physicalDmg + magicalDmg);
 		std::cout << curHealth << "잔여 피" << std::endl;

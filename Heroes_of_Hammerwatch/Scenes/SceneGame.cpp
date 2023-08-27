@@ -290,7 +290,7 @@ void SceneGame::SettingStage()
 		inventory->SetPlayer(player);
 		
 	}
-	 
+	
 	if (!SummonedMonster.empty())
 	{
 		for (Monster* mob : SummonedMonster)
@@ -305,7 +305,7 @@ void SceneGame::SettingStage()
 		}
 		SummonedMonster.clear();
 	}
-	
+
 
 	stage++;
 

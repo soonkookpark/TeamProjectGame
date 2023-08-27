@@ -56,6 +56,7 @@ public:
 
 	void DieMonster(Monster* mob);
 	void CheckClearStage();
+	bool GetCheckClear() { return checkClear; }
 
 	OnTileMap* GetOnTile() { return onTileMap; }
 	TileMap* GetTile() { return tileMap; }

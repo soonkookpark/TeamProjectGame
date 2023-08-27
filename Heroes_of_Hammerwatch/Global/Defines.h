@@ -58,6 +58,7 @@ enum SortLayer
 	G_MONSTER,
 	WALL,
 	A_MONSTER,
+	EFFECT_TEXT,
 	UI = 101,
 	UI_TEXT,
 };
