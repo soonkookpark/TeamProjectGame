@@ -430,3 +430,4 @@ void Inventory::TextOnOff(bool tf)
 	inventoryText18->SetActive(tf);
 	inventoryText19->SetActive(tf);
 }
+

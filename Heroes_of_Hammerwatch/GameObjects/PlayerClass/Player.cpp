@@ -273,6 +273,7 @@ void Player::SetTile(TileMap* tile)
 
 void Player::SetDead()
 {
+	//exit(3);
 }
 
 void Player::HealMP(int value)
@@ -320,7 +321,7 @@ void Player::Collider(int x, int y)
 		if (tileArr[LRTP[i].y][LRTP[i].x] != 0 && tileArr[LRTP[i].y][LRTP[i].x] != 10)
 			continue;
 
-		sf::FloatRect tileRect = { (float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize};
+		sf::FloatRect tileRect = { (float)LRTP[i].x * tilePixelSize, (float)LRTP[i].y * tilePixelSize, (float)tilePixelSize, (float)tilePixelSize };
 		sf::FloatRect intersector;
 
 
@@ -329,7 +330,7 @@ void Player::Collider(int x, int y)
 		{
 			float width = box.getGlobalBounds().width * 0.5f;
 			float height = box.getGlobalBounds().height * 0.5f;
-			
+
 			if (intersector.width > intersector.height) //À§ ¾Æ·¡ ¿¡¼­ ºÎµúÈû
 			{
 				if (box.getGlobalBounds().top == intersector.top) //À­ º®¿¡ ºÎµúÈû
@@ -341,7 +342,7 @@ void Player::Collider(int x, int y)
 					SetPosition(position.x, tileRect.top - height);
 				}
 			}
-			else if(intersector.width < intersector.height)//ÁÂ¿ì¿¡¼­ ºÎµúÈû
+			else if (intersector.width < intersector.height)//ÁÂ¿ì¿¡¼­ ºÎµúÈû
 			{
 				if (box.getGlobalBounds().left == intersector.left) //¿ÞÂÊ º®¿¡ ºÎµúÈû
 				{

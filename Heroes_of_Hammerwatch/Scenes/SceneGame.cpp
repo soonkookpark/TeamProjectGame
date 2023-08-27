@@ -20,7 +20,11 @@
 #include "Tools/Astar.h"
 #include "Projectiles/AllProjectiles.hpp"
 #include "Inventory.h"
-#include"TextGo.h"
+#include "TextGo.h"
+#include "Utils.h"
+#include "SaveLoadLogic.h"
+
+
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
@@ -247,6 +251,14 @@ void SceneGame::Update(float dt)
 		SCENE_MGR.ChangeScene(SceneId::Title);
 	}
 	//std::cout << ScreenToWorldPos(INPUT_MGR.GetMousePos()).x << ", " << ScreenToWorldPos(INPUT_MGR.GetMousePos()).y << std::endl;
+	inventory = (Inventory*)FindGo("inventory");
+	
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Insert))
+	{
+		//SaveLoadLogic::GetData(this->player, this->inventory);
+	}
+
+
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
@@ -258,6 +270,17 @@ void SceneGame::DieMonster(Monster* mob)
 {
 	RemoveGo(mob);
 	//SummonedMonster.remove(mob); 
+	int randNum;
+	randNum = Utils::RandomRange(1, 14);
+	std::string randNumStr = std::to_string(randNum);
+	std::string itemName = "Item";
+	std::string RandomItemName = itemName + randNumStr;
+	FieldItem* item = dynamic_cast<FieldItem*>(AddGo(new FieldItem(RandomItemName)));
+	item->SetPosition(mob->GetPosition());
+	
+	item->Reset();
+
+
 
 	/*auto it = std::find(SummonedMonster.begin(), SummonedMonster.end(), mob);
 	if (it != SummonedMonster.end())

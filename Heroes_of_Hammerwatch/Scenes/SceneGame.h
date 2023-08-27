@@ -14,6 +14,7 @@ class TextGo;
 class Monster;
 class SceneGame : public Scene
 {
+
 protected:
 	sf::FloatRect groundBounds;
 	Player* player;

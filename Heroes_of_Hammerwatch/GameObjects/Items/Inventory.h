@@ -37,6 +37,7 @@ protected:
 	Player* player;
 	MyStatusInfo myInventoryStatusInfo;
 	sf::RectangleShape inventoryBox;
+	MyItemInfo itemSaveData;
 
 	TextGo* inventoryText1 = nullptr;
 	TextGo* inventoryText2 = nullptr;
@@ -81,5 +82,6 @@ public:
 	void FindGameText();
 	void TextSetting();
 	void TextOnOff(bool tf);
+	MyItemInfo* getInventoryInfo() { return &itemSaveData; }
 };
 
