@@ -34,6 +34,7 @@ protected:
     sf::Vector2i tileIndex = {0,0};
     TileMap* tileMap;
     OnTileMap* onTileMap;
+    sf::RectangleShape testTiles[9];
 
     friend class Shield;
 public:
@@ -45,6 +46,7 @@ public:
     virtual void Update(float dt) override;
 
     void SetData();
+    virtual void Draw(sf::RenderWindow& window) override;
 
     //float GetSpeed() { return creatureInfo.speed; }
 
@@ -66,7 +68,7 @@ public:
     //BuffToOther* AccessSkill(const std::string& key) { return dynamic_cast<BuffToOther*>(skills[key]); }
     std::function<void(float physicalDmg, float magicalDmg, GameObject* attacker)> Damaged;
     
-    void TransParent(int x, int y);
+    void TransParent(int x, int y, sf::FloatRect bound);
 
 
     virtual void SetDead() = 0;

@@ -353,7 +353,7 @@ void Tree::Draw(sf::RenderWindow& window)
 		child_L->Draw(window);
 		child_R->Draw(window);
 	}
-
+	Debug();
 	window.draw(rectangle.vertexArray);
 }
 
@@ -377,9 +377,9 @@ void Tree::SummonMonster(sf::Vector2f start, TileMap* tileMap)
 	Scene* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrScene());
 
 	float rad = (this->rect.width < this->rect.height-1 ? this->rect.width-1 : this->rect.height) * tilePixel * 0.5f;
-	int num = (this->rect.width * this->rect.height) / 3;
+	int num = (this->rect.width * this->rect.height) / 16 / 2.5;
 	
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < num; i++)
 	{
 		sf::Vector2f randPos;
 		int index;
@@ -402,9 +402,10 @@ void Tree::SummonMonster(sf::Vector2f start, TileMap* tileMap)
 			monster = new Monster("Tick", "mob", randPos + center); //타입, 이름, 좌표
 		}
 
+
 		monster->SetTileMap(tileMap);
 		monster->Reset();
-
+		monster->SetOnTileMap(dynamic_cast<SceneGame*>(scene)->GetOnTile());
 		
 		dynamic_cast<SceneGame*>(scene)->AddGo(monster);
 		dynamic_cast<SceneGame*>(scene)->Summon(monster);
