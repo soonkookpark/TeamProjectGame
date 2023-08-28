@@ -151,6 +151,11 @@ void SceneGame::Exit()
 		}
 	}
 	//delete(finder);
+
+	
+
+	
+
 	Scene::Exit();
 }
 
@@ -236,7 +241,15 @@ void SceneGame::Update(float dt)
 	}
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F8))
 	{
-		std::cout << ScreenToWorldPos(mousePos).x << " , " << ScreenToWorldPos(mousePos).y << std::endl;		
+		std::cout << ScreenToWorldPos(mousePos).x << " , " << ScreenToWorldPos(mousePos).y << std::endl;	
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::End))
+	{
+		checkClear = true;
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Home))
+	{
+		player->ChangeLayer();
 	}
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
@@ -412,6 +425,11 @@ void SceneGame::SettingStage()
 		checkClear = false;
 		setting = true;
 		return;
+	}
+	else
+	{
+		stage = 0;
+		checkClear = true;
 	}
 }
 

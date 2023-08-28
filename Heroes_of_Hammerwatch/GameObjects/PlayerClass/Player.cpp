@@ -180,7 +180,15 @@ void Player::Update(float dt)
 
 	TestCode();
 
-	TransParent(tileIndex.x, tileIndex.y, box.getGlobalBounds());
+
+	if (sortLayer == SortLayer::A_MONSTER)
+	{
+		TransParent(tileIndex.x, tileIndex.y, box.getGlobalBounds());
+	}
+	else
+	{
+		TransParent(tileIndex.x, tileIndex.y, {0, 0, 0, 0});
+	}
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -470,4 +478,16 @@ void Player::InventoryOnOff()
 	//inventoryUI = true;
 
 
+}
+
+void Player::ChangeLayer()
+{
+	if (sortLayer == SortLayer::PLAYER)
+	{
+		sortLayer = SortLayer::A_MONSTER;
+	}
+	else if (sortLayer == SortLayer::A_MONSTER)
+	{
+		sortLayer = SortLayer::PLAYER;
+	}
 }

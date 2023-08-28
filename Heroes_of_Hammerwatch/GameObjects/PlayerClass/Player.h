@@ -132,5 +132,7 @@ public:
 	void InventoryOnOff();
 	PlayerInfo* ControlPlayerInfos() { return &pTable; }
 	float PlayerNowExp() { return currentExp; }
+
+	void ChangeLayer();
 };
 
