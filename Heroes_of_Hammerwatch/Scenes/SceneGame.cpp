@@ -95,7 +95,7 @@ void SceneGame::Enter() //엔터를 누르면 바뀌는건 여기
 
 	worldView.setSize(size);
 	worldView.setCenter(0.f, 0.f);
-	worldView.zoom(0.5f);
+	worldView.zoom(0.25f);
 
 	uiView.setSize(size);
 	uiView.setCenter(0.f, 0.f);
