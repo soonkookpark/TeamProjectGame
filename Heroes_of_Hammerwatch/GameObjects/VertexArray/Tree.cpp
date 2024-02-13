@@ -193,6 +193,14 @@ void Tree::ConnectRoom(TileMap* tileMapPtr)
 	//tileMap->ChangeTile(0, 0, 8); //xÁÂÇ¥, yÁÂÇ¥, Å¸ÀÏ ÀÎµ¦½º
 }
 
+void Tree::Divide(TileMap* tileMapPtr, int level)
+{
+	for (int i = 0; i < level; i++)
+	{
+		Divide(tileMapPtr);
+	}
+}
+
 bool Tree::Room(TileMap* tileMapPtr, Astar* finder)
 {
 	std::vector<Tree*> room;

@@ -361,6 +361,16 @@ void TileMap::Divide()
     route->Divide(this);
 }
 
+void TileMap::Divide(int level)
+{
+    if (route == nullptr)
+    {
+        route = new Tree(sf::IntRect{ 20, 15, size.x - 40, size.y - 30});
+    }
+
+    route->Divide(this, level);
+}
+
 void TileMap::ConnectRoom()
 {
     if (route == nullptr) return;
@@ -383,6 +393,12 @@ void TileMap::CreateDoor(sf::Vector2i start, sf::Vector2i ent)
     this->ent = (sf::Vector2f)ent;
 
     finder->SetTileArray(tileArray);
+}
+
+void TileMap::CreateNewMap(int level)
+{
+    Divide(level);
+    ConnectRoom();
 }
 
 void TileMap::Debug()

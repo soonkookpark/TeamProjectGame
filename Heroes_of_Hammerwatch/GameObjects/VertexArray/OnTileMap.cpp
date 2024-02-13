@@ -343,7 +343,6 @@ Wall OnTileMap::CheckAdjacent(int i, int j)
         bool right = CheckWall(j, i + 1);
         bool top = CheckWall(j - 1, i);
         bool behind = CheckWall(j + 1, i);
-        //벽이 있으면 true 없으면 false
 
         return SelectWall(left, right, top, behind);
     }

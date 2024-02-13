@@ -73,9 +73,11 @@ public:
 
 	void SetOnTileMap(OnTileMap* onTileMap) { this->onTileMap = onTileMap; }
 	void Divide();
+	void Divide(int level);
 	void ConnectRoom();
 	bool SelectDoor();
 	void CreateDoor(sf::Vector2i start, sf::Vector2i ent);
+	void CreateNewMap(int level);
 	void Debug();
 	int ReturnTile(int x, int y) { return tileArray[y][x]; }
 	sf::Vector2f GetFloatPosition(sf::Vector2i intPos);

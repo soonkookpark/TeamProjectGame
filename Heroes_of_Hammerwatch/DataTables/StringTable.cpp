@@ -15,23 +15,23 @@ const std::string& StringTable::Get(const std::string& id, Languages lang) const
 
 bool StringTable::Load()
 {
-	std::vector<std::string> filenames;
-	filenames.push_back("tables/StringTable_Kor.csv");
-	filenames.push_back("tables/StringTable_Eng.csv");
-	filenames.push_back("tables/StringTable_Jp.csv");
+	//std::vector<std::string> filenames;
+	//filenames.push_back("tables/StringTable_Kor.csv");
+	//filenames.push_back("tables/StringTable_Eng.csv");
+	//filenames.push_back("tables/StringTable_Jp.csv");
 
-	for (int i = 0; i < tables.size(); ++i)
-	{
-		rapidcsv::Document doc(filenames[i]);
-		std::vector<std::string> ids = doc.GetColumn<std::string>(0);
-		std::vector<std::string> values = doc.GetColumn<std::string>(1);
+	//for (int i = 0; i < tables.size(); ++i)
+	//{
+	//	rapidcsv::Document doc(filenames[i]);
+	//	std::vector<std::string> ids = doc.GetColumn<std::string>(0);
+	//	std::vector<std::string> values = doc.GetColumn<std::string>(1);
 
-		for (int j = 0; j < ids.size(); ++j)
-		{
-			//std::cout << ids[i] << " " << values[i] << std::endl;
-			tables[i].insert({ ids[j], values[j] });
-		}
-	}
+	//	for (int j = 0; j < ids.size(); ++j)
+	//	{
+	//		//std::cout << ids[i] << " " << values[i] << std::endl;
+	//		tables[i].insert({ ids[j], values[j] });
+	//	}
+	//}
 
 	return true;
 }

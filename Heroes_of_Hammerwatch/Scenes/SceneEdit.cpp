@@ -389,11 +389,7 @@ void SceneEdit::Update(float dt)
 	}
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F6))
 	{
-		for (int i = 0; i < 6; i++)
-		{
-			tileMap->Divide();
-		}
-		tileMap->ConnectRoom();
+		tileMap->CreateNewMap(6);
 	}
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F7))
 	{

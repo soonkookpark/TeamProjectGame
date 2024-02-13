@@ -8,7 +8,6 @@ struct Tree
 {
 	sf::IntRect rect;
 	VertexArrayGo rectangle;
-	
 
 	int level = 0;
 
@@ -24,6 +23,7 @@ struct Tree
 	~Tree();
 
 	void Divide(TileMap* tileMapPtr);
+	void Divide(TileMap* tileMapPtr, int level);
 	void ConnectRoom(TileMap* tileMapPtr);
 
 	bool Room(TileMap* tileMapPtr, Astar* finder);
