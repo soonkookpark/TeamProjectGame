@@ -323,6 +323,7 @@ void SceneEdit::Update(float dt)
 	sf::Vector2i tileIndex = { (int)worldPos.x / 16, (int)worldPos.y / 16 };
 	tileIndex.x = worldPos.x > 0 ? (int)worldPos.x / 16 : (int)worldPos.x / 16 - 1;
 	tileIndex.y = worldPos.y > 0 ? (int)worldPos.y / 16 : (int)worldPos.y / 16 - 1;
+
 	sf::Vector2i tileSnap = { tileIndex.x * 16 + 8 , tileIndex.y * 16 + 8 };
 
 	tileOnMouse.tile->SetPosition((sf::Vector2f)tileSnap);

@@ -16,20 +16,28 @@ Tree::Tree(sf::IntRect rect)
 {
 	Tree::entrance = false;
 	Tree::starting = false;
+
+	treePool = new ObjectPool<Tree>();
+	treePool->Init(100);
+
 }
 
 Tree::~Tree()
 {
 	if (child_L != nullptr)
 	{
-		delete child_L;
-		child_L = nullptr;
+		treePool->Return(child_L);
 	}
 
 	if (child_R != nullptr)
 	{
-		delete child_R;
-		child_R = nullptr;
+		treePool->Return(child_R);
+	}
+
+	if (treePool != nullptr)
+	{
+		treePool->Release();
+		delete treePool;
 	}
 }
 
@@ -63,8 +71,8 @@ void Tree::Divide(TileMap* tileMapPtr)
 	}
 
 
-	child_L = new Tree();
-	child_R = new Tree();
+	child_L = treePool->Get();
+	child_R = treePool->Get();
 
 	child_L->level = this->level + 1;
 	child_L->parent = this;

@@ -342,19 +342,19 @@ Wall OnTileMap::CheckAdjacent(int i, int j)
         bool left = CheckWall(j, i - 1);
         bool right = CheckWall(j, i + 1);
         bool top = CheckWall(j - 1, i);
-        bool behind = CheckWall(j + 1, i);
+        bool bottom = CheckWall(j + 1, i);
 
-        return SelectWall(left, right, top, behind);
+        return SelectWall(left, right, top, bottom);
     }
     else if (index == 10)
     {
         bool left = CheckHole(j, i - 1);
         bool right = CheckHole(j, i + 1);
         bool top = CheckHole(j - 1, i);
-        bool behind = CheckHole(j + 1, i);
+        bool bottom = CheckHole(j + 1, i);
         //벽이 있으면 true 없으면 false
         
-        if (SelectHole(left, right, top, behind) == Wall::Hole_None)
+        if (SelectHole(left, right, top, bottom) == Wall::Hole_None)
         {
             if (CheckHole(j - 1, i - 1))
             {
@@ -374,7 +374,7 @@ Wall OnTileMap::CheckAdjacent(int i, int j)
             }
         }
 
-        return SelectHole(left, right, top, behind);
+        return SelectHole(left, right, top, bottom);
     }
 
     return Wall::None;
@@ -404,9 +404,9 @@ bool OnTileMap::CheckHole(int x, int y)
     return true;
 }
 
-Wall OnTileMap::SelectWall(bool left, bool right, bool up, bool down)
+Wall OnTileMap::SelectWall(bool left, bool right, bool top, bool bottom)
 {
-    switch ((left << 3) | (right << 2) | (up << 1) | down) {
+    switch ((left << 3) | (right << 2) | (top << 1) | bottom) {
     case 0b0000:
         return Wall::Wall_None;
     case 0b0001:

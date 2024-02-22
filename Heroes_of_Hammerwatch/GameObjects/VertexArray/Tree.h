@@ -1,11 +1,14 @@
 #pragma once
 #include "VertexArrayGo.h"
+#include "ObjectPool.h"
 
 class TileMap;
 class Astar;
 
 struct Tree
 {
+	static ObjectPool<Tree>* treePool;
+
 	sf::IntRect rect;
 	VertexArrayGo rectangle;
 
