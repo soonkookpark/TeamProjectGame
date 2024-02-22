@@ -50,6 +50,8 @@ void Tree::Divide(TileMap* tileMapPtr)
 		return;
 	}
 
+	//¸Ê ºÐÇÒ
+
 	TileMap* tileMap = tileMapPtr;
 
 	int randRatio = Utils::RandomRange(3, 8); //30~70
