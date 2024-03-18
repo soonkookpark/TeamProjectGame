@@ -19,8 +19,8 @@ struct Tree
 	static bool starting;
 
 	Tree* parent;
-	Tree* child_L;
-	Tree* child_R;
+	Tree* childLeft;
+	Tree* childRight;
 	
 	Tree(sf::IntRect rect = {0, 0, 0, 0});
 	~Tree();

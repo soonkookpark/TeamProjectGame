@@ -12,7 +12,7 @@ bool Tree::entrance = false;
 bool Tree::starting = false;
 
 Tree::Tree(sf::IntRect rect) 
-	: parent(nullptr), child_L(nullptr), child_R(nullptr), rect(rect) 
+	: parent(nullptr), childLeft(nullptr), childRight(nullptr), rect(rect) 
 {
 	Tree::entrance = false;
 	Tree::starting = false;
@@ -24,14 +24,14 @@ Tree::Tree(sf::IntRect rect)
 
 Tree::~Tree()
 {
-	if (child_L != nullptr)
+	if (childLeft != nullptr)
 	{
-		treePool->Return(child_L);
+		treePool->Return(childLeft);
 	}
 
-	if (child_R != nullptr)
+	if (childRight != nullptr)
 	{
-		treePool->Return(child_R);
+		treePool->Return(childRight);
 	}
 
 	if (treePool != nullptr)
@@ -43,10 +43,10 @@ Tree::~Tree()
 
 void Tree::Divide(TileMap* tileMapPtr)
 {
-	if (child_L != nullptr && child_R != nullptr)
+	if (childLeft != nullptr && childRight != nullptr)
 	{
-		child_L->Divide(tileMapPtr);
-		child_R->Divide(tileMapPtr);
+		childLeft->Divide(tileMapPtr);
+		childRight->Divide(tileMapPtr);
 		return;
 	}
 
@@ -73,48 +73,48 @@ void Tree::Divide(TileMap* tileMapPtr)
 	}
 
 
-	child_L = treePool->Get();
-	child_R = treePool->Get();
+	childLeft = treePool->Get();
+	childRight = treePool->Get();
 
-	child_L->level = this->level + 1;
-	child_L->parent = this;
+	childLeft->level = this->level + 1;
+	childLeft->parent = this;
 
-	child_R->level = this->level + 1;
-	child_R->parent = this;
+	childRight->level = this->level + 1;
+	childRight->parent = this;
 
 	if (rect.height > rect.width) //가로로 자름
 	{
-		child_L->rect = rect;
-		child_L->rect.width = rect.width;
-		child_L->rect.height = (rect.height * randRatio) / 10;
+		childLeft->rect = rect;
+		childLeft->rect.width = rect.width;
+		childLeft->rect.height = (rect.height * randRatio) / 10;
 
-		child_R->rect = rect;
-		child_R->rect.top = rect.top + (rect.height * randRatio) / 10;
-		child_R->rect.height = rect.height - ((rect.height * randRatio) / 10);
+		childRight->rect = rect;
+		childRight->rect.top = rect.top + (rect.height * randRatio) / 10;
+		childRight->rect.height = rect.height - ((rect.height * randRatio) / 10);
 
 		for (int i = rect.left; i < rect.left + rect.width; i++)
 		{
-			tileMap->ChangeTile(i, rect.top + child_L->rect.height, 0);
-			tileMap->ChangeTile(i, rect.top + child_L->rect.height + 1, 0);
-			tileMap->ChangeTile(i, rect.top + child_L->rect.height - 1, 0);
+			tileMap->ChangeTile(i, rect.top + childLeft->rect.height, 0);
+			tileMap->ChangeTile(i, rect.top + childLeft->rect.height + 1, 0);
+			tileMap->ChangeTile(i, rect.top + childLeft->rect.height - 1, 0);
 		}
 		return;
 	}
 	else //세로로 자름
 	{
-		child_L->rect = rect;
-		child_L->rect.left = rect.left;
-		child_L->rect.width = (rect.width * randRatio) / 10;
+		childLeft->rect = rect;
+		childLeft->rect.left = rect.left;
+		childLeft->rect.width = (rect.width * randRatio) / 10;
 
-		child_R->rect = rect;
-		child_R->rect.left = rect.left + (rect.width * randRatio) / 10;
-		child_R->rect.width = rect.width - ((rect.width * randRatio) / 10);
+		childRight->rect = rect;
+		childRight->rect.left = rect.left + (rect.width * randRatio) / 10;
+		childRight->rect.width = rect.width - ((rect.width * randRatio) / 10);
 
 		for (int i = rect.top; i < rect.top + rect.height; i++)
 		{
-			tileMap->ChangeTile(rect.left + child_L->rect.width, i, 0);
-			tileMap->ChangeTile(rect.left + child_L->rect.width + 1, i, 0);
-			tileMap->ChangeTile(rect.left + child_L->rect.width - 1, i, 0);
+			tileMap->ChangeTile(rect.left + childLeft->rect.width, i, 0);
+			tileMap->ChangeTile(rect.left + childLeft->rect.width + 1, i, 0);
+			tileMap->ChangeTile(rect.left + childLeft->rect.width - 1, i, 0);
 		}
 		return;
 	}
@@ -122,10 +122,10 @@ void Tree::Divide(TileMap* tileMapPtr)
 
 void Tree::ConnectRoom(TileMap* tileMapPtr)
 {
-	if (child_L != nullptr && child_R != nullptr)
+	if (childLeft != nullptr && childRight != nullptr)
 	{
-		child_L->ConnectRoom(tileMapPtr);
-		child_R->ConnectRoom(tileMapPtr);
+		childLeft->ConnectRoom(tileMapPtr);
+		childRight->ConnectRoom(tileMapPtr);
 	}
 
 	TileMap* tileMap = tileMapPtr;
@@ -219,10 +219,10 @@ bool Tree::Room(TileMap* tileMapPtr, Astar* finder)
 
 bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* finder)
 {
-	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
+	if (childLeft != nullptr && childRight != nullptr) //자식이 있으면 한번더 실행
 	{
-		child_L->SettingRoom(tileMapPtr, room, finder);
-		child_R->SettingRoom(tileMapPtr, room, finder);
+		childLeft->SettingRoom(tileMapPtr, room, finder);
+		childRight->SettingRoom(tileMapPtr, room, finder);
 	}
 
 	TileMap* tileMap = tileMapPtr;
@@ -238,7 +238,7 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* fin
 			return true;
 		}*/
 
-		if (level > 5 && route.x == center.x && center.y - 2 < route.y && child_L == nullptr)
+		if (level > 5 && route.x == center.x && center.y - 2 < route.y && childLeft == nullptr)
 		{
 			room.push_back(this);
 		}
@@ -340,13 +340,13 @@ bool Tree::SettingRoom(TileMap* tileMapPtr, std::vector<Tree*>& room, Astar* fin
 
 void Tree::Debug()
 {
-	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
+	if (childLeft != nullptr && childRight != nullptr) //자식이 있으면 한번더 실행
 	{
-		child_L->Debug();
-		child_R->Debug();
+		childLeft->Debug();
+		childRight->Debug();
 	}
 
-	if (child_L == nullptr)
+	if (childLeft == nullptr)
 	{
 		rectangle.vertexArray.setPrimitiveType(sf::LinesStrip);
 		rectangle.vertexArray.resize(5);
@@ -366,10 +366,10 @@ void Tree::Debug()
 
 void Tree::Draw(sf::RenderWindow& window)
 {
-	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
+	if (childLeft != nullptr && childRight != nullptr) //자식이 있으면 한번더 실행
 	{
-		child_L->Draw(window);
-		child_R->Draw(window);
+		childLeft->Draw(window);
+		childRight->Draw(window);
 	}
 	Debug();
 	window.draw(rectangle.vertexArray);
@@ -377,10 +377,10 @@ void Tree::Draw(sf::RenderWindow& window)
 
 void Tree::SummonMonster(sf::Vector2f start, TileMap* tileMap)
 {
-	if (child_L != nullptr && child_R != nullptr) //자식이 있으면 한번더 실행
+	if (childLeft != nullptr && childRight != nullptr) //자식이 있으면 한번더 실행
 	{
-		child_L->SummonMonster(start, tileMap);
-		child_R->SummonMonster(start, tileMap);
+		childLeft->SummonMonster(start, tileMap);
+		childRight->SummonMonster(start, tileMap);
 	}
 
 	float tilePixel = tileMap->TilePixelSize().x;
@@ -388,7 +388,7 @@ void Tree::SummonMonster(sf::Vector2f start, TileMap* tileMap)
 	sf::Vector2f center = (sf::Vector2f)this->GetCenter() * tilePixel;
 	float distance = Utils::Distance(start, center);
 
-	if (child_L != nullptr) return;
+	if (childLeft != nullptr) return;
 	if (distance < 270) return;
 	if (rect.width < 7 || rect.height < 7) return;
 
